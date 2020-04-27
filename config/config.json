@@ -1,0 +1,18 @@
+{
+  "development": {
+    "use_env_variable": "LOCAL_DB",
+    "dialect": "mysql2"
+  },
+  "test": {
+    "username": "root",
+    "password": "workbench",
+    "database": "golf-pool_db",
+    "host": "127.0.0.1",
+    "dialect": "mysql2",
+    "operatorsAliases": false
+  },
+  "production": {
+    "use_env_variable": "JAWSDB_URL",
+    "dialect": "mysql2"
+  }
+}
