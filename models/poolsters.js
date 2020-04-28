@@ -1,8 +1,12 @@
 module.exports = function (sequelize, DataTypes) {
-  var poolsters = sequelize.define("poolsters", {
+  var Poolsters = sequelize.define("Poolsters", {
+    poolsterID: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     name: DataTypes.STRING,
     handle: DataTypes.STRING,
-    email: DataTypes.STRING,
   });
-  return poolsters;
+  return Poolsters;
 };
