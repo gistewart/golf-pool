@@ -1,6 +1,7 @@
 const seedPoolsters = require("./seedPoolsters");
 const seedPlayers = require("./seedPlayers");
 const seedTeams = require("./seedTeams");
+const seedSchedule = require("./seedSchedule");
 
 require("dotenv").config();
 var db = require("../models");
@@ -15,6 +16,9 @@ db.sequelize
   })
   .then(function () {
     return seedTeams();
+  })
+  .then(function () {
+    return seedSchedule();
   })
   .then(function () {
     db.sequelize.close();
