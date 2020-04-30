@@ -23,9 +23,9 @@ db.sequelize
   })
   .then(function () {
     return seedResults();
-  })
-  .then(function () {
-    db.sequelize.close();
+    // })
+    // .then(function () {
+    //   db.sequelize.close();
   });
 
 // Run this file on heroku deployment

@@ -21,13 +21,13 @@ module.exports = function () {
 
         result.earnings = $(this).children("td:nth-child(9)").text();
 
-        console.log("-------------------------");
-        console.log(result);
+        // console.log("-------------------------");
+        // console.log(result);
 
         resultsArray.push(result);
       });
-      // console.log("--------resultsArray----------");
-      // console.log(resultsArray);
-      //   return db.playerForm.bulkCreate(resultsArray);
+      console.log("--------resultsArray----------");
+      console.log(resultsArray);
+      return db.Results.bulkCreate(resultsArray);
     });
 };
