@@ -1,33 +1,43 @@
+require("dotenv").config();
 var db = require("../models");
 var axios = require("axios");
 var cheerio = require("cheerio");
 
 module.exports = function () {
-  const resultsArray = [];
+  let resultsArray = [];
 
-  axios
-    .get("https://www.espn.com/golf/leaderboard?tournamentId=401155418")
-    .then(function (response) {
-      var $ = cheerio.load(response.data);
+  return db.Schedule.findAll({
+    attributes: ["tournamentID"],
+  })
+    .then((tournamentIDs) =>
+      tournamentIDs.map((tournament) => tournament.dataValues.tournamentID)
+    )
+    .then((tournamentIDs) => {
+      const apiPromises = tournamentIDs.map((id) => {
+        return axios
+          .get(`https://www.espn.com/golf/leaderboard?tournamentId=${id}`)
+          .then(function (response) {
+            var $ = cheerio.load(response.data);
+            resultsArray = [];
 
-      $("tbody tr").each(function (i, element) {
-        var result = {};
+            $("tbody tr").each(function (i, element) {
+              var result = {};
 
-        result.pos = $(this).children("td:first-child").text();
+              result.tournamentID = `${id}`;
+              result.pos = $(this).children("td:first-child").text();
+              result.name = $(this)
+                .children("td:nth-child(2)")
+                .children("a")
+                .text();
+              result.toPar = $(this).children("td:nth-child(3)").text();
+              result.earnings = $(this).children("td:nth-child(9)").text();
+              resultsArray.push(result);
+            });
 
-        result.name = $(this).children("td:nth-child(2)").children("a").text();
-
-        result.toPar = $(this).children("td:nth-child(3)").text();
-
-        result.earnings = $(this).children("td:nth-child(9)").text();
-
-        // console.log("-------------------------");
-        // console.log(result);
-
-        resultsArray.push(result);
+            return db.Results.bulkCreate(resultsArray);
+          });
       });
-      console.log("--------resultsArray----------");
-      console.log(resultsArray);
-      return db.Results.bulkCreate(resultsArray);
+
+      return Promise.all(apiPromises);
     });
 };
