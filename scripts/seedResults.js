@@ -2,12 +2,18 @@ require("dotenv").config();
 var db = require("../models");
 var axios = require("axios");
 var cheerio = require("cheerio");
+const { Op } = require("sequelize");
 
 module.exports = function () {
   let resultsArray = [];
 
   return db.Schedule.findAll({
     attributes: ["tournamentID"],
+    where: {
+      endDate: {
+        [Op.lt]: new Date(),
+      },
+    },
   })
     .then((tournamentIDs) =>
       tournamentIDs.map((tournament) => tournament.dataValues.tournamentID)
