@@ -31,7 +31,7 @@ var schedule = [
     tournamentID: "401155421",
     name: "Waste Management Phoenix Open",
     startDate: "2020-01-30",
-    endDate: "2020-05-02",
+    endDate: "2020-02-02",
   },
 ];
 

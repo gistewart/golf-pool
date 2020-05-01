@@ -6,12 +6,15 @@ const { Op } = require("sequelize");
 
 module.exports = function () {
   let resultsArray = [];
+  const date = "2020-01-01 09:30:00";
+  const myDate = new Date(date);
 
   return db.Schedule.findAll({
     attributes: ["tournamentID"],
     where: {
       endDate: {
-        [Op.lt]: new Date(),
+        // [Op.lt]: new Date(),
+        [Op.lt]: myDate,
       },
     },
   })

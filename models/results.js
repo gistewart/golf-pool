@@ -8,5 +8,12 @@ module.exports = function (sequelize, DataTypes) {
     toPar: DataTypes.STRING,
     earnings: DataTypes.STRING,
   });
+
+  // Results.associate = function (models) {
+  //   Results.belongsTo(models.Schedule, {
+  //     foreignKey: "TournamentID",
+  //     targetKey: "TournamentID",
+  //   });
+  // };
   return Results;
 };
