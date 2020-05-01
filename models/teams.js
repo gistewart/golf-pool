@@ -13,6 +13,10 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: "playerID",
       targetKey: "playerID",
     });
+    Teams.belongsTo(models.Poolsters, {
+      foreignKey: "poolsterID",
+      targetKey: "poolsterID",
+    });
   };
 
   return Teams;

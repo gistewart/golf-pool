@@ -4,7 +4,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
     },
     pos: DataTypes.STRING,
-    name: DataTypes.STRING,
+    playerName: DataTypes.STRING,
     toPar: DataTypes.STRING,
     earnings: DataTypes.STRING,
   });
@@ -13,6 +13,10 @@ module.exports = function (sequelize, DataTypes) {
     Results.belongsTo(models.Schedule, {
       foreignKey: "tournamentID",
       targetKey: "tournamentID",
+    });
+    Results.belongsTo(models.Players, {
+      foreignKey: "playerName",
+      targetKey: "playerName",
     });
   };
   return Results;

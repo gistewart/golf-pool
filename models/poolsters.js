@@ -8,5 +8,13 @@ module.exports = function (sequelize, DataTypes) {
     name: DataTypes.STRING,
     handle: DataTypes.STRING,
   });
+
+  Poolsters.associate = function (models) {
+    Poolsters.hasMany(models.Teams, {
+      foreignKey: "poolsterID",
+      sourceKey: "poolsterID",
+    });
+  };
+
   return Poolsters;
 };
