@@ -9,11 +9,11 @@ module.exports = function (sequelize, DataTypes) {
     earnings: DataTypes.STRING,
   });
 
-  // Results.associate = function (models) {
-  //   Results.belongsTo(models.Schedule, {
-  //     foreignKey: "TournamentID",
-  //     targetKey: "TournamentID",
-  //   });
-  // };
+  Results.associate = function (models) {
+    Results.belongsTo(models.Schedule, {
+      foreignKey: "tournamentID",
+      targetKey: "tournamentID",
+    });
+  };
   return Results;
 };

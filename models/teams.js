@@ -4,8 +4,16 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
     },
     playerID: DataTypes.INTEGER,
-    start_date: DataTypes.DATE,
-    end_date: DataTypes.DATE,
+    startDate: DataTypes.DATE,
+    endDate: DataTypes.DATE,
   });
+
+  Teams.associate = function (models) {
+    Teams.belongsTo(models.Players, {
+      foreignKey: "playerID",
+      targetKey: "playerID",
+    });
+  };
+
   return Teams;
 };

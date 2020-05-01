@@ -8,5 +8,13 @@ module.exports = function (sequelize, DataTypes) {
     name: DataTypes.STRING,
     tier: DataTypes.INTEGER,
   });
+
+  Players.associate = function (models) {
+    Players.hasMany(models.Teams, {
+      foreignKey: "playerID",
+      sourceKey: "playerID",
+    });
+  };
+
   return Players;
 };
