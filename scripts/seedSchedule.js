@@ -12,16 +12,16 @@ module.exports = function () {
     $(".mb5:last-of-type tbody tr").each(function (i, element) {
       var result = {};
 
-      result.tournamentID = $(this).children("td:first-child").text();
+      result.tournamentID = $(this)
+        .children("td:nth-child(2)")
+        .find("a")
+        .attr("href")
+        .match(/(?<=\=).+/)[0];
+      result.startDate = $(this)
+        .children("td:first-child")
+        .text()
+        .match(/.+(?=-)/)[0];
       result.name = $(this).find("p").text();
-      // result.startDate = $(this)
-      //   .children("td:nth-child(4)")
-      //   .text()
-      //   .trim();
-      // result.endDate = $(this)
-      //   .children("td:nth-child(5)")
-      //   .text()
-      //   .trim();
       result.winner = $(this).children("td:nth-child(3)").find("a").text();
       result.canceled = $(this)
         .children("td:nth-child(3)")
