@@ -12,16 +12,16 @@ module.exports = function (sequelize, DataTypes) {
     tier: DataTypes.INTEGER,
   });
 
-  Players.associate = function (models) {
-    Players.hasMany(models.Teams, {
-      foreignKey: "playerID",
-      sourceKey: "playerID",
-    });
-    // Players.hasMany(models.Results, {
-    //   foreignKey: "playerName",
-    //   sourceKey: "playerName",
-    // });
-  };
+  // Players.associate = function (models) {
+  //   Players.hasMany(models.Teams, {
+  //     foreignKey: "playerID",
+  //     sourceKey: "playerID",
+  //   });
+  //   Players.hasMany(models.Results, {
+  //     foreignKey: "playerName",
+  //     sourceKey: "playerName",
+  //   });
+  // };
 
   return Players;
 };

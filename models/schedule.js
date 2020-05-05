@@ -5,16 +5,17 @@ module.exports = function (sequelize, DataTypes) {
       primaryKey: true,
     },
     name: DataTypes.STRING,
+    winner: DataTypes.STRING,
     startDate: DataTypes.DATE,
     endDate: DataTypes.DATE,
   });
 
-  Schedule.associate = function (models) {
-    Schedule.hasMany(models.Results, {
-      foreignKey: "tournamentID",
-      sourceKey: "tournamentID",
-    });
-  };
+  // Schedule.associate = function (models) {
+  //   Schedule.hasMany(models.Results, {
+  //     foreignKey: "tournamentID",
+  //     sourceKey: "tournamentID",
+  //   });
+  // };
 
   return Schedule;
 };

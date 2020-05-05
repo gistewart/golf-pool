@@ -9,12 +9,12 @@ module.exports = function (sequelize, DataTypes) {
     handle: DataTypes.STRING,
   });
 
-  Poolsters.associate = function (models) {
-    Poolsters.hasMany(models.Teams, {
-      foreignKey: "poolsterID",
-      sourceKey: "poolsterID",
-    });
-  };
+  // Poolsters.associate = function (models) {
+  //   Poolsters.hasMany(models.Teams, {
+  //     foreignKey: "poolsterID",
+  //     sourceKey: "poolsterID",
+  //   });
+  // };
 
   return Poolsters;
 };

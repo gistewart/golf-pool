@@ -9,15 +9,15 @@ module.exports = function (sequelize, DataTypes) {
     earnings: DataTypes.STRING,
   });
 
-  Results.associate = function (models) {
-    Results.belongsTo(models.Schedule, {
-      foreignKey: "tournamentID",
-      targetKey: "tournamentID",
-    });
-    // Results.belongsTo(models.Players, {
-    //   foreignKey: "playerName",
-    //   targetKey: "playerName",
-    // });
-  };
+  // Results.associate = function (models) {
+  //   Results.belongsTo(models.Schedule, {
+  //     foreignKey: "tournamentID",
+  //     targetKey: "tournamentID",
+  //   });
+  //   Results.belongsTo(models.Players, {
+  //     foreignKey: "playerName",
+  //     targetKey: "playerName",
+  //   });
+  // };
   return Results;
 };
