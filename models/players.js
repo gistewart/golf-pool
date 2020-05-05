@@ -17,10 +17,10 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: "playerID",
       sourceKey: "playerID",
     });
-    Players.hasMany(models.Results, {
-      foreignKey: "playerName",
-      sourceKey: "playerName",
-    });
+    // Players.hasMany(models.Results, {
+    //   foreignKey: "playerName",
+    //   sourceKey: "playerName",
+    // });
   };
 
   return Players;

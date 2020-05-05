@@ -4,83 +4,83 @@ var db = require("../models");
 
 var players = [
   {
-    name: "Rory McIlory",
+    playerName: "Rory McIlory",
     tier: "1",
   },
   {
-    name: "Tiger Woods",
+    playerName: "Tiger Woods",
     tier: "2",
   },
   {
-    name: "Jason Kokrak",
+    playerName: "Jason Kokrak",
     tier: "3",
   },
   {
-    name: "Cameron Champ",
+    playerName: "Cameron Champ",
     tier: "4",
   },
   {
-    name: "Joaquin Niemann",
+    playerName: "Joaquin Niemann",
     tier: "5",
   },
   {
-    name: "Viktor Hovland",
+    playerName: "Viktor Hovland",
     tier: "6",
   },
   {
-    name: "Patrick Cantlay",
+    playerName: "Patrick Cantlay",
     tier: "1",
   },
   {
-    name: "Hideki Matsuyama",
+    playerName: "Hideki Matsuyama",
     tier: "2",
   },
   {
-    name: "Sungjae Im",
+    playerName: "Sungjae Im",
     tier: "3",
   },
   {
-    name: "Collin Morikawa",
+    playerName: "Collin Morikawa",
     tier: "4",
   },
   {
-    name: "Scottie Scheffler",
+    playerName: "Scottie Scheffler",
     tier: "6",
   },
   {
-    name: "Tommy Fleetwood",
+    playerName: "Tommy Fleetwood",
     tier: "2",
   },
   {
-    name: "C.T. Pan",
+    playerName: "C.T. Pan",
     tier: "3",
   },
   {
-    name: "Keegan Bradley",
+    playerName: "Keegan Bradley",
     tier: "4",
   },
   {
-    name: "Cameron Smith",
+    playerName: "Cameron Smith",
     tier: "5",
   },
   {
-    name: "Matt Jones",
+    playerName: "Matt Jones",
     tier: "6",
   },
   {
-    name: "Justin Thomas",
+    playerName: "Justin Thomas",
     tier: "1",
   },
   {
-    name: "Justin Rose",
+    playerName: "Justin Rose",
     tier: "2",
   },
   {
-    name: "Abraham Ancer",
+    playerName: "Abraham Ancer",
     tier: "3",
   },
   {
-    name: "Matthew Wolff",
+    playerName: "Matthew Wolff",
     tier: "5",
   },
 ];

@@ -14,10 +14,10 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: "tournamentID",
       targetKey: "tournamentID",
     });
-    Results.belongsTo(models.Players, {
-      foreignKey: "playerName",
-      targetKey: "playerName",
-    });
+    // Results.belongsTo(models.Players, {
+    //   foreignKey: "playerName",
+    //   targetKey: "playerName",
+    // });
   };
   return Results;
 };
