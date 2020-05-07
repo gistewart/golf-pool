@@ -6,8 +6,6 @@ module.exports = function (sequelize, DataTypes) {
     },
     name: DataTypes.STRING,
     winner: DataTypes.STRING,
-    startDate: DataTypes.DATE,
-    endDate: DataTypes.DATE,
   });
 
   // Schedule.associate = function (models) {

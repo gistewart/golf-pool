@@ -6,21 +6,23 @@ const { Op } = require("sequelize");
 
 module.exports = function () {
   let resultsArray = [];
-  const date = "2020-01-10 09:30:00";
-  const myDate = new Date(date);
 
   return db.Schedule.findAll({
     attributes: ["tournamentID"],
     where: {
-      endDate: {
-        // [Op.lt]: new Date(),
-        [Op.lt]: myDate,
+      tournamentID: {
+        [Op.gte]: 401155413,
+        [Op.lte]: 401155421,
+      },
+      winner: {
+        [Op.ne]: null,
       },
     },
   })
     .then((tournamentIDs) =>
       tournamentIDs.map((tournament) => tournament.dataValues.tournamentID)
     )
+
     .then((tournamentIDs) => {
       const apiPromises = tournamentIDs.map((id) => {
         return axios
@@ -55,7 +57,7 @@ module.exports = function () {
                 const filtered = resultsArray.filter((el) =>
                   playerNames.includes(el.playerName)
                 );
-
+                console.log("-----------finished seedResults------------");
                 return db.Results.bulkCreate(filtered);
               });
           });
@@ -64,14 +66,3 @@ module.exports = function () {
       return Promise.all(apiPromises);
     });
 };
-
-//               resultsArray.push(result);
-//             });
-
-//             return db.Results.bulkCreate(resultsArray);
-//           });
-//       });
-
-//       return Promise.all(apiPromises);
-//     });
-// };

@@ -83,6 +83,46 @@ var players = [
     playerName: "Matthew Wolff",
     tier: "5",
   },
+  {
+    playerName: "Brooks Koepka",
+    tier: "1",
+  },
+  {
+    playerName: "Jordan Spieth",
+    tier: "4",
+  },
+  {
+    playerName: "Henrik Stenson",
+    tier: "5",
+  },
+  {
+    playerName: "Jon Rahm",
+    tier: "1",
+  },
+  {
+    playerName: "Shane Lowry",
+    tier: "2",
+  },
+  {
+    playerName: "Jason Day",
+    tier: "3",
+  },
+  {
+    playerName: "Matt Wallace",
+    tier: "6",
+  },
+  {
+    playerName: "Maverick McNealy",
+    tier: "6",
+  },
+  {
+    playerName: "Phil Mickelson",
+    tier: "3",
+  },
+  {
+    playerName: "Brendon Todd",
+    tier: "6",
+  },
 ];
 
 module.exports = function () {

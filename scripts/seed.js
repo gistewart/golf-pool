@@ -9,24 +9,29 @@ var db = require("../models");
 
 db.sequelize
   .sync({ force: true })
-  // .then(function () {
-  //   return seedPoolsters();
-  // })
-  // .then(function () {
-  //   return seedPlayers();
-  // })
-  // .then(function () {
-  //   return seedTeams();
-  // })
   .then(function () {
-    return seedSchedule();
+    console.log("------------running seedPoolsters--------------");
+    return seedPoolsters();
   })
-  // .then(function () {
-  //   return seedResults();
-  // })
   .then(function () {
-    db.sequelize.close();
+    console.log("------------running seedPlayers--------------");
+    return seedPlayers();
+  })
+  .then(function () {
+    console.log("------------running seedTeams--------------");
+    return seedTeams();
+  })
+  .then(function () {
+    console.log("------------running seedSchedule--------------");
+    return seedSchedule();
   });
+// .then(function () {
+//   console.log("------------running seedResults----------------");
+//   return seedResults();
+// })
+// .then(function () {
+//   db.sequelize.close();
+// });
 
 // Run this file on heroku deployment
 // heroku-postbuild in package.json

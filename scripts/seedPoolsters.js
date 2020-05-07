@@ -23,6 +23,26 @@ var poolsters = [
     name: "Darrel Zander",
     handle: "The Chief",
   },
+  {
+    name: "Graeme Stewart",
+    handle: "Braveheart",
+  },
+  {
+    name: "James Holcomb",
+    handle: "Southern Boy",
+  },
+  {
+    name: "Jerry Yang",
+    handle: "Treehugger",
+  },
+  {
+    name: "John Reeves",
+    handle: "The Canary",
+  },
+  {
+    name: "Josh Zander",
+    handle: "ZED",
+  },
 ];
 
 module.exports = function () {
