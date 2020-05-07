@@ -8,27 +8,27 @@ require("dotenv").config();
 var db = require("../models");
 
 db.sequelize
-  .sync({ force: true })
+  .sync({ force: false })
+  // .then(function () {
+  //   console.log("------------running seedPoolsters--------------");
+  //   return seedPoolsters();
+  // })
+  // .then(function () {
+  //   console.log("------------running seedPlayers--------------");
+  //   return seedPlayers();
+  // })
+  // .then(function () {
+  //   console.log("------------running seedTeams--------------");
+  //   return seedTeams();
+  // })
+  // .then(function () {
+  //   console.log("------------running seedSchedule--------------");
+  //   return seedSchedule();
+  // });
   .then(function () {
-    console.log("------------running seedPoolsters--------------");
-    return seedPoolsters();
-  })
-  .then(function () {
-    console.log("------------running seedPlayers--------------");
-    return seedPlayers();
-  })
-  .then(function () {
-    console.log("------------running seedTeams--------------");
-    return seedTeams();
-  })
-  .then(function () {
-    console.log("------------running seedSchedule--------------");
-    return seedSchedule();
+    console.log("------------running seedResults----------------");
+    return seedResults();
   });
-// .then(function () {
-//   console.log("------------running seedResults----------------");
-//   return seedResults();
-// })
 // .then(function () {
 //   db.sequelize.close();
 // });
