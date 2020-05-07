@@ -8,16 +8,16 @@ module.exports = function (sequelize, DataTypes) {
     endDate: DataTypes.DATE,
   });
 
-  // Teams.associate = function (models) {
-  //   Teams.belongsTo(models.Players, {
-  //     foreignKey: "playerID",
-  //     targetKey: "playerID",
-  //   });
-  //   Teams.belongsTo(models.Poolsters, {
-  //     foreignKey: "poolsterID",
-  //     targetKey: "poolsterID",
-  //   });
-  // };
+  Teams.associate = function (models) {
+    Teams.belongsTo(models.Players, {
+      foreignKey: "playerID",
+      targetKey: "playerID",
+    });
+    Teams.belongsTo(models.Poolsters, {
+      foreignKey: "poolsterID",
+      targetKey: "poolsterID",
+    });
+  };
 
   return Teams;
 };
