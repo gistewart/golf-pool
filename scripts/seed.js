@@ -21,17 +21,15 @@ db.sequelize
     console.log("------------running seedTeams--------------");
     return seedTeams();
   })
-  .then(async function () {
+  .then(function () {
     console.log("------------running seedSchedule--------------");
-    const temp = await seedSchedule();
-    console.log("temp: " + temp);
-    return;
+    return seedSchedule();
   })
   .then(function (res) {
-    // console.log("res: " + res);
     console.log("------------running seedResults----------------");
     return seedResults();
+  })
+  .then(async function () {
+    const temp = await db.sequelize.close();
+    return;
   });
-// .then(function () {
-//   db.sequelize.close();
-// });
