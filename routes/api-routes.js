@@ -1,4 +1,5 @@
 var db = require("../models");
+var sequelize = require("sequelize");
 
 //Get Earnings
 module.exports = function (app) {
@@ -16,7 +17,11 @@ module.exports = function (app) {
 
   app.get("/api/results", function (req, res) {
     db.Results.findAll({
-      group: playerName,
+      attributes: [
+        "playerName",
+        [sequelize.fn("sum", sequelize.col("earnings")), "total_earnings"],
+      ],
+      group: ["playerName"],
     }).then((data) => {
       res.json(data);
     });
