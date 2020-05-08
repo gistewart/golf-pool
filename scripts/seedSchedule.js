@@ -22,7 +22,6 @@ module.exports = async function () {
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
 
         schedule.push(result);
-        // console.log("Schedule: " + schedule);
       });
       return;
     })
