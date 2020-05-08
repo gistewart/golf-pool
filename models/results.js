@@ -6,7 +6,9 @@ module.exports = function (sequelize, DataTypes) {
     pos: DataTypes.STRING,
     playerName: DataTypes.STRING,
     toPar: DataTypes.STRING,
-    earnings: DataTypes.STRING,
+    earnings: {
+      type: DataTypes.INTEGER,
+    },
   });
 
   Results.associate = function (models) {

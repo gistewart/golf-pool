@@ -12,7 +12,7 @@ module.exports = function () {
     where: {
       tournamentID: {
         [Op.gte]: 401155413,
-        [Op.lte]: 401155419,
+        [Op.lte]: 401155420,
       },
       winner: {
         [Op.regexp]: "^[A-Z]",
@@ -42,7 +42,13 @@ module.exports = function () {
                 .children("a")
                 .text();
               result.toPar = $(this).children("td:nth-child(3)").text();
-              result.earnings = $(this).children("td:nth-child(9)").text();
+              result.earnings = Number(
+                $(this)
+                  .children("td:nth-child(9)")
+                  .text()
+                  .replace(/[\$,]/g, "")
+                  .replace(/--/, 0)
+              );
               resultsArray.push(result);
             });
 

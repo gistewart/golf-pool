@@ -15,7 +15,9 @@ module.exports = function (app) {
   });
 
   app.get("/api/results", function (req, res) {
-    db.Results.findAll({}).then((data) => {
+    db.Results.findAll({
+      group: playerName,
+    }).then((data) => {
       res.json(data);
     });
   });
