@@ -4,7 +4,7 @@ var db = require("../models");
 
 var players = [
   {
-    playerName: "Rory McIlory",
+    playerName: "Rory McIlroy",
     tier: "1",
   },
   {

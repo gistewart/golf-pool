@@ -43,6 +43,10 @@ var poolsters = [
     name: "Josh Zander",
     handle: "ZED",
   },
+  {
+    name: "Lynn Odland",
+    handle: "Big Dog + JP",
+  },
 ];
 
 module.exports = function () {

@@ -4,8 +4,14 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
     },
     playerID: DataTypes.INTEGER,
-    startDate: DataTypes.DATE,
-    endDate: DataTypes.DATE,
+    startDate: {
+      type: DataTypes.DATE,
+      defaultValue: "2020-01-01",
+    },
+    endDate: {
+      type: DataTypes.DATE,
+      defaultValue: "2020-12-31",
+    },
   });
 
   Teams.associate = function (models) {

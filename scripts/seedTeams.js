@@ -373,6 +373,31 @@ var teams = [
     startDate: "2020-01-01",
     endDate: "2020-12-31",
   },
+  //playerID: 11
+  {
+    poolsterID: "11",
+    playerID: "1",
+  },
+  {
+    poolsterID: "11",
+    playerID: "18",
+  },
+  {
+    poolsterID: "11",
+    playerID: "9",
+  },
+  {
+    poolsterID: "11",
+    playerID: "10",
+  },
+  {
+    poolsterID: "11",
+    playerID: "5",
+  },
+  {
+    poolsterID: "11",
+    playerID: "6",
+  },
 ];
 
 module.exports = function () {
