@@ -21,7 +21,12 @@ module.exports = function (app) {
         "playerName",
         [sequelize.fn("sum", sequelize.col("earnings")), "total_earnings"],
       ],
-      group: ["playerName"],
+      include: {
+        model: db.Players,
+        attributes: ["playerID", "tier"],
+      },
+      group: ["Results.playerName"],
+      order: sequelize.literal("total_earnings DESC"),
     }).then((data) => {
       res.json(data);
     });
