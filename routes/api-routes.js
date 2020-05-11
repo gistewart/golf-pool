@@ -23,7 +23,7 @@ module.exports = function (app) {
       ],
       include: {
         model: db.Players,
-        attributes: ["playerID", "tier"],
+        attributes: ["playerId", "tier"],
       },
       group: ["Results.playerName"],
       order: sequelize.literal("total_earnings DESC"),

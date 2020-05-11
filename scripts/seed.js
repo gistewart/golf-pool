@@ -1,6 +1,6 @@
 const seedPoolsters = require("./seedPoolsters");
 const seedPlayers = require("./seedPlayers");
-const seedTeams = require("./seedTeams");
+const seedTeams = require("./seedPoolsterPlayers");
 const seedSchedule = require("./seedSchedule");
 const seedResults = require("./seedResults");
 

@@ -1,6 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
   var Schedule = sequelize.define("Schedule", {
-    tournamentID: {
+    tournamentId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
     },
@@ -9,9 +9,9 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   Schedule.associate = function (models) {
-    Schedule.hasMany(models.Results, {
-      foreignKey: "tournamentID",
-      sourceKey: "tournamentID",
+    Schedule.hasMany(models.Result, {
+      foreignKey: "tournamentId",
+      sourceKey: "tournamentId",
     });
   };
 

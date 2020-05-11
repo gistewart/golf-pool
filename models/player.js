@@ -1,6 +1,8 @@
+var db = require(".");
+
 module.exports = function (sequelize, DataTypes) {
-  var Players = sequelize.define("Players", {
-    playerID: {
+  var Player = sequelize.define("Player", {
+    playerId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
@@ -12,16 +14,17 @@ module.exports = function (sequelize, DataTypes) {
     tier: DataTypes.INTEGER,
   });
 
-  Players.associate = function (models) {
-    Players.hasMany(models.Teams, {
-      foreignKey: "playerID",
-      sourceKey: "playerID",
+  Player.associate = function (models) {
+    Player.belongsToMany(models.Poolster, {
+      through: "PoolsterPlayers",
+      foreignKey: "playerId",
+      otherKey: "poolsterId",
     });
-    Players.hasMany(models.Results, {
+    Player.hasMany(models.Result, {
       foreignKey: "playerName",
       sourceKey: "playerName",
     });
   };
 
-  return Players;
+  return Player;
 };

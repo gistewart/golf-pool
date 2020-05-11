@@ -50,5 +50,5 @@ var poolsters = [
 ];
 
 module.exports = function () {
-  return db.Poolsters.bulkCreate(poolsters);
+  return db.Poolster.bulkCreate(poolsters);
 };

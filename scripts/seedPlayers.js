@@ -126,5 +126,5 @@ var players = [
 ];
 
 module.exports = function () {
-  return db.Players.bulkCreate(players);
+  return db.Player.bulkCreate(players);
 };

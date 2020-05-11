@@ -1,6 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
-  var Results = sequelize.define("Results", {
-    tournamentID: {
+  var Result = sequelize.define("Result", {
+    tournamentId: {
       type: DataTypes.INTEGER,
     },
     pos: DataTypes.STRING,
@@ -11,15 +11,15 @@ module.exports = function (sequelize, DataTypes) {
     },
   });
 
-  Results.associate = function (models) {
-    Results.belongsTo(models.Schedule, {
-      foreignKey: "tournamentID",
-      targetKey: "tournamentID",
+  Result.associate = function (models) {
+    Result.belongsTo(models.Schedule, {
+      foreignKey: "tournamentId",
+      targetKey: "tournamentId",
     });
-    Results.belongsTo(models.Players, {
+    Result.belongsTo(models.Player, {
       foreignKey: "playerName",
       targetKey: "playerName",
     });
   };
-  return Results;
+  return Result;
 };

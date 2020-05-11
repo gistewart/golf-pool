@@ -8,24 +8,24 @@ module.exports = function () {
   let resultsArray = [];
 
   return db.Schedule.findAll({
-    attributes: ["tournamentID"],
+    attributes: ["tournamentId"],
     where: {
-      tournamentID: {
+      tournamentId: {
         [Op.gte]: 401155413,
-        [Op.lte]: 401155420,
+        [Op.lte]: 401155413,
       },
       winner: {
         [Op.regexp]: "^[A-Z]",
       },
     },
   })
-    .then((tournamentIDs) =>
-      tournamentIDs.map((tournament) => tournament.dataValues.tournamentID)
+    .then((tournamentIds) =>
+      tournamentIds.map((tournament) => tournament.dataValues.tournamentId)
     )
 
-    .then(async function (tournamentIDs) {
-      for (let i = 0; i < tournamentIDs.length; i++) {
-        const id = tournamentIDs[i];
+    .then(async function (tournamentIds) {
+      for (let i = 0; i < tournamentIds.length; i++) {
+        const id = tournamentIds[i];
         await axios
           .get(`https://www.espn.com/golf/leaderboard?tournamentId=${id}`)
           .then(function (response) {
@@ -35,7 +35,7 @@ module.exports = function () {
             $("tbody tr").each(function (i, element) {
               var result = {};
 
-              result.tournamentID = `${id}`;
+              result.tournamentId = `${id}`;
               result.pos = $(this).children("td:first-child").text();
               result.playerName = $(this)
                 .children("td:nth-child(2)")
@@ -55,7 +55,7 @@ module.exports = function () {
               resultsArray.push(result);
             });
 
-            return db.Players.findAll({
+            return db.Player.findAll({
               attributes: ["playerName"],
             })
 
@@ -70,7 +70,7 @@ module.exports = function () {
                 console.log(
                   `-----------finished seedResults for tournament ${id}------------`
                 );
-                return db.Results.bulkCreate(filtered);
+                return db.Result.bulkCreate(filtered);
               });
           });
       }

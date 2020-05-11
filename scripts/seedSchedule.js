@@ -13,7 +13,7 @@ module.exports = async function () {
       $(".mb5:last-of-type tbody tr").each(function (i, element) {
         var result = {};
 
-        result.tournamentID = $(this)
+        result.tournamentId = $(this)
           .children("td:nth-child(2)")
           .find("a")
           .attr("href")
