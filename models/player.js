@@ -12,6 +12,11 @@ module.exports = function (sequelize, DataTypes) {
       unique: true,
     },
     tier: DataTypes.INTEGER,
+    // indexes: [
+    //   {
+    //     fields: ["playerID"],
+    //   },
+    // ],
   });
 
   Player.associate = function (models) {
@@ -24,6 +29,10 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: "playerName",
       sourceKey: "playerName",
     });
+    // Player.hasMany(models.PoolsterPlayers, {
+    //   foreignKey: "playerId",
+    //   sourceKey: "playerId",
+    // });
   };
 
   return Player;

@@ -2,11 +2,11 @@ var db = require("../models");
 
 module.exports = function (sequelize, DataTypes) {
   var PoolsterPlayers = sequelize.define("PoolsterPlayers", {
-    playerId: {
+    poolsterId: {
       type: DataTypes.INTEGER,
       references: {
         model: db.Poolster,
-        key: "playerId",
+        key: "poolsterId",
       },
     },
     playerId: {

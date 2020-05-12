@@ -17,26 +17,45 @@ module.exports = function (app) {
 
   app.get("/api/temp", function (req, res) {
     db.Poolster.findAll({
+      attributes: ["handle"],
       include: [
         {
-          model: db.PoolsterPlayers,
+          model: db.Player,
+          attributes: ["playerName", "tier"],
           include: [
             {
-              model: db.Player,
+              model: db.Result,
+              attributes: ["earnings"],
               include: [
                 {
-                  model: db.Result,
-                  include: [
-                    {
-                      model: db.Schedule,
-                    },
-                  ],
+                  model: db.Schedule,
+                  attributes: ["name"],
                 },
               ],
             },
           ],
         },
       ],
+    }).then((data) => {
+      res.json(data);
+    });
+  });
+
+  app.get("/api/temp2", function (req, res) {
+    db.Poolster.findAll({
+      attributes: ["handle"],
+      include: {
+        model: db.Player,
+        attributes: ["playerName"],
+        include: {
+          model: db.Result,
+          attributes: [
+            sequelize.fn("sum", sequelize.col("earnings")),
+            "total_earnings",
+          ],
+        },
+      },
+      group: ["Poolster.poolsterId"],
     }).then((data) => {
       res.json(data);
     });
