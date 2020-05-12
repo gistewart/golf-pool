@@ -10,11 +10,15 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   Poolster.associate = function (models) {
-    Poolster.belongsToMany(models.Player, {
-      through: "PoolsterPlayers",
+    Poolster.hasMany(models.PoolsterPlayers, {
       foreignKey: "poolsterId",
-      otherKey: "playerId",
+      sourceKey: "poolsterId",
     });
+    // Poolster.belongsToMany(models.Player, {
+    //   through: models.PoolsterPlayers,
+    //   foreignKey: "poolsterId",
+    //   otherKey: "playerId",
+    // });
   };
 
   return Poolster;

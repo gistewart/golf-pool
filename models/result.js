@@ -1,10 +1,18 @@
+var db = require("../models");
+
 module.exports = function (sequelize, DataTypes) {
   var Result = sequelize.define("Result", {
     tournamentId: {
       type: DataTypes.INTEGER,
     },
     pos: DataTypes.STRING,
-    playerName: DataTypes.STRING,
+    playerName: {
+      type: DataTypes.STRING,
+      references: {
+        model: db.Player,
+        key: "playerName",
+      },
+    },
     toPar: DataTypes.STRING,
     earnings: {
       type: DataTypes.INTEGER,

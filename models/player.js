@@ -16,7 +16,7 @@ module.exports = function (sequelize, DataTypes) {
 
   Player.associate = function (models) {
     Player.belongsToMany(models.Poolster, {
-      through: "PoolsterPlayers",
+      through: models.PoolsterPlayers,
       foreignKey: "playerId",
       otherKey: "poolsterId",
     });

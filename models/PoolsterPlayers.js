@@ -2,16 +2,16 @@ var db = require("../models");
 
 module.exports = function (sequelize, DataTypes) {
   var PoolsterPlayers = sequelize.define("PoolsterPlayers", {
-    poolsterId: {
+    playerId: {
       type: DataTypes.INTEGER,
       references: {
         model: db.Poolster,
-        key: "poolsterId",
+        key: "playerId",
       },
     },
     playerId: {
       type: DataTypes.INTEGER,
-      reference: {
+      references: {
         model: db.Player,
         key: "playerId",
       },
@@ -25,6 +25,17 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: "2020-12-31",
     },
   });
+
+  PoolsterPlayers.associate = function (models) {
+    PoolsterPlayers.belongsTo(models.Poolster, {
+      foreignKey: "poolsterId",
+      sourceKey: "poolsterId",
+    });
+    PoolsterPlayers.belongsTo(models.Player, {
+      foreignKey: "playerId",
+      sourceKey: "playerId",
+    });
+  };
 
   return PoolsterPlayers;
 };
