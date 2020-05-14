@@ -8,6 +8,7 @@ module.exports = function (sequelize, DataTypes) {
     pos: DataTypes.STRING,
     playerName: {
       type: DataTypes.STRING,
+      // check if reference necessary
       references: {
         model: db.Player,
         key: "playerName",

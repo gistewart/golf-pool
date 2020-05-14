@@ -5,8 +5,8 @@ var express = require("express");
 var logger = require("morgan");
 
 // Require axios and cheerio. This makes the scraping possible
-var axios = require("axios");
-var cheerio = require("cheerio");
+// var axios = require("axios");
+// var cheerio = require("cheerio");
 
 // Sets up the Express App
 // =============================================================

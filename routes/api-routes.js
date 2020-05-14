@@ -41,21 +41,33 @@ module.exports = function (app) {
     });
   });
 
+  //earnings by poolster by player
   app.get("/api/temp2", function (req, res) {
     db.Poolster.findAll({
       attributes: ["handle"],
-      include: {
-        model: db.Player,
-        attributes: ["playerName"],
-        include: {
-          model: db.Result,
+      include: [
+        {
+          model: db.Player,
           attributes: [
-            sequelize.fn("sum", sequelize.col("earnings")),
-            "total_earnings",
+            "playerId",
+            [sequelize.fn("sum", sequelize.col("earnings")), "total_earnings"],
           ],
+          include: {
+            model: db.Result,
+            attributes: [],
+          },
         },
-      },
-      group: ["Poolster.poolsterId"],
+      ],
+      raw: true,
+      group: ["handle", "Poolster.poolsterId", "Players.playerId"],
+    }).then((data) => {
+      res.json(data);
+    });
+  });
+
+  app.get("/api/temp3", function (req, res) {
+    db.Poolster.findAll({
+      include: [db.Player, db.Result, db.Schedule],
     }).then((data) => {
       res.json(data);
     });
