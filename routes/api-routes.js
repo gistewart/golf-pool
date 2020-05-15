@@ -65,6 +65,30 @@ module.exports = function (app) {
     });
   });
 
+  //earnings by poolster
+  app.get("/api/temp5", function (req, res) {
+    db.Poolster.findAll({
+      attributes: ["handle"],
+      include: [
+        {
+          model: db.Player,
+          attributes: [
+            [sequelize.fn("sum", sequelize.col("earnings")), "total_earnings"],
+          ],
+          through: { attributes: [] },
+          include: {
+            model: db.Result,
+            attributes: [],
+          },
+        },
+      ],
+      // raw: true,
+      group: ["handle", "Poolster.poolsterId"],
+    }).then((data) => {
+      res.json(data);
+    });
+  });
+
   app.get("/api/temp3", function (req, res) {
     db.Poolster.findAll({
       include: [db.Player, db.Result, db.Schedule],
