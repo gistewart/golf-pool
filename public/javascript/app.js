@@ -1,9 +1,13 @@
-// $(document).ready(function () {
-//   function getPoolsters() {
-//     $.get("/api/temp", function (data) {
-//       console.log(data);
-//     });
-//   }
+$(document).ready(function () {
+  function getPoolsters() {
+    $.get("/api/temp4", function (data) {
+      console.log(data);
+      const sorted = data.sort(
+        (a, b) => b.Players[0].total_earnings - a.Players[0].total_earnings
+      );
+      console.log(sorted);
+    });
+  }
 
-//   getPoolsters();
-// });
+  getPoolsters();
+});

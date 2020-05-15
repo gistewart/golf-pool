@@ -66,7 +66,7 @@ module.exports = function (app) {
   });
 
   //earnings by poolster
-  app.get("/api/temp5", function (req, res) {
+  app.get("/api/temp4", function (req, res) {
     db.Poolster.findAll({
       attributes: ["handle"],
       include: [
@@ -82,8 +82,8 @@ module.exports = function (app) {
           },
         },
       ],
-      // raw: true,
       group: ["handle", "Poolster.poolsterId"],
+      // raw: true,
     }).then((data) => {
       res.json(data);
     });
