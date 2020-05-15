@@ -18,11 +18,21 @@ module.exports = async function () {
           .find("a")
           .attr("href")
           .match(/(?<=\=).+/)[0];
+        let monthYear = $(this)
+          .children("td:first-child")
+          .text()
+          .match(/.+(?=-)/)[0];
+        result.tStartDate = new Date(`${monthYear} 2020`);
+
+        let f = new Date(`${monthYear} 2020`);
+        f.setDate(f.getDate() + 4);
+        result.tEndDate = f;
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
 
         schedule.push(result);
       });
+      console.log(schedule);
       return;
     })
     .then(function () {
