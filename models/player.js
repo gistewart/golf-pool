@@ -17,6 +17,7 @@ module.exports = function (sequelize, DataTypes) {
   Player.associate = function (models) {
     Player.belongsToMany(models.Poolster, {
       through: models.PoolsterPlayers,
+      as: "bar1",
       foreignKey: "playerId",
       otherKey: "poolsterId",
     });
@@ -24,10 +25,11 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: "playerName",
       sourceKey: "playerName",
     });
-    // Player.hasMany(models.PoolsterPlayers, {
-    //   foreignKey: "playerId",
-    //   sourceKey: "playerId",
-    // });
+    Player.hasMany(models.PoolsterPlayers, {
+      as: "bar2",
+      foreignKey: "playerId",
+      sourceKey: "playerId",
+    });
   };
 
   return Player;

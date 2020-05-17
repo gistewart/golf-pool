@@ -6,7 +6,13 @@ var teams = [
   //playerId: 1
   {
     poolsterId: "1",
+    playerId: "24",
+    endDate: "2020-01-28",
+  },
+  {
+    poolsterId: "1",
     playerId: "1",
+    startDate: "2020-01-29",
   },
   {
     poolsterId: "1",

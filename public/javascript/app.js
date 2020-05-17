@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  function getPoolsters() {
+  function getEarningsByPoolster() {
     $.get("/api/temp4", function (data) {
       console.log(data);
       const sorted = data.sort(
@@ -9,5 +9,5 @@ $(document).ready(function () {
     });
   }
 
-  getPoolsters();
+  getEarningsByPoolster();
 });

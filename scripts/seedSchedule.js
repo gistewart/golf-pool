@@ -32,7 +32,6 @@ module.exports = async function () {
 
         schedule.push(result);
       });
-      console.log(schedule);
       return;
     })
     .then(function () {
