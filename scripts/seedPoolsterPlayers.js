@@ -3,7 +3,7 @@ var fetch = require("node-fetch");
 var db = require("../models");
 
 var teams = [
-  //playerId: 1
+  //poolsterId: 1
   {
     poolsterId: "1",
     playerId: "24",
@@ -34,7 +34,7 @@ var teams = [
     poolsterId: "1",
     playerId: "6",
   },
-  //playerId: 2
+  //poolsterId: 2
   {
     poolsterId: "2",
     playerId: "7",
@@ -59,7 +59,7 @@ var teams = [
     poolsterId: "2",
     playerId: "11",
   },
-  //playerId: 3
+  //poolsterId: 3
   {
     poolsterId: "3",
     playerId: "1",
@@ -84,7 +84,7 @@ var teams = [
     poolsterId: "3",
     playerId: "16",
   },
-  //playerId: 4
+  //poolsterId: 4
   {
     poolsterId: "4",
     playerId: "17",
@@ -109,7 +109,7 @@ var teams = [
     poolsterId: "4",
     playerId: "6",
   },
-  //playerId: 5
+  //poolsterId: 5
   {
     poolsterId: "5",
     playerId: "17",
@@ -134,7 +134,7 @@ var teams = [
     poolsterId: "5",
     playerId: "6",
   },
-  //playerId: 6
+  //poolsterId: 6
   {
     poolsterId: "6",
     playerId: "21",
@@ -159,7 +159,7 @@ var teams = [
     poolsterId: "6",
     playerId: "6",
   },
-  //playerId: 7
+  //poolsterId: 7
   {
     poolsterId: "7",
     playerId: "24",
@@ -184,7 +184,7 @@ var teams = [
     poolsterId: "7",
     playerId: "27",
   },
-  //playerId: 8
+  //poolsterId: 8
   {
     poolsterId: "8",
     playerId: "24",
@@ -209,7 +209,7 @@ var teams = [
     poolsterId: "8",
     playerId: "28",
   },
-  //playerId: 9
+  //poolsterId: 9
   {
     poolsterId: "9",
     playerId: "1",
@@ -234,7 +234,7 @@ var teams = [
     poolsterId: "9",
     playerId: "30",
   },
-  //playerId: 10
+  //poolsterId: 10
   {
     poolsterId: "10",
     playerId: "1",
@@ -259,7 +259,7 @@ var teams = [
     poolsterId: "10",
     playerId: "6",
   },
-  //playerId: 11
+  //poolsterId: 11
   {
     poolsterId: "11",
     playerId: "1",
@@ -308,6 +308,156 @@ var teams = [
   {
     poolsterId: "12",
     playerId: "6",
+  },
+  //poolsterId: 13
+  {
+    poolsterId: "13",
+    playerId: "1",
+  },
+  {
+    poolsterId: "13",
+    playerId: "18",
+  },
+  {
+    poolsterId: "13",
+    playerId: "33",
+  },
+  {
+    poolsterId: "13",
+    playerId: "34",
+  },
+  {
+    poolsterId: "13",
+    playerId: "23",
+  },
+  {
+    poolsterId: "13",
+    playerId: "35",
+  },
+  //poolsterId: 14
+  {
+    poolsterId: "14",
+    playerId: "1",
+  },
+  {
+    poolsterId: "14",
+    playerId: "36",
+  },
+  {
+    poolsterId: "14",
+    playerId: "19",
+  },
+  {
+    poolsterId: "14",
+    playerId: "37",
+  },
+  {
+    poolsterId: "14",
+    playerId: "5",
+  },
+  {
+    poolsterId: "14",
+    playerId: "38",
+  },
+  //poolsterId: 15
+  {
+    poolsterId: "15",
+    playerId: "39",
+  },
+  {
+    poolsterId: "15",
+    playerId: "2",
+  },
+  {
+    poolsterId: "15",
+    playerId: "19",
+  },
+  {
+    poolsterId: "15",
+    playerId: "22",
+  },
+  {
+    poolsterId: "15",
+    playerId: "15",
+  },
+  {
+    poolsterId: "15",
+    playerId: "16",
+  },
+  //poolsterId: 16
+  {
+    poolsterId: "16",
+    playerId: "1",
+  },
+  {
+    poolsterId: "16",
+    playerId: "40",
+  },
+  {
+    poolsterId: "16",
+    playerId: "26",
+  },
+  {
+    poolsterId: "16",
+    playerId: "22",
+  },
+  {
+    poolsterId: "16",
+    playerId: "5",
+  },
+  {
+    poolsterId: "16",
+    playerId: "41",
+  },
+  //poolsterId: 17
+  {
+    poolsterId: "17",
+    playerId: "17",
+  },
+  {
+    poolsterId: "17",
+    playerId: "40",
+  },
+  {
+    poolsterId: "17",
+    playerId: "9",
+  },
+  {
+    poolsterId: "17",
+    playerId: "22",
+  },
+  {
+    poolsterId: "17",
+    playerId: "42",
+  },
+  {
+    poolsterId: "17",
+    playerId: "11",
+  },
+  //poolsterId: 18
+  {
+    poolsterId: "18",
+    playerId: "1",
+  },
+  {
+    poolsterId: "18",
+    playerId: "8",
+  },
+  {
+    poolsterId: "18",
+    playerId: "26",
+  },
+  {
+    poolsterId: "18",
+    playerId: "22",
+  },
+  {
+    poolsterId: "18",
+    playerId: "23",
+  },
+  {
+    poolsterId: "18",
+    playerId: "43",
   },
 ];
 
