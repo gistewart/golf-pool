@@ -16,13 +16,13 @@ module.exports = function (app) {
     });
   });
 
-  app.get("/api/temp", function (req, res) {
+  app.get("/api/test", function (req, res) {
     db.Poolster.findAll({
       attributes: ["handle"],
       include: [
         {
           model: db.PoolsterPlayers,
-          as: "foo2",
+          as: "PoolsterPlayers",
           attributes: ["startDate"],
           include: [
             {
@@ -50,31 +50,37 @@ module.exports = function (app) {
 
       where: {
         // Filters as expected
-        //   "$foo2.startDate$": {
-        //     [Op.lte]: "2020-01-27",
-
-        // Filters as expected
-        // "$foo2.Player.Results.Schedule.tStartDate$": {
+        // "$PoolsterPlayers.startDate$": {
         //   [Op.lte]: "2020-01-27",
 
-        // Error: Unhandled rejection SequelizeDatabaseError: Incorrect DATETIME value: '$foo2.Player.Results.Schedule.tStartDate$'
-        "$foo2.startDate$": {
-          [Op.lte]: "$foo2.Player.Results.Schedule.tStartDate$",
+        // Filters as expected
+        // "$PoolsterPlayers.Player.Results.Schedule.tStartDate$": {
+        //   [Op.lte]: "2020-01-27",
 
-          // Error: Unhandled rejection SequelizeDatabaseError: Unknown column '$foo2->Player->Results->Schedule.tStartDate$' in 'where clause'
-          // "$foo2.startDate$": {
-          //   [Op.lte]: sequelize.col("$foo2.Player.Results.Schedule.tStartDate$"),
+        // Error: Unhandled rejection SequelizeDatabaseError: Incorrect DATETIME value: '$PoolsterPlayers.Player.Results.Schedule.tStartDate$'
+        "$PoolsterPlayers.startDate$": {
+          [Op.lte]: "$PoolsterPlayers.Player.Results.Schedule.tStartDate$",
 
-          // Error: Unhandled rejection SequelizeDatabaseError: Unknown column '$foo2->Player->Results->Schedule.tStartDate$' in 'where clause'
-          // "$foo2.startDate$": {
+          // Error: Unhandled rejection SequelizeDatabaseError: Unknown column '$PoolsterPlayers->Player->Results->Schedule.tStartDate$' in 'where clause'
+          // "$PoolsterPlayers.startDate$": {
+          //   [Op.lte]: sequelize.col(
+          //     "$PoolsterPlayers.Player.Results.Schedule.tStartDate$"
+          //   ),
+
+          // Error: Unhandled rejection SequelizeDatabaseError: Unknown column '$PoolsterPlayers->Player->Results->Schedule.tStartDate$' in 'where clause'
+          // "$PoolsterPlayers.startDate$": {
           //   [Op.lte]: sequelize.fn(
           //     "date",
-          //     sequelize.col("$foo2.Player.Results.Schedule.tStartDate$")
+          //     sequelize.col(
+          //       "$PoolsterPlayers.Player.Results.Schedule.tStartDate$"
+          //     )
           //   ),
 
           // Error: Unhandled rejection SequelizeDatabaseError: Incorrect DATETIME value: 'Invalid date'
-          // "$foo2.startDate$": {
-          //   [Op.lte]: new Date("$foo2.Player.Results.Schedule.tStartDate$"),
+          // "$PoolsterPlayers.startDate$": {
+          //   [Op.lte]: new Date(
+          //     "$PoolsterPlayers.Player.Results.Schedule.tStartDate$"
+          //   ),
         },
       },
     }).then((data) => {
@@ -89,6 +95,7 @@ module.exports = function (app) {
       include: [
         {
           model: db.Player,
+          as: "Players",
           attributes: [
             "playerId",
             [sequelize.fn("sum", sequelize.col("earnings")), "total_earnings"],
@@ -113,7 +120,7 @@ module.exports = function (app) {
       include: [
         {
           model: db.Player,
-          as: "foo1",
+          as: "Players",
           attributes: [
             [sequelize.fn("sum", sequelize.col("earnings")), "total_earnings"],
           ],
@@ -198,13 +205,6 @@ module.exports = function (app) {
           model: db.Player,
           as: "Players",
           attributes: ["playerName", "tier"],
-          // through: {
-          //   where: {
-          //     startDate: {
-          //       [Op.gte]: "2020-01-28",
-          //     },
-          //   },
-          // },
           include: [
             {
               model: db.Result,
@@ -232,7 +232,7 @@ module.exports = function (app) {
       // through: {
       //   where: {
       //     startDate: {
-      // [Op.lte]: sequelize.col("$foo1.Results.Schedule.tStartDate$"),
+      // [Op.lte]: sequelize.col("$Players.Results.Schedule.tStartDate$"),
       //     },
       //   },
       // },
@@ -240,7 +240,7 @@ module.exports = function (app) {
       include: [
         {
           model: db.Player,
-          as: "foo1",
+          as: "Players",
           attributes: ["playerName", "tier"],
           through: {
             where: {

@@ -12,12 +12,12 @@ module.exports = function (sequelize, DataTypes) {
   Poolster.associate = function (models) {
     Poolster.belongsToMany(models.Player, {
       through: models.PoolsterPlayers,
-      as: "foo1",
+      as: "Players",
       foreignKey: "poolsterId",
       otherKey: "playerId",
     });
     Poolster.hasMany(models.PoolsterPlayers, {
-      as: "foo2",
+      as: "PoolsterPlayers",
       foreignKey: "poolsterId",
       sourceKey: "poolsterId",
     });

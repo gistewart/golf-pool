@@ -12,7 +12,7 @@ var teams = [
   {
     poolsterId: "1",
     playerId: "1",
-    startDate: "2020-01-29",
+    startDate: "2020-01-28",
   },
   {
     poolsterId: "1",
