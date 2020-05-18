@@ -123,6 +123,58 @@ var players = [
     playerName: "Brendon Todd",
     tier: "6",
   },
+  {
+    playerName: "Corey Conners",
+    tier: "3",
+  },
+  {
+    playerName: "Max Homa",
+    tier: "4",
+  },
+  {
+    playerName: "Louis Oosthuizen",
+    tier: "3",
+  },
+  {
+    playerName: "Sergio Garcia",
+    tier: "4",
+  },
+  {
+    playerName: "Martin Kaymer",
+    tier: "6",
+  },
+  {
+    playerName: "Adam Scott",
+    tier: "2",
+  },
+  {
+    playerName: "Joel Dahmen",
+    tier: "4",
+  },
+  {
+    playerName: "Sebastian Munoz",
+    tier: "6",
+  },
+  {
+    playerName: "Matt Kuchar",
+    tier: "1",
+  },
+  {
+    playerName: "Rickie Fowler",
+    tier: "2",
+  },
+  {
+    playerName: "Charl Schwartzel",
+    tier: "6",
+  },
+  {
+    playerName: "Danny Willett",
+    tier: "5",
+  },
+  {
+    playerName: "Seung-Yul Noh",
+    tier: "6",
+  },
 ];
 
 module.exports = function () {

@@ -12,7 +12,7 @@ module.exports = function () {
     where: {
       tournamentId: {
         [Op.gte]: 401155413,
-        [Op.lte]: 401155427,
+        [Op.lte]: 401155413,
       },
       winner: {
         [Op.regexp]: "^[A-Z]",

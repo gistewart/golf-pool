@@ -47,6 +47,34 @@ var poolsters = [
     name: "Lynn Odland",
     handle: "Big Dog + JP",
   },
+  {
+    name: "Paul Odland",
+    handle: "Banger",
+  },
+  {
+    name: "Roger Silver",
+    handle: "The Brit",
+  },
+  {
+    name: "Ruben Possin",
+    handle: "The Sage",
+  },
+  {
+    name: "Russ Cottle",
+    handle: "Scarlet Pimpernel",
+  },
+  {
+    name: "Tony Hahn",
+    handle: "Money Guru",
+  },
+  {
+    name: "Vik Kabra",
+    handle: "Jayhawk",
+  },
+  {
+    name: "Wayne Bellows",
+    handle: "El Caballito",
+  },
 ];
 
 module.exports = function () {

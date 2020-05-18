@@ -284,6 +284,31 @@ var teams = [
     poolsterId: "11",
     playerId: "6",
   },
+  //poolsterId: 12
+  {
+    poolsterId: "12",
+    playerId: "1",
+  },
+  {
+    poolsterId: "12",
+    playerId: "12",
+  },
+  {
+    poolsterId: "12",
+    playerId: "31",
+  },
+  {
+    poolsterId: "12",
+    playerId: "32",
+  },
+  {
+    poolsterId: "12",
+    playerId: "20",
+  },
+  {
+    poolsterId: "12",
+    playerId: "6",
+  },
 ];
 
 module.exports = function () {
