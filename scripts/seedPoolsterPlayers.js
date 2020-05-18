@@ -71,6 +71,7 @@ var teams = [
   {
     poolsterId: "3",
     playerId: "13",
+    endDate: "2020-03-04",
   },
   {
     poolsterId: "3",
@@ -83,6 +84,11 @@ var teams = [
   {
     poolsterId: "3",
     playerId: "16",
+  },
+  {
+    poolsterId: "3",
+    playerId: "9",
+    startDate: "2020-03-04",
   },
   //poolsterId: 4
   {
@@ -117,6 +123,7 @@ var teams = [
   {
     poolsterId: "5",
     playerId: "18",
+    endDate: "2020-03-04",
   },
   {
     poolsterId: "5",
@@ -133,6 +140,11 @@ var teams = [
   {
     poolsterId: "5",
     playerId: "6",
+  },
+  {
+    poolsterId: "5",
+    playerId: "12",
+    startDate: "2020-03-04",
   },
   //poolsterId: 6
   {
@@ -192,6 +204,7 @@ var teams = [
   {
     poolsterId: "8",
     playerId: "18",
+    endDate: "2020-03-10",
   },
   {
     poolsterId: "8",
@@ -208,6 +221,11 @@ var teams = [
   {
     poolsterId: "8",
     playerId: "28",
+  },
+  {
+    poolsterId: "8",
+    playerId: "44",
+    startDate: "2020-03-10",
   },
   //poolsterId: 9
   {
@@ -242,6 +260,7 @@ var teams = [
   {
     poolsterId: "10",
     playerId: "18",
+    endDate: "2020-03-10",
   },
   {
     poolsterId: "10",
@@ -258,6 +277,11 @@ var teams = [
   {
     poolsterId: "10",
     playerId: "6",
+  },
+  {
+    poolsterId: "10",
+    playerId: "40",
+    startDate: "2020-03-10",
   },
   //poolsterId: 11
   {
@@ -317,6 +341,7 @@ var teams = [
   {
     poolsterId: "13",
     playerId: "18",
+    endDate: "2020-03-04",
   },
   {
     poolsterId: "13",
@@ -333,6 +358,11 @@ var teams = [
   {
     poolsterId: "13",
     playerId: "35",
+  },
+  {
+    poolsterId: "13",
+    playerId: "12",
+    startDate: "2020-03-04",
   },
   //poolsterId: 14
   {

@@ -175,6 +175,10 @@ var players = [
     playerName: "Seung-Yul Noh",
     tier: "6",
   },
+  {
+    playerName: "Patrick Reed",
+    tier: "2",
+  },
 ];
 
 module.exports = function () {
