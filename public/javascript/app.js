@@ -1,54 +1,70 @@
 $(document).ready(function () {
   function getEarningsByPoolster2() {
     $.get("/api/temp4", function (data) {
-      // console.log(data);
       const sorted = data.sort(
         (a, b) => b.Players[0].total_earnings - a.Players[0].total_earnings
       );
-      // console.log(sorted);
     });
   }
-  getEarningsByPoolster2();
+  // getEarningsByPoolster2();
 
-  function getEarningsByPoolster() {
-    let a,
-      b,
-      c,
-      arr = [];
+  // function getEarningsByPoolster() {
+  //   $.get("/api/dataset", function (data) {
+  //     let a, b;
+  //     let result = [];
+  //     for (let i = 0; i < data.length; i++) {
+  //       let poolsterSum = 0;
+  //       a = data[i].Players;
+  //       for (let j = 0; j < a.length; j++) {
+  //         b = a[j].Tournaments;
+  //         for (let k = 0; k < b.length; k++) {
+  //           poolsterSum += b[k].earnings;
+  //         }
+  //       }
+  //       result.push({
+  //         poolster: data[i].handle,
+  //         earnings: poolsterSum,
+  //       });
+  //     }
+  //     console.log(result);
+  //     return result;
+  //   }).then(function (result) {
+  //     const sorted = result.sort((a, b) => b.earnings - a.earnings);
+  //     console.log(sorted);
+  //     return sorted;
+  //   });
+  // }
 
-    $.get("/api/test", function (data) {
+  function getEarningsByPoolster(sort) {
+    $.get("/api/dataset", function (data) {
+      let a, b;
+      let result = [];
       for (let i = 0; i < data.length; i++) {
-        arr.push({ name: data[i].name, handle: data[i].handle, Players: [] });
-        for (let j = 0; j < data[i].PoolsterPlayers.length; j++) {
-          a = data[i].PoolsterPlayers;
-          arr[i].Players.push({
-            name: a[j].Player.playerName,
-            startDate: a[j].startDate,
-            endDate: a[j].endDate,
-            tier: a[j].Player.tier,
-            Tournaments: [],
-          });
-          for (
-            let k = 0;
-            k < data[i].PoolsterPlayers[j].Player.Results.length;
-            k++
-          ) {
-            b = a[j].Player.Results;
-            if (
-              a[j].startDate < b[k].Schedule.tStartDate &&
-              a[j].endDate > b[k].Schedule.tStartDate
-            ) {
-              arr[i].Players[j].Tournaments.push({
-                name: b[k].Schedule.name,
-                start: b[k].Schedule.tStartDate,
-                earnings: b[k].earnings,
-              });
-            }
+        let poolsterSum = 0;
+        a = data[i].Players;
+        for (let j = 0; j < a.length; j++) {
+          b = a[j].Tournaments;
+          for (let k = 0; k < b.length; k++) {
+            poolsterSum += b[k].earnings;
           }
         }
+        result.push({
+          poolster: data[i].handle,
+          earnings: poolsterSum,
+        });
       }
-      console.log(arr);
+      sort(result);
     });
   }
-  getEarningsByPoolster();
+
+  function sort(result) {
+    const sorted = result.sort((a, b) => b.earnings - a.earnings);
+    for (let i = 0; i < sorted.length; i++) {
+      sorted[i].ranking = i + 1;
+    }
+
+    console.log(sorted);
+  }
+
+  getEarningsByPoolster(sort);
 });
