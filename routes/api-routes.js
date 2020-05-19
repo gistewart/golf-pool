@@ -18,17 +18,17 @@ module.exports = function (app) {
 
   app.get("/api/test", function (req, res) {
     db.Poolster.findAll({
-      attributes: ["handle"],
+      attributes: ["poolsterId", "name", "handle"],
       include: [
         {
           model: db.PoolsterPlayers,
           as: "PoolsterPlayers",
-          attributes: ["startDate"],
+          attributes: ["startDate", "endDate"],
           include: [
             {
               model: db.Player,
               as: "Player",
-              attributes: ["playerName"],
+              attributes: ["playerName", "playerId", "tier"],
               include: [
                 {
                   model: db.Result,
@@ -48,41 +48,43 @@ module.exports = function (app) {
         },
       ],
 
-      where: {
-        // Filters as expected
-        // "$PoolsterPlayers.startDate$": {
-        //   [Op.lte]: "2020-01-27",
+      // where: {
+      //   poolsterId: 1,
+      //   "$PoolsterPlayers.Player.playerId$": [1, 24],
+      // Filters as expected
+      // "$PoolsterPlayers.startDate$": {
+      //   [Op.lte]: "2020-01-27",
 
-        // Filters as expected
-        // "$PoolsterPlayers.Player.Results.Schedule.tStartDate$": {
-        //   [Op.lte]: "2020-01-27",
+      // Filters as expected
+      // "$PoolsterPlayers.Player.Results.Schedule.tStartDate$": {
+      //   [Op.lte]: "2020-01-27",
 
-        // Error: Unhandled rejection SequelizeDatabaseError: Incorrect DATETIME value: '$PoolsterPlayers.Player.Results.Schedule.tStartDate$'
-        "$PoolsterPlayers.startDate$": {
-          [Op.lte]: "$PoolsterPlayers.Player.Results.Schedule.tStartDate$",
+      // Error: Unhandled rejection SequelizeDatabaseError: Incorrect DATETIME value: '$PoolsterPlayers.Player.Results.Schedule.tStartDate$'
+      // "$PoolsterPlayers.startDate$": {
+      //   [Op.lte]: "$PoolsterPlayers.Player.Results.Schedule.tStartDate$",
 
-          // Error: Unhandled rejection SequelizeDatabaseError: Unknown column '$PoolsterPlayers->Player->Results->Schedule.tStartDate$' in 'where clause'
-          // "$PoolsterPlayers.startDate$": {
-          //   [Op.lte]: sequelize.col(
-          //     "$PoolsterPlayers.Player.Results.Schedule.tStartDate$"
-          //   ),
+      // Error: Unhandled rejection SequelizeDatabaseError: Unknown column '$PoolsterPlayers->Player->Results->Schedule.tStartDate$' in 'where clause'
+      // "$PoolsterPlayers.startDate$": {
+      //   [Op.lte]: sequelize.col(
+      //     "$PoolsterPlayers.Player.Results.Schedule.tStartDate$"
+      //   ),
 
-          // Error: Unhandled rejection SequelizeDatabaseError: Unknown column '$PoolsterPlayers->Player->Results->Schedule.tStartDate$' in 'where clause'
-          // "$PoolsterPlayers.startDate$": {
-          //   [Op.lte]: sequelize.fn(
-          //     "date",
-          //     sequelize.col(
-          //       "$PoolsterPlayers.Player.Results.Schedule.tStartDate$"
-          //     )
-          //   ),
+      // Error: Unhandled rejection SequelizeDatabaseError: Unknown column '$PoolsterPlayers->Player->Results->Schedule.tStartDate$' in 'where clause'
+      // "$PoolsterPlayers.startDate$": {
+      //   [Op.lte]: sequelize.fn(
+      //     "date",
+      //     sequelize.col(
+      //       "$PoolsterPlayers.Player.Results.Schedule.tStartDate$"
+      //     )
+      //   ),
 
-          // Error: Unhandled rejection SequelizeDatabaseError: Incorrect DATETIME value: 'Invalid date'
-          // "$PoolsterPlayers.startDate$": {
-          //   [Op.lte]: new Date(
-          //     "$PoolsterPlayers.Player.Results.Schedule.tStartDate$"
-          //   ),
-        },
-      },
+      // Error: Unhandled rejection SequelizeDatabaseError: Incorrect DATETIME value: 'Invalid date'
+      // "$PoolsterPlayers.startDate$": {
+      //   [Op.lte]: new Date(
+      //     "$PoolsterPlayers.Player.Results.Schedule.tStartDate$"
+      //   ),
+      // },
+      // },
     }).then((data) => {
       res.json(data);
     });
