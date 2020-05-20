@@ -61,8 +61,14 @@ module.exports = function (app) {
           for (let j = 0; j < a.length; j++) {
             result[i].Players.push({
               name: a[j].Player.playerName,
-              startDate: a[j].startDate,
-              endDate: a[j].endDate,
+              startDate: a[j].startDate.toLocaleString("default", {
+                month: "short",
+                day: "numeric",
+              }),
+              endDate: a[j].endDate.toLocaleString("default", {
+                month: "short",
+                day: "numeric",
+              }),
               tier: a[j].Player.tier,
               Tournaments: [],
             });
@@ -75,7 +81,10 @@ module.exports = function (app) {
               ) {
                 result[i].Players[j].Tournaments.push({
                   name: c.name,
-                  start: c.tStartDate,
+                  start: c.tStartDate.toLocaleString("default", {
+                    month: "short",
+                    day: "numeric",
+                  }),
                   position: b[k].pos,
                   toPar: b[k].toPar,
                   earnings: b[k].earnings,
