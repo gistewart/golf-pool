@@ -18,6 +18,7 @@ module.exports = async function () {
           .find("a")
           .attr("href")
           .match(/(?<=\=).+/)[0];
+        result.tDate = $(this).children("td:first-child").text();
         let monthYear = $(this)
           .children("td:first-child")
           .text()

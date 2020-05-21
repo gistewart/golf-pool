@@ -6,6 +6,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         primaryKey: true,
       },
+      tDate: DataTypes.STRING,
       tStartDate: DataTypes.DATE,
       tEndDate: DataTypes.DATE,
       name: DataTypes.STRING,

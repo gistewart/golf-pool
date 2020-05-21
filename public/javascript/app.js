@@ -76,6 +76,7 @@ $(document).ready(function () {
             poolsterSum += b[k].earnings;
             result[i].Players[j].tournaments.push({
               name: b[k].name,
+              date: b[k].tdate,
               start: b[k].start,
               position: b[k].position,
               earnings: b[k].earnings,
@@ -124,26 +125,47 @@ $(document).ready(function () {
           sorted[i].name +
           "</h6></td><td>" +
           "</td><td>" +
-          sorted[i].poolsterEarnings +
+          sorted[i].poolsterEarnings.toLocaleString("us-US", {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 0,
+          }) +
           "</td></tr>"
       );
+
       for (let j = 0; j < sorted[i].Players.length; j++) {
         $("#article-container").append(
           "<tr><td>" +
-            "</td><td><h6><span>" +
-            "Tier:" +
-            "</span>" +
+            "Cat: " +
             sorted[i].Players[j].tier +
-            "<span>" +
-            " " +
-            "</span>" +
+            "</td><td>" +
             sorted[i].Players[j].player +
             "</td><td>" +
-            (sorted[i].Players[j].startDate > "Jan 1"
-              ? sorted[i].Players[j].startDate
+            (sorted[i].Players[j].startDate > "2020-01-02"
+              ? "In: " +
+                new Date(sorted[i].Players[j].startDate).toLocaleString(
+                  "default",
+                  {
+                    month: "short",
+                    day: "numeric",
+                  }
+                )
+              : sorted[i].Players[j].endDate < "2020-12-31"
+              ? "Out: " +
+                new Date(sorted[i].Players[j].endDate).toLocaleString(
+                  "default",
+                  {
+                    month: "short",
+                    day: "numeric",
+                  }
+                )
               : "") +
             "</td><td>" +
-            sorted[i].Players[j].playerEarnings +
+            sorted[i].Players[j].playerEarnings.toLocaleString("us-US", {
+              style: "currency",
+              currency: "USD",
+              minimumFractionDigits: 0,
+            }) +
             "</td></tr>"
         );
       }
