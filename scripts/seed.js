@@ -1,5 +1,6 @@
 const seedPoolsters = require("./seedPoolsters");
 const seedPlayers = require("./seedPlayers");
+const seedPlayerImages = require("./seedPlayerImages");
 const seedTeams = require("./seedPoolsterPlayers");
 const seedSchedule = require("./seedSchedule");
 const seedResults = require("./seedResults");
@@ -21,6 +22,10 @@ db.sequelize
     console.log("------------running seedTeams--------------");
     return seedTeams();
   })
+  // .then(function () {
+  //   console.log("----------running seedPlayerImages-----------");
+  //   return seedPlayerImages();
+  // })
   .then(function () {
     console.log("------------running seedSchedule--------------");
     return seedSchedule();

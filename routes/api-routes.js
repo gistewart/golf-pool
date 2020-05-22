@@ -38,7 +38,7 @@ module.exports = function (app) {
                     {
                       model: db.Schedule,
                       as: "Schedule",
-                      attributes: ["name", "tStartDate", "tEndDate"],
+                      attributes: ["name", "tDate", "tStartDate", "tEndDate"],
                     },
                   ],
                 },
@@ -62,10 +62,6 @@ module.exports = function (app) {
             result[i].Players.push({
               name: a[j].Player.playerName,
               startDate: a[j].startDate,
-              // startDate: a[j].startDate.toLocaleString("default", {
-              //   month: "short",
-              //   day: "numeric",
-              // }),
               endDate: a[j].endDate,
               tier: a[j].Player.tier,
               Tournaments: [],

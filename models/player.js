@@ -30,6 +30,12 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: "playerId",
       sourceKey: "playerId",
     });
+    // Player.hasOne(models.PlayerImage, {
+    //   foreignKey: {
+    //     name: "playerName",
+    //     allowNull: true,
+    //   },
+    // });
   };
 
   return Player;

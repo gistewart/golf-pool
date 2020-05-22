@@ -51,6 +51,7 @@ $(document).ready(function () {
 
   function getEarningsByPxP(sortExPxP) {
     $.get("/api/dataset", function (data) {
+      //to sum earnings by player and poolster
       let a, b;
       let result = [];
       for (let i = 0; i < data.length; i++) {
@@ -76,7 +77,7 @@ $(document).ready(function () {
             poolsterSum += b[k].earnings;
             result[i].Players[j].tournaments.push({
               name: b[k].name,
-              date: b[k].tdate,
+              date: b[k].date,
               start: b[k].start,
               position: b[k].position,
               earnings: b[k].earnings,
@@ -92,6 +93,7 @@ $(document).ready(function () {
   }
 
   function sortExPxP(result) {
+    // to sort all the data passed to function
     const sorted = result.sort(
       (a, b) => b.poolsterEarnings - a.poolsterEarnings
     );
@@ -114,10 +116,14 @@ $(document).ready(function () {
         sorted[i].Players[j].tournaments.sort((a, b) => a.start - b.start);
       }
     }
-    console.log(sorted);
+    displayExPxP(sorted);
+  }
+
+  function displayExPxP(sorted) {
+    // to display sorted results
     for (let i = 0; i < sorted.length; i++) {
       $("#article-container").append(
-        "<tr><td>" +
+        "<tr class='level1'><td>" +
           sorted[i].ranking +
           "</td><td><h5>" +
           sorted[i].poolster +
@@ -135,7 +141,7 @@ $(document).ready(function () {
 
       for (let j = 0; j < sorted[i].Players.length; j++) {
         $("#article-container").append(
-          "<tr><td>" +
+          "<tr class='level2 hidden_row'><td>" +
             "Cat: " +
             sorted[i].Players[j].tier +
             "</td><td>" +
@@ -168,8 +174,49 @@ $(document).ready(function () {
             }) +
             "</td></tr>"
         );
+
+        for (let k = 0; k < sorted[i].Players[j].tournaments.length; k++) {
+          $("#article-container").append(
+            "<tr class='level3'><td>" +
+              sorted[i].Players[j].tournaments[k].date +
+              "</td><td>" +
+              sorted[i].Players[j].tournaments[k].name +
+              "</td><td>" +
+              sorted[i].Players[j].tournaments[k].position +
+              "</td><td>" +
+              sorted[i].Players[j].tournaments[k].earnings.toLocaleString(
+                "us-US",
+                {
+                  style: "currency",
+                  currency: "USD",
+                  minimumFractionDigits: 0,
+                }
+              ) +
+              "</td></tr>"
+          );
+        }
       }
     }
   }
   getEarningsByPxP(sortExPxP);
+
+  $("#article-container").on("click", "tr.level1", function () {
+    $(this).nextUntil("tr.level1").slideToggle(200);
+  });
+
+  $("#article-container").on("click", "tr.level2", function () {
+    $(this).nextUntil("tr.level2").slideToggle(200);
+  });
+
+  // var shown = false;
+  // $("#article-container").on("click", "tr.level1", function () {
+  //   console.log("I've been clicked");
+  //   console.log(shown);
+  //   if (!shown) {
+  //     $(".hidden_row td").slideDown();
+  //   } else {
+  //     $(".hidden_row td").slideUp();
+  //   }
+  //   shown = !shown;
+  // });
 });
