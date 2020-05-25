@@ -121,9 +121,13 @@ $(document).ready(function () {
 
   function displayExPxP(sorted) {
     // to display sorted results
+
     for (let i = 0; i < sorted.length; i++) {
-      $("#article-container").append(
-        "<tr class='level1'><td>" +
+      var temp = sorted[i].poolster;
+      $(".leaderboard-container").append(
+        "<tr data-toggle='collapse' data-target='#demo" +
+          i +
+          "' class='clickabe'><td>" +
           sorted[i].ranking +
           "</td><td><h5>" +
           sorted[i].poolster +
@@ -140,9 +144,14 @@ $(document).ready(function () {
       );
 
       for (let j = 0; j < sorted[i].Players.length; j++) {
-        $("#article-container").append(
-          "<tr class='level2 hidden_row'><td>" +
-            "Cat: " +
+        $(".leaderboard-container").append(
+          "<tr class='level2 hiddenRow collapse' id='demo" +
+            i +
+            "' data-toggle='collapse' data-target='#demo-" +
+            i +
+            "-" +
+            j +
+            "' class='clickable'><td>" +
             sorted[i].Players[j].tier +
             "</td><td>" +
             sorted[i].Players[j].player +
@@ -176,8 +185,12 @@ $(document).ready(function () {
         );
 
         for (let k = 0; k < sorted[i].Players[j].tournaments.length; k++) {
-          $("#article-container").append(
-            "<tr class='level3'><td>" +
+          $(".leaderboard-container").append(
+            "<tr class='level3 hiddenRow collapse' id='demo-" +
+              i +
+              "-" +
+              j +
+              "' ><td>" +
               sorted[i].Players[j].tournaments[k].date +
               "</td><td>" +
               sorted[i].Players[j].tournaments[k].name +
@@ -200,13 +213,17 @@ $(document).ready(function () {
   }
   getEarningsByPxP(sortExPxP);
 
-  $("#article-container").on("click", "tr.level1", function () {
-    $(this).nextUntil("tr.level1").slideToggle(200);
-  });
+  // $(".collapse").on("show.bs.collapse", function () {
+  //   $(".collapse.in").collapse("hide");
+  // });
 
-  $("#article-container").on("click", "tr.level2", function () {
-    $(this).nextUntil("tr.level2").slideToggle(200);
-  });
+  // $("#article-container").on("click", "tr.level1", function () {
+  //   $(this).nextUntil("tr.level3").slideToggle(200);
+  // });
+
+  // $("#article-container").on("click", "tr.level2", function () {
+  //   $(this).nextUntil("tr.level3").slideToggle(200);
+  // });
 
   // var shown = false;
   // $("#article-container").on("click", "tr.level1", function () {
