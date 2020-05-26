@@ -109,7 +109,6 @@ module.exports = function (app) {
             "$PoolsterPlayers.Player.Results.earnings$": {
               [Op.gte]: 0,
             },
-            poolsterId: 13,
           },
           include: [
             {

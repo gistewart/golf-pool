@@ -167,7 +167,8 @@ $(document).ready(function () {
             sorted[i].Players[j].player +
             "</td><td>" +
             (sorted[i].Players[j].startDate > "2020-01-02"
-              ? "In: " +
+              ? "<i class='fas fa-user-plus' style='color:green'></i>" +
+                " " +
                 new Date(sorted[i].Players[j].startDate).toLocaleString(
                   "default",
                   {
@@ -176,7 +177,8 @@ $(document).ready(function () {
                   }
                 )
               : sorted[i].Players[j].endDate < "2020-12-31"
-              ? "Out: " +
+              ? "<i class='fas fa-user-minus' style='color:red'></i>" +
+                " " +
                 new Date(sorted[i].Players[j].endDate).toLocaleString(
                   "default",
                   {
@@ -221,5 +223,5 @@ $(document).ready(function () {
       }
     }
   }
-  eventData();
+  seasonData();
 });
