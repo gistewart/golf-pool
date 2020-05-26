@@ -48,17 +48,17 @@ $(document).ready(function () {
     }
   }
 
-  function seasonData() {
+  $(document).on("click", "#seasonData", function (data) {
     $.get("/api/allEvents", function (data) {
       sumData(data);
     });
-  }
+  });
 
-  function eventData() {
+  $(document).on("click", "#eventData", function (data) {
     $.get("/api/lastEvent", function (data) {
       sumData(data);
     });
-  }
+  });
 
   function sumData(data) {
     //to sum earnings by player and poolster
@@ -106,7 +106,7 @@ $(document).ready(function () {
     const sorted = result.sort(
       (a, b) => b.poolsterEarnings - a.poolsterEarnings
     );
-    console.log(sorted);
+
     for (let i = 0; i < sorted.length; i++) {
       sorted[i].ranking = i + 1;
     }
@@ -125,14 +125,14 @@ $(document).ready(function () {
         sorted[i].Players[j].tournaments.sort((a, b) => a.start - b.start);
       }
     }
+    console.log(sorted);
     displayData(sorted);
   }
 
   function displayData(sorted) {
     // to display sorted results
-
+    $(".leaderboard-container > tbody").html("");
     for (let i = 0; i < sorted.length; i++) {
-      var temp = sorted[i].poolster;
       $(".leaderboard-container").append(
         "<tr data-toggle='collapse' data-target='#demo" +
           i +
@@ -222,6 +222,6 @@ $(document).ready(function () {
         }
       }
     }
+    console.log(sorted);
   }
-  seasonData();
 });
