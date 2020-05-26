@@ -16,7 +16,7 @@ module.exports = function (app) {
     });
   });
 
-  app.get("/api/dataset", function (req, res) {
+  app.get("/api/allEvents", function (req, res) {
     db.Poolster.findAll({
       attributes: ["poolsterId", "name", "handle"],
       include: [
@@ -106,6 +106,11 @@ module.exports = function (app) {
       .then(function (date) {
         return db.Poolster.findAll({
           attributes: ["poolsterId", "name", "handle"],
+          where: {
+            "$PoolsterPlayers.Player.Results.earnings$": {
+              [Op.gte]: 0,
+            },
+          },
           include: [
             {
               model: db.PoolsterPlayers,
@@ -121,6 +126,11 @@ module.exports = function (app) {
                       model: db.Result,
                       as: "Results",
                       attributes: ["earnings", "toPar", "pos"],
+                      where: {
+                        earnings: {
+                          [Op.gte]: 0,
+                        },
+                      },
                       include: [
                         {
                           model: db.Schedule,
@@ -146,45 +156,45 @@ module.exports = function (app) {
           ],
         });
       })
-      // .then(function (data) {
-      //   let a, b, c;
-      //   let result = [];
-      //   for (let i = 0; i < data.length; i++) {
-      //     result.push({
-      //       name: data[i].name,
-      //       handle: data[i].handle,
-      //       Players: [],
-      //     });
-      //     a = data[i].PoolsterPlayers;
-      //     for (let j = 0; j < a.length; j++) {
-      //       result[i].Players.push({
-      //         name: a[j].Player.playerName,
-      //         startDate: a[j].startDate,
-      //         endDate: a[j].endDate,
-      //         tier: a[j].Player.tier,
-      //         Tournaments: [],
-      //       });
-      //       b = a[j].Player.Results;
-      //       for (let k = 0; k < b.length; k++) {
-      //         c = b[k].Schedule;
-      //         if (
-      //           a[j].startDate < c.tStartDate &&
-      //           a[j].endDate > c.tStartDate
-      //         ) {
-      //           result[i].Players[j].Tournaments.push({
-      //             name: c.name,
-      //             date: c.tDate,
-      //             start: c.tStartDate,
-      //             position: b[k].pos,
-      //             toPar: b[k].toPar,
-      //             earnings: b[k].earnings,
-      //           });
-      //         }
-      //       }
-      //     }
-      //   }
-      //   return result;
-      // })
+      .then(function (data) {
+        let a, b, c;
+        let result = [];
+        for (let i = 0; i < data.length; i++) {
+          result.push({
+            name: data[i].name,
+            handle: data[i].handle,
+            Players: [],
+          });
+          a = data[i].PoolsterPlayers;
+          for (let j = 0; j < a.length; j++) {
+            result[i].Players.push({
+              name: a[j].Player.playerName,
+              startDate: a[j].startDate,
+              endDate: a[j].endDate,
+              tier: a[j].Player.tier,
+              Tournaments: [],
+            });
+            b = a[j].Player.Results;
+            for (let k = 0; k < b.length; k++) {
+              c = b[k].Schedule;
+              if (
+                a[j].startDate < c.tStartDate &&
+                a[j].endDate > c.tStartDate
+              ) {
+                result[i].Players[j].Tournaments.push({
+                  name: c.name,
+                  date: c.tDate,
+                  start: c.tStartDate,
+                  position: b[k].pos,
+                  toPar: b[k].toPar,
+                  earnings: b[k].earnings,
+                });
+              }
+            }
+          }
+        }
+        return result;
+      })
       .then((result) => {
         res.json(result);
       });
@@ -194,6 +204,7 @@ module.exports = function (app) {
   app.get("/api/temp2", function (req, res) {
     db.Poolster.findAll({
       attributes: ["handle"],
+
       include: [
         {
           model: db.Player,

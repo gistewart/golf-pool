@@ -11,7 +11,6 @@ module.exports = function () {
     attributes: ["tournamentId"],
     where: {
       tournamentId: {
-        // [Op.gte]: 401148233,
         [Op.gte]: 401155413,
         // [Op.lte]: 401148234,
       },

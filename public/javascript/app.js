@@ -47,52 +47,61 @@ $(document).ready(function () {
       );
     }
   }
-  // getEarningsByPoolster(sortEbyP);
 
-  function getEarningsByPxP(sortExPxP) {
-    $.get("/api/dataset", function (data) {
-      //to sum earnings by player and poolster
-      let a, b;
-      let result = [];
-      for (let i = 0; i < data.length; i++) {
-        let poolsterSum = 0;
-        a = data[i].Players;
-        result.push({
-          poolster: data[i].handle,
-          name: data[i].name,
-          Players: [],
-        });
-        for (let j = 0; j < a.length; j++) {
-          let playerSum = 0;
-          result[i].Players.push({
-            player: a[j].name,
-            tier: a[j].tier,
-            startDate: a[j].startDate,
-            endDate: a[j].endDate,
-            tournaments: [],
-          });
-          b = a[j].Tournaments;
-          for (let k = 0; k < b.length; k++) {
-            playerSum += b[k].earnings;
-            poolsterSum += b[k].earnings;
-            result[i].Players[j].tournaments.push({
-              name: b[k].name,
-              date: b[k].date,
-              start: b[k].start,
-              position: b[k].position,
-              earnings: b[k].earnings,
-            });
-          }
-          result[i].Players[j]["playerEarnings"] = playerSum;
-          result[i]["poolsterEarnings"] = poolsterSum;
-        }
-      }
-      console.log(result);
-      sortExPxP(result);
+  function seasonData() {
+    $.get("/api/allEvents", function (data) {
+      sumData(data);
     });
   }
 
-  function sortExPxP(result) {
+  function eventData() {
+    $.get("/api/lastEvent", function (data) {
+      sumData(data);
+    });
+  }
+
+  function sumData(data) {
+    //to sum earnings by player and poolster
+    let a, b;
+    let result = [];
+    for (let i = 0; i < data.length; i++) {
+      let poolsterSum = 0;
+      a = data[i].Players;
+      result.push({
+        poolster: data[i].handle,
+        name: data[i].name,
+        Players: [],
+      });
+      for (let j = 0; j < a.length; j++) {
+        let playerSum = 0;
+        result[i].Players.push({
+          player: a[j].name,
+          tier: a[j].tier,
+          startDate: a[j].startDate,
+          endDate: a[j].endDate,
+          tournaments: [],
+        });
+        b = a[j].Tournaments;
+        for (let k = 0; k < b.length; k++) {
+          playerSum += b[k].earnings;
+          poolsterSum += b[k].earnings;
+          result[i].Players[j].tournaments.push({
+            name: b[k].name,
+            date: b[k].date,
+            start: b[k].start,
+            position: b[k].position,
+            earnings: b[k].earnings,
+          });
+        }
+        result[i].Players[j]["playerEarnings"] = playerSum;
+        result[i]["poolsterEarnings"] = poolsterSum;
+      }
+    }
+    console.log(result);
+    sortData(result);
+  }
+
+  function sortData(result) {
     // to sort all the data passed to function
     const sorted = result.sort(
       (a, b) => b.poolsterEarnings - a.poolsterEarnings
@@ -116,10 +125,10 @@ $(document).ready(function () {
         sorted[i].Players[j].tournaments.sort((a, b) => a.start - b.start);
       }
     }
-    displayExPxP(sorted);
+    displayData(sorted);
   }
 
-  function displayExPxP(sorted) {
+  function displayData(sorted) {
     // to display sorted results
 
     for (let i = 0; i < sorted.length; i++) {
@@ -212,29 +221,5 @@ $(document).ready(function () {
       }
     }
   }
-  getEarningsByPxP(sortExPxP);
-
-  // $(".collapse").on("show.bs.collapse", function () {
-  //   $(".collapse.in").collapse("hide");
-  // });
-
-  // $("#article-container").on("click", "tr.level1", function () {
-  //   $(this).nextUntil("tr.level3").slideToggle(200);
-  // });
-
-  // $("#article-container").on("click", "tr.level2", function () {
-  //   $(this).nextUntil("tr.level3").slideToggle(200);
-  // });
-
-  // var shown = false;
-  // $("#article-container").on("click", "tr.level1", function () {
-  //   console.log("I've been clicked");
-  //   console.log(shown);
-  //   if (!shown) {
-  //     $(".hidden_row td").slideDown();
-  //   } else {
-  //     $(".hidden_row td").slideUp();
-  //   }
-  //   shown = !shown;
-  // });
+  seasonData();
 });
