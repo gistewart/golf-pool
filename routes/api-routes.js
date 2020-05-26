@@ -93,7 +93,7 @@ module.exports = function (app) {
   });
 
   app.get("/api/lastEvent", async function (req, res) {
-    const result = await db.Schedule.max("tEndDate", {
+    const date = await db.Schedule.max("tEndDate", {
       where: {
         winner: {
           [Op.regexp]: "^[A-Z]",
@@ -103,57 +103,49 @@ module.exports = function (app) {
         },
       },
     })
-
-      // where: {
-      //   winner: {
-      //     [Op.regexp]: "^[A-Z]",
-      //   },
-      // },
-      //   attributes: [sequelize.fn("min", sequelize.col("tEndDate")), "testDate"],
-      // })
-      // .then(function (maxDate) {
-      //   return db.Poolster.findAll({
-      //     attributes: ["poolsterId", "name", "handle"],
-      //     include: [
-      //       {
-      //         model: db.PoolsterPlayers,
-      //         as: "PoolsterPlayers",
-      //         attributes: ["startDate", "endDate"],
-      //         include: [
-      //           {
-      //             model: db.Player,
-      //             as: "Player",
-      //             attributes: ["playerName", "tier"],
-      //             include: [
-      //               {
-      //                 model: db.Result,
-      //                 as: "Results",
-      //                 attributes: ["earnings", "toPar", "pos"],
-      //                 include: [
-      //                   {
-      //                     model: db.Schedule,
-      //                     as: "Schedule",
-      //                     // where: {
-      //                     //   tEndDate: {
-      //                     //     [Op.in]: maxDate,
-      //                     //   },
-      //                     // },
-      //                     attributes: [
-      //                       "name",
-      //                       "tDate",
-      //                       "tStartDate",
-      //                       "tEndDate",
-      //                     ],
-      //                   },
-      //                 ],
-      //               },
-      //             ],
-      //           },
-      //         ],
-      //       },
-      //     ],
-      //   });
-      // })
+      .then(function (date) {
+        return db.Poolster.findAll({
+          attributes: ["poolsterId", "name", "handle"],
+          include: [
+            {
+              model: db.PoolsterPlayers,
+              as: "PoolsterPlayers",
+              attributes: ["startDate", "endDate"],
+              include: [
+                {
+                  model: db.Player,
+                  as: "Player",
+                  attributes: ["playerName", "tier"],
+                  include: [
+                    {
+                      model: db.Result,
+                      as: "Results",
+                      attributes: ["earnings", "toPar", "pos"],
+                      include: [
+                        {
+                          model: db.Schedule,
+                          as: "Schedule",
+                          where: {
+                            tEndDate: {
+                              [Op.eq]: date,
+                            },
+                          },
+                          attributes: [
+                            "name",
+                            "tDate",
+                            "tStartDate",
+                            "tEndDate",
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        });
+      })
       // .then(function (data) {
       //   let a, b, c;
       //   let result = [];
