@@ -221,5 +221,5 @@ $(document).ready(function () {
       }
     }
   }
-  seasonData();
+  eventData();
 });

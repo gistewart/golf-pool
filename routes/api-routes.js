@@ -2,7 +2,6 @@ var db = require("../models");
 var sequelize = require("sequelize");
 const { Op } = require("sequelize");
 
-//Get Earnings
 module.exports = function (app) {
   app.get("/api/poolsters", function (req, res) {
     db.Poolster.findAll({}).then((data) => {
@@ -110,6 +109,7 @@ module.exports = function (app) {
             "$PoolsterPlayers.Player.Results.earnings$": {
               [Op.gte]: 0,
             },
+            poolsterId: 13,
           },
           include: [
             {
@@ -166,22 +166,24 @@ module.exports = function (app) {
             Players: [],
           });
           a = data[i].PoolsterPlayers;
+          let jAdj = 0;
           for (let j = 0; j < a.length; j++) {
-            result[i].Players.push({
-              name: a[j].Player.playerName,
-              startDate: a[j].startDate,
-              endDate: a[j].endDate,
-              tier: a[j].Player.tier,
-              Tournaments: [],
-            });
-            b = a[j].Player.Results;
-            for (let k = 0; k < b.length; k++) {
-              c = b[k].Schedule;
-              if (
-                a[j].startDate < c.tStartDate &&
-                a[j].endDate > c.tStartDate
-              ) {
-                result[i].Players[j].Tournaments.push({
+            if (
+              a[j].endDate > a[j].Player.Results[0].Schedule.tStartDate &&
+              a[j].startDate < a[j].Player.Results[0].Schedule.tStartDate
+            ) {
+              result[i].Players.push({
+                name: a[j].Player.playerName,
+                startDate: a[j].startDate,
+                endDate: a[j].endDate,
+                tier: a[j].Player.tier,
+                Tournaments: [],
+              });
+
+              b = a[j].Player.Results;
+              for (let k = 0; k < b.length; k++) {
+                c = b[k].Schedule;
+                result[i].Players[j + jAdj].Tournaments.push({
                   name: c.name,
                   date: c.tDate,
                   start: c.tStartDate,
@@ -190,6 +192,8 @@ module.exports = function (app) {
                   earnings: b[k].earnings,
                 });
               }
+            } else {
+              jAdj += -1;
             }
           }
         }
