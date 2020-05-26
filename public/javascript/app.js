@@ -152,6 +152,7 @@ $(document).ready(function () {
             "-" +
             j +
             "' class='clickable'><td>" +
+            "Cat:" +
             sorted[i].Players[j].tier +
             "</td><td>" +
             sorted[i].Players[j].player +
@@ -190,13 +191,13 @@ $(document).ready(function () {
               i +
               "-" +
               j +
-              "' ><td>" +
+              "' ><td class='level3A'>" +
               sorted[i].Players[j].tournaments[k].date +
-              "</td><td>" +
+              " | " +
               sorted[i].Players[j].tournaments[k].name +
-              "</td><td>" +
+              " | " +
               sorted[i].Players[j].tournaments[k].position +
-              "</td><td>" +
+              "</td><td></td><td></td><td>" +
               sorted[i].Players[j].tournaments[k].earnings.toLocaleString(
                 "us-US",
                 {

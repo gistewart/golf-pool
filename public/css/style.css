@@ -1,8 +1,17 @@
-/* .level2,
-.level3 {
-  display: none;
-} */
+table {
+  table-layout: fixed;
+}
 
-.hiddenRow {
-  padding: 0 !important;
+.level2 {
+  font-size: 0.9em;
+  color: blue;
+}
+
+.level3 {
+  font-size: 0.8em;
+  color: grey;
+}
+
+.level3A {
+  white-space: nowrap;
 }
