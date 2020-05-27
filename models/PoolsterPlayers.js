@@ -25,12 +25,18 @@ module.exports = function (sequelize, DataTypes) {
         },
       },
       startDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         defaultValue: "2020-01-01",
       },
       endDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         defaultValue: "2020-12-31",
+      },
+      effDate: {
+        type: DataTypes.DATEONLY,
+      },
+      type: {
+        type: DataTypes.STRING,
       },
     },
     {

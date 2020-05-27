@@ -22,7 +22,7 @@ module.exports = function (app) {
         {
           model: db.PoolsterPlayers,
           as: "PoolsterPlayers",
-          attributes: ["startDate", "endDate"],
+          attributes: ["startDate", "endDate", "effDate", "type"],
           include: [
             {
               model: db.Player,
@@ -62,6 +62,8 @@ module.exports = function (app) {
               name: a[j].Player.playerName,
               startDate: a[j].startDate,
               endDate: a[j].endDate,
+              effDate: a[j].effDate,
+              type: a[j].type,
               tier: a[j].Player.tier,
               Tournaments: [],
             });
@@ -224,6 +226,24 @@ module.exports = function (app) {
       ],
       raw: true,
       group: ["handle", "Poolster.poolsterId", "Players.playerId"],
+    }).then((data) => {
+      res.json(data);
+    });
+  });
+
+  //substitutions by poolster
+  app.get("/api/subs", function (req, res) {
+    db.PoolsterPlayers.findAll({
+      attributes: [
+        "poolsterId",
+        [sequelize.fn("count", sequelize.col("playerId")), "player_count"],
+      ],
+      where: {
+        effDate: {
+          [Op.lte]: "2020-06-01",
+        },
+      },
+      group: ["poolsterId"],
     }).then((data) => {
       res.json(data);
     });

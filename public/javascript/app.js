@@ -48,13 +48,32 @@ $(document).ready(function () {
     }
   }
 
-  $(document).on("click", "#seasonData", function (data) {
+  let mainData = [],
+    subsData = [];
+
+  $("#seasonData").click(function () {
     $.get("/api/allEvents", function (data) {
-      sumData(data);
+      mainData = data;
+      console.log(mainData);
+    }).then(function () {
+      $.get("/api/subs", function (data2) {
+        subsData = data2;
+        console.log(subsData);
+      }).then(function () {
+        sumData(mainData, subsData);
+      });
     });
   });
 
-  $(document).on("click", "#eventData", function (data) {
+  // });
+
+  // $(document).on("click", "#seasonData", function () {
+  //   $.get("/api/allEvents", function (data) {
+  //     sumData(data);
+  //   });
+  // });
+
+  $(document).on("click", "#eventData", function () {
     $.get("/api/lastEvent", function (data) {
       sumData(data);
     });
@@ -187,7 +206,7 @@ $(document).ready(function () {
                   }
                 )
               : "") +
-            "</td><td>" +
+            "</td><td class='earnings'>" +
             sorted[i].Players[j].playerEarnings.toLocaleString("us-US", {
               style: "currency",
               currency: "USD",
@@ -208,7 +227,7 @@ $(document).ready(function () {
               sorted[i].Players[j].tournaments[k].name +
               " | " +
               sorted[i].Players[j].tournaments[k].position +
-              "</td><td></td><td></td><td>" +
+              "</td><td></td><td></td><td class='earnings'>" +
               sorted[i].Players[j].tournaments[k].earnings.toLocaleString(
                 "us-US",
                 {

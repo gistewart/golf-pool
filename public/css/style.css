@@ -2,10 +2,6 @@ table {
   table-layout: fixed;
 }
 
-/* tbody {
-  display: grid;
-} */
-
 .level2 {
   font-size: 0.9em;
   color: rgb(68, 66, 66);
@@ -24,7 +20,6 @@ table {
   margin-left: 0.8rem;
   margin-top: 1rem;
   background: turquoise;
-  border-radius: 50%;
   color: white;
   width: 3rem;
   height: 3rem;
@@ -34,12 +29,13 @@ table {
   display: inline-block;
   box-sizing: border-box;
   font-size: 1.5rem;
+  outline: 2px solid grey;
 }
 
-tr.level1 {
-  border-bottom: solid grey !important;
+.level1 .earnings {
+  font-size: 1.1rem;
 }
 
 .earnings {
-  font-size: 1.1rem;
+  text-align: right;
 }
