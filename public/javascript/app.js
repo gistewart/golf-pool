@@ -140,10 +140,10 @@ $(document).ready(function () {
           sorted[i].ranking +
           "</td><td><h5>" +
           sorted[i].poolster +
-          "</h5><h6>" +
+          "</h5><span style='font-size:0.85rem'>" +
           sorted[i].name +
-          "</h6></td><td>" +
-          "</td><td>" +
+          "</span></td><td>" +
+          "</td><td class='earnings'>" +
           sorted[i].poolsterEarnings.toLocaleString("us-US", {
             style: "currency",
             currency: "USD",
@@ -161,7 +161,7 @@ $(document).ready(function () {
             "-" +
             j +
             "' class='clickable'><td>" +
-            "Cat:" +
+            "Cat: " +
             sorted[i].Players[j].tier +
             "</td><td>" +
             sorted[i].Players[j].player +

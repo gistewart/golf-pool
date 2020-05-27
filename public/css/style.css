@@ -39,3 +39,7 @@ table {
 tr.level1 {
   border-bottom: solid grey !important;
 }
+
+.earnings {
+  font-size: 1.1rem;
+}
