@@ -136,7 +136,7 @@ $(document).ready(function () {
       $(".leaderboard-container").append(
         "<tr data-toggle='collapse' data-target='#demo" +
           i +
-          "' class='clickabe'><td>" +
+          "' class=' level1 clickabe'><td class='ranking'>" +
           sorted[i].ranking +
           "</td><td><h5>" +
           sorted[i].poolster +
