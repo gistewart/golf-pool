@@ -218,13 +218,14 @@ $(document).ready(function () {
           "img" +
           "</td><td class='poolsterHandle'>" +
           sorted[i].poolster +
+          " " +
+          (sorted[i].playerCount > 0
+            ? // ? "<i class='fas fa-caret-up' style='color:green'></i>"
+              "<i class='material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
+            : "<i class='material-icons md-15'>swap_horizontal_circle</i>") +
           "<p class='poolsterName'>" +
           sorted[i].name +
-          "<p></td><td>" +
-          (sorted[i].playerCount > 0
-            ? "<i class='material-icons md-28 md-dark md-inactive'>swap_horizontal_circle</i"
-            : "<i class='material-icons md-28'>swap_horizontal_circle</i") +
-          "</td><td class='earnings'>" +
+          "<p></td><td class='earnings'>" +
           sorted[i].poolsterEarnings.toLocaleString("us-US", {
             style: "currency",
             currency: "USD",
