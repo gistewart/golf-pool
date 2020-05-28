@@ -116,7 +116,7 @@ module.exports = function (app) {
             {
               model: db.PoolsterPlayers,
               as: "PoolsterPlayers",
-              attributes: ["startDate", "endDate"],
+              attributes: ["startDate", "endDate", "effDate", "type"],
               include: [
                 {
                   model: db.Player,
@@ -195,6 +195,106 @@ module.exports = function (app) {
               }
             } else {
               jAdj += -1;
+            }
+          }
+        }
+        return result;
+      })
+      .then((result) => {
+        res.json(result);
+      });
+  });
+
+  app.get("/api/allExclLastEvent", async function (req, res) {
+    const date = await db.Schedule.max("tEndDate", {
+      where: {
+        winner: {
+          [Op.regexp]: "^[A-Z]",
+        },
+        tournamentID: {
+          [Op.gte]: "401155413",
+        },
+      },
+    })
+      .then(function (date) {
+        return db.Poolster.findAll({
+          attributes: ["poolsterId", "name", "handle"],
+          include: [
+            {
+              model: db.PoolsterPlayers,
+              as: "PoolsterPlayers",
+              attributes: ["startDate", "endDate", "effDate", "type"],
+              include: [
+                {
+                  model: db.Player,
+                  as: "Player",
+                  attributes: ["playerName", "tier"],
+                  include: [
+                    {
+                      model: db.Result,
+                      as: "Results",
+                      attributes: ["earnings", "toPar", "pos"],
+                      include: [
+                        {
+                          model: db.Schedule,
+                          as: "Schedule",
+                          where: {
+                            tEndDate: {
+                              [Op.ne]: date,
+                            },
+                          },
+                          attributes: [
+                            "name",
+                            "tDate",
+                            "tStartDate",
+                            "tEndDate",
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        });
+      })
+      .then(function (data) {
+        let a, b, c;
+        let result = [];
+        for (let i = 0; i < data.length; i++) {
+          result.push({
+            name: data[i].name,
+            handle: data[i].handle,
+            Players: [],
+          });
+          a = data[i].PoolsterPlayers;
+          for (let j = 0; j < a.length; j++) {
+            result[i].Players.push({
+              name: a[j].Player.playerName,
+              startDate: a[j].startDate,
+              endDate: a[j].endDate,
+              effDate: a[j].effDate,
+              type: a[j].type,
+              tier: a[j].Player.tier,
+              Tournaments: [],
+            });
+            b = a[j].Player.Results;
+            for (let k = 0; k < b.length; k++) {
+              c = b[k].Schedule;
+              if (
+                a[j].startDate < c.tStartDate &&
+                a[j].endDate > c.tStartDate
+              ) {
+                result[i].Players[j].Tournaments.push({
+                  name: c.name,
+                  date: c.tDate,
+                  start: c.tStartDate,
+                  position: b[k].pos,
+                  toPar: b[k].toPar,
+                  earnings: b[k].earnings,
+                });
+              }
             }
           }
         }

@@ -48,28 +48,49 @@ $(document).ready(function () {
     }
   }
 
-  // let mainData = [],
-  //   subsData = [];
+  let mainData = [],
+    partData = [];
 
-  // $("#seasonData").click(function () {
-  //   $.get("/api/allEvents", function (data) {
-  //     mainData = data;
-  //     console.log(mainData);
-  //   }).then(function () {
-  //     $.get("/api/subs", function (data2) {
-  //       subsData = data2;
-  //       console.log(subsData);
-  //     }).then(function () {
-  //       sumData(mainData, subsData);
-  //     });
-  //   });
-  // });
-
-  $(document).on("click", "#seasonData", function () {
+  $("#seasonData").click(function () {
     $.get("/api/allEvents", function (data) {
-      sumData(data);
+      mainData = data;
+    }).then(function () {
+      $.get("/api/allExclLastEvent", function (data2) {
+        partData = data2;
+      }).then(function () {
+        let a, b;
+        let partResult = [];
+        for (let i = 0; i < partData.length; i++) {
+          let poolsterSum = 0;
+          partResult.push({
+            poolster: partData[i].handle,
+            Players: [],
+          });
+          a = partData[i].Players;
+          for (let j = 0; j < a.length; j++) {
+            partResult[i].Players.push({
+              player: a[j].name,
+              tournaments: [],
+            });
+
+            b = a[j].Tournaments;
+            for (let k = 0; k < b.length; k++) {
+              poolsterSum += b[k].earnings;
+            }
+            partResult[i]["poolsterEarnings"] = poolsterSum;
+          }
+        }
+        console.log(partResult);
+        sumData(mainData, partResult);
+      });
     });
   });
+
+  // $(document).on("click", "#seasonData", function () {
+  //   $.get("/api/allEvents", function (data) {
+  //     sumData(data);
+  //   });
+  // });
 
   $(document).on("click", "#eventData", function () {
     $.get("/api/lastEvent", function (data) {
@@ -77,7 +98,7 @@ $(document).ready(function () {
     });
   });
 
-  function sumData(data) {
+  function sumData(data, partResult) {
     //to sum earnings by player and poolster
     let a, b;
     let result = [];
@@ -165,7 +186,7 @@ $(document).ready(function () {
           "</td><td>" +
           (sorted[i].playerCount > 0
             ? "<i class='material-icons md-28 md-dark md-inactive'>swap_vertical_circle</i"
-            : "<i class='material-icons md-28 green'>swap_vertical_circle</i") +
+            : "<i class='material-icons md-28'>swap_vertical_circle</i") +
           "</td><td><h5>" +
           sorted[i].poolster +
           "</h5><span style='font-size:0.85rem'>" +
@@ -191,7 +212,7 @@ $(document).ready(function () {
             "' class='clickable'><td>" +
             "Cat: " +
             sorted[i].Players[j].tier +
-            "</td><td>" +
+            "</td><td colspan='2'>" +
             sorted[i].Players[j].player +
             "</td><td>" +
             (sorted[i].Players[j].startDate > "2020-01-02"
@@ -230,7 +251,7 @@ $(document).ready(function () {
               i +
               "-" +
               j +
-              "' ><td class='level3A' colspan='3'>" +
+              "' ><td class='level3A' colspan='4'>" +
               sorted[i].Players[j].tournaments[k].date +
               " | " +
               sorted[i].Players[j].tournaments[k].name +

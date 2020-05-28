@@ -17,14 +17,14 @@ table {
   margin-top: 1rem;
   background: rgb(221, 160, 27);
   color: white;
-  width: 3rem;
-  height: 3rem;
-  line-height: 3rem;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
   padding: 0 !important;
   text-align: center;
   display: inline-block;
   box-sizing: border-box;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   outline: 2px solid grey;
 }
 
