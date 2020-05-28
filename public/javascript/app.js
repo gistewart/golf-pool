@@ -80,8 +80,15 @@ $(document).ready(function () {
             partResult[i]["poolsterEarnings"] = poolsterSum;
           }
         }
-        console.log(partResult);
-        sumData(mainData, partResult);
+        const sortedPartResult = partResult.sort(
+          (a, b) => b.poolsterEarnings - a.poolsterEarnings
+        );
+
+        for (let i = 0; i < sortedPartResult.length; i++) {
+          sortedPartResult[i].ranking = i + 1;
+        }
+        console.log(sortedPartResult);
+        sumData(mainData, sortedPartResult);
       });
     });
   });
@@ -185,8 +192,8 @@ $(document).ready(function () {
           sorted[i].ranking +
           "</td><td>" +
           (sorted[i].playerCount > 0
-            ? "<i class='material-icons md-28 md-dark md-inactive'>swap_vertical_circle</i"
-            : "<i class='material-icons md-28'>swap_vertical_circle</i") +
+            ? "<i class='material-icons md-28 md-dark md-inactive'>swap_horizontal_circle</i"
+            : "<i class='material-icons md-28'>swap_horizontal_circle</i") +
           "</td><td><h5>" +
           sorted[i].poolster +
           "</h5><span style='font-size:0.85rem'>" +
