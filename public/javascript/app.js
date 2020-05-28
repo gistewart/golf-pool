@@ -105,7 +105,7 @@ $(document).ready(function () {
     });
   });
 
-  function sumData(data, partResult) {
+  function sumData(data, sortedPartResult) {
     //to sum earnings by player and poolster
     let a, b;
     let result = [];
@@ -150,10 +150,10 @@ $(document).ready(function () {
       }
     }
     console.log(result);
-    sortData(result);
+    sortData(result, sortedPartResult);
   }
 
-  function sortData(result) {
+  function sortData(result, sortedPartResult) {
     // to sort all the data passed to function
     const sorted = result.sort(
       (a, b) => b.poolsterEarnings - a.poolsterEarnings
@@ -178,11 +178,27 @@ $(document).ready(function () {
       }
     }
     console.log(sorted);
-    displayData(sorted);
+    displayData(sorted, sortedPartResult);
   }
 
-  function displayData(sorted) {
+  function displayData(sorted, sortedPartResult) {
     // to display sorted results
+    for (let f = 0; f < sorted.length; f++) {
+      for (let p = 0; p < sortedPartResult.length; p++) {
+        if (sorted[f].poolster == sortedPartResult[p].poolster) {
+          sorted[f].priorRanking = sortedPartResult[p].ranking;
+          sorted[f].rankingChange = sorted[f].priorRanking - sorted[f].ranking;
+          sorted[f].ranking < sorted[f].priorRanking
+            ? (sorted[f].rankingMove = "up")
+            : sorted[f].ranking > sorted[f].priorRanking
+            ? (sorted[f].rankingMove = "down")
+            : "nc";
+          sorted[f].rankingChangeAbs = Math.abs(sorted[f].rankingChange);
+        }
+      }
+    }
+    console.log(sorted);
+
     $(".leaderboard-container > tbody").html("");
     for (let i = 0; i < sorted.length; i++) {
       $(".leaderboard-container").append(
@@ -190,15 +206,24 @@ $(document).ready(function () {
           i +
           "' class=' level1 clickabe'><td class='ranking'>" +
           sorted[i].ranking +
+          "</td><td class='rankingChange'>" +
+          (sorted[i].rankingMove == "up"
+            ? "<i class='fas fa-caret-up' style='color:green'></i>" +
+              sorted[i].rankingChangeAbs
+            : sorted[i].rankingMove == "down"
+            ? "<i class='fas fa-caret-down' style='color:red'></i>" +
+              sorted[i].rankingChangeAbs
+            : "-") +
           "</td><td>" +
+          "img" +
+          "</td><td class='poolsterHandle'>" +
+          sorted[i].poolster +
+          "<p class='poolsterName'>" +
+          sorted[i].name +
+          "<p></td><td>" +
           (sorted[i].playerCount > 0
             ? "<i class='material-icons md-28 md-dark md-inactive'>swap_horizontal_circle</i"
             : "<i class='material-icons md-28'>swap_horizontal_circle</i") +
-          "</td><td><h5>" +
-          sorted[i].poolster +
-          "</h5><span style='font-size:0.85rem'>" +
-          sorted[i].name +
-          "</span></td><td>" +
           "</td><td class='earnings'>" +
           sorted[i].poolsterEarnings.toLocaleString("us-US", {
             style: "currency",
@@ -222,7 +247,7 @@ $(document).ready(function () {
             "</td><td colspan='2'>" +
             sorted[i].Players[j].player +
             "</td><td>" +
-            (sorted[i].Players[j].startDate > "2020-01-02"
+            (sorted[i].Players[j].startDate > "2020-01-01"
               ? "<i class='fas fa-user-plus' style='color:green'></i>" +
                 " " +
                 new Date(sorted[i].Players[j].startDate).toLocaleString(

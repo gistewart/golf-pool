@@ -13,7 +13,6 @@ table {
 }
 
 .ranking {
-  margin-left: 0.8rem;
   margin-top: 1rem;
   background: rgb(221, 160, 27);
   color: white;
@@ -29,7 +28,7 @@ table {
 }
 
 .level1 .earnings {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
 }
 
 .earnings {
@@ -58,4 +57,18 @@ table {
 
 .material-icons.green {
   color: green;
+}
+
+.rankingChange {
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.poolsterHandle {
+  font-size: 1.15rem;
+}
+
+.poolsterName {
+  font-size: 0.8rem;
+  color: grey;
 }
