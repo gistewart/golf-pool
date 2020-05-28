@@ -48,30 +48,28 @@ $(document).ready(function () {
     }
   }
 
-  let mainData = [],
-    subsData = [];
+  // let mainData = [],
+  //   subsData = [];
 
-  $("#seasonData").click(function () {
-    $.get("/api/allEvents", function (data) {
-      mainData = data;
-      console.log(mainData);
-    }).then(function () {
-      $.get("/api/subs", function (data2) {
-        subsData = data2;
-        console.log(subsData);
-      }).then(function () {
-        sumData(mainData, subsData);
-      });
-    });
-  });
-
-  // });
-
-  // $(document).on("click", "#seasonData", function () {
+  // $("#seasonData").click(function () {
   //   $.get("/api/allEvents", function (data) {
-  //     sumData(data);
+  //     mainData = data;
+  //     console.log(mainData);
+  //   }).then(function () {
+  //     $.get("/api/subs", function (data2) {
+  //       subsData = data2;
+  //       console.log(subsData);
+  //     }).then(function () {
+  //       sumData(mainData, subsData);
+  //     });
   //   });
   // });
+
+  $(document).on("click", "#seasonData", function () {
+    $.get("/api/allEvents", function (data) {
+      sumData(data);
+    });
+  });
 
   $(document).on("click", "#eventData", function () {
     $.get("/api/lastEvent", function (data) {
@@ -85,12 +83,13 @@ $(document).ready(function () {
     let result = [];
     for (let i = 0; i < data.length; i++) {
       let poolsterSum = 0;
-      a = data[i].Players;
+      let playerCount = 0;
       result.push({
         poolster: data[i].handle,
         name: data[i].name,
         Players: [],
       });
+      a = data[i].Players;
       for (let j = 0; j < a.length; j++) {
         let playerSum = 0;
         result[i].Players.push({
@@ -98,8 +97,13 @@ $(document).ready(function () {
           tier: a[j].tier,
           startDate: a[j].startDate,
           endDate: a[j].endDate,
+          effDate: a[j].effDate,
+          type: a[j].type,
           tournaments: [],
         });
+        if (a[j].effDate < "2020-06-01" && a[j].type == "regular") {
+          playerCount++;
+        }
         b = a[j].Tournaments;
         for (let k = 0; k < b.length; k++) {
           playerSum += b[k].earnings;
@@ -114,6 +118,7 @@ $(document).ready(function () {
         }
         result[i].Players[j]["playerEarnings"] = playerSum;
         result[i]["poolsterEarnings"] = poolsterSum;
+        result[i]["playerCount"] = playerCount;
       }
     }
     console.log(result);
@@ -157,6 +162,10 @@ $(document).ready(function () {
           i +
           "' class=' level1 clickabe'><td class='ranking'>" +
           sorted[i].ranking +
+          "</td><td>" +
+          (sorted[i].playerCount > 0
+            ? "<i class='material-icons md-28 md-dark md-inactive'>swap_vertical_circle</i"
+            : "<i class='material-icons md-28 green'>swap_vertical_circle</i") +
           "</td><td><h5>" +
           sorted[i].poolster +
           "</h5><span style='font-size:0.85rem'>" +
@@ -221,13 +230,13 @@ $(document).ready(function () {
               i +
               "-" +
               j +
-              "' ><td class='level3A'>" +
+              "' ><td class='level3A' colspan='3'>" +
               sorted[i].Players[j].tournaments[k].date +
               " | " +
               sorted[i].Players[j].tournaments[k].name +
               " | " +
               sorted[i].Players[j].tournaments[k].position +
-              "</td><td></td><td></td><td class='earnings'>" +
+              "</td><td class='earnings'>" +
               sorted[i].Players[j].tournaments[k].earnings.toLocaleString(
                 "us-US",
                 {
