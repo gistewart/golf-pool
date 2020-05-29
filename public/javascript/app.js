@@ -115,6 +115,7 @@ $(document).ready(function () {
       result.push({
         poolster: data[i].handle,
         name: data[i].name,
+        image: data[i].image,
         Players: [],
       });
       a = data[i].Players;
@@ -183,6 +184,7 @@ $(document).ready(function () {
 
   function displayData(sorted, sortedPartResult) {
     // to display sorted results
+    // to add prior ranking data to main arr
     for (let f = 0; f < sorted.length; f++) {
       for (let p = 0; p < sortedPartResult.length; p++) {
         if (sorted[f].poolster == sortedPartResult[p].poolster) {
@@ -201,6 +203,8 @@ $(document).ready(function () {
 
     $(".leaderboard-container > tbody").html("");
     for (let i = 0; i < sorted.length; i++) {
+      // var temp = sorted[i].image.match(/\/$/, "");
+      console.log(sorted[i].image);
       $(".leaderboard-container").append(
         "<tr data-toggle='collapse' data-target='#demo" +
           i +
@@ -214,9 +218,9 @@ $(document).ready(function () {
             ? "<i class='fas fa-caret-down' style='color:red'></i>" +
               sorted[i].rankingChangeAbs
             : "-") +
-          "</td><td>" +
-          "img" +
-          "</td><td class='poolsterHandle'>" +
+          "</td><td><img src=" +
+          sorted[i].image +
+          "></td><td class='poolsterHandle'>" +
           sorted[i].poolster +
           " " +
           (sorted[i].playerCount > 0

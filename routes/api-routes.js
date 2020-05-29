@@ -17,7 +17,7 @@ module.exports = function (app) {
 
   app.get("/api/allEvents", function (req, res) {
     db.Poolster.findAll({
-      attributes: ["poolsterId", "name", "handle"],
+      attributes: ["poolsterId", "name", "handle", "image"],
       include: [
         {
           model: db.PoolsterPlayers,
@@ -54,6 +54,7 @@ module.exports = function (app) {
           result.push({
             name: data[i].name,
             handle: data[i].handle,
+            image: data[i].image,
             Players: [],
           });
           a = data[i].PoolsterPlayers;

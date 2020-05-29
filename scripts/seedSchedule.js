@@ -22,20 +22,14 @@ module.exports = async function () {
               .match(/(?<=\=).+/)[0])
           : "000000000";
 
-        // result.tournamentId = $(this)
-        //   .children("td:nth-child(2)")
-        //   .find("a")
-        //   .attr("href")
-        //   .match(/(?<=\=).+/)[0];
-
         result.tDate = $(this).children("td:first-child").text();
         let monthYear = $(this)
           .children("td:first-child")
           .text()
           .match(/.+(?=-*)/)[0];
-        result.tStartDate = new Date(`${monthYear} 2020`);
+        result.tStartDate = new Date(`2020 ${monthYear}`);
 
-        let f = new Date(`${monthYear} 2020`);
+        let f = new Date(`2020 ${monthYear}`);
         f.setDate(f.getDate() + 4);
         result.tEndDate = f;
         result.name = $(this).find("p").text();
