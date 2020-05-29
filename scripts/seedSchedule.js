@@ -13,16 +13,26 @@ module.exports = async function () {
       $(".mb5:last-of-type tbody tr").each(function (i, element) {
         var result = {};
 
-        result.tournamentId = $(this)
-          .children("td:nth-child(2)")
-          .find("a")
-          .attr("href")
-          .match(/(?<=\=).+/)[0];
+        result.tournamentId = $(this).children("td:nth-child(2)").find("a")
+          .length
+          ? (result.tournamentId = $(this)
+              .children("td:nth-child(2)")
+              .find("a")
+              .attr("href")
+              .match(/(?<=\=).+/)[0])
+          : "000000000";
+
+        // result.tournamentId = $(this)
+        //   .children("td:nth-child(2)")
+        //   .find("a")
+        //   .attr("href")
+        //   .match(/(?<=\=).+/)[0];
+
         result.tDate = $(this).children("td:first-child").text();
         let monthYear = $(this)
           .children("td:first-child")
           .text()
-          .match(/.+(?=-)/)[0];
+          .match(/.+(?=-*)/)[0];
         result.tStartDate = new Date(`${monthYear} 2020`);
 
         let f = new Date(`${monthYear} 2020`);
@@ -30,9 +40,10 @@ module.exports = async function () {
         result.tEndDate = f;
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
-
+        console.log(result);
         schedule.push(result);
       });
+
       return;
     })
     .then(function () {

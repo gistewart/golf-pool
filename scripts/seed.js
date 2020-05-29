@@ -11,7 +11,7 @@ var db = require("../models");
 db.sequelize
   .sync({ force: true })
   .then(function () {
-    console.log("------------running seedPoolsters--------------");
+    console.log("----------running seedPoolsters--------------");
     return seedPoolsters();
   })
   .then(function () {
@@ -22,16 +22,12 @@ db.sequelize
     console.log("------------running seedTeams--------------");
     return seedTeams();
   })
-  // .then(function () {
-  //   console.log("----------running seedPlayerImages-----------");
-  //   return seedPlayerImages();
-  // })
   .then(function () {
-    console.log("------------running seedSchedule--------------");
+    console.log("------------running seedSchedule------------");
     return seedSchedule();
   })
   .then(function (res) {
-    console.log("------------running seedResults----------------");
+    console.log("------------running seedResults-------------");
     return seedResults();
   })
   .then(async function () {
