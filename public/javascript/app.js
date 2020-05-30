@@ -203,12 +203,10 @@ $(document).ready(function () {
 
     $(".leaderboard-container > tbody").html("");
     for (let i = 0; i < sorted.length; i++) {
-      // var temp = sorted[i].image.match(/\/$/, "");
-      console.log(sorted[i].image);
-      $(".leaderboard-container").append(
+      $(".leaderboard-container > tbody").append(
         "<tr data-toggle='collapse' data-target='#demo" +
           i +
-          "' class=' level1 clickabe'><td class='ranking'>" +
+          "' class='level1 clickabe'><td class='ranking'>" +
           sorted[i].ranking +
           "</td><td class='rankingChange'>" +
           (sorted[i].rankingMove == "up"
@@ -218,7 +216,7 @@ $(document).ready(function () {
             ? "<i class='fas fa-caret-down' style='color:red'></i>" +
               sorted[i].rankingChangeAbs
             : "-") +
-          "</td><td><img src=" +
+          "</td><td class='image-container'><img class='poolsterImage' src=" +
           sorted[i].image +
           "></td><td class='poolsterHandle'>" +
           sorted[i].poolster +

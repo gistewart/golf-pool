@@ -1,5 +1,6 @@
 table {
   table-layout: fixed;
+  width: 100%;
 }
 
 .level2 {
@@ -13,18 +14,11 @@ table {
 }
 
 .ranking {
-  margin-top: 1rem;
-  background: turquoise;
-  color: white;
-  border-radius: 50%;
-  width: 2.25rem;
-  height: 2.25rem;
-  line-height: 2.25rem;
-  padding: 0 !important;
-  text-align: center;
-  display: inline-block;
-  box-sizing: border-box;
+  color: black;
   font-size: 1.5rem;
+  padding-left: 1rem !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
 }
 
 .level1 .earnings {
@@ -62,6 +56,8 @@ table {
 .rankingChange {
   font-size: 0.75rem;
   text-align: center;
+  padding-top: 0.9rem !important;
+  padding-left: 0rem !important;
 }
 
 .poolsterHandle {
@@ -71,4 +67,17 @@ table {
 .poolsterName {
   font-size: 0.8rem;
   color: grey;
+}
+
+.image-container {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+.poolsterImage {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 1px solid grey;
+  margin-left: 1.5rem;
 }
