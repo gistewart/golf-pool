@@ -1,6 +1,14 @@
+.is-centered {
+  margin-top: 1rem;
+}
+
 .table {
   table-layout: fixed;
   width: 100%;
+}
+
+.eventData {
+  white-space: pre;
 }
 
 .ranking {
@@ -68,4 +76,9 @@
 
 .material-icons.md-dark.md-inactive {
   color: rgba(0, 0, 0, 0.26);
+}
+
+.material-icons {
+  display: inline-flex;
+  vertical-align: bottom;
 }

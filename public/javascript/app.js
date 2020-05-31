@@ -222,8 +222,8 @@ $(document).ready(function () {
           sorted[i].poolster +
           " " +
           (sorted[i].playerCount > 0
-            ? "<i class='material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
-            : "<i class='material-icons md-15'>swap_horizontal_circle</i>") +
+            ? "<i class='subIcon2 material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
+            : "<i class='subIcon1 material-icons md-15'>swap_horizontal_circle</i>") +
           "<p class='poolsterName'>" +
           sorted[i].name +
           "<p></td><td class='earnings'>" +
@@ -305,6 +305,9 @@ $(document).ready(function () {
         }
       }
     }
+    $(".subIcon1").attr("title", "Sub available for this period");
+    $(".subIcon2").attr("title", "Sub already used for this period");
+
     console.log(sorted);
   }
 });
