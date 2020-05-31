@@ -215,8 +215,8 @@ $(document).ready(function () {
             : sorted[i].rankingMove == "down"
             ? "<i class='fas fa-caret-down' style='color:red'></i>" +
               sorted[i].rankingChangeAbs
-            : "-") +
-          "</td><td class='image-container'><img class='poolsterImage' src=" +
+            : "n/c") +
+          "</td><td class='imageDiv'><img class='poolsterImage' src=" +
           sorted[i].image +
           "></td><td class='poolsterHandle'>" +
           sorted[i].poolster +
@@ -243,15 +243,15 @@ $(document).ready(function () {
             i +
             "-" +
             j +
-            "' class='clickable'><td>" +
-            "Cat: " +
+            "' class='clickable'><td colspan='4' class='level2A'>" +
+            "Cat " +
             sorted[i].Players[j].tier +
-            "</td><td colspan='2'>" +
+            ": " +
             sorted[i].Players[j].player +
-            "</td><td>" +
+            "   " +
             (sorted[i].Players[j].startDate > "2020-01-01"
               ? "<i class='fas fa-user-plus' style='color:green'></i>" +
-                " " +
+                "  " +
                 new Date(sorted[i].Players[j].startDate).toLocaleString(
                   "default",
                   {
@@ -261,7 +261,7 @@ $(document).ready(function () {
                 )
               : sorted[i].Players[j].endDate < "2020-12-31"
               ? "<i class='fas fa-user-minus' style='color:red'></i>" +
-                " " +
+                "  " +
                 new Date(sorted[i].Players[j].endDate).toLocaleString(
                   "default",
                   {

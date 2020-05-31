@@ -1,16 +1,6 @@
-table {
+.table {
   table-layout: fixed;
   width: 100%;
-}
-
-.level2 {
-  font-size: 0.9em;
-  color: rgb(68, 66, 66);
-}
-
-.level3 {
-  font-size: 0.8em;
-  color: grey;
 }
 
 .ranking {
@@ -21,43 +11,19 @@ table {
   padding-right: 0 !important;
 }
 
-.level1 .earnings {
-  font-size: 1.15rem;
-}
-
-.earnings {
-  text-align: right;
-}
-
-.material-icons.md-15 {
-  font-size: 16px;
-}
-
-.material-icons.md-dark {
-  color: rgba(0, 0, 0, 0.54);
-}
-
-.material-icons.md-dark.md-inactive {
-  color: rgba(0, 0, 0, 0.26);
-}
-
-.material-icons.md-light {
-  color: rgba(255, 255, 255, 1);
-}
-
-.material-icons.md-light.md-inactive {
-  color: rgba(255, 255, 255, 0.3);
-}
-
-.material-icons.green {
-  color: green;
-}
-
 .rankingChange {
   font-size: 0.75rem;
-  text-align: center;
+  text-align: left;
   padding-top: 0.9rem !important;
-  padding-left: 0rem !important;
+  padding-left: 0.25rem !important;
+}
+
+.poolsterImage {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  border: 1px solid grey;
+  margin-left: 0.5rem;
 }
 
 .poolsterHandle {
@@ -69,15 +35,37 @@ table {
   color: grey;
 }
 
-.image-container {
-  margin-right: 0 !important;
-  padding-right: 0 !important;
+.earnings {
+  text-align: right;
 }
 
-.poolsterImage {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  border: 1px solid grey;
-  margin-left: 1.5rem;
+.level1 .earnings {
+  font-size: 1.15rem;
+}
+
+.level2 {
+  font-size: 0.9em;
+  color: rgb(68, 66, 66);
+}
+
+.level2A {
+  padding-left: 1.5rem !important;
+  white-space: pre;
+}
+
+.level3 {
+  font-size: 0.8em;
+  color: grey;
+}
+
+.level3A {
+  padding-left: 1.5rem !important;
+}
+
+.material-icons.md-15 {
+  font-size: 16px;
+}
+
+.material-icons.md-dark.md-inactive {
+  color: rgba(0, 0, 0, 0.26);
 }
