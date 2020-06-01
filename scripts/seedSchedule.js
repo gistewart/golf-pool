@@ -26,8 +26,12 @@ module.exports = async function () {
         let monthYear = $(this)
           .children("td:first-child")
           .text()
-          .match(/.+(?=-*)/)[0];
-        result.tStartDate = new Date(`2020 ${monthYear}`);
+          .match(/[A-Z]{3} [0-9]{1,2}/gi)[0];
+        console.log(monthYear);
+        result.tStartDate =
+          result.tournamentId >= "401155413"
+            ? new Date(`2020 ${monthYear}`)
+            : new Date(`2019 ${monthYear}`);
 
         let f = new Date(`2020 ${monthYear}`);
         f.setDate(f.getDate() + 4);

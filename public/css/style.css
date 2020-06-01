@@ -44,7 +44,7 @@
 }
 
 .earnings {
-  text-align: right;
+  text-align: right !important;
 }
 
 .level1 .earnings {

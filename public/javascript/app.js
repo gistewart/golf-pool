@@ -49,9 +49,11 @@ $(document).ready(function () {
   }
 
   let mainData = [],
-    partData = [];
+    partData = [],
+    apiCall = "";
 
   $("#seasonData").click(function () {
+    apiCall = "Season";
     $.get("/api/allEvents", function (data) {
       mainData = data;
     }).then(function () {
@@ -100,6 +102,7 @@ $(document).ready(function () {
   // });
 
   $(document).on("click", "#eventData", function () {
+    apiCall = "Event";
     $.get("/api/lastEvent", function (data) {
       sumData(data);
     });
@@ -185,17 +188,20 @@ $(document).ready(function () {
   function displayData(sorted, sortedPartResult) {
     // to display sorted results
     // to add prior ranking data to main arr
-    for (let f = 0; f < sorted.length; f++) {
-      for (let p = 0; p < sortedPartResult.length; p++) {
-        if (sorted[f].poolster == sortedPartResult[p].poolster) {
-          sorted[f].priorRanking = sortedPartResult[p].ranking;
-          sorted[f].rankingChange = sorted[f].priorRanking - sorted[f].ranking;
-          sorted[f].ranking < sorted[f].priorRanking
-            ? (sorted[f].rankingMove = "up")
-            : sorted[f].ranking > sorted[f].priorRanking
-            ? (sorted[f].rankingMove = "down")
-            : "nc";
-          sorted[f].rankingChangeAbs = Math.abs(sorted[f].rankingChange);
+    if (apiCall == "Season") {
+      for (let f = 0; f < sorted.length; f++) {
+        for (let p = 0; p < sortedPartResult.length; p++) {
+          if (sorted[f].poolster == sortedPartResult[p].poolster) {
+            sorted[f].priorRanking = sortedPartResult[p].ranking;
+            sorted[f].rankingChange =
+              sorted[f].priorRanking - sorted[f].ranking;
+            sorted[f].ranking < sorted[f].priorRanking
+              ? (sorted[f].rankingMove = "up")
+              : sorted[f].ranking > sorted[f].priorRanking
+              ? (sorted[f].rankingMove = "down")
+              : "nc";
+            sorted[f].rankingChangeAbs = Math.abs(sorted[f].rankingChange);
+          }
         }
       }
     }
@@ -215,7 +221,7 @@ $(document).ready(function () {
             : sorted[i].rankingMove == "down"
             ? "<i class='fas fa-caret-down' style='color:red'></i>" +
               sorted[i].rankingChangeAbs
-            : "n/c") +
+            : "-") +
           "</td><td class='imageDiv'><img class='poolsterImage' src=" +
           sorted[i].image +
           "></td><td class='poolsterHandle'>" +
@@ -244,7 +250,7 @@ $(document).ready(function () {
             "-" +
             j +
             "' class='clickable'><td colspan='4' class='level2A'>" +
-            "Cat " +
+            "Category " +
             sorted[i].Players[j].tier +
             ": " +
             sorted[i].Players[j].player +

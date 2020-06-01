@@ -95,7 +95,7 @@ module.exports = function (app) {
   });
 
   app.get("/api/lastEvent", async function (req, res) {
-    const date = await db.Schedule.max("tEndDate", {
+    const date = await db.Schedule.max("tStartDate", {
       where: {
         winner: {
           [Op.regexp]: "^[A-Z]",
@@ -107,7 +107,7 @@ module.exports = function (app) {
     })
       .then(function (date) {
         return db.Poolster.findAll({
-          attributes: ["poolsterId", "name", "handle"],
+          attributes: ["poolsterId", "name", "handle", "image"],
           where: {
             "$PoolsterPlayers.Player.Results.earnings$": {
               [Op.gte]: 0,
@@ -138,7 +138,7 @@ module.exports = function (app) {
                           model: db.Schedule,
                           as: "Schedule",
                           where: {
-                            tEndDate: {
+                            tStartDate: {
                               [Op.eq]: date,
                             },
                           },
@@ -146,7 +146,7 @@ module.exports = function (app) {
                             "name",
                             "tDate",
                             "tStartDate",
-                            "tEndDate",
+                            "tStartDate",
                           ],
                         },
                       ],
@@ -165,6 +165,7 @@ module.exports = function (app) {
           result.push({
             name: data[i].name,
             handle: data[i].handle,
+            image: data[i].image,
             Players: [],
           });
           a = data[i].PoolsterPlayers;
@@ -207,7 +208,7 @@ module.exports = function (app) {
   });
 
   app.get("/api/allExclLastEvent", async function (req, res) {
-    const date = await db.Schedule.max("tEndDate", {
+    const date = await db.Schedule.max("tStartDate", {
       where: {
         winner: {
           [Op.regexp]: "^[A-Z]",
@@ -240,7 +241,7 @@ module.exports = function (app) {
                           model: db.Schedule,
                           as: "Schedule",
                           where: {
-                            tEndDate: {
+                            tStartDate: {
                               [Op.ne]: date,
                             },
                           },
@@ -248,7 +249,7 @@ module.exports = function (app) {
                             "name",
                             "tDate",
                             "tStartDate",
-                            "tEndDate",
+                            "tStartDate",
                           ],
                         },
                       ],
