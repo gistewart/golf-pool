@@ -4,7 +4,7 @@
 
 .lastEventDetails,
 #lastEventDetails {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   padding: 0;
 }
 
@@ -14,8 +14,13 @@
 
 .lastEventDetails {
   border: 1px solid lightgrey;
-  margin-bottom: 1rem;
+  margin: 0 auto 1rem auto;
   background-color: linen;
+  max-width: 85%;
+}
+
+.tapToReveal {
+  font-size: 0.7rem;
 }
 
 .table {
