@@ -1,34 +1,4 @@
 $(document).ready(function () {
-  function getEarningsByPoolster2() {
-    $.get("/api/temp4", function (data) {
-      const sorted = data.sort(
-        (a, b) => b.Players[0].total_earnings - a.Players[0].total_earnings
-      );
-    });
-  }
-
-  function getEarningsByPoolster(sortEbyP) {
-    $.get("/api/dataset", function (data) {
-      let a, b;
-      let result = [];
-      for (let i = 0; i < data.length; i++) {
-        let poolsterSum = 0;
-        a = data[i].Players;
-        for (let j = 0; j < a.length; j++) {
-          b = a[j].Tournaments;
-          for (let k = 0; k < b.length; k++) {
-            poolsterSum += b[k].earnings;
-          }
-        }
-        result.push({
-          poolster: data[i].handle,
-          earnings: poolsterSum,
-        });
-      }
-      sortEbyP(result);
-    });
-  }
-
   function sortEbyP(result) {
     const sorted = result.sort((a, b) => b.earnings - a.earnings);
     for (let i = 0; i < sorted.length; i++) {
@@ -47,6 +17,22 @@ $(document).ready(function () {
       );
     }
   }
+
+  $.get("api/lastEventDetails", function (result) {
+    for (let i = 0; i < result.length; i++) {
+      console.log("entering");
+      $("#lastEventDetails").append(
+        "<p>" +
+          result[i].name +
+          " (date: " +
+          result[i].tDate +
+          ", winner: " +
+          result[i].winner +
+          ")" +
+          "</p>"
+      );
+    }
+  });
 
   let mainData = [],
     partData = [],

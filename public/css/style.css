@@ -2,6 +2,22 @@
   margin-top: 1rem;
 }
 
+.lastEventDetails,
+#lastEventDetails {
+  font-size: 0.8rem;
+  padding: 0;
+}
+
+#lastEventDetails > p {
+  margin-bottom: 0;
+}
+
+.lastEventDetails {
+  border: 1px solid lightgrey;
+  margin-bottom: 1rem;
+  background-color: linen;
+}
+
 .table {
   table-layout: fixed;
   width: 100%;

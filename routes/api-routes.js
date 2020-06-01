@@ -142,12 +142,7 @@ module.exports = function (app) {
                               [Op.eq]: date,
                             },
                           },
-                          attributes: [
-                            "name",
-                            "tDate",
-                            "tStartDate",
-                            "tStartDate",
-                          ],
+                          attributes: ["name", "tDate", "tStartDate"],
                         },
                       ],
                     },
@@ -245,12 +240,7 @@ module.exports = function (app) {
                               [Op.ne]: date,
                             },
                           },
-                          attributes: [
-                            "name",
-                            "tDate",
-                            "tStartDate",
-                            "tStartDate",
-                          ],
+                          attributes: ["name", "tDate", "tStartDate"],
                         },
                       ],
                     },
@@ -301,6 +291,33 @@ module.exports = function (app) {
           }
         }
         return result;
+      })
+      .then((result) => {
+        res.json(result);
+      });
+  });
+
+  app.get("/api/lastEventDetails", async function (req, res) {
+    const date = await db.Schedule.max("tStartDate", {
+      where: {
+        winner: {
+          [Op.regexp]: "^[A-Z]",
+        },
+        tournamentID: {
+          [Op.gte]: "401155413",
+          // [Op.lte]: "401155425",
+        },
+      },
+    })
+      .then(function (date) {
+        return db.Schedule.findAll({
+          attributes: ["name", "tDate", "tStartDate", "winner"],
+          where: {
+            tStartDate: {
+              [Op.eq]: date,
+            },
+          },
+        });
       })
       .then((result) => {
         res.json(result);
