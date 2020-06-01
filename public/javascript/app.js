@@ -24,7 +24,7 @@ $(document).ready(function () {
       $("#lastEventDetails").append(
         "<p>" +
           result[i].name +
-          " (date: " +
+          " (" +
           result[i].tDate +
           ", winner: " +
           result[i].winner +
@@ -242,7 +242,7 @@ $(document).ready(function () {
             sorted[i].Players[j].player +
             "   " +
             (sorted[i].Players[j].startDate > "2020-01-01"
-              ? "<i class='fas fa-user-plus' style='color:green'></i>" +
+              ? "<i class='fas fa-user-plus fa-xs' style='color:green'></i>" +
                 "  " +
                 new Date(sorted[i].Players[j].startDate).toLocaleString(
                   "default",
@@ -252,7 +252,7 @@ $(document).ready(function () {
                   }
                 )
               : sorted[i].Players[j].endDate < "2020-12-31"
-              ? "<i class='fas fa-user-minus' style='color:red'></i>" +
+              ? "<i class='fas fa-user-minus fa-xs' style='color:red'></i>" +
                 "  " +
                 new Date(sorted[i].Players[j].endDate).toLocaleString(
                   "default",

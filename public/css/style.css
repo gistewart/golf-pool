@@ -4,7 +4,7 @@
 
 .lastEventDetails,
 #lastEventDetails {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   padding: 0;
 }
 
@@ -26,6 +26,13 @@
 .table {
   table-layout: fixed;
   width: 100%;
+}
+
+.poolsterImage,
+.poolsterHandle,
+.poolsterName,
+.level2A {
+  cursor: pointer;
 }
 
 .eventData {
@@ -91,8 +98,12 @@
   padding-left: 1.5rem !important;
 }
 
+.material-icons.md-16 {
+  font-size: 1rem;
+}
+
 .material-icons.md-15 {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .material-icons.md-dark.md-inactive {
@@ -101,5 +112,5 @@
 
 .material-icons {
   display: inline-flex;
-  vertical-align: bottom;
+  vertical-align: middle;
 }
