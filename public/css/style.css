@@ -2,6 +2,12 @@
   margin-top: 1rem;
 }
 
+#seasonData:hover,
+#eventData:hover {
+  background-color: rgb(103, 150, 103);
+  color: white;
+}
+
 .lastEventDetails,
 #lastEventDetails {
   font-size: 0.7rem;
