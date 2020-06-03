@@ -18,6 +18,7 @@ $(document).ready(function () {
     }
   }
 
+  //for the section at the top of the leaderboard
   $.get("api/lastEventDetails", function (result) {
     for (let i = 0; i < result.length; i++) {
       console.log("entering");

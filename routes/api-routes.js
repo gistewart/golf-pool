@@ -6,7 +6,9 @@ const path = require("path");
 
 module.exports = function (app) {
   app.get("/api/poolsters", function (req, res) {
-    db.Poolster.findAll({}).then((data) => {
+    db.Poolster.findAll({
+      attributes: ["poolsterId", "name", "handle", "image"],
+    }).then((data) => {
       res.json(data);
     });
   });

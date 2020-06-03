@@ -120,3 +120,7 @@
   display: inline-flex;
   vertical-align: middle;
 }
+
+.select-wrapper input.select-dropdown {
+  color: red !important;
+}
