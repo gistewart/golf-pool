@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  $("#seasonData").click();
+
   function sortEbyP(result) {
     const sorted = result.sort((a, b) => b.earnings - a.earnings);
     for (let i = 0; i < sorted.length; i++) {
@@ -81,12 +83,6 @@ $(document).ready(function () {
       });
     });
   });
-
-  // $(document).on("click", "#seasonData", function () {
-  //   $.get("/api/allEvents", function (data) {
-  //     sumData(data);
-  //   });
-  // });
 
   $(document).on("click", "#eventData", function () {
     apiCall = "Event";

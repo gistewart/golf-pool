@@ -23,47 +23,49 @@
 
 </head>
 
-<div class="buttons is-centered">
-    <button class="button is-link is-light is-outlined" id="seasonData"><span class="icon"><i
-                class="material-icons md-36">date_range</i></span><span>Season</span></button>
-    <button class="button is-link is-light is-outlined" id="eventData"><span class="icon"><i
-                class="material-icons md-36">event</i></span><span> Last week</span></button>
-    <button class="button is-link is-light is-outlined is-active " title="Disabled button" disabled><span
-            class="icon"><i class="fas fa-comment-dots"></i></span><span> Comments</span></button>
-</div>
-
-<div class="container lastEventDetails">
-    <span style="font-weight: 600;">Results shown are inclusive of:</span>
-    <div id="lastEventDetails"></div>
-</div>
-
-<div class="container tapToReveal">
-    <i class="fas fa-hand-pointer"></i><span> Tap Poolster, then Player, to show/hide details</span><span
-        style="float:right"><i class="material-icons md-15">settings_backup_restore</i>Tap links above to reset
-        view</span>
-</div>
-
 <body>
-    <div class="container">
-        <table class="table table-sm leaderboard-container">
-            <col width="9%">
-            <col width="8%">
-            <col width="15%">
-            <col width="45%">
-            <col width="23%">
-            <thead>
-                <tr>
-                    <th colspan="2" scope="col">Position</th>
-                    <th style="padding-left:1rem;" colspan="2" scope="col">Poolster</th>
+    <div class="main-container">
 
-                    <th style="padding-left:2rem" scope="col">Earnings</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <div class="buttons is-centered">
+            <button class="button is-link is-light is-outlined" id="seasonData"><span class="icon"><i
+                        class="material-icons md-36">date_range</i></span><span>Season</span></button>
+            <button class="button is-link is-light is-outlined" id="eventData"><span class="icon"><i
+                        class="material-icons md-36">event</i></span><span> Last week</span></button>
+            <button class="button is-link is-light is-outlined is-active " title="Disabled button" disabled><span
+                    class="icon"><i class="fas fa-comment-dots"></i></span><span> Comments</span></button>
+        </div>
+
+        <div class="container lastEventDetails">
+            <span style="font-weight: 600;">Results shown are inclusive of:</span>
+            <div id="lastEventDetails"></div>
+        </div>
+
+        <div class="container tapToReveal">
+            <i class="fas fa-hand-pointer"></i><span> Tap Poolster, then Player, to show/hide details</span><span
+                style="float:right"><i class="material-icons md-15">settings_backup_restore</i>Tap links above to reset
+                view</span>
+        </div>
+
+        <div class="container">
+            <table class="table table-sm leaderboard-container">
+                <col width="9%">
+                <col width="8%">
+                <col width="15%">
+                <col width="45%">
+                <col width="23%">
+                <thead>
+                    <tr>
+                        <th colspan="2" scope="col">Position</th>
+                        <th style="padding-left:1rem;" colspan="2" scope="col">Poolster</th>
+
+                        <th style="padding-right:1rem; text-align: right;" scope="col">Earnings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
-
 
     <!-- jQuery Library -->
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">

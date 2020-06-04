@@ -1,24 +1,31 @@
 // *** Dependencies
 // =============================================================
 require("dotenv").config();
-var express = require("express");
-var ejs = require("ejs");
-var logger = require("morgan");
+const express = require("express");
+const ejs = require("ejs");
+const logger = require("morgan");
+const bodyParser = require("body-parser");
 
 // Sets up the Express App
 // =============================================================
-var app = express();
-var PORT = process.env.PORT || 8080;
+const app = express();
+const PORT = process.env.PORT || 8080;
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
 
 // Requiring our models for syncing
-var db = require("./models");
+const db = require("./models");
 
 // Sets up the Express app to handle data parsing
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
+app.use(bodyParser.json());
 
 // Static directory
 app.use(express.static("public"));

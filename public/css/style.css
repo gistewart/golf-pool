@@ -1,3 +1,8 @@
+.main-container {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
 .is-centered {
   margin-top: 1rem;
 }
@@ -8,21 +13,17 @@
   color: white;
 }
 
-.lastEventDetails,
-#lastEventDetails {
+.lastEventDetails {
+  max-width: 620px;
   font-size: 0.7rem;
-  padding: 0;
+  border: 1px solid lightgrey;
+  margin: 0 auto 0.5rem auto;
+  background-color: linen;
+  padding: 0 10px;
 }
 
 #lastEventDetails > p {
   margin-bottom: 0;
-}
-
-.lastEventDetails {
-  border: 1px solid lightgrey;
-  margin: 0 auto 1rem auto;
-  background-color: linen;
-  max-width: 85%;
 }
 
 .tapToReveal {
@@ -119,8 +120,4 @@
 .material-icons {
   display: inline-flex;
   vertical-align: middle;
-}
-
-.select-wrapper input.select-dropdown {
-  color: red !important;
 }

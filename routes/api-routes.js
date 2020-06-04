@@ -3,6 +3,7 @@ var sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const multer = require("multer");
 const path = require("path");
+const bodyParser = require("body-parser");
 
 module.exports = function (app) {
   app.get("/api/poolsters", function (req, res) {
@@ -561,6 +562,8 @@ module.exports = function (app) {
     }
   }
   app.post("/upload", (req, res) => {
+    var temp = req.body.poolsterSelected;
+    console.log("temp:" + temp);
     upload(req, res, (err) => {
       if (err) {
         res.render("index", {
@@ -579,4 +582,8 @@ module.exports = function (app) {
       }
     });
   });
+
+  // app.post("/upload", (req, res) => {
+  //
+  // });
 };
