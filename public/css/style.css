@@ -22,6 +22,12 @@
   padding: 0 10px;
 }
 
+@media only screen and (max-width: 768px) {
+  .lastEventDetails {
+    max-width: 510px;
+  }
+}
+
 #lastEventDetails > p {
   margin-bottom: 0;
 }

@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 const multer = require("multer");
 const path = require("path");
 const bodyParser = require("body-parser");
+const seedScheduleStage = require("../scripts/seedScheduleStage");
 
 module.exports = function (app) {
   app.get("/api/poolsters", function (req, res) {
@@ -323,6 +324,67 @@ module.exports = function (app) {
             },
           },
         });
+      })
+      .then((result) => {
+        res.json(result);
+      });
+  });
+
+  app.get("/api/max", async function (req, res) {
+    // let date = await db.Schedule.max("tStartDate", {
+    //   where: {
+    //     winner: {
+    //       [Op.regexp]: "^[A-Z]",
+    //     },
+    //     tournamentID: {
+    //       [Op.gte]: "401155413",
+    //     },
+    //   },
+    // })
+    //   .then(function () {
+    //     db.ScheduleStage.sync({ force: true });
+    //   })
+    //   .then(function () {
+    //     return seedScheduleStage();
+    //   })
+    //   .then(function () {
+    let date2 = await db.ScheduleStage.max("tStartDate", {
+      where: {
+        winner: {
+          [Op.regexp]: "^[A-Z]",
+        },
+        tournamentID: {
+          [Op.gte]: "401155413",
+        },
+      },
+    });
+    // });
+    // console.log("date: " + date);
+    console.log("date2: " + date2);
+  });
+
+  app.get("/api/maxDateTEST", async function (req, res) {
+    const date = await db.Schedule.max("tStartDate", {
+      where: {
+        winner: {
+          [Op.regexp]: "^[A-Z]",
+        },
+        tournamentID: {
+          [Op.gte]: "401155413",
+        },
+      },
+    })
+      .then(function () {
+        db.Schedule.destroy({
+          where: {
+            tournamentId: {
+              [Op.gte]: 0,
+            },
+          },
+        });
+      })
+      .then(function () {
+        return seedSchedule();
       })
       .then((result) => {
         res.json(result);

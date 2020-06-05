@@ -4,10 +4,12 @@ const seedPlayerImages = require("./seedPlayerImages");
 const seedTeams = require("./seedPoolsterPlayers");
 const seedSchedule = require("./seedSchedule");
 const seedResults = require("./seedResults");
+const seedScheduleStage = require("./seedScheduleStage");
 
 require("dotenv").config();
 var db = require("../models");
 
+// module.exports = function () {
 db.sequelize
   .sync({ force: true })
   .then(function () {
@@ -30,7 +32,12 @@ db.sequelize
     console.log("------------running seedResults-------------");
     return seedResults();
   })
+  // .then(function (res) {
+  //   console.log("------------running seedScheduleStage-------------");
+  //   return seedScheduleStage();
+  // })
   .then(async function () {
     const temp = await db.sequelize.close();
     return;
   });
+// };

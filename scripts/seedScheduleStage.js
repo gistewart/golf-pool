@@ -3,7 +3,7 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 
 module.exports = async function () {
-  const schedule = [];
+  const scheduleStage = [];
 
   await axios
     .get("https://www.espn.com/golf/schedule")
@@ -38,13 +38,13 @@ module.exports = async function () {
         result.tEndDate = f;
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
-        console.log(result);
-        schedule.push(result);
+        // console.log(result);
+        scheduleStage.push(result);
       });
       return;
     })
     .then(function () {
-      console.log("-----------finished seedSchedule------------");
-      return db.Schedule.bulkCreate(schedule);
+      console.log("-----------finished seedScheduleStage------------");
+      return db.ScheduleStage.bulkCreate(scheduleStage);
     });
 };

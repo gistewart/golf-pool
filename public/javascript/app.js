@@ -1,5 +1,7 @@
 $(document).ready(function () {
-  $("#seasonData").click();
+  setTimeout(function () {
+    $("#seasonData").trigger("click");
+  }, 10);
 
   function sortEbyP(result) {
     const sorted = result.sort((a, b) => b.earnings - a.earnings);
@@ -23,7 +25,6 @@ $(document).ready(function () {
   //for the section at the top of the leaderboard
   $.get("api/lastEventDetails", function (result) {
     for (let i = 0; i < result.length; i++) {
-      console.log("entering");
       $("#lastEventDetails").append(
         "<p>" +
           result[i].name +
