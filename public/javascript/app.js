@@ -3,6 +3,29 @@ $(document).ready(function () {
     $("#seasonData").trigger("click");
   }, 10);
 
+  async function maxDateCheck() {
+    let appDate, webDate;
+    await $.get("api/appMaxDate", function (result) {
+      appDate = result;
+      console.log(appDate);
+    });
+
+    $.get("api/webMaxDate", function (result) {
+      webDate = result;
+      console.log(webDate);
+    }).then(function () {
+      console.log("wait");
+      if (appDate < webDate) {
+        console.log("------------calling dbRefresh API-------------");
+        $.get("api/dbRefresh", function (result) {
+          console.log("------------dbRefresh----------");
+        });
+      }
+    });
+  }
+
+  maxDateCheck();
+
   function sortEbyP(result) {
     const sorted = result.sort((a, b) => b.earnings - a.earnings);
     for (let i = 0; i < sorted.length; i++) {

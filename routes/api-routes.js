@@ -4,7 +4,14 @@ const { Op } = require("sequelize");
 const multer = require("multer");
 const path = require("path");
 const bodyParser = require("body-parser");
+const seedPoolsters = require("../scripts/seedPoolsters");
+const seedPlayers = require("../scripts/seedPlayers");
+const seedTeams = require("../scripts/seedPoolsterPlayers");
+const seedSchedule = require("../scripts/seedSchedule");
+const seedResults = require("../scripts/seedResults");
 const seedScheduleStage = require("../scripts/seedScheduleStage");
+
+// const seed = require("../scripts/seed");
 
 module.exports = function (app) {
   app.get("/api/poolsters", function (req, res) {
@@ -330,25 +337,8 @@ module.exports = function (app) {
       });
   });
 
-  app.get("/api/max", async function (req, res) {
-    // let date = await db.Schedule.max("tStartDate", {
-    //   where: {
-    //     winner: {
-    //       [Op.regexp]: "^[A-Z]",
-    //     },
-    //     tournamentID: {
-    //       [Op.gte]: "401155413",
-    //     },
-    //   },
-    // })
-    //   .then(function () {
-    //     db.ScheduleStage.sync({ force: true });
-    //   })
-    //   .then(function () {
-    //     return seedScheduleStage();
-    //   })
-    //   .then(function () {
-    let date2 = await db.ScheduleStage.max("tStartDate", {
+  app.get("/api/appMaxDate", async function (req, res) {
+    let date = await db.Schedule.max("tStartDate", {
       where: {
         winner: {
           [Op.regexp]: "^[A-Z]",
@@ -357,10 +347,56 @@ module.exports = function (app) {
           [Op.gte]: "401155413",
         },
       },
+    }).then((result) => {
+      res.json(result);
     });
-    // });
-    // console.log("date: " + date);
-    console.log("date2: " + date2);
+  });
+
+  app.get("/api/webMaxDate", async function (req, res) {
+    await db.ScheduleStage.sync({ force: true }).then(function () {
+      return seedScheduleStage();
+    });
+    let date = db.ScheduleStage.max("tStartDate", {
+      where: {
+        winner: {
+          [Op.regexp]: "^[A-Z]",
+        },
+        tournamentID: {
+          [Op.gte]: "401155413",
+        },
+      },
+    }).then((result) => {
+      res.json(result);
+    });
+  });
+
+  app.get("/api/dbRefresh", async function (req, res) {
+    await db.sequelize
+      .sync({ force: true })
+      .then(function () {
+        console.log("----------running seedPoolsters--------------");
+        return seedPoolsters();
+      })
+      .then(function () {
+        console.log("------------running seedPlayers--------------");
+        return seedPlayers();
+      })
+      .then(function () {
+        console.log("------------running seedTeams--------------");
+        return seedTeams();
+      })
+      .then(function () {
+        console.log("------------running seedSchedule------------");
+        return seedSchedule();
+      })
+      .then(function (res) {
+        console.log("------------running seedResults-------------");
+        return seedResults();
+      })
+      .then(async function () {
+        const temp = await db.sequelize.close();
+        return;
+      });
   });
 
   app.get("/api/maxDateTEST", async function (req, res) {
@@ -385,9 +421,6 @@ module.exports = function (app) {
       })
       .then(function () {
         return seedSchedule();
-      })
-      .then((result) => {
-        res.json(result);
       });
   });
 
@@ -644,8 +677,4 @@ module.exports = function (app) {
       }
     });
   });
-
-  // app.post("/upload", (req, res) => {
-  //
-  // });
 };
