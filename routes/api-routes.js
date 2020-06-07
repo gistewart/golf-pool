@@ -10,8 +10,7 @@ const seedTeams = require("../scripts/seedPoolsterPlayers");
 const seedSchedule = require("../scripts/seedSchedule");
 const seedResults = require("../scripts/seedResults");
 const seedScheduleStage = require("../scripts/seedScheduleStage");
-
-// const seed = require("../scripts/seed");
+require("dotenv").config();
 
 module.exports = function (app) {
   app.get("/api/poolsters", function (req, res) {
@@ -28,8 +27,8 @@ module.exports = function (app) {
     });
   });
 
-  app.get("/api/allEvents", function (req, res) {
-    db.Poolster.findAll({
+  app.get("/api/allEvents", async function (req, res) {
+    await db.Poolster.findAll({
       attributes: ["poolsterId", "name", "handle", "image"],
       include: [
         {
@@ -356,6 +355,7 @@ module.exports = function (app) {
     await db.ScheduleStage.sync({ force: true }).then(function () {
       return seedScheduleStage();
     });
+
     let date = db.ScheduleStage.max("tStartDate", {
       where: {
         winner: {
@@ -393,10 +393,14 @@ module.exports = function (app) {
         console.log("------------running seedResults-------------");
         return seedResults();
       })
-      .then(async function () {
-        const temp = await db.sequelize.close();
-        return;
+      // .then(async function () {
+      //   const temp = await db.sequelize.close();
+      //   return;
+      // })
+      .then((result) => {
+        res.json(result);
       });
+    console.log("finished dbRefresh");
   });
 
   app.get("/api/maxDateTEST", async function (req, res) {

@@ -1,7 +1,17 @@
 $(document).ready(function () {
+  // setTimeout(function () {
+  //   $("#seasonData").trigger("click");
+  // }, 10);
+
+  maxDateCheck();
   setTimeout(function () {
-    $("#seasonData").trigger("click");
-  }, 10);
+    setTimeout(function () {
+      lastEventDetails();
+      setTimeout(function () {
+        seasonData();
+      }, 500);
+    }, 10000);
+  }, 500);
 
   async function maxDateCheck() {
     let appDate, webDate;
@@ -10,7 +20,7 @@ $(document).ready(function () {
       console.log(appDate);
     });
 
-    $.get("api/webMaxDate", function (result) {
+    await $.get("api/webMaxDate", function (result) {
       webDate = result;
       console.log(webDate);
     }).then(function () {
@@ -22,9 +32,8 @@ $(document).ready(function () {
         });
       }
     });
+    return;
   }
-
-  maxDateCheck();
 
   function sortEbyP(result) {
     const sorted = result.sort((a, b) => b.earnings - a.earnings);
@@ -46,26 +55,33 @@ $(document).ready(function () {
   }
 
   //for the section at the top of the leaderboard
-  $.get("api/lastEventDetails", function (result) {
-    for (let i = 0; i < result.length; i++) {
-      $("#lastEventDetails").append(
-        "<p>" +
-          result[i].name +
-          " (" +
-          result[i].tDate +
-          ", winner: " +
-          result[i].winner +
-          ")" +
-          "</p>"
-      );
-    }
-  });
+  function lastEventDetails() {
+    console.log("entering lastEventDetails function");
+    $.get("api/lastEventDetails", function (result) {
+      for (let i = 0; i < result.length; i++) {
+        $("#lastEventDetails").append(
+          "<p>" +
+            result[i].name +
+            " (" +
+            result[i].tDate +
+            ", winner: " +
+            result[i].winner +
+            ")" +
+            "</p>"
+        );
+      }
+    });
+    console.log("exiting lastEventDeails function");
+  }
 
   let mainData = [],
     partData = [],
     apiCall = "";
 
-  $("#seasonData").click(function () {
+  $(document).on("click", "#seasonData", seasonData);
+
+  function seasonData() {
+    console.log("entering seasonData function");
     apiCall = "Season";
     $.get("/api/allEvents", function (data) {
       mainData = data;
@@ -87,7 +103,6 @@ $(document).ready(function () {
               player: a[j].name,
               tournaments: [],
             });
-
             b = a[j].Tournaments;
             for (let k = 0; k < b.length; k++) {
               poolsterSum += b[k].earnings;
@@ -106,14 +121,16 @@ $(document).ready(function () {
         sumData(mainData, sortedPartResult);
       });
     });
-  });
+  }
 
-  $(document).on("click", "#eventData", function () {
+  $(document).on("click", "#eventData", eventData);
+
+  function eventData() {
     apiCall = "Event";
     $.get("/api/lastEvent", function (data) {
       sumData(data);
     });
-  });
+  }
 
   function sumData(data, sortedPartResult) {
     //to sum earnings by player and poolster
