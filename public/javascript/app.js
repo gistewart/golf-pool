@@ -1,17 +1,29 @@
 $(document).ready(function () {
-  // setTimeout(function () {
-  //   $("#seasonData").trigger("click");
-  // }, 10);
+  let runDbRefresh = false;
 
   maxDateCheck();
   setTimeout(function () {
-    setTimeout(function () {
-      lastEventDetails();
+    dbRefresh();
+    if (runDbRefresh) {
       setTimeout(function () {
+        lastEventDetails();
         seasonData();
-      }, 500);
-    }, 10000);
-  }, 500);
+      }, 10000);
+    } else {
+      lastEventDetails();
+      seasonData();
+    }
+  }, 1000);
+
+  // maxDateCheck();
+  // setTimeout(function () {
+  //   setTimeout(function () {
+  //     lastEventDetails();
+  //     setTimeout(function () {
+  //       seasonData();
+  //     }, 500);
+  //   }, 10000);
+  // }, 500);
 
   async function maxDateCheck() {
     let appDate, webDate;
@@ -26,13 +38,21 @@ $(document).ready(function () {
     }).then(function () {
       console.log("wait");
       if (appDate < webDate) {
-        console.log("------------calling dbRefresh API-------------");
-        $.get("api/dbRefresh", function (result) {
-          console.log("------------dbRefresh----------");
-        });
+        runDbRefresh = true;
+        console.log(runDbRefresh);
       }
     });
     return;
+  }
+
+  function dbRefresh() {
+    console.log("entering if statement");
+    if (runDbRefresh) {
+      $.get("api/dbRefresh", function (result) {
+        console.log("------------calling dbRefresh API----------");
+      });
+      return;
+    }
   }
 
   function sortEbyP(result) {
