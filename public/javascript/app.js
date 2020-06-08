@@ -74,6 +74,8 @@ $(document).ready(function () {
   function seasonData() {
     console.log("entering seasonData function");
     apiCall = "Season";
+    $("#eventData").removeClass("green");
+    $("#seasonData").addClass("green");
     $.get("/api/allEvents", function (data) {
       mainData = data;
     }).then(function () {
@@ -120,6 +122,9 @@ $(document).ready(function () {
     apiCall = "Event";
     $.get("/api/lastEvent", function (data) {
       sumData(data);
+      console.log("adding class");
+      $("#eventData").addClass("green");
+      $("#seasonData").removeClass("green");
     });
   }
 

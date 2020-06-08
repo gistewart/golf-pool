@@ -9,8 +9,15 @@
 
 #seasonData:hover,
 #eventData:hover {
-  background-color: rgb(103, 150, 103);
-  color: white;
+  background-color: rgb(222, 243, 222);
+  color: black;
+  border: 1px solid grey;
+}
+
+.green {
+  background-color: rgb(103, 150, 103) !important;
+  color: white !important;
+  border: 1px solid black !important;
 }
 
 .lastEventDetails {
