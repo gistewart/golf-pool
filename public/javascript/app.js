@@ -15,16 +15,6 @@ $(document).ready(function () {
     }
   }, 1000);
 
-  // maxDateCheck();
-  // setTimeout(function () {
-  //   setTimeout(function () {
-  //     lastEventDetails();
-  //     setTimeout(function () {
-  //       seasonData();
-  //     }, 500);
-  //   }, 10000);
-  // }, 500);
-
   async function maxDateCheck() {
     let appDate, webDate;
     await $.get("api/appMaxDate", function (result) {
@@ -52,25 +42,6 @@ $(document).ready(function () {
         console.log("------------calling dbRefresh API----------");
       });
       return;
-    }
-  }
-
-  function sortEbyP(result) {
-    const sorted = result.sort((a, b) => b.earnings - a.earnings);
-    for (let i = 0; i < sorted.length; i++) {
-      sorted[i].ranking = i + 1;
-    }
-    console.log(sorted);
-    for (var i = 0; i < sorted.length; i++) {
-      $("#article-container").append(
-        "<tr><td>" +
-          sorted[i].ranking +
-          "</td><td>" +
-          sorted[i].poolster +
-          "</td><td>" +
-          sorted[i].earnings +
-          "</td></tr>"
-      );
     }
   }
 
@@ -271,9 +242,11 @@ $(document).ready(function () {
           "></td><td class='poolsterHandle'>" +
           sorted[i].poolster +
           " " +
-          (sorted[i].playerCount > 0
+          (sorted[i].playerCount > 0 && apiCall == "Season"
             ? "<i class='subIcon2 material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
-            : "<i class='subIcon1 material-icons md-15'>swap_horizontal_circle</i>") +
+            : sorted[i].playerCount == 0 && apiCall == "Season"
+            ? "<i class='subIcon1 material-icons md-15'>swap_horizontal_circle</i>"
+            : "") +
           "<p class='poolsterName'>" +
           sorted[i].name +
           "<p></td><td class='earnings'>" +

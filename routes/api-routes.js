@@ -21,12 +21,6 @@ module.exports = function (app) {
     });
   });
 
-  app.get("/api/schedule", function (req, res) {
-    db.Schedule.findAll({}).then((data) => {
-      res.json(data);
-    });
-  });
-
   app.get("/api/allEvents", async function (req, res) {
     await db.Poolster.findAll({
       attributes: ["poolsterId", "name", "handle", "image"],
@@ -403,31 +397,6 @@ module.exports = function (app) {
     console.log("finished dbRefresh");
   });
 
-  app.get("/api/maxDateTEST", async function (req, res) {
-    const date = await db.Schedule.max("tStartDate", {
-      where: {
-        winner: {
-          [Op.regexp]: "^[A-Z]",
-        },
-        tournamentID: {
-          [Op.gte]: "401155413",
-        },
-      },
-    })
-      .then(function () {
-        db.Schedule.destroy({
-          where: {
-            tournamentId: {
-              [Op.gte]: 0,
-            },
-          },
-        });
-      })
-      .then(function () {
-        return seedSchedule();
-      });
-  });
-
   //earnings by poolster by player
   app.get("/api/temp2", function (req, res) {
     db.Poolster.findAll({
@@ -492,24 +461,6 @@ module.exports = function (app) {
       ],
       group: ["handle", "Poolster.poolsterId"],
       // raw: true,
-    }).then((data) => {
-      res.json(data);
-    });
-  });
-
-  //not working
-  app.get("/api/results", function (req, res) {
-    db.Result.findAll({
-      attributes: [
-        "playerName",
-        [sequelize.fn("sum", sequelize.col("earnings")), "total_earnings"],
-      ],
-      include: {
-        model: db.Players,
-        attributes: ["playerId", "tier"],
-      },
-      group: ["Results.playerName"],
-      order: sequelize.literal("total_earnings DESC"),
     }).then((data) => {
       res.json(data);
     });
