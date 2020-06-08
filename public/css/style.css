@@ -1,3 +1,7 @@
+body {
+  background: rgba(128, 128, 128, 0.158);
+}
+
 .main-container {
   max-width: 650px;
   margin: 0 auto;
@@ -5,6 +9,40 @@
 
 .is-centered {
   margin-top: 1rem;
+}
+
+.logo {
+  position: relative;
+  height: 50px;
+  background: rgba(18, 31, 219, 0.808);
+  max-width: 620px;
+  margin: 1rem auto;
+}
+
+.chief-container {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: 40%;
+  font-size: larger;
+  color: white;
+  font-weight: 800;
+}
+
+.button-container {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  width: 60%;
+  text-align: right;
+}
+
+.button {
+  width: 30% !important;
+}
+
+#seasonData {
+  margin-right: 0.5rem;
 }
 
 #seasonData:hover,
@@ -30,7 +68,8 @@
 }
 
 @media only screen and (max-width: 768px) {
-  .lastEventDetails {
+  .lastEventDetails,
+  .logo {
     max-width: 510px;
   }
 }

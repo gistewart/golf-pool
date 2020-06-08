@@ -1,6 +1,7 @@
 $(document).ready(function () {
   let runDbRefresh = false;
 
+  $("#seasonData").addClass("is-loading");
   maxDateCheck();
   setTimeout(function () {
     dbRefresh();
@@ -12,6 +13,7 @@ $(document).ready(function () {
     } else {
       lastEventDetails();
       seasonData();
+      $("#seasonData").removeClass("is-loading");
     }
   }, 1000);
 
@@ -73,6 +75,7 @@ $(document).ready(function () {
 
   function seasonData() {
     console.log("entering seasonData function");
+    $("#seasonData").addClass("is-loading");
     apiCall = "Season";
     $("#eventData").removeClass("green");
     $("#seasonData").addClass("green");
@@ -114,18 +117,20 @@ $(document).ready(function () {
         sumData(mainData, sortedPartResult);
       });
     });
+    $("#seasonData").removeClass("is-loading");
   }
 
   $(document).on("click", "#eventData", eventData);
 
   function eventData() {
     apiCall = "Event";
+    $("#eventData").addClass("is-loading");
     $.get("/api/lastEvent", function (data) {
       sumData(data);
-      console.log("adding class");
       $("#eventData").addClass("green");
       $("#seasonData").removeClass("green");
     });
+    $("#eventData").removeClass("is-loading");
   }
 
   function sumData(data, sortedPartResult) {
