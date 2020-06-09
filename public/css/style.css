@@ -3,21 +3,6 @@ body {
   font-size: 75%;
 }
 
-@media only screen and (min-width: 580px) {
-  body {
-    font-size: 100%;
-  }
-}
-
-.main-container {
-  max-width: 650px;
-  margin: 0 auto;
-}
-
-.is-centered {
-  margin-top: 1em;
-}
-
 .logo {
   position: relative;
   height: 50px;
@@ -26,17 +11,17 @@ body {
   margin: 1em auto;
 }
 
-.chief-container {
+.chief {
   position: absolute;
   top: 0.15em;
   left: 0.5em;
   width: 40%;
-  font-size: larger;
+  font-size: 1.25em;
   color: white;
   font-weight: 800;
 }
 
-.chief-container > p {
+.chief > p {
   white-space: pre-line;
   margin-top: 0 !important;
 }
@@ -76,19 +61,20 @@ body {
 
 .lastEventDetails {
   max-width: 620px;
+  width: 95%;
   font-size: 0.9em;
   border: 1px solid lightgrey;
   margin: 0 auto 0.5em auto;
   background-color: linen;
-  padding: 0 10px;
+  padding: 0 5px;
 }
 
 p {
   margin-bottom: 0.35rem !important;
 }
 
-.lastEventDetails > p,
-.tapToReveal > p {
+.lastEventDetails p,
+.tapToReveal p {
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
 }
@@ -97,11 +83,9 @@ p {
   font-size: 0.8em;
 }
 
-@media only screen and (max-width: 768px) {
-  .lastEventDetails,
-  .logo {
-    max-width: 510px;
-  }
+.main-container {
+  max-width: 650px;
+  margin: 0 auto;
 }
 
 .table {
@@ -127,7 +111,7 @@ p {
 .rankingChange {
   font-size: 0.8em;
   text-align: left;
-  padding: 0.75em 0 0 0.65em !important;
+  padding: 1em 0 0 0.65em !important;
 }
 
 .poolsterImage {
@@ -191,4 +175,19 @@ p {
 .material-icons {
   display: inline-flex;
   vertical-align: middle;
+}
+
+@media only screen and (min-width: 576px) {
+  body {
+    font-size: 100%;
+  }
+  .logo {
+    max-width: 650px;
+  }
+  .Golf-Pool-text {
+    font-size: 0.75em;
+  }
+  .logo {
+    height: 80px !important;
+  }
 }

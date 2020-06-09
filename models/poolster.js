@@ -10,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
     image: {
       type: DataTypes.STRING,
       defaultValue:
-        "https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_01810.png",
+        "https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_28237.png",
     },
   });
 

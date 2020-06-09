@@ -10,6 +10,8 @@ var poolsters = [
   {
     name: "Ashley Marsay",
     handle: "Flash Ash",
+    image:
+      "https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_35450.png",
   },
   {
     name: "Barton Cottle",
@@ -18,22 +20,32 @@ var poolsters = [
   {
     name: "Blake Cottle",
     handle: "The Snake",
+    image:
+      "https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_33448.png",
   },
   {
     name: "Darrel Zander",
     handle: "The Chief",
+    image:
+      "https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_33448.png",
   },
   {
     name: "Graeme Stewart",
     handle: "Braveheart",
+    image:
+      "https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_36689.png",
   },
   {
     name: "James Holcomb",
     handle: "Southern Boy",
+    image:
+      "https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_46970.png",
   },
   {
     name: "Jerry Yang",
     handle: "Treehugger",
+    image:
+      "https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_46970.png",
   },
   {
     name: "John Reeves",
@@ -62,6 +74,8 @@ var poolsters = [
   {
     name: "Russ Cottle",
     handle: "Scarlet Pimpernel",
+    image:
+      "https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_23108.png",
   },
   {
     name: "Tony Hahn",
@@ -70,6 +84,8 @@ var poolsters = [
   {
     name: "Vik Kabra",
     handle: "Jayhawk",
+    image:
+      "https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_33448.png",
   },
   {
     name: "Wayne Bellows",
