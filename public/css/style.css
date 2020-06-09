@@ -1,10 +1,11 @@
 body {
   background: rgba(128, 128, 128, 0.158);
+  font-size: 75%;
 }
 
-@media only screen and (max-width: 414px) {
+@media only screen and (min-width: 580px) {
   body {
-    font-size: 75%;
+    font-size: 100%;
   }
 }
 
@@ -44,7 +45,8 @@ body {
 }
 
 .button {
-  width: 25% !important;
+  width: 40% !important;
+  text-align: left !important;
 }
 
 #seasonData {
@@ -66,7 +68,7 @@ body {
 
 .lastEventDetails {
   max-width: 620px;
-  font-size: 0.7em;
+  font-size: 0.9em;
   border: 1px solid lightgrey;
   margin: 0 auto 0.5em auto;
   background-color: linen;
@@ -85,7 +87,7 @@ body {
 }
 
 .tapToReveal {
-  font-size: 0.7em;
+  font-size: 0.8em;
 }
 
 .table {
@@ -107,16 +109,15 @@ body {
 .ranking {
   color: black;
   font-size: 1.5em;
-  padding-left: 1em !important;
+  padding-left: 0.5em !important;
   margin-right: 0 !important;
   padding-right: 0 !important;
 }
 
 .rankingChange {
-  font-size: 0.75em;
+  font-size: 0.8em;
   text-align: left;
-  padding-top: 0.9em !important;
-  padding-left: 0.25em !important;
+  padding: 0.75em 0 0 0.5em !important;
 }
 
 .poolsterImage {
