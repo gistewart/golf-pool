@@ -28,12 +28,17 @@ body {
 
 .chief-container {
   position: absolute;
-  top: 0.5em;
+  top: 0.15em;
   left: 0.5em;
   width: 40%;
   font-size: larger;
   color: white;
   font-weight: 800;
+}
+
+.chief-container > p {
+  white-space: pre-line;
+  margin-top: 0 !important;
 }
 
 .button-container {
@@ -45,12 +50,15 @@ body {
 }
 
 .button {
-  width: 40% !important;
-  text-align: left !important;
+  width: 45% !important;
 }
 
 #seasonData {
   margin-right: 0.5em;
+}
+
+.eventData {
+  white-space: pre;
 }
 
 #seasonData:hover,
@@ -75,19 +83,25 @@ body {
   padding: 0 10px;
 }
 
+p {
+  margin-bottom: 0.35rem !important;
+}
+
+.lastEventDetails > p,
+.tapToReveal > p {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.tapToReveal {
+  font-size: 0.8em;
+}
+
 @media only screen and (max-width: 768px) {
   .lastEventDetails,
   .logo {
     max-width: 510px;
   }
-}
-
-#lastEventDetails > p {
-  margin-bottom: 0;
-}
-
-.tapToReveal {
-  font-size: 0.8em;
 }
 
 .table {
@@ -102,10 +116,6 @@ body {
   cursor: pointer;
 }
 
-.eventData {
-  white-space: pre;
-}
-
 .ranking {
   color: black;
   font-size: 1.5em;
@@ -117,7 +127,7 @@ body {
 .rankingChange {
   font-size: 0.8em;
   text-align: left;
-  padding: 0.75em 0 0 0.5em !important;
+  padding: 0.75em 0 0 0.65em !important;
 }
 
 .poolsterImage {
@@ -135,10 +145,12 @@ body {
 .poolsterName {
   font-size: 0.8em;
   color: grey;
+  margin-bottom: 0.5em !important;
 }
 
 .earnings {
   text-align: right !important;
+  padding-right: 0.5em;
 }
 
 .level1 .earnings {

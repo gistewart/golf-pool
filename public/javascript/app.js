@@ -53,14 +53,7 @@ $(document).ready(function () {
     $.get("api/lastEventDetails", function (result) {
       for (let i = 0; i < result.length; i++) {
         $("#lastEventDetails").append(
-          "<p>" +
-            result[i].name +
-            " (" +
-            result[i].tDate +
-            ", winner: " +
-            result[i].winner +
-            ")" +
-            "</p>"
+          "<p>" + result[i].name + " (" + result[i].tDate + ")" + "</p>"
         );
       }
     });
