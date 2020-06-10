@@ -275,7 +275,7 @@ $(document).ready(function () {
             sorted[i].Players[j].tier +
             ": " +
             sorted[i].Players[j].player +
-            "   " +
+            "  " +
             (sorted[i].Players[j].startDate > "2020-01-01"
               ? "<i class='fas fa-user-plus fa-xs' style='color:green'></i>" +
                 "  " +
