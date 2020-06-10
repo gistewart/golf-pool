@@ -152,7 +152,8 @@ p {
 
 .earnings {
   text-align: right !important;
-  padding-right: 1em !important;
+  padding-right: 0.25em !important;
+  padding-left: 0 !important;
 }
 
 .level1 .earnings {
