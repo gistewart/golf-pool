@@ -15,7 +15,7 @@ body {
   position: absolute;
   top: 0.35em;
   left: 1em;
-  width: 40%;
+  width: 25%;
   font-size: 1.25em;
   color: white;
   font-weight: 800;
@@ -37,17 +37,17 @@ body {
   position: absolute;
   top: 0.5em;
   right: 1em;
-  width: 60%;
+  width: 75%;
   text-align: right;
 }
 
 #seasonData {
-  width: 43% !important;
+  width: 38% !important;
   font-weight: 800;
 }
 
 #eventData {
-  width: 49% !important;
+  width: 44% !important;
   font-weight: 800;
 }
 
