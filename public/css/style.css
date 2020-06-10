@@ -196,6 +196,16 @@ p {
   vertical-align: middle;
 }
 
+.subIconLangHide {
+  visibility: hidden;
+}
+
+.subIconLangShow {
+  visibility: visible;
+  font-size: 0.75em;
+  margin-top: -1.5em;
+}
+
 @media only screen and (min-width: 576px) {
   body {
     font-size: 100%;

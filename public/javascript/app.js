@@ -1,5 +1,6 @@
 $(document).ready(function () {
   let runDbRefresh = false;
+  $("#subIconLang").addClass("subIconLangHide");
 
   $("#seasonData").addClass("is-loading");
   maxDateCheck();
@@ -239,7 +240,7 @@ $(document).ready(function () {
             : sorted[i].rankingMove == "down"
             ? "<i class='fas fa-caret-down' style='color:red'></i>" +
               sorted[i].rankingChangeAbs
-            : "-") +
+            : " -") +
           "</td><td class='imageDiv'><img class='poolsterImage' src=" +
           sorted[i].image +
           "></td><td class='poolsterHandle'>" +
@@ -333,6 +334,14 @@ $(document).ready(function () {
     }
     $(".subIcon1").attr("title", "Sub available for this period");
     $(".subIcon2").attr("title", "Sub already used for this period");
+
+    function subIconLang() {
+      $("#subIconLang").removeClass("subIconLangHide");
+      $("#subIconLang").addClass("subIconLangShow");
+    }
+    setTimeout(function () {
+      subIconLang();
+    }, 3000);
 
     console.log(sorted);
   }
