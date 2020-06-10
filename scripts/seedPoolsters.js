@@ -62,6 +62,8 @@ var poolsters = [
   {
     name: "Paul Odland",
     handle: "Banger",
+    image:
+      "https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_33448.png",
   },
   {
     name: "Roger Silver",

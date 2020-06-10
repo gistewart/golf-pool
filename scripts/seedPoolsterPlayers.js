@@ -321,7 +321,7 @@ var teams = [
   //poolsterId: 12
   {
     poolsterId: "12",
-    playerId: "1",
+    playerId: "17",
   },
   {
     poolsterId: "12",
