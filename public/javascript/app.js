@@ -1,6 +1,7 @@
 $(document).ready(function () {
   let runDbRefresh = false;
-  $("#subIconLang").addClass("subIconLangHide");
+  $("#lastEventTitle").hide();
+  $("#subIconLang").hide();
 
   $("#seasonData").addClass("is-loading");
   maxDateCheck();
@@ -70,6 +71,8 @@ $(document).ready(function () {
   function seasonData() {
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
+    $("#lastEventTitle").show();
+
     apiCall = "Season";
     $("#eventData").removeClass("green");
     $("#seasonData").addClass("green");
@@ -117,6 +120,7 @@ $(document).ready(function () {
   $(document).on("click", "#eventData", eventData);
 
   function eventData() {
+    $("#lastEventTitle").hide();
     apiCall = "Event";
     $("#eventData").addClass("is-loading");
     $.get("/api/lastEvent", function (data) {
@@ -336,8 +340,7 @@ $(document).ready(function () {
     $(".subIcon2").attr("title", "Sub already used for this period");
 
     function subIconLang() {
-      $("#subIconLang").removeClass("subIconLangHide");
-      $("#subIconLang").addClass("subIconLangShow");
+      $("#subIconLang").show();
     }
     setTimeout(function () {
       subIconLang();
