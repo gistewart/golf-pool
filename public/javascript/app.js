@@ -339,12 +339,7 @@ $(document).ready(function () {
     $(".subIcon1").attr("title", "Sub available for this period");
     $(".subIcon2").attr("title", "Sub already used for this period");
 
-    function subIconLang() {
-      $("#subIconLang").show();
-    }
-    setTimeout(function () {
-      subIconLang();
-    }, 3000);
+    $("#subIconLang").show(3000);
 
     console.log(sorted);
   }
