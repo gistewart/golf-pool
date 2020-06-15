@@ -12,8 +12,6 @@
     "operatorsAliases": false
   },
   "production": {
-    "use_env_variable": "JAWSDB_URL",
-    "dialect": "mysql2",
-    "password": null
+    "use_env_variable": "JAWSDB_URL"
   }
 }
