@@ -32,10 +32,10 @@ db.sequelize
     console.log("------------running seedResults-------------");
     return seedResults();
   })
-  // .then(function (res) {
-  //   console.log("------------running seedScheduleStage-------------");
-  //   return seedScheduleStage();
-  // })
+  .then(function (res) {
+    console.log("------------running seedScheduleStage-------------");
+    return seedScheduleStage();
+  })
   .then(async function () {
     const temp = await db.sequelize.close();
     return;
