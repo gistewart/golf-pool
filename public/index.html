@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Golf Pool</title>
+    <title>The Chief's Golf Pool</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -25,17 +25,19 @@
 
 <header>
     <div class="container logo">
-        <div class="chief">
-            <p class="chief1" style="font-size: 0.8em;">The Chief's
-            </p>
-            <p class="Golf-Pool-text" style="font-size: 1.15em;">Golf Pool</p>
-        </div>
-        <div class="button-container">
-            <button class="button is-info is-small is-light is-outlined" id="seasonData"><span class="icon"><i
-                        class="seasonIcon material-icons md-36">date_range</i></span><span> Season</span></button>
-            <button class="button is-info is-small is-light is-outlined" id="eventData"><span class="icon"><i
-                        class="weekIcon material-icons md-36">event</i></span><span> Last week</span></button>
-        </div>
+        <div class="chief">The Chief's Golf Pool</div>
+    </div>
+
+    <div class="tabs is-centered is-fullwidth is-small">
+        <ul>
+            <li id="seasonData"><a><span class="icon"><i class="fas fa-calendar-alt"></i></span><span>Season</span></a>
+            </li>
+            <li id="eventData"><a><span class="icon"><i class="fas fa-calendar-week"></i></span><span>Last
+                        Week</span></a></li>
+            <li><a><span class="icon"><i class="far fa-comment"></i></span><span>Comments</span></a>
+            </li>
+
+        </ul>
     </div>
 </header>
 

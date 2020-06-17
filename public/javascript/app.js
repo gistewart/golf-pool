@@ -74,8 +74,8 @@ $(document).ready(function () {
     $("#lastEventTitle").show();
 
     apiCall = "Season";
-    $("#eventData").removeClass("green");
-    $("#seasonData").addClass("green");
+    $("#eventData").removeClass("is-active");
+    $("#seasonData").addClass("is-active");
     $.get("/api/allEvents", function (data) {
       mainData = data;
     }).then(function () {
@@ -125,8 +125,8 @@ $(document).ready(function () {
     $("#eventData").addClass("is-loading");
     $.get("/api/lastEvent", function (data) {
       sumData(data);
-      $("#eventData").addClass("green");
-      $("#seasonData").removeClass("green");
+      $("#eventData").addClass("is-active");
+      $("#seasonData").removeClass("is-active");
     });
     $("#eventData").removeClass("is-loading");
   }

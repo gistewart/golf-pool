@@ -5,72 +5,23 @@ body {
 
 .logo {
   position: relative;
-  height: 45px;
+  height: 30px;
   background: rgba(18, 31, 219, 0.808);
   max-width: 620px;
-  margin: 1em auto;
 }
 
 .chief {
-  position: absolute;
-  top: 0.35em;
-  left: 1em;
-  width: 25%;
-  font-size: 1.25em;
+  width: 75%;
+  margin: 0 auto !important;
+  font-size: 1.5em;
   color: white;
   font-weight: 800;
-}
-
-.chief {
-  line-height: 110%;
-}
-
-.chief1 {
   font-family: "Sofia";
+  text-align: center;
 }
 
-.chief > p {
-  margin: 0 !important;
-}
-
-.button-container {
-  position: absolute;
-  top: 0.5em;
-  right: 1em;
-  width: 75%;
-  text-align: right;
-}
-
-#seasonData {
-  width: 38% !important;
-  font-weight: 800;
-}
-
-#eventData {
-  width: 44% !important;
-  font-weight: 800;
-}
-
-#seasonData {
-  margin-right: 0.5em;
-}
-
-.seasonIcon,
-.weekIcon {
-  padding-right: 0.5em;
-}
-
-#seasonData:hover,
-#eventData:hover {
-  background-color: rgb(222, 243, 222);
-  color: black;
-  border: 1px solid grey;
-}
-
-.green {
-  background-color: rgb(103, 150, 103) !important;
-  color: white !important;
-  border: 1px solid black !important;
+.tabs {
+  background: white;
 }
 
 .lastEventDetails {
