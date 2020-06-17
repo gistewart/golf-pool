@@ -20,8 +20,8 @@ body {
   text-align: center;
 }
 
-.tabs {
-  background: white;
+.commentsLink:hover {
+  text-decoration: none;
 }
 
 .lastEventDetails {
@@ -29,7 +29,7 @@ body {
   width: 95%;
   font-size: 0.9em;
   border: 1px solid lightgrey;
-  margin: 0 auto 0.5em auto;
+  margin: -0.5em auto 0.5em auto;
   background-color: linen;
   padding: 0 5px;
 }
