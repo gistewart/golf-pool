@@ -69,12 +69,15 @@ $(document).ready(function () {
   $(document).on("click", "#seasonData", seasonData);
 
   function seasonData() {
+    $(".main-container").show();
+    $(".comments-container").hide();
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
     $("#lastEventTitle").show();
 
     apiCall = "Season";
     $("#eventData").removeClass("is-active");
+    $("#commentsPage").removeClass("is-active");
     $("#seasonData").addClass("is-active");
     $.get("/api/allEvents", function (data) {
       mainData = data;
@@ -120,6 +123,8 @@ $(document).ready(function () {
   $(document).on("click", "#eventData", eventData);
 
   function eventData() {
+    $(".main-container").show();
+    $(".comments-container").hide();
     $("#lastEventTitle").hide();
     apiCall = "Event";
     $("#eventData").addClass("is-loading");
@@ -127,6 +132,7 @@ $(document).ready(function () {
       sumData(data);
       $("#eventData").addClass("is-active");
       $("#seasonData").removeClass("is-active");
+      $("#commentsPage").removeClass("is-active");
     });
     $("#eventData").removeClass("is-loading");
   }
@@ -342,5 +348,14 @@ $(document).ready(function () {
     $("#subIconLang").show(3000);
 
     console.log(sorted);
+  }
+
+  $(document).on("click", "#commentsPage", commentsPage);
+  function commentsPage() {
+    $(".main-container").hide();
+    $("#seasonData").removeClass("is-active");
+    $("#eventData").removeClass("is-active");
+    $("#commentsPage").addClass("is-active");
+    $(".comments-container").show();
   }
 });
