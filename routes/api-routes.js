@@ -11,9 +11,7 @@ require("dotenv").config();
 
 module.exports = function (app) {
   app.get("/api/poolsters", function (req, res) {
-    db.Poolster.findAll({
-      attributes: ["poolsterId", "name", "handle", "image"],
-    }).then((data) => {
+    db.Poolster.findAll({}).then((data) => {
       res.json(data);
     });
   });
@@ -397,6 +395,27 @@ module.exports = function (app) {
     console.log("finished dbRefresh");
   });
 
+  // GET route for getting all of the posts
+  app.get("/api/posts", function (req, res) {
+    var query = {};
+    if (req.query.author_id) {
+      query.AuthorId = req.query.author_id;
+    }
+    db.Post.findAll({
+      where: query,
+      include: [db.Author],
+    }).then(function (dbPost) {
+      res.json(dbPost);
+    });
+  });
+
+  // POST route for saving a new post
+  app.post("/api/posts", function (req, res) {
+    db.Post.create(req.body).then(function (dbPost) {
+      res.json(dbPost);
+    });
+  });
+
   //earnings by poolster by player
   app.get("/api/temp2", function (req, res) {
     db.Poolster.findAll({
@@ -432,7 +451,7 @@ module.exports = function (app) {
       ],
       where: {
         effDate: {
-          [Op.lte]: "2020-06-01",
+          [Op.lte]: "2020-12-01",
         },
       },
       group: ["poolsterId"],

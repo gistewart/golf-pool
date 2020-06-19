@@ -17,7 +17,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
 
-
     <!-- External stylesheet link-->
     <link rel="stylesheet" href="css/style.css">
 
@@ -87,7 +86,34 @@
         </div>
     </div>
 
-    <div class="comments-container">This section is still being built</div>
+    <div class="container comments-container">
+        <div class="row">
+            <div class="col-md-5 offset-md-3">
+                <form id="cms">
+                    <div class="form-group">
+                        <!-- <label for="poolster">Poolster:</label> -->
+                        <select class="custom-select" id="poolster">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="custom-select" id="category">
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="Data error">Data error</option>
+                            <option value="Suggested enhancement">Suggested enhancement</option>
+                            <option value="Something else">Something else</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Details" class="form-control" rows="3" id="body"></textarea>
+                    </div>
+
+                    <br />
+                    <button type="submit" class="btn btn-success submit">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div>
 
     <!-- jQuery Library -->
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">

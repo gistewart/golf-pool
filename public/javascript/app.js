@@ -358,4 +358,79 @@ $(document).ready(function () {
     $("#commentsPage").addClass("is-active");
     $(".comments-container").show();
   }
+  var bodyInput = $("#body");
+  var categoryInput = $("#category");
+  var cmsForm = $("#cms");
+  var poolsterSelect = $("#poolster");
+  // Adding an event listener for when the form is submitted
+  $(cmsForm).on("submit", handleFormSubmit);
+  var poolsterId;
+
+  getPoolsters();
+
+  // A function for handling what happens when the form to create a new post is submitted
+  function handleFormSubmit(event) {
+    event.preventDefault();
+    if (
+      !categoryInput.val().trim() ||
+      !bodyInput.val().trim() ||
+      !poolsterSelect.val()
+    ) {
+      alert("All fields must be completed");
+      return;
+    }
+    // Constructing a newPost object to hand to the database
+    var newPost = {
+      category: categoryInput.val().trim(),
+      body: bodyInput.val().trim(),
+      handle: poolsterSelect.val(),
+    };
+
+    console.log(newPost);
+
+    // If we're updating a post run updatePost to update a post
+    // Otherwise run submitPost to create a whole new post
+    // if (updating) {
+    //   newPost.id = postId;
+    //   updatePost(newPost);
+    // } else {
+    submitPost(newPost);
+    // }
+  }
+
+  // Submits a new post
+  function submitPost(post) {
+    $.post("/api/posts", post, function () {});
+  }
+
+  // function to get Poolsters and render list of them
+  function getPoolsters() {
+    $.get("api/poolsters", renderPoolsterList);
+  }
+
+  // function to render list of poolsters
+  function renderPoolsterList(data) {
+    console.log(data);
+    const sortedData = data.sort((a, b) => a.handle.localeCompare(b.handle));
+    var rowstoAdd = [
+      "<option value='' disabled selected>" + "Select Poolster" + "</option",
+    ];
+    for (let i = 0; i < sortedData.length; i++) {
+      rowstoAdd.push(createPoolsterRow(sortedData[i]));
+    }
+    poolsterSelect.empty();
+    console.log(rowstoAdd);
+    console.log(poolsterSelect);
+    poolsterSelect.append(rowstoAdd);
+    // poolsterSelect.val(poolsterId);
+  }
+
+  // Creates the poolster options in the dropdown
+  function createPoolsterRow(poolster) {
+    var listOption = $("<option>");
+    // listOption.attr("value", poolster.poolsterId);
+    listOption.attr("value", poolster.handle);
+    listOption.text(poolster.handle);
+    return listOption;
+  }
 });
