@@ -395,21 +395,12 @@ module.exports = function (app) {
     console.log("finished dbRefresh");
   });
 
-  // GET route for getting all of the posts
   app.get("/api/posts", function (req, res) {
-    var query = {};
-    if (req.query.author_id) {
-      query.AuthorId = req.query.author_id;
-    }
-    db.Post.findAll({
-      where: query,
-      include: [db.Author],
-    }).then(function (dbPost) {
+    db.Post.findAll({}).then(function (dbPost) {
       res.json(dbPost);
     });
   });
 
-  // POST route for saving a new post
   app.post("/api/posts", function (req, res) {
     db.Post.create(req.body).then(function (dbPost) {
       res.json(dbPost);
