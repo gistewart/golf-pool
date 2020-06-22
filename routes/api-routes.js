@@ -25,7 +25,14 @@ module.exports = function (app) {
         {
           model: db.PoolsterPlayers,
           as: "PoolsterPlayers",
-          attributes: ["startDate", "endDate", "effDate", "type"],
+          attributes: [
+            "startDate",
+            "endDate",
+            "reStartDate",
+            "reEndDate",
+            "effDate",
+            "type",
+          ],
           include: [
             {
               model: db.Player,
@@ -66,6 +73,8 @@ module.exports = function (app) {
               name: a[j].Player.playerName,
               startDate: a[j].startDate,
               endDate: a[j].endDate,
+              reStartDate: a[j].reStartDate,
+              reEndDate: a[j].reEndDate,
               effDate: a[j].effDate,
               type: a[j].type,
               tier: a[j].Player.tier,
@@ -75,8 +84,10 @@ module.exports = function (app) {
             for (let k = 0; k < b.length; k++) {
               c = b[k].Schedule;
               if (
-                a[j].startDate < c.tStartDate &&
-                a[j].endDate > c.tStartDate
+                (a[j].startDate < c.tStartDate &&
+                  a[j].endDate > c.tStartDate) ||
+                (a[j].reStartDate < c.tStartDate &&
+                  a[j].reEndDate > c.tStartDate)
               ) {
                 result[i].Players[j].Tournaments.push({
                   name: c.name,
@@ -120,7 +131,14 @@ module.exports = function (app) {
             {
               model: db.PoolsterPlayers,
               as: "PoolsterPlayers",
-              attributes: ["startDate", "endDate", "effDate", "type"],
+              attributes: [
+                "startDate",
+                "endDate",
+                "reStartDate",
+                "reEndDate",
+                "effDate",
+                "type",
+              ],
               include: [
                 {
                   model: db.Player,
@@ -170,13 +188,17 @@ module.exports = function (app) {
           let jAdj = 0;
           for (let j = 0; j < a.length; j++) {
             if (
-              a[j].endDate > a[j].Player.Results[0].Schedule.tStartDate &&
-              a[j].startDate < a[j].Player.Results[0].Schedule.tStartDate
+              (a[j].endDate > a[j].Player.Results[0].Schedule.tStartDate &&
+                a[j].startDate < a[j].Player.Results[0].Schedule.tStartDate) ||
+              (a[j].reEndDate > a[j].Player.Results[0].Schedule.tStartDate &&
+                a[j].reStartDate < a[j].Player.Results[0].Schedule.tStartDate)
             ) {
               result[i].Players.push({
                 name: a[j].Player.playerName,
                 startDate: a[j].startDate,
                 endDate: a[j].endDate,
+                reStartDate: a[j].reStartDate,
+                reEndDate: a[j].reEndDate,
                 tier: a[j].Player.tier,
                 Tournaments: [],
               });
@@ -223,7 +245,14 @@ module.exports = function (app) {
             {
               model: db.PoolsterPlayers,
               as: "PoolsterPlayers",
-              attributes: ["startDate", "endDate", "effDate", "type"],
+              attributes: [
+                "startDate",
+                "endDate",
+                "reStartDate",
+                "reEndDate",
+                "effDate",
+                "type",
+              ],
               include: [
                 {
                   model: db.Player,
@@ -269,6 +298,8 @@ module.exports = function (app) {
               name: a[j].Player.playerName,
               startDate: a[j].startDate,
               endDate: a[j].endDate,
+              reStartDate: a[j].reStartDate,
+              reEndDate: a[j].reEndDate,
               effDate: a[j].effDate,
               type: a[j].type,
               tier: a[j].Player.tier,
@@ -278,8 +309,10 @@ module.exports = function (app) {
             for (let k = 0; k < b.length; k++) {
               c = b[k].Schedule;
               if (
-                a[j].startDate < c.tStartDate &&
-                a[j].endDate > c.tStartDate
+                (a[j].startDate < c.tStartDate &&
+                  a[j].endDate > c.tStartDate) ||
+                (a[j].reStartDate < c.tStartDate &&
+                  a[j].reEndDate > c.tStartDate)
               ) {
                 result[i].Players[j].Tournaments.push({
                   name: c.name,

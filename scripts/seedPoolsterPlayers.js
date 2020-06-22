@@ -391,6 +391,7 @@ var teams = [
     poolsterId: "13",
     playerId: "18",
     endDate: "2020-03-04",
+    reStartDate: "2020-06-17",
     type: "regular",
     effDate: "2020-03-10",
   },
@@ -438,13 +439,6 @@ var teams = [
     type: "no-cost",
     effDate: "2020-06-17",
   },
-  // {
-  //   poolsterId: "13",
-  //   playerId: "18",
-  //   startDate: "2020-06-17",
-  //   type: "no-cost",
-  //   effDate: "2020-06-17",
-  // },
   //poolsterId: 14
   {
     poolsterId: "14",
@@ -453,6 +447,9 @@ var teams = [
   {
     poolsterId: "14",
     playerId: "36",
+    endDate: "2020-06-17",
+    type: "no-cost",
+    effDate: "2020-06-17",
   },
   {
     poolsterId: "14",
@@ -469,6 +466,13 @@ var teams = [
   {
     poolsterId: "14",
     playerId: "38",
+  },
+  {
+    poolsterId: "14",
+    playerId: "46",
+    startDate: "2020-06-17",
+    type: "no-cost",
+    effDate: "2020-06-17",
   },
   //poolsterId: 15
   {

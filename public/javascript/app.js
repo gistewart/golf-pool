@@ -17,7 +17,7 @@ $(document).ready(function () {
       seasonData();
       $("#seasonData").removeClass("is-loading");
     }
-  }, 3000);
+  }, 1000);
 
   async function maxDateCheck() {
     let appDate, webDate;
@@ -158,11 +158,13 @@ $(document).ready(function () {
           tier: a[j].tier,
           startDate: a[j].startDate,
           endDate: a[j].endDate,
+          reStartDate: a[j].reStartDate,
+          reEndDate: a[j].reEndDate,
           effDate: a[j].effDate,
           type: a[j].type,
           tournaments: [],
         });
-        if (a[j].effDate < "2020-06-01" && a[j].type == "regular") {
+        if (a[j].effDate < "2020-07-07" && a[j].type == "regular") {
           playerCount++;
         }
         b = a[j].Tournaments;
@@ -300,6 +302,31 @@ $(document).ready(function () {
               ? "<i class='fas fa-user-minus fa-xs' style='color:red'></i>" +
                 "  " +
                 new Date(sorted[i].Players[j].endDate).toLocaleString(
+                  "default",
+                  {
+                    month: "short",
+                    day: "numeric",
+                  }
+                )
+              : "") +
+            (sorted[i].Players[j].startDate > "2020-01-01" &&
+            sorted[i].Players[j].endDate < "2020-12-31"
+              ? " | " +
+                "<i class='fas fa-user-minus fa-xs' style='color:red'></i>" +
+                "  " +
+                new Date(sorted[i].Players[j].endDate).toLocaleString(
+                  "default",
+                  {
+                    month: "short",
+                    day: "numeric",
+                  }
+                )
+              : "") +
+            (sorted[i].Players[j].reStartDate > "2020-01-01"
+              ? " | " +
+                "<i class='fas fa-user-plus fa-xs' style='color:green'></i>" +
+                "  " +
+                new Date(sorted[i].Players[j].reStartDate).toLocaleString(
                   "default",
                   {
                     month: "short",
