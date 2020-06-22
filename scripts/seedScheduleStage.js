@@ -104,7 +104,9 @@ module.exports = async function () {
     })
     .then(function () {
       console.log("-----------finished seedScheduleStage------------");
-      console.log(scheduleStage);
-      return db.ScheduleStage.bulkCreate(scheduleStage);
+      // console.log(scheduleStage);
+      db.ScheduleStage.bulkCreate(scheduleStage);
+      // db.Schedule.bulkCreate(scheduleStage);
+      return;
     });
 };

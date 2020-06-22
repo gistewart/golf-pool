@@ -368,7 +368,7 @@ module.exports = function (app) {
     await db.sequelize
       .sync({ force: true })
       .then(function () {
-        console.log("----------running seedPoolsters--------------");
+        console.log("-------running seedPoolsters-----------");
         return seedPoolsters();
       })
       .then(function () {
@@ -376,15 +376,15 @@ module.exports = function (app) {
         return seedPlayers();
       })
       .then(function () {
-        console.log("------------running seedTeams--------------");
+        console.log("---------running seedTeams-----------");
         return seedTeams();
       })
       .then(function () {
-        console.log("------------running seedSchedule------------");
+        console.log("---------running seedSchedule---------");
         return seedSchedule();
       })
       .then(function (res) {
-        console.log("------------running seedResults-------------");
+        console.log("---------running seedResults----------");
         return seedResults();
       })
       // .then(async function () {

@@ -17,7 +17,7 @@ $(document).ready(function () {
       seasonData();
       $("#seasonData").removeClass("is-loading");
     }
-  }, 1000);
+  }, 3000);
 
   async function maxDateCheck() {
     let appDate, webDate;
