@@ -55,7 +55,15 @@ $(document).ready(function () {
     $.get("api/lastEventDetails", function (result) {
       for (let i = 0; i < result.length; i++) {
         $("#lastEventDetails").append(
-          "<p>" + result[i].name + " (" + result[i].tDate + ")" + "</p>"
+          "<p>" +
+            result[i].name +
+            " (" +
+            "winner: " +
+            result[i].winner +
+            ", " +
+            result[i].tDate +
+            ")" +
+            "</p>"
         );
       }
     });
@@ -74,6 +82,9 @@ $(document).ready(function () {
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
     $("#lastEventTitle").show();
+    $("#lastEventTitle").text(
+      "Results reflect all tournaments up to and including:"
+    );
 
     apiCall = "Season";
     $("#eventData").removeClass("is-active");
@@ -125,7 +136,8 @@ $(document).ready(function () {
   function eventData() {
     $(".main-container").show();
     $(".comments-container").hide();
-    $("#lastEventTitle").hide();
+    $("#lastEventTitle").show();
+    $("#lastEventTitle").text("Tournament details:");
     apiCall = "Event";
     $("#eventData").addClass("is-loading");
     $.get("/api/lastEvent", function (data) {
