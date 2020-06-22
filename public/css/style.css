@@ -119,6 +119,9 @@ p {
 .level2A {
   padding-left: 1.5em !important;
   white-space: pre;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .level3 {
