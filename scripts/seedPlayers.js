@@ -179,6 +179,14 @@ var players = [
     playerName: "Patrick Reed",
     tier: "2",
   },
+  {
+    playerName: "Charley Hoffman",
+    tier: "5",
+  },
+  {
+    playerName: "Bryson DeChambeau",
+    tier: "2",
+  },
 ];
 
 module.exports = function () {

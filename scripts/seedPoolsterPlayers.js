@@ -61,6 +61,9 @@ var teams = [
   {
     poolsterId: "3",
     playerId: "12",
+    endDate: "2020-06-17",
+    type: "no-cost",
+    effDate: "2020-06-17",
   },
   {
     poolsterId: "3",
@@ -87,6 +90,13 @@ var teams = [
     startDate: "2020-03-04",
     type: "regular",
     effDate: "2020-03-04",
+  },
+  {
+    poolsterId: "3",
+    playerId: "18",
+    startDate: "2020-06-17",
+    type: "no-cost",
+    effDate: "2020-06-17",
   },
   //poolsterId: 4
   {
@@ -145,9 +155,18 @@ var teams = [
     poolsterId: "5",
     playerId: "12",
     startDate: "2020-03-04",
+    endDate: "2020-06-17",
     type: "regular",
-    effDate: "2020-03-04",
+    effDate: "2020-06-17",
   },
+  {
+    poolsterId: "5",
+    playerId: "46",
+    startDate: "2020-06-17",
+    type: "no-cost",
+    effDate: "2020-06-17",
+  },
+
   //poolsterId: 6
   {
     poolsterId: "6",
@@ -156,6 +175,9 @@ var teams = [
   {
     poolsterId: "6",
     playerId: "18",
+    endDate: "2020-06-10",
+    type: "regular",
+    effDate: "2020-06-10",
   },
   {
     poolsterId: "6",
@@ -168,10 +190,27 @@ var teams = [
   {
     poolsterId: "6",
     playerId: "23",
+    endDate: "2020-06-10",
+    type: "no-cost",
+    effDate: "2020-06-10",
   },
   {
     poolsterId: "6",
     playerId: "6",
+  },
+  {
+    poolsterId: "6",
+    playerId: "44",
+    startDate: "2020-06-10",
+    type: "regular",
+    effDate: "2020-06-10",
+  },
+  {
+    poolsterId: "6",
+    playerId: "45",
+    startDate: "2020-06-10",
+    type: "no-cost",
+    effDate: "2020-06-10",
   },
   //poolsterId: 7
   {
@@ -366,18 +405,46 @@ var teams = [
   {
     poolsterId: "13",
     playerId: "23",
+    endDate: "2020-06-17",
+    type: "no-cost",
+    effDate: "2020-06-17",
   },
   {
     poolsterId: "13",
     playerId: "35",
+    endDate: "2020-06-17",
+    type: "no-cost",
+    effDate: "2020-06-17",
   },
   {
     poolsterId: "13",
     playerId: "12",
     startDate: "2020-03-04",
+    endDate: "2020-06-17",
     type: "regular",
     effDate: "2020-03-10",
   },
+  {
+    poolsterId: "13",
+    playerId: "15",
+    startDate: "2020-06-17",
+    type: "no-cost",
+    effDate: "2020-06-17",
+  },
+  {
+    poolsterId: "13",
+    playerId: "6",
+    startDate: "2020-06-17",
+    type: "no-cost",
+    effDate: "2020-06-17",
+  },
+  // {
+  //   poolsterId: "13",
+  //   playerId: "18",
+  //   startDate: "2020-06-17",
+  //   type: "no-cost",
+  //   effDate: "2020-06-17",
+  // },
   //poolsterId: 14
   {
     poolsterId: "14",
