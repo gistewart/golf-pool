@@ -17,7 +17,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
 
-
     <!-- External stylesheet link-->
     <link rel="stylesheet" href="css/style.css">
 
@@ -87,7 +86,60 @@
         </div>
     </div>
 
-    <div class="comments-container">This section is still being built</div>
+    <div class="container comments-container">
+        <div class="row">
+            <div class="container tabs-container">
+                <div class="tabs is-centered is-boxed is-small">
+                    <ul>
+                        <li id="submitComments"><a><span class="icon"><i
+                                        class="fas fa-pen"></i></span><span>Submit</span></a>
+                        </li>
+                        <li id="displayComments"><a><span class="icon"><i
+                                        class="fas fa-list"></i></span><span>Display</span></a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="container submit-comments-container" id="submit-comments-container">
+                <div class="col-md-5 offset-md-3">
+                    <form id="cms">
+                        <div class="form-group">
+                            <select class="custom-select" id="poolster">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="custom-select" id="category">
+                                <option value="" disabled selected>Select Category</option>
+                                <option value="Data error">Data error</option>
+                                <option value="Suggestion">Suggestion</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Details" class="form-control" rows="3" id="body"></textarea>
+                        </div>
+
+                        <br />
+                        <button type="submit" class="btn btn-success submit">Submit</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container display-comments-container">
+            <div class="row blog-title">
+                Previously submitted comments
+            </div>
+            <div class="col-md-12 blog-container">
+            </div>
+        </div>
+    </div>
+
 
     <!-- jQuery Library -->
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
@@ -95,6 +147,9 @@
 
     <!-- External javascript link-->
     <script type="text/javascript" src="javascript/app.js "></script>
+
+    <!-- Moment.js Link -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
 </body>
 

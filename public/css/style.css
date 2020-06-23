@@ -20,7 +20,7 @@ body {
   text-align: center;
 }
 
-.commentsLink:hover {
+.commentsLink {
   text-decoration: none;
 }
 
@@ -173,4 +173,22 @@ p {
   .logo {
     height: 60px !important;
   }
+}
+
+.tabs-container {
+  margin: -0.5em 0 1em;
+}
+
+.blog-container .card {
+  margin-bottom: 0.5em;
+}
+
+.blog-container .card-body {
+  padding-bottom: 0 !important;
+  margin-bottom: 0.25em !important;
+}
+
+.blog-title {
+  font-size: 1.25em;
+  padding: 0 30px 10px;
 }
