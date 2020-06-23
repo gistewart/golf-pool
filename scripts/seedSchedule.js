@@ -38,7 +38,7 @@ module.exports = async function () {
         result.tEndDate = f;
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
-        console.log(result);
+        // console.log(result);
         schedule.push(result);
       });
       return;

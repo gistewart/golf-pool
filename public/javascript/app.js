@@ -56,7 +56,15 @@ $(document).ready(function () {
     $.get("api/lastEventDetails", function (result) {
       for (let i = 0; i < result.length; i++) {
         $("#lastEventDetails").append(
-          "<p>" + result[i].name + " (" + result[i].tDate + ")" + "</p>"
+          "<p>" +
+            result[i].name +
+            " (" +
+            "winner: " +
+            result[i].winner +
+            ", " +
+            result[i].tDate +
+            ")" +
+            "</p>"
         );
       }
     });
@@ -74,6 +82,9 @@ $(document).ready(function () {
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
     $("#lastEventTitle").show();
+    $("#lastEventTitle").text(
+      "Results reflect all tournaments up to and including:"
+    );
 
     apiCall = "Season";
     $("#eventData").removeClass("is-active");
@@ -124,7 +135,13 @@ $(document).ready(function () {
 
   function eventData() {
     $(".main-container").show();
+<<<<<<< HEAD
     $("#lastEventTitle").hide();
+=======
+    $(".comments-container").hide();
+    $("#lastEventTitle").show();
+    $("#lastEventTitle").text("Tournament details:");
+>>>>>>> b945862feddf3bbd9a1221becc187b8c7b5c4012
     apiCall = "Event";
     $("#eventData").addClass("is-loading");
     $.get("/api/lastEvent", function (data) {
@@ -157,11 +174,13 @@ $(document).ready(function () {
           tier: a[j].tier,
           startDate: a[j].startDate,
           endDate: a[j].endDate,
+          reStartDate: a[j].reStartDate,
+          reEndDate: a[j].reEndDate,
           effDate: a[j].effDate,
           type: a[j].type,
           tournaments: [],
         });
-        if (a[j].effDate < "2020-06-01" && a[j].type == "regular") {
+        if (a[j].effDate < "2020-07-07" && a[j].type == "regular") {
           playerCount++;
         }
         b = a[j].Tournaments;
@@ -299,6 +318,31 @@ $(document).ready(function () {
               ? "<i class='fas fa-user-minus fa-xs' style='color:red'></i>" +
                 "  " +
                 new Date(sorted[i].Players[j].endDate).toLocaleString(
+                  "default",
+                  {
+                    month: "short",
+                    day: "numeric",
+                  }
+                )
+              : "") +
+            (sorted[i].Players[j].startDate > "2020-01-01" &&
+            sorted[i].Players[j].endDate < "2020-12-31"
+              ? " | " +
+                "<i class='fas fa-user-minus fa-xs' style='color:red'></i>" +
+                "  " +
+                new Date(sorted[i].Players[j].endDate).toLocaleString(
+                  "default",
+                  {
+                    month: "short",
+                    day: "numeric",
+                  }
+                )
+              : "") +
+            (sorted[i].Players[j].reStartDate > "2020-01-01"
+              ? " | " +
+                "<i class='fas fa-user-plus fa-xs' style='color:green'></i>" +
+                "  " +
+                new Date(sorted[i].Players[j].reStartDate).toLocaleString(
                   "default",
                   {
                     month: "short",
