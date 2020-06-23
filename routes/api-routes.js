@@ -377,9 +377,9 @@ module.exports = function (app) {
   });
 
   app.get("/api/webMaxDate", async function (req, res) {
-    await db.ScheduleStage.sync({ force: true }).then(function () {
-      return seedScheduleStage();
-    });
+    // await db.ScheduleStage.sync({ force: true }).then(function () {
+    //   return seedScheduleStage();
+    // });
 
     let date = db.ScheduleStage.max("tStartDate", {
       where: {

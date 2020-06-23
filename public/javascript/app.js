@@ -135,13 +135,9 @@ $(document).ready(function () {
 
   function eventData() {
     $(".main-container").show();
-<<<<<<< HEAD
-    $("#lastEventTitle").hide();
-=======
     $(".comments-container").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Tournament details:");
->>>>>>> b945862feddf3bbd9a1221becc187b8c7b5c4012
     apiCall = "Event";
     $("#eventData").addClass("is-loading");
     $.get("/api/lastEvent", function (data) {
