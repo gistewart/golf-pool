@@ -10,6 +10,7 @@ require("dotenv").config();
 var db = require("../models");
 
 // module.exports = function () {
+
 db.sequelize
   .sync({ force: true })
   .then(function () {

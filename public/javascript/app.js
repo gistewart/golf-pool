@@ -558,10 +558,10 @@ $(document).ready(function () {
     var formattedDate = new Date(post.createdAt);
     formattedDate = moment(formattedDate).format("MMM DD, YYYY");
     var newPostDate = $("<span>");
-    newPostDate.text("Posted: " + formattedDate);
+    newPostDate.text(formattedDate);
 
-    newPostTitle.append("From: " + post.handle + " | ");
-    newPostTitle.append("Category: " + post.category + " | ");
+    newPostTitle.append(post.handle + " | ");
+    newPostTitle.append(post.category + " | ");
     newPostTitle.append(newPostDate);
     newPostCardHeading.append(newPostTitle);
     newPostCard.append(newPostCardHeading);
