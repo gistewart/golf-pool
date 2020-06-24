@@ -104,6 +104,7 @@ module.exports = async function () {
         scheduleStage.push(result);
       });
       console.log(scheduleStage);
+      // get maxDate for all tournaments in scheduleStage arr
       maxDate = scheduleStage
         .filter((el) => el.tournamentId > "401155413")
         .filter((el) => el.winner)

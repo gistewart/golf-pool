@@ -377,23 +377,25 @@ module.exports = function (app) {
   });
 
   app.get("/api/webMaxDate", async function (req, res) {
-    await db.ScheduleStage.sync({ force: true }).then(async function () {
-      const temp2 = await seedScheduleStage();
+    await db.ScheduleStage.sync({ force: true })
+      .then(async function () {
+        const temp2 = await seedScheduleStage();
 
-      console.log("--------entering max date code--------");
-    });
-    let date = db.ScheduleStage.max("tStartDate", {
-      where: {
-        winner: {
-          [Op.regexp]: "^[A-Z]",
-        },
-        tournamentID: {
-          [Op.gte]: "401155413",
-        },
-      },
-    })
-      // .then(function () {
-      //   console.log("---------hello--------");
+        console.log("--------entering max date code--------");
+      })
+      .then(function () {
+        return db.ScheduleStage.findAll({});
+      })
+
+      // let date = db.ScheduleStage.max("tStartDate", {
+      //   where: {
+      //     winner: {
+      //       [Op.regexp]: "^[A-Z]",
+      //     },
+      //     tournamentID: {
+      //       [Op.gte]: "401155413",
+      //     },
+      //   },
       // })
       .then((result) => {
         res.json(result);
