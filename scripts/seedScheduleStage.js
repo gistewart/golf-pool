@@ -4,6 +4,8 @@ var cheerio = require("cheerio");
 
 module.exports = async function () {
   const scheduleStage = [];
+  let maxDate = [];
+  let maxDateArr = [];
 
   // current tournaments check
   await axios
@@ -41,6 +43,7 @@ module.exports = async function () {
         scheduleStage.push(result);
         console.log(scheduleStage);
       });
+      return;
     });
 
   // is current tournament finished?
@@ -100,13 +103,24 @@ module.exports = async function () {
         // console.log(result);
         scheduleStage.push(result);
       });
+      console.log(scheduleStage);
+      maxDate = scheduleStage
+        .filter((el) => el.tournamentId > "401155413")
+        .filter((el) => el.winner)
+        .reduce((a, b) => {
+          return a.tStartDate > b.tStartDate ? a : b;
+        });
+      maxDateArr.push(maxDate);
+      console.log("----------maxDate--------:", maxDate);
+      console.log("----------maxDateArr--------:", maxDateArr);
       return;
     })
-    .then(function () {
-      console.log("-----------finished seedScheduleStage------------");
+    .then(async function () {
+      console.log("-----------finishing seedScheduleStage------------");
       // console.log(scheduleStage);
-      db.ScheduleStage.bulkCreate(scheduleStage);
-      // db.Schedule.bulkCreate(scheduleStage);
+      const temp3 = await db.ScheduleStage.bulkCreate(maxDateArr);
+
+      console.log("-----------finished  seedScheduleStage------------");
       return;
     });
 };

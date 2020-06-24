@@ -18,7 +18,7 @@ $(document).ready(function () {
       seasonData();
       $("#seasonData").removeClass("is-loading");
     }
-  }, 1000);
+  }, 5000);
 
   async function maxDateCheck() {
     let appDate, webDate;
@@ -472,7 +472,7 @@ $(document).ready(function () {
 
   // function to render list of poolsters
   function renderPoolsterList(data) {
-    console.log(data);
+    // console.log(data);
     const sortedData = data.sort((a, b) => a.handle.localeCompare(b.handle));
     var rowstoAdd = [
       "<option value='' disabled selected>" + "Select Poolster" + "</option",
@@ -481,8 +481,8 @@ $(document).ready(function () {
       rowstoAdd.push(createPoolsterRow(sortedData[i]));
     }
     poolsterSelect.empty();
-    console.log(rowstoAdd);
-    console.log(poolsterSelect);
+    // console.log(rowstoAdd);
+    // console.log(poolsterSelect);
     poolsterSelect.append(rowstoAdd);
     // poolsterSelect.val(poolsterId);
   }
@@ -514,7 +514,7 @@ $(document).ready(function () {
 
   function getPosts() {
     $.get("api/posts", function (data) {
-      console.log("Posts", data);
+      // console.log("Posts", data);
       posts = data;
       if (!posts || !posts.length) {
         displayEmpty(author);
@@ -531,7 +531,7 @@ $(document).ready(function () {
       postsToAdd.unshift(createNewRow(posts[i]));
     }
     blogContainer.append(postsToAdd);
-    console.log(postsToAdd);
+    // console.log(postsToAdd);
   }
 
   // This function constructs a post's HTML
