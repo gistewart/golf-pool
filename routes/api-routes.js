@@ -386,21 +386,17 @@ module.exports = function (app) {
       .then(function () {
         return db.ScheduleStage.findAll({});
       })
-
-      // let date = db.ScheduleStage.max("tStartDate", {
-      //   where: {
-      //     winner: {
-      //       [Op.regexp]: "^[A-Z]",
-      //     },
-      //     tournamentID: {
-      //       [Op.gte]: "401155413",
-      //     },
-      //   },
-      // })
       .then((result) => {
         res.json(result);
       });
     console.log("--------exiting max date code---------");
+  });
+
+  app.post("/api/submitTournament", function (req, res) {
+    console.log("------req.body-------:", req.body);
+    db.Schedule.create(req.body).then(function (dbPost) {
+      res.json(dbPost);
+    });
   });
 
   app.get("/api/dbRefresh", async function (req, res) {

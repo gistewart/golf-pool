@@ -12,7 +12,7 @@ $(document).ready(function () {
       setTimeout(function () {
         lastEventDetails();
         seasonData();
-      }, 10000);
+      }, 6000);
     } else {
       lastEventDetails();
       seasonData();
@@ -28,26 +28,45 @@ $(document).ready(function () {
     });
 
     await $.get("api/webMaxDate", function (result) {
-      webDate = result;
+      console.log(result);
+      webDate = result[0].tStartDate;
       console.log(webDate);
-    }).then(function () {
+    }).then(function (result) {
       console.log("wait");
       if (appDate < webDate) {
+        let newPost = {
+          tournamentId: result[0].tournamentId,
+          tDate: result[0].tDate,
+          tStartDate: result[0].tStartDate,
+          tEndDate: result[0].tEndDate,
+          name: result[0].name,
+          winner: result[0].winner,
+        };
+        console.log(newPost);
         runDbRefresh = true;
         console.log(runDbRefresh);
+        submitTournament(newPost);
       }
     });
     return;
   }
 
+  function submitTournament(newPost) {
+    $.post("/api/submitTournament", newPost, function () {
+      getResults();
+    });
+  }
+
+  function getResults() {}
+
   function dbRefresh() {
     console.log("entering if statement");
-    if (runDbRefresh) {
-      $.get("api/dbRefresh", function (result) {
-        console.log("------------calling dbRefresh API----------");
-      });
-      return;
-    }
+    // if (runDbRefresh) {
+    //   $.get("api/dbRefresh", function (result) {
+    //     console.log("------------calling dbRefresh API----------");
+    //   });
+    //   return;
+    // }
   }
 
   //for the section at the top of the leaderboard
