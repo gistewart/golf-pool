@@ -362,16 +362,17 @@ module.exports = function (app) {
   });
 
   app.get("/api/appMaxDate", async function (req, res) {
-    let date = await db.Schedule.max("tStartDate", {
-      where: {
-        winner: {
-          [Op.regexp]: "^[A-Z]",
-        },
-        tournamentID: {
-          [Op.gte]: "401155413",
-        },
-      },
-    }).then((result) => {
+    // let date = await db.Schedule.max("tStartDate", {
+    //   where: {
+    //     winner: {
+    //       [Op.regexp]: "^[A-Z]",
+    //     },
+    //     tournamentID: {
+    //       [Op.gte]: "401155413",
+    //     },
+    //   },
+    // })
+    db.Schedule.findAll({}).then((result) => {
       res.json(result);
     });
   });
@@ -394,7 +395,7 @@ module.exports = function (app) {
 
   app.post("/api/submitTournament", function (req, res) {
     console.log("------req.body-------:", req.body);
-    db.Schedule.create(req.body).then(function (dbPost) {
+    db.Schedule.bulkCreate(req.body).then(function (dbPost) {
       res.json(dbPost);
     });
   });

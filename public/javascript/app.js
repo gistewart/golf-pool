@@ -21,40 +21,63 @@ $(document).ready(function () {
   }, 5000);
 
   async function maxDateCheck() {
-    let appDate, webDate;
+    let appScheduleArr,
+      webScheduleArr,
+      diffScheduleArr = [],
+      newTournament = {},
+      newTournamentArr = [];
     await $.get("api/appMaxDate", function (result) {
-      appDate = result;
-      console.log(appDate);
+      appScheduleArr = result;
+      console.log(appScheduleArr);
     });
 
     await $.get("api/webMaxDate", function (result) {
-      console.log(result);
-      webDate = result[0].tStartDate;
-      console.log(webDate);
+      webScheduleArr = result;
+      console.log(webScheduleArr);
     }).then(function (result) {
       console.log("wait");
-      if (appDate < webDate) {
-        let newPost = {
-          tournamentId: result[0].tournamentId,
-          tDate: result[0].tDate,
-          tStartDate: result[0].tStartDate,
-          tEndDate: result[0].tEndDate,
-          name: result[0].name,
-          winner: result[0].winner,
-        };
-        console.log(newPost);
+      diffScheduleArr = webScheduleArr.filter(
+        ({ tournamentId: id1 }) =>
+          !appScheduleArr.some(({ tournamentId: id2 }) => id2 === id1)
+      );
+      console.log(diffScheduleArr);
+      if (diffScheduleArr.length) {
+        console.log("entering post");
+        for (let i = 0; i < diffScheduleArr.length; i++) {
+          console.log("in loop");
+          newTournament = {
+            tournamentId: diffScheduleArr[i].tournamentId,
+            tDate: diffScheduleArr[i].tDate,
+            tStartDate: diffScheduleArr[i].tStartDate,
+            tEndDate: diffScheduleArr[i].tEndDate,
+            name: diffScheduleArr[i].name,
+            winner: diffScheduleArr[i].winner,
+          };
+          newTournamentArr.push(newTournament);
+        }
+        console.log(newTournamentArr);
         runDbRefresh = true;
         console.log(runDbRefresh);
-        submitTournament(newPost);
+        submitTournament(newTournamentArr);
       }
     });
     return;
   }
 
   function submitTournament(newPost) {
-    $.post("/api/submitTournament", newPost, function () {
-      getResults();
+    $.ajax({
+      type: "POST",
+      url: "api/submitTournament",
+      data: JSON.stringify(newPost),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      error: function () {
+        alert("Error");
+      },
     });
+    // $.post("/api/submitTournament", newPost, function () {
+    //   getResults();
+    // });
   }
 
   function getResults() {}
