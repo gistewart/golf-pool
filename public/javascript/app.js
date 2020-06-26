@@ -64,8 +64,8 @@ $(document).ready(function () {
     return;
   }
 
-  function submitTournament(newPost) {
-    $.ajax({
+  async function submitTournament(newPost) {
+    await $.ajax({
       type: "POST",
       url: "api/submitTournament",
       data: JSON.stringify(newPost),
@@ -75,15 +75,43 @@ $(document).ready(function () {
         alert("Error");
       },
     });
-    // $.post("/api/submitTournament", newPost, function () {
-    //   getResults();
-    // });
+    getMissingTournaments();
   }
 
-  function getResults() {}
+  async function getMissingTournaments() {
+    let diffResultsArr = [];
+    await $.get("api/resultsPosted", function (result) {
+      postedT = result;
+      console.log(postedT);
+    });
+    await $.get("api/appMaxDate", function (list) {
+      scheduledT = list;
+      console.log(scheduledT);
+    });
+    diffResultsArr = scheduledT.filter(
+      ({ tournamentId: id1 }) =>
+        !postedT.some(({ tournamentId: id2 }) => id2 === id1)
+    );
+    console.log(diffResultsArr);
+    getMissingResults(diffResultsArr);
+    return;
+  }
+
+  async function getMissingResults(results) {
+    await $.ajax({
+      type: "POST",
+      url: "api/missingTResults",
+      data: JSON.stringify(results),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      error: function () {
+        alert("Error");
+      },
+    });
+  }
 
   function dbRefresh() {
-    console.log("entering if statement");
+    // console.log("entering if statement");
     // if (runDbRefresh) {
     //   $.get("api/dbRefresh", function (result) {
     //     console.log("------------calling dbRefresh API----------");

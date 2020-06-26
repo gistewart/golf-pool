@@ -362,16 +362,6 @@ module.exports = function (app) {
   });
 
   app.get("/api/appMaxDate", async function (req, res) {
-    // let date = await db.Schedule.max("tStartDate", {
-    //   where: {
-    //     winner: {
-    //       [Op.regexp]: "^[A-Z]",
-    //     },
-    //     tournamentID: {
-    //       [Op.gte]: "401155413",
-    //     },
-    //   },
-    // })
     db.Schedule.findAll({}).then((result) => {
       res.json(result);
     });
@@ -393,10 +383,27 @@ module.exports = function (app) {
     console.log("--------exiting max date code---------");
   });
 
-  app.post("/api/submitTournament", function (req, res) {
+  app.post("/api/submitTournament", async function (req, res) {
     console.log("------req.body-------:", req.body);
-    db.Schedule.bulkCreate(req.body).then(function (dbPost) {
-      res.json(dbPost);
+    await db.Schedule.bulkCreate(req.body).then(function (data) {
+      res.json(data);
+    });
+  });
+
+  app.get("/api/resultsPosted", async function (req, res) {
+    await db.Result.findAll({
+      attributes: ["tournamentId"],
+      group: ["tournamentId"],
+    }).then(function (result) {
+      res.json(result);
+    });
+  });
+
+  app.post("/api/missingTResults", async function (req, res) {
+    console.log("------req.body-------:", req.body);
+    await db.missingTournament.sync({ force: true });
+    await db.missingTournament.bulkCreate(req.body).then(function (data) {
+      res.json(data);
     });
   });
 
