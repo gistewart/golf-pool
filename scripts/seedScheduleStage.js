@@ -102,14 +102,14 @@ module.exports = async function () {
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
         scheduleStage.push(result);
       });
-      finishedEventsArr = scheduleStage
+      completedEventsArr = scheduleStage
         .filter((el) => el.tournamentId >= "401155413")
         .filter((el) => el.winner);
       return;
     })
     .then(async function () {
       console.log("-----ready to seed ScheduleStage table------");
-      const temp = await db.ScheduleStage.bulkCreate(finishedEventsArr);
+      const temp = await db.ScheduleStage.bulkCreate(completedEventsArr);
 
       console.log("-----finished seeding ScheduleStage table-----");
       return;
