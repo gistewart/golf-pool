@@ -374,7 +374,7 @@ $(document).ready(function () {
             "-" +
             j +
             "' class='clickable'><td colspan='4' class='level2A'>" +
-            "Category " +
+            "Cat " +
             sorted[i].Players[j].tier +
             ": " +
             sorted[i].Players[j].player +
