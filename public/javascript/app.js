@@ -1,48 +1,46 @@
 $(document).ready(function () {
-  let runDbRefresh = false;
+  let resultsRefresh = false;
   $("#lastEventTitle").hide();
   $("#subIconLang").hide();
   $(".comments-container").hide();
 
   $("#seasonData").addClass("is-loading");
-  maxDateCheck();
+  eventCheck();
   setTimeout(function () {
-    dbRefresh();
-    if (runDbRefresh) {
+    if (resultsRefresh) {
       setTimeout(function () {
         lastEventDetails();
         seasonData();
-      }, 6000);
+      }, 3000);
     } else {
       lastEventDetails();
       seasonData();
       $("#seasonData").removeClass("is-loading");
     }
-  }, 5000);
+  }, 2000);
 
-  async function maxDateCheck() {
+  async function eventCheck() {
     let appScheduleArr,
       webScheduleArr,
       diffScheduleArr = [],
       newTournament = {},
       newTournamentArr = [];
-    await $.get("api/appMaxDate", function (result) {
+    await $.get("api/appSchedule", function (result) {
       appScheduleArr = result;
-      console.log(appScheduleArr);
+      console.log("appSchedule: ", appScheduleArr);
     });
-
-    await $.get("api/webMaxDate", function (result) {
+    await $.get("api/webSchedule", function (result) {
       webScheduleArr = result;
-      console.log(webScheduleArr);
+      console.log("webSchedule: ", webScheduleArr);
     }).then(function (result) {
       console.log("wait");
       diffScheduleArr = webScheduleArr.filter(
         ({ tournamentId: id1 }) =>
           !appScheduleArr.some(({ tournamentId: id2 }) => id2 === id1)
       );
-      console.log(diffScheduleArr);
+      console.log("diffSchedule: ", diffScheduleArr);
       if (diffScheduleArr.length) {
-        console.log("entering post");
+        console.log("ready to post new event details");
         for (let i = 0; i < diffScheduleArr.length; i++) {
           console.log("in loop");
           newTournament = {
@@ -55,10 +53,11 @@ $(document).ready(function () {
           };
           newTournamentArr.push(newTournament);
         }
-        console.log(newTournamentArr);
-        runDbRefresh = true;
-        console.log(runDbRefresh);
+        resultsRefresh = true;
+        console.log(resultsRefresh);
         submitTournament(newTournamentArr);
+      } else {
+        console.log("no new events to post");
       }
     });
     return;
@@ -75,24 +74,25 @@ $(document).ready(function () {
         alert("Error");
       },
     });
-    getMissingTournaments();
+    console.log("new event posted");
+    missingResults();
   }
 
-  async function getMissingTournaments() {
+  async function missingResults() {
     let diffResultsArr = [];
     await $.get("api/resultsPosted", function (result) {
-      postedT = result;
-      console.log(postedT);
+      resultsPosted = result;
+      console.log("resultsPosted: ", resultsPosted);
     });
-    await $.get("api/appMaxDate", function (list) {
-      scheduledT = list;
-      console.log(scheduledT);
+    await $.get("api/appSchedule", function (list) {
+      completedEvents = list;
+      console.log("completedEvents: ", completedEvents);
     });
-    diffResultsArr = scheduledT.filter(
+    diffResultsArr = completedEvents.filter(
       ({ tournamentId: id1 }) =>
-        !postedT.some(({ tournamentId: id2 }) => id2 === id1)
+        !resultsPosted.some(({ tournamentId: id2 }) => id2 === id1)
     );
-    console.log(diffResultsArr);
+    console.log("diffResultsArr: ", diffResultsArr);
     getMissingResults(diffResultsArr);
     return;
   }
@@ -100,24 +100,14 @@ $(document).ready(function () {
   async function getMissingResults(results) {
     await $.ajax({
       type: "POST",
-      url: "api/missingTResults",
+      url: "api/missingResults",
       data: JSON.stringify(results),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
-      error: function () {
-        alert("Error");
-      },
+      // error: function () {
+      //   alert("Error");
+      // },
     });
-  }
-
-  function dbRefresh() {
-    // console.log("entering if statement");
-    // if (runDbRefresh) {
-    //   $.get("api/dbRefresh", function (result) {
-    //     console.log("------------calling dbRefresh API----------");
-    //   });
-    //   return;
-    // }
   }
 
   //for the section at the top of the leaderboard
