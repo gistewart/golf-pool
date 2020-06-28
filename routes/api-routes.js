@@ -1,12 +1,8 @@
 var db = require("../models");
 var sequelize = require("sequelize");
 const { Op } = require("sequelize");
-const seedPoolsters = require("../scripts/seedPoolsters");
-const seedPlayers = require("../scripts/seedPlayers");
-const seedTeams = require("../scripts/seedPoolsterPlayers");
-const seedSchedule = require("../scripts/seedSchedule");
-const seedResults = require("../scripts/seedResults");
 const seedScheduleStage = require("../scripts/seedScheduleStage");
+const runResults = require("../scripts/runResults");
 require("dotenv").config();
 
 module.exports = function (app) {
@@ -361,71 +357,52 @@ module.exports = function (app) {
       });
   });
 
-  app.get("/api/appMaxDate", async function (req, res) {
-    let date = await db.Schedule.max("tStartDate", {
-      where: {
-        winner: {
-          [Op.regexp]: "^[A-Z]",
-        },
-        tournamentID: {
-          [Op.gte]: "401155413",
-        },
-      },
-    }).then((result) => {
+  app.get("/api/appSchedule", async function (req, res) {
+    db.Schedule.findAll({}).then((result) => {
       res.json(result);
     });
   });
 
-  app.get("/api/webMaxDate", async function (req, res) {
-    // await db.ScheduleStage.sync({ force: true }).then(function () {
-    //   return seedScheduleStage();
-    // });
-
-    let date = db.ScheduleStage.max("tStartDate", {
-      where: {
-        winner: {
-          [Op.regexp]: "^[A-Z]",
-        },
-        tournamentID: {
-          [Op.gte]: "401155413",
-        },
-      },
-    }).then((result) => {
-      res.json(result);
-    });
-  });
-
-  app.get("/api/dbRefresh", async function (req, res) {
-    await db.sequelize
-      .sync({ force: true })
-      .then(function () {
-        console.log("-------running seedPoolsters-----------");
-        return seedPoolsters();
+  app.get("/api/webSchedule", async function (req, res) {
+    await db.ScheduleStage.sync({ force: true })
+      .then(async function () {
+        const temp = await seedScheduleStage();
       })
       .then(function () {
-        console.log("------------running seedPlayers--------------");
-        return seedPlayers();
+        return db.ScheduleStage.findAll({});
       })
-      .then(function () {
-        console.log("---------running seedTeams-----------");
-        return seedTeams();
-      })
-      .then(function () {
-        console.log("---------running seedSchedule---------");
-        return seedSchedule();
-      })
-      .then(function (res) {
-        console.log("---------running seedResults----------");
-        return seedResults();
-      })
-      // .then(async function () {
-      //   const temp = await db.sequelize.close();
-      //   return;
-      // })
       .then((result) => {
         res.json(result);
       });
-    console.log("finished dbRefresh");
+  });
+
+  app.post("/api/submitTournament", async function (req, res) {
+    console.log("------req.body-------:", req.body);
+    await db.Schedule.bulkCreate(req.body).then(function (data) {
+      res.json(data);
+    });
+  });
+
+  app.get("/api/resultsPosted", async function (req, res) {
+    await db.Result.findAll({
+      attributes: ["tournamentId"],
+      group: ["tournamentId"],
+    }).then(function (result) {
+      res.json(result);
+    });
+  });
+
+  app.post("/api/missingResults", async function (req, res) {
+    console.log("------req.body-------:", req.body);
+    await db.missingTournament.sync({ force: true });
+    await db.missingTournament
+      .bulkCreate(req.body)
+      .then(async function () {
+        const temp = await runResults();
+      })
+      .then(function (data) {
+        res.json(data);
+      });
   });
 
   app.get("/api/posts", function (req, res) {

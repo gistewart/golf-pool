@@ -4,8 +4,10 @@ var cheerio = require("cheerio");
 
 module.exports = async function () {
   const scheduleStage = [];
+  let maxDate = [];
+  let maxDateArr = [];
 
-  // current tournaments check
+  // get details of current tournament
   await axios
     .get("https://www.espn.com/golf/schedule")
     .then(function (response) {
@@ -13,7 +15,7 @@ module.exports = async function () {
 
       $(".mb5:nth-of-type(4) tbody tr").each(function (i, element) {
         var result = {};
-        console.log("current tournaments scrape here");
+        console.log("current tournament(s) scrape here");
         result.tournamentId = $(this).children("td:nth-child(2)").find("a")
           .length
           ? (result.tournamentId = $(this)
@@ -41,6 +43,7 @@ module.exports = async function () {
         scheduleStage.push(result);
         console.log(scheduleStage);
       });
+      return;
     });
 
   // is current tournament finished?
@@ -61,7 +64,7 @@ module.exports = async function () {
     if (hold.status != "Final") {
       scheduleStage.splice(i, 1);
     }
-    console.log("line 64:" + scheduleStage);
+    console.log("current tournament included:", scheduleStage);
   }
 
   await axios
@@ -69,6 +72,7 @@ module.exports = async function () {
     .then(function (response) {
       var $ = cheerio.load(response.data);
 
+      console.log("scraping completed tournaments");
       $(".mb5:last-of-type tbody tr").each(function (i, element) {
         var result = {};
 
@@ -86,7 +90,6 @@ module.exports = async function () {
           .children("td:first-child")
           .text()
           .match(/[A-Z]{3} [0-9]{1,2}/gi)[0];
-        // console.log(monthDay);
         result.tStartDate =
           result.tournamentId >= "401155413"
             ? new Date(`2020 ${monthDay}`)
@@ -97,16 +100,18 @@ module.exports = async function () {
         result.tEndDate = f;
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
-        // console.log(result);
         scheduleStage.push(result);
       });
+      finishedEventsArr = scheduleStage
+        .filter((el) => el.tournamentId >= "401155413")
+        .filter((el) => el.winner);
       return;
     })
-    .then(function () {
-      console.log("-----------finished seedScheduleStage------------");
-      // console.log(scheduleStage);
-      db.ScheduleStage.bulkCreate(scheduleStage);
-      // db.Schedule.bulkCreate(scheduleStage);
+    .then(async function () {
+      console.log("-----ready to seed ScheduleStage table------");
+      const temp = await db.ScheduleStage.bulkCreate(finishedEventsArr);
+
+      console.log("-----finished seeding ScheduleStage table-----");
       return;
     });
 };

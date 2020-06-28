@@ -7,18 +7,10 @@ const { Op } = require("sequelize");
 module.exports = function () {
   let resultsArray = [];
 
-  return db.Schedule.findAll({
-    attributes: ["tournamentId"],
-    where: {
-      tournamentId: {
-        [Op.gte]: 401155413,
-        [Op.lte]: 401155418,
-      },
-      winner: {
-        [Op.regexp]: "^[A-Z]",
-      },
-    },
-  })
+  return db.missingTournament
+    .findAll({
+      attributes: ["tournamentId"],
+    })
     .then((tournamentIds) =>
       tournamentIds.map((tournament) => tournament.dataValues.tournamentId)
     )
@@ -68,7 +60,7 @@ module.exports = function () {
                   playerNames.includes(el.playerName)
                 );
                 console.log(
-                  `-----------finished seedResults for tournament ${id}------------`
+                  `-----------finished runResults for tournament ${id}------------`
                 );
                 return db.Result.bulkCreate(filtered);
               });

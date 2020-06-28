@@ -1,53 +1,132 @@
 $(document).ready(function () {
-  let runDbRefresh = false;
+  let resultsRefresh = false;
   $("#lastEventTitle").hide();
   $("#subIconLang").hide();
   $(".comments-container").hide();
 
   $("#seasonData").addClass("is-loading");
-  maxDateCheck();
-  setTimeout(function () {
-    dbRefresh();
-    if (runDbRefresh) {
-      setTimeout(function () {
-        lastEventDetails();
-        seasonData();
-      }, 10000);
-    } else {
-      lastEventDetails();
+
+  // eventCheck();
+  // setTimeout(function () {
+  //   if (resultsRefresh) {
+  //     setTimeout(function () {
+  //       lastEventDetails();
+  //       seasonData();
+  //     }, 3000);
+  //   } else {
+  //     lastEventDetails();
+  //     seasonData();
+  //     $("#seasonData").removeClass("is-loading");
+  //   }
+  // }, 2000);
+
+  pageLoad();
+
+  async function pageLoad() {
+    await eventCheck();
+    await missingResults();
+    lastEventDetails();
+    setTimeout(function () {
       seasonData();
-      $("#seasonData").removeClass("is-loading");
-    }
-  }, 1000);
+    }, 1000);
+  }
 
-  async function maxDateCheck() {
-    let appDate, webDate;
-    await $.get("api/appMaxDate", function (result) {
-      appDate = result;
-      console.log(appDate);
+  async function eventCheck() {
+    let appScheduleArr,
+      webScheduleArr,
+      diffScheduleArr = [],
+      newTournament = {},
+      newTournamentArr = [];
+    await $.get("api/appSchedule", function (result) {
+      appScheduleArr = result;
+      console.log("appSchedule: ", appScheduleArr);
     });
-
-    await $.get("api/webMaxDate", function (result) {
-      webDate = result;
-      console.log(webDate);
-    }).then(function () {
+    await $.get("api/webSchedule", function (result) {
+      webScheduleArr = result;
+      console.log("webSchedule: ", webScheduleArr);
+    }).then(function (result) {
       console.log("wait");
-      if (appDate < webDate) {
-        runDbRefresh = true;
-        console.log(runDbRefresh);
+      diffScheduleArr = webScheduleArr.filter(
+        ({ tournamentId: id1 }) =>
+          !appScheduleArr.some(({ tournamentId: id2 }) => id2 === id1)
+      );
+      console.log("diffSchedule: ", diffScheduleArr);
+      if (diffScheduleArr.length) {
+        console.log("ready to post new event details");
+        for (let i = 0; i < diffScheduleArr.length; i++) {
+          console.log("in loop");
+          newTournament = {
+            tournamentId: diffScheduleArr[i].tournamentId,
+            tDate: diffScheduleArr[i].tDate,
+            tStartDate: diffScheduleArr[i].tStartDate,
+            tEndDate: diffScheduleArr[i].tEndDate,
+            name: diffScheduleArr[i].name,
+            winner: diffScheduleArr[i].winner,
+          };
+          newTournamentArr.push(newTournament);
+        }
+        resultsRefresh = true;
+        console.log(resultsRefresh);
+        submitTournament(newTournamentArr);
+      } else {
+        console.log("no new events to post");
       }
     });
     return;
   }
 
-  function dbRefresh() {
-    console.log("entering if statement");
-    if (runDbRefresh) {
-      $.get("api/dbRefresh", function (result) {
-        console.log("------------calling dbRefresh API----------");
-      });
-      return;
+  async function submitTournament(newPost) {
+    await $.ajax({
+      type: "POST",
+      url: "api/submitTournament",
+      data: JSON.stringify(newPost),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      error: function () {
+        alert("Error");
+      },
+    });
+    console.log("new event posted");
+    return;
+    // missingResults();
+  }
+
+  async function missingResults() {
+    let diffResultsArr = [];
+    await $.get("api/resultsPosted", function (result) {
+      resultsPosted = result;
+      console.log("resultsPosted: ", resultsPosted);
+    });
+    await $.get("api/appSchedule", function (list) {
+      completedEvents = list;
+      console.log("completedEvents: ", completedEvents);
+    });
+    diffResultsArr = completedEvents.filter(
+      ({ tournamentId: id1 }) =>
+        !resultsPosted.some(({ tournamentId: id2 }) => id2 === id1)
+    );
+    console.log("diffResultsArr: ", diffResultsArr);
+    if (diffResultsArr.length) {
+      getMissingResults(diffResultsArr);
+    } else {
+      console.log("skipping getMissingResults function");
     }
+    return;
+  }
+
+  function getMissingResults(results) {
+    console.log("calling missingResults api");
+    $.ajax({
+      type: "POST",
+      url: "api/missingResults",
+      data: JSON.stringify(results),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      // error: function () {
+      //   alert("Error");
+      // },
+    });
+    return;
   }
 
   //for the section at the top of the leaderboard
@@ -472,7 +551,7 @@ $(document).ready(function () {
 
   // function to render list of poolsters
   function renderPoolsterList(data) {
-    console.log(data);
+    // console.log(data);
     const sortedData = data.sort((a, b) => a.handle.localeCompare(b.handle));
     var rowstoAdd = [
       "<option value='' disabled selected>" + "Select Poolster" + "</option",
@@ -481,8 +560,8 @@ $(document).ready(function () {
       rowstoAdd.push(createPoolsterRow(sortedData[i]));
     }
     poolsterSelect.empty();
-    console.log(rowstoAdd);
-    console.log(poolsterSelect);
+    // console.log(rowstoAdd);
+    // console.log(poolsterSelect);
     poolsterSelect.append(rowstoAdd);
     // poolsterSelect.val(poolsterId);
   }
@@ -514,7 +593,7 @@ $(document).ready(function () {
 
   function getPosts() {
     $.get("api/posts", function (data) {
-      console.log("Posts", data);
+      // console.log("Posts", data);
       posts = data;
       if (!posts || !posts.length) {
         displayEmpty(author);
@@ -531,7 +610,7 @@ $(document).ready(function () {
       postsToAdd.unshift(createNewRow(posts[i]));
     }
     blogContainer.append(postsToAdd);
-    console.log(postsToAdd);
+    // console.log(postsToAdd);
   }
 
   // This function constructs a post's HTML
