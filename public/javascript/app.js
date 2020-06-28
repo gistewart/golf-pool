@@ -5,19 +5,31 @@ $(document).ready(function () {
   $(".comments-container").hide();
 
   $("#seasonData").addClass("is-loading");
-  eventCheck();
-  setTimeout(function () {
-    if (resultsRefresh) {
-      setTimeout(function () {
-        lastEventDetails();
-        seasonData();
-      }, 3000);
-    } else {
-      lastEventDetails();
+
+  // eventCheck();
+  // setTimeout(function () {
+  //   if (resultsRefresh) {
+  //     setTimeout(function () {
+  //       lastEventDetails();
+  //       seasonData();
+  //     }, 3000);
+  //   } else {
+  //     lastEventDetails();
+  //     seasonData();
+  //     $("#seasonData").removeClass("is-loading");
+  //   }
+  // }, 2000);
+
+  pageLoad();
+
+  async function pageLoad() {
+    await eventCheck();
+    await missingResults();
+    lastEventDetails();
+    setTimeout(function () {
       seasonData();
-      $("#seasonData").removeClass("is-loading");
-    }
-  }, 2000);
+    }, 1000);
+  }
 
   async function eventCheck() {
     let appScheduleArr,
@@ -75,7 +87,8 @@ $(document).ready(function () {
       },
     });
     console.log("new event posted");
-    missingResults();
+    return;
+    // missingResults();
   }
 
   async function missingResults() {
@@ -93,12 +106,17 @@ $(document).ready(function () {
         !resultsPosted.some(({ tournamentId: id2 }) => id2 === id1)
     );
     console.log("diffResultsArr: ", diffResultsArr);
-    getMissingResults(diffResultsArr);
+    if (diffResultsArr.length) {
+      getMissingResults(diffResultsArr);
+    } else {
+      console.log("skipping getMissingResults function");
+    }
     return;
   }
 
-  async function getMissingResults(results) {
-    await $.ajax({
+  function getMissingResults(results) {
+    console.log("calling missingResults api");
+    $.ajax({
       type: "POST",
       url: "api/missingResults",
       data: JSON.stringify(results),
@@ -108,6 +126,7 @@ $(document).ready(function () {
       //   alert("Error");
       // },
     });
+    return;
   }
 
   //for the section at the top of the leaderboard

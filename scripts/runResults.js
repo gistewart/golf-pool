@@ -14,6 +14,7 @@ module.exports = function () {
     .then((tournamentIds) =>
       tournamentIds.map((tournament) => tournament.dataValues.tournamentId)
     )
+
     .then(async function (tournamentIds) {
       for (let i = 0; i < tournamentIds.length; i++) {
         const id = tournamentIds[i];

@@ -1,11 +1,6 @@
 var db = require("../models");
 var sequelize = require("sequelize");
 const { Op } = require("sequelize");
-const seedPoolsters = require("../scripts/seedPoolsters");
-const seedPlayers = require("../scripts/seedPlayers");
-const seedTeams = require("../scripts/seedPoolsterPlayers");
-const seedSchedule = require("../scripts/seedSchedule");
-const seedResults = require("../scripts/seedResults");
 const seedScheduleStage = require("../scripts/seedScheduleStage");
 const runResults = require("../scripts/runResults");
 require("dotenv").config();
