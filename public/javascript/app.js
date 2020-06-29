@@ -300,7 +300,10 @@ $(document).ready(function () {
     //sorting each Player's results based on tournament Start Date
     for (let i = 0; i < sorted.length; i++) {
       for (let j = 0; j < sorted[i].Players.length; j++) {
-        sorted[i].Players[j].tournaments.sort((a, b) => a.start - b.start);
+        sorted[i].Players[j].tournaments.sort(function (a, b) {
+          if (a.start < b.start) return -1;
+          if (a.start > b.start) return 1;
+        });
       }
     }
     console.log(sorted);
