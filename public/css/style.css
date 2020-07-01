@@ -60,7 +60,8 @@ p {
 }
 
 .level1 {
-  background-image: url("../images/vichy.png");
+  /* background: url("../images/vichy.png"); */
+  background: rgba(128, 128, 128, 0.08);
 }
 
 .poolsterImage,
@@ -127,6 +128,7 @@ p {
 .level3 {
   font-size: 0.9em;
   color: rgb(97, 95, 95);
+  background: rgba(128, 128, 128, 0.08);
 }
 
 .level3A {
