@@ -6,20 +6,6 @@ $(document).ready(function () {
 
   $("#seasonData").addClass("is-loading");
 
-  // eventCheck();
-  // setTimeout(function () {
-  //   if (resultsRefresh) {
-  //     setTimeout(function () {
-  //       lastEventDetails();
-  //       seasonData();
-  //     }, 3000);
-  //   } else {
-  //     lastEventDetails();
-  //     seasonData();
-  //     $("#seasonData").removeClass("is-loading");
-  //   }
-  // }, 2000);
-
   pageLoad();
 
   async function pageLoad() {

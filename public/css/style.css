@@ -1,5 +1,5 @@
 body {
-  background: rgba(128, 128, 128, 0.158);
+  background: rgba(128, 128, 128, 0.25);
   font-size: 75%;
 }
 
@@ -61,7 +61,7 @@ p {
 
 .level1 {
   /* background: url("../images/vichy.png"); */
-  background: rgba(128, 128, 128, 0.08);
+  background: rgba(128, 128, 128, 0.125);
 }
 
 .poolsterImage,
@@ -102,7 +102,7 @@ p {
 
 .poolsterName {
   font-size: 0.8em;
-  color: grey;
+  color: rgb(63, 62, 62);
   margin-bottom: 0.5em !important;
 }
 
@@ -127,8 +127,8 @@ p {
 
 .level3 {
   font-size: 0.9em;
-  color: rgb(97, 95, 95);
-  background: rgba(128, 128, 128, 0.08);
+  color: rgb(58, 57, 57);
+  background: rgba(128, 128, 128, 0.125);
 }
 
 .level3A {
