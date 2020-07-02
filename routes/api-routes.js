@@ -405,6 +405,99 @@ module.exports = function (app) {
       });
   });
 
+  app.get("/api/playerRankings", async function (req, res) {
+    await db.PoolsterPlayers.findAll({
+      attributes: ["playerId", "type"],
+      where: {
+        type: {
+          [Op.eq]: null,
+        },
+      },
+      include: [
+        {
+          model: db.Player,
+          attributes: ["playerName", "tier"],
+          include: [
+            {
+              model: db.Result,
+              as: "Results",
+              attributes: ["earnings", "toPar", "pos"],
+              include: [
+                {
+                  model: db.Schedule,
+                  as: "Schedule",
+                  attributes: ["name", "tDate"],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+      .then(function (data) {
+        let result = [];
+        for (let i = 0; i < data.length; i++) {
+          result.push({
+            playerId: data[i].playerId,
+            playerName: data[i].Player.playerName,
+            tier: data[i].Player.tier,
+            tournaments: [],
+          });
+          let sum = 0;
+          let a = data[i].Player.Results;
+          for (let j = 0; j < a.length; j++) {
+            sum += a[j].earnings;
+            result[i].tournaments.push({
+              name: a[j].Schedule.name,
+              date: a[j].Schedule.tDate,
+              pos: a[j].pos,
+              toPar: a[j].toPar,
+              earnings: a[j].earnings,
+            });
+          }
+          result[i]["earnings"] = sum;
+        }
+        return result;
+      })
+      // .then(function (data) {
+      //   let a, b, c;
+      //   let result = [];
+      //   for (let i = 0; i < data.length; i++) {
+      //     result.push({
+      //       name: data[i].name,
+      //       handle: data[i].handle,
+      //       Players: [],
+      //     });
+      //     a = data[i].PoolsterPlayers;
+      //     for (let j = 0; j < a.length; j++) {
+      //       result[i].Players.push({
+      //         name: a[j].Player.playerName,
+      //         type: a[j].type,
+      //         tier: a[j].Player.tier,
+      //         Tournaments: [],
+      //       });
+      //       b = a[j].Player.Results;
+      //       for (let k = 0; k < b.length; k++) {
+      //         c = b[k].Schedule;
+
+      //         result[i].Players[j].Tournaments.push({
+      //           name: c.name,
+      //           date: c.tDate,
+      //           start: c.tStartDate,
+      //           position: b[k].pos,
+      //           toPar: b[k].toPar,
+      //           earnings: b[k].earnings,
+      //         });
+      //       }
+      //     }
+      //   }
+      //   return result;
+      // })
+      .then((result) => {
+        res.json(result);
+      });
+  });
+
   app.get("/api/posts", function (req, res) {
     db.Post.findAll({}).then(function (dbPost) {
       res.json(dbPost);
