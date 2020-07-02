@@ -405,7 +405,149 @@ module.exports = function (app) {
       });
   });
 
+  app.get("/api/poolsters", function (req, res) {
+    db.Poolster.findAll({}).then((data) => {
+      res.json(data);
+    });
+  });
+
   app.get("/api/playerRankings", async function (req, res) {
+    await db.Poolster.findAll({
+      attributes: ["poolsterId", "name", "handle"],
+      include: [
+        {
+          model: db.PoolsterPlayers,
+          as: "PoolsterPlayers",
+          attributes: [
+            "startDate",
+            "endDate",
+            "reStartDate",
+            "reEndDate",
+            "effDate",
+            "type",
+          ],
+          include: [
+            {
+              model: db.Player,
+              as: "Player",
+              attributes: ["playerName", "tier"],
+              include: [
+                {
+                  model: db.Result,
+                  as: "Results",
+                  attributes: ["earnings", "toPar", "pos"],
+                  include: [
+                    {
+                      model: db.Schedule,
+                      as: "Schedule",
+                      attributes: ["name", "tDate", "tStartDate", "tEndDate"],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+      .then(function (data) {
+        let a, b, c;
+        let result = [];
+        for (let i = 0; i < data.length; i++) {
+          result.push({
+            name: data[i].name,
+            handle: data[i].handle,
+            image: data[i].image,
+            Players: [],
+          });
+          a = data[i].PoolsterPlayers;
+          for (let j = 0; j < a.length; j++) {
+            result[i].Players.push({
+              name: a[j].Player.playerName,
+              startDate: a[j].startDate,
+              endDate: a[j].endDate,
+              reStartDate: a[j].reStartDate,
+              reEndDate: a[j].reEndDate,
+              effDate: a[j].effDate,
+              type: a[j].type,
+              tier: a[j].Player.tier,
+              Tournaments: [],
+            });
+            b = a[j].Player.Results;
+            for (let k = 0; k < b.length; k++) {
+              c = b[k].Schedule;
+              if (
+                (a[j].startDate < c.tStartDate &&
+                  a[j].endDate > c.tStartDate) ||
+                (a[j].reStartDate < c.tStartDate &&
+                  a[j].reEndDate > c.tStartDate)
+              ) {
+                result[i].Players[j].Tournaments.push({
+                  name: c.name,
+                  date: c.tDate,
+                  start: c.tStartDate,
+                  position: b[k].pos,
+                  toPar: b[k].toPar,
+                  earnings: b[k].earnings,
+                });
+              }
+            }
+          }
+        }
+        return result;
+      })
+      .then((result) => {
+        let arr = [];
+        for (let i = 0; i < result.length; i++) {
+          arr.push({
+            name: result[i].name,
+            handle: result[i].handle,
+          });
+          let sum1 = 0,
+            sum2 = 0,
+            sum3 = 0,
+            sum4 = 0,
+            sum5 = 0,
+            sum6 = 0;
+          for (let j = 0; j < result[i].Players.length; j++) {
+            for (let k = 0; k < result[i].Players[j].Tournaments.length; k++) {
+              switch (result[i].Players[j].tier) {
+                case 1:
+                  sum1 += result[i].Players[j].Tournaments[k].earnings;
+                  break;
+                case 2:
+                  sum2 += result[i].Players[j].Tournaments[k].earnings;
+                  break;
+                case 3:
+                  sum3 += result[i].Players[j].Tournaments[k].earnings;
+                  break;
+                case 4:
+                  sum4 += result[i].Players[j].Tournaments[k].earnings;
+                  break;
+                case 5:
+                  sum5 += result[i].Players[j].Tournaments[k].earnings;
+                  break;
+                case 6:
+                  sum6 += result[i].Players[j].Tournaments[k].earnings;
+                  break;
+              }
+            }
+          }
+          arr[i]["tier1"] = sum1;
+          arr[i]["tier2"] = sum2;
+          arr[i]["tier3"] = sum3;
+          arr[i]["tier4"] = sum4;
+          arr[i]["tier5"] = sum5;
+          arr[i]["tier6"] = sum6;
+        }
+        return arr;
+      })
+      .then((arr) => {
+        res.json(arr);
+      });
+  });
+
+  app.get("/api/playerRankingsBackup", async function (req, res) {
     await db.PoolsterPlayers.findAll({
       attributes: ["playerId", "type"],
       where: {
@@ -441,60 +583,21 @@ module.exports = function (app) {
             playerId: data[i].playerId,
             playerName: data[i].Player.playerName,
             tier: data[i].Player.tier,
-            tournaments: [],
           });
           let sum = 0;
           let a = data[i].Player.Results;
           for (let j = 0; j < a.length; j++) {
             sum += a[j].earnings;
-            result[i].tournaments.push({
-              name: a[j].Schedule.name,
-              date: a[j].Schedule.tDate,
-              pos: a[j].pos,
-              toPar: a[j].toPar,
-              earnings: a[j].earnings,
-            });
           }
           result[i]["earnings"] = sum;
         }
-        return result;
+        let noDupsResult = result.filter(
+          (v, i, a) => a.findIndex((t) => t.playerName === v.playerName) === i
+        );
+        return noDupsResult;
       })
-      // .then(function (data) {
-      //   let a, b, c;
-      //   let result = [];
-      //   for (let i = 0; i < data.length; i++) {
-      //     result.push({
-      //       name: data[i].name,
-      //       handle: data[i].handle,
-      //       Players: [],
-      //     });
-      //     a = data[i].PoolsterPlayers;
-      //     for (let j = 0; j < a.length; j++) {
-      //       result[i].Players.push({
-      //         name: a[j].Player.playerName,
-      //         type: a[j].type,
-      //         tier: a[j].Player.tier,
-      //         Tournaments: [],
-      //       });
-      //       b = a[j].Player.Results;
-      //       for (let k = 0; k < b.length; k++) {
-      //         c = b[k].Schedule;
-
-      //         result[i].Players[j].Tournaments.push({
-      //           name: c.name,
-      //           date: c.tDate,
-      //           start: c.tStartDate,
-      //           position: b[k].pos,
-      //           toPar: b[k].toPar,
-      //           earnings: b[k].earnings,
-      //         });
-      //       }
-      //     }
-      //   }
-      //   return result;
-      // })
-      .then((result) => {
-        res.json(result);
+      .then((noDupsResult) => {
+        res.json(noDupsResult);
       });
   });
 
