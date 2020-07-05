@@ -161,36 +161,40 @@ $(document).ready(function () {
       $.get("/api/allExclLastEvent", function (data2) {
         partData = data2;
       }).then(function () {
-        let a, b;
-        let partResult = [];
-        for (let i = 0; i < partData.length; i++) {
-          let poolsterSum = 0;
-          partResult.push({
-            poolster: partData[i].handle,
-            Players: [],
-          });
-          a = partData[i].Players;
-          for (let j = 0; j < a.length; j++) {
-            partResult[i].Players.push({
-              player: a[j].name,
-              tournaments: [],
+        $.get("/api/playerRankings", function (data3) {
+          playerRankings = data3;
+        }).then(function () {
+          let a, b;
+          let partResult = [];
+          for (let i = 0; i < partData.length; i++) {
+            let poolsterSum = 0;
+            partResult.push({
+              poolster: partData[i].handle,
+              Players: [],
             });
-            b = a[j].Tournaments;
-            for (let k = 0; k < b.length; k++) {
-              poolsterSum += b[k].earnings;
+            a = partData[i].Players;
+            for (let j = 0; j < a.length; j++) {
+              partResult[i].Players.push({
+                player: a[j].name,
+                tournaments: [],
+              });
+              b = a[j].Tournaments;
+              for (let k = 0; k < b.length; k++) {
+                poolsterSum += b[k].earnings;
+              }
+              partResult[i]["poolsterEarnings"] = poolsterSum;
             }
-            partResult[i]["poolsterEarnings"] = poolsterSum;
           }
-        }
-        const sortedPartResult = partResult.sort(
-          (a, b) => b.poolsterEarnings - a.poolsterEarnings
-        );
+          const sortedPartResult = partResult.sort(
+            (a, b) => b.poolsterEarnings - a.poolsterEarnings
+          );
 
-        for (let i = 0; i < sortedPartResult.length; i++) {
-          sortedPartResult[i].ranking = i + 1;
-        }
-        console.log(sortedPartResult);
-        sumData(mainData, sortedPartResult);
+          for (let i = 0; i < sortedPartResult.length; i++) {
+            sortedPartResult[i].ranking = i + 1;
+          }
+          console.log(sortedPartResult);
+          sumData(mainData, sortedPartResult, playerRankings);
+        });
       });
     });
     $("#seasonData").removeClass("is-loading");
@@ -214,7 +218,7 @@ $(document).ready(function () {
     $("#eventData").removeClass("is-loading");
   }
 
-  function sumData(data, sortedPartResult) {
+  function sumData(data, sortedPartResult, playerRankings) {
     //to sum earnings by player and poolster
     let a, b;
     let result = [];
@@ -234,6 +238,7 @@ $(document).ready(function () {
           player: a[j].name,
           tier: a[j].tier,
           startDate: a[j].startDate,
+          active: "yes",
           endDate: a[j].endDate,
           reStartDate: a[j].reStartDate,
           reEndDate: a[j].reEndDate,
@@ -241,6 +246,9 @@ $(document).ready(function () {
           type: a[j].type,
           tournaments: [],
         });
+        if (a[j].endDate < "2020-12-31" && !a[j].reStartDate) {
+          result[i].Players[j].active = "no";
+        }
         if (a[j].effDate < "2020-07-07" && a[j].type == "regular") {
           playerCount++;
         }
@@ -262,10 +270,10 @@ $(document).ready(function () {
       }
     }
     console.log(result);
-    sortData(result, sortedPartResult);
+    sortData(result, sortedPartResult, playerRankings);
   }
 
-  function sortData(result, sortedPartResult) {
+  function sortData(result, sortedPartResult, playerRankings) {
     // to sort all the data passed to function
     const sorted = result.sort(
       (a, b) => b.poolsterEarnings - a.poolsterEarnings
@@ -292,11 +300,11 @@ $(document).ready(function () {
         });
       }
     }
-    console.log(sorted);
-    displayData(sorted, sortedPartResult);
+    console.log(sorted, playerRankings);
+    displayData(sorted, sortedPartResult, playerRankings);
   }
 
-  function displayData(sorted, sortedPartResult) {
+  function displayData(sorted, sortedPartResult, playerRankings) {
     // to display sorted results
     // to add prior ranking data to main arr
     if (apiCall == "Season") {
@@ -314,6 +322,13 @@ $(document).ready(function () {
             sorted[f].rankingChangeAbs = Math.abs(sorted[f].rankingChange);
           }
         }
+      }
+      console.log("inserting new code here");
+      for (let i = 0; i < sorted.length; i++) {
+        for (let j = 0; j < playerRankings.length - 1; j++)
+          if (sorted[i].name == playerRankings[j].name) {
+            for (let k = 0; k < sorted[i].Players.length; k++) {}
+          }
       }
     }
     console.log(sorted);

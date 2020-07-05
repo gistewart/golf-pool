@@ -502,6 +502,7 @@ module.exports = function (app) {
           arr.push({
             name: result[i].name,
             handle: result[i].handle,
+            tier: [],
           });
           let sum1 = 0,
             sum2 = 0,
@@ -533,13 +534,65 @@ module.exports = function (app) {
               }
             }
           }
-          arr[i]["tier1"] = sum1;
-          arr[i]["tier2"] = sum2;
-          arr[i]["tier3"] = sum3;
-          arr[i]["tier4"] = sum4;
-          arr[i]["tier5"] = sum5;
-          arr[i]["tier6"] = sum6;
+          arr[i].tier.push({
+            number: 1,
+            sum: sum1,
+          });
+          arr[i].tier.push({
+            number: 2,
+            sum: sum2,
+          });
+          arr[i].tier.push({
+            number: 3,
+            sum: sum3,
+          });
+          arr[i].tier.push({
+            number: 4,
+            sum: sum4,
+          });
+          arr[i].tier.push({
+            number: 5,
+            sum: sum5,
+          });
+          arr[i].tier.push({
+            number: 6,
+            sum: sum6,
+          });
         }
+
+        let len = arr.length;
+        let averages = [];
+
+        for (let m = 0; m < 6; m++) {
+          const avg = arr.reduce((a, b) => a + b.tier[m].sum, 0) / len;
+          averages.push({
+            number: m + 1,
+            avg: avg,
+          });
+        }
+
+        console.log(averages);
+
+        for (let i = 0; i < arr.length; i++) {
+          let grade = "";
+          for (let j = 0; j < averages.length; j++) {
+            let percent = arr[i].tier[j].sum / averages[j].avg;
+            if (percent < 0.8) {
+              grade = "E";
+            } else if (percent < 0.9) {
+              grade = "D";
+            } else if (percent < 1.1) {
+              grade = "C";
+            } else if (percent < 1.2) {
+              grade = "B";
+            } else {
+              grade = "A";
+            }
+            arr[i].tier[j]["average"] = averages[j].avg;
+            arr[i].tier[j]["grade"] = grade;
+          }
+        }
+
         return arr;
       })
       .then((arr) => {
