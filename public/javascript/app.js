@@ -325,9 +325,21 @@ $(document).ready(function () {
       }
       console.log("inserting new code here");
       for (let i = 0; i < sorted.length; i++) {
-        for (let j = 0; j < playerRankings.length - 1; j++)
+        for (let j = 0; j < playerRankings.length; j++)
           if (sorted[i].name == playerRankings[j].name) {
-            for (let k = 0; k < sorted[i].Players.length; k++) {}
+            for (let k = 0; k < sorted[i].Players.length; k++) {
+              if (sorted[i].Players[k].active == "yes") {
+                for (let l = 0; l < playerRankings[j].tier.length; l++) {
+                  if (
+                    sorted[i].Players[k].tier ==
+                    playerRankings[j].tier[l].number
+                  ) {
+                    sorted[i].Players[k]["grade"] =
+                      playerRankings[j].tier[l].grade;
+                  }
+                }
+              }
+            }
           }
       }
     }
