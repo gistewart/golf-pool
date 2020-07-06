@@ -117,12 +117,42 @@ p {
 }
 
 .level2 {
-  font-size: 0.95em;
+  font-size: 1em;
   color: rgb(49, 48, 48);
 }
 
 .level2A {
-  padding-left: 1.5em !important;
+  padding-left: 0.5em !important;
+}
+
+.fa-angle-double-up,
+.fa-angle-up,
+.fa-arrows-alt-v,
+.fa-angle-down,
+.fa-angle-double-down {
+  border-radius: 50%;
+  height: 1.35em;
+  width: 1.35em;
+  text-align: center;
+  line-height: 1.35em;
+  font-weight: 800;
+  color: white;
+}
+
+.fa-angle-double-up {
+  background-color: green;
+}
+.fa-angle-up {
+  background-color: rgb(149, 219, 43);
+}
+.fa-arrows-alt-v {
+  background-color: rgb(255, 217, 0);
+}
+.fa-angle-down {
+  background-color: orange;
+}
+.fa-angle-double-down {
+  background-color: red;
 }
 
 .level3 {

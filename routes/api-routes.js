@@ -364,13 +364,15 @@ module.exports = function (app) {
   });
 
   app.get("/api/webSchedule", async function (req, res) {
-    await db.ScheduleStage.sync({ force: true })
-      .then(async function () {
-        const temp = await seedScheduleStage();
-      })
-      .then(function () {
-        return db.ScheduleStage.findAll({});
-      })
+    // NEW TEMPORARY CODE
+    await db.ScheduleStage.findAll({})
+      // await db.ScheduleStage.sync({ force: true })
+      //   .then(async function () {
+      //     const temp = await seedScheduleStage();
+      //   })
+      //   .then(function () {
+      //     return db.ScheduleStage.findAll({});
+      //   })
       .then((result) => {
         res.json(result);
       });
@@ -577,19 +579,20 @@ module.exports = function (app) {
           let grade = "";
           for (let j = 0; j < averages.length; j++) {
             let percent = arr[i].tier[j].sum / averages[j].avg;
-            if (percent < 0.8) {
+            if (percent < 0.5) {
               grade = "E";
-            } else if (percent < 0.9) {
+            } else if (percent < 0.75) {
               grade = "D";
-            } else if (percent < 1.1) {
+            } else if (percent < 1.25) {
               grade = "C";
-            } else if (percent < 1.2) {
+            } else if (percent < 1.5) {
               grade = "B";
             } else {
               grade = "A";
             }
             arr[i].tier[j]["average"] = averages[j].avg;
             arr[i].tier[j]["grade"] = grade;
+            arr[i].tier[j]["gradePercent"] = percent;
           }
         }
 
@@ -597,60 +600,6 @@ module.exports = function (app) {
       })
       .then((arr) => {
         res.json(arr);
-      });
-  });
-
-  app.get("/api/playerRankingsBackup", async function (req, res) {
-    await db.PoolsterPlayers.findAll({
-      attributes: ["playerId", "type"],
-      where: {
-        type: {
-          [Op.eq]: null,
-        },
-      },
-      include: [
-        {
-          model: db.Player,
-          attributes: ["playerName", "tier"],
-          include: [
-            {
-              model: db.Result,
-              as: "Results",
-              attributes: ["earnings", "toPar", "pos"],
-              include: [
-                {
-                  model: db.Schedule,
-                  as: "Schedule",
-                  attributes: ["name", "tDate"],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    })
-      .then(function (data) {
-        let result = [];
-        for (let i = 0; i < data.length; i++) {
-          result.push({
-            playerId: data[i].playerId,
-            playerName: data[i].Player.playerName,
-            tier: data[i].Player.tier,
-          });
-          let sum = 0;
-          let a = data[i].Player.Results;
-          for (let j = 0; j < a.length; j++) {
-            sum += a[j].earnings;
-          }
-          result[i]["earnings"] = sum;
-        }
-        let noDupsResult = result.filter(
-          (v, i, a) => a.findIndex((t) => t.playerName === v.playerName) === i
-        );
-        return noDupsResult;
-      })
-      .then((noDupsResult) => {
-        res.json(noDupsResult);
       });
   });
 

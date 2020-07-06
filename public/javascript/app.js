@@ -336,6 +336,10 @@ $(document).ready(function () {
                   ) {
                     sorted[i].Players[k]["grade"] =
                       playerRankings[j].tier[l].grade;
+                    sorted[i].Players[k]["poolAverage"] =
+                      playerRankings[j].tier[l].average;
+                    sorted[i].Players[k]["gradePercent"] =
+                      playerRankings[j].tier[l].gradePercent;
                   }
                 }
               }
@@ -394,9 +398,92 @@ $(document).ready(function () {
             sorted[i].Players[j].tier +
             ": " +
             sorted[i].Players[j].player +
+            " " +
+            (sorted[i].Players[j].grade == "A"
+              ? "<i title='Category earnings (including any subs) are " +
+                sorted[i].Players[j].gradePercent.toLocaleString(undefined, {
+                  style: "percent",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }) +
+                " of pool average of " +
+                sorted[i].Players[j].poolAverage.toLocaleString("us-US", {
+                  style: "currency",
+                  currency: "USD",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }) +
+                "'class='fas fa-angle-double-up fa-s'></i>"
+              : sorted[i].Players[j].grade == "B"
+              ? "<i title='Category earnings (including any subs) are " +
+                sorted[i].Players[j].gradePercent.toLocaleString(undefined, {
+                  style: "percent",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }) +
+                " of pool average of " +
+                sorted[i].Players[j].poolAverage.toLocaleString("us-US", {
+                  style: "currency",
+                  currency: "USD",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }) +
+                "'class='fas fa-angle-up fa-s'></i>"
+              : sorted[i].Players[j].grade == "C"
+              ? "<i title='Category earnings  (including any subs) are " +
+                sorted[i].Players[j].gradePercent.toLocaleString(undefined, {
+                  style: "percent",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }) +
+                " of pool average of " +
+                sorted[i].Players[j].poolAverage.toLocaleString("us-US", {
+                  style: "currency",
+                  currency: "USD",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }) +
+                "'class='fas fa-arrows-alt-v fa-s'></i>"
+              : sorted[i].Players[j].grade == "D"
+              ? "<i title='Category earnings (including any subs) are " +
+                sorted[i].Players[j].gradePercent.toLocaleString(undefined, {
+                  style: "percent",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }) +
+                " of pool average of " +
+                sorted[i].Players[j].poolAverage.toLocaleString("us-US", {
+                  style: "currency",
+                  currency: "USD",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }) +
+                "'class='fas fa-angle-down fa-s'></i>"
+              : sorted[i].Players[j].grade == "E"
+              ? "<i title='Category earnings (including any subs) are " +
+                sorted[i].Players[j].gradePercent.toLocaleString(undefined, {
+                  style: "percent",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }) +
+                " of pool average of " +
+                sorted[i].Players[j].poolAverage.toLocaleString("us-US", {
+                  style: "currency",
+                  currency: "USD",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }) +
+                "'class='fas fa-angle-double-down fa-s'></i>"
+              : "") +
             "  " +
+            (sorted[i].Players[j].active == "yes" &&
+            (sorted[i].Players[j].startDate > "2020-01-01" ||
+              sorted[i].Players[j].endDate < "2020-12-31")
+              ? " | "
+              : "") +
             (sorted[i].Players[j].startDate > "2020-01-01"
-              ? "<i class='fas fa-user-plus fa-xs' style='color:green'></i>" +
+              ? " " +
+                "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
                 "  " +
                 new Date(sorted[i].Players[j].startDate).toLocaleString(
                   "default",
@@ -406,8 +493,8 @@ $(document).ready(function () {
                   }
                 )
               : sorted[i].Players[j].endDate < "2020-12-31"
-              ? "<i class='fas fa-user-minus fa-xs' style='color:red'></i>" +
-                "  " +
+              ? "<i class='fas fa-user-minus fa-s' style='color:red'></i>" +
+                " | " +
                 new Date(sorted[i].Players[j].endDate).toLocaleString(
                   "default",
                   {
@@ -419,7 +506,7 @@ $(document).ready(function () {
             (sorted[i].Players[j].startDate > "2020-01-01" &&
             sorted[i].Players[j].endDate < "2020-12-31"
               ? " | " +
-                "<i class='fas fa-user-minus fa-xs' style='color:red'></i>" +
+                "<i class='fas fa-user-minus fa-s' style='color:red'></i>" +
                 "  " +
                 new Date(sorted[i].Players[j].endDate).toLocaleString(
                   "default",
@@ -431,7 +518,7 @@ $(document).ready(function () {
               : "") +
             (sorted[i].Players[j].reStartDate > "2020-01-01"
               ? " | " +
-                "<i class='fas fa-user-plus fa-xs' style='color:green'></i>" +
+                "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
                 "  " +
                 new Date(sorted[i].Players[j].reStartDate).toLocaleString(
                   "default",
