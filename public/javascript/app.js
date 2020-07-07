@@ -293,7 +293,7 @@ $(document).ready(function () {
         sorted[i].ranking = i + 1 - ties;
       }
     }
-
+    // adds "T" for ties
     for (let i = 0; i < sorted.length; i++) {
       if (i === 0 && sorted[0].ranking === sorted[1].ranking) {
         sorted[0].rankingDisplay = "T" + sorted[i].ranking;
@@ -355,7 +355,7 @@ $(document).ready(function () {
           }
         }
       }
-      console.log("inserting new code here");
+      console.log("inserting new grade code here");
       for (let i = 0; i < sorted.length; i++) {
         for (let j = 0; j < playerRankings.length; j++)
           if (sorted[i].name == playerRankings[j].name) {
@@ -387,15 +387,17 @@ $(document).ready(function () {
         "<tr data-toggle='collapse' data-target='#demo" +
           i +
           "' class='level1 clickabe'><td class='ranking'>" +
-          sorted[i].ranking +
-          "</td><td class='rankingChange'>" +
-          (sorted[i].rankingMove == "up"
-            ? "<i class='fas fa-caret-up' style='color:green'></i>" +
-              sorted[i].rankingChangeAbs
-            : sorted[i].rankingMove == "down"
-            ? "<i class='fas fa-caret-down' style='color:red'></i>" +
-              sorted[i].rankingChangeAbs
-            : " -") +
+          sorted[i].rankingDisplay +
+          (apiCall == "Season"
+            ? "</td><td class='rankingChange'>" +
+              (sorted[i].rankingMove == "up"
+                ? "<i class='fas fa-caret-up' style='color:green'></i>" +
+                  sorted[i].rankingChangeAbs
+                : sorted[i].rankingMove == "down"
+                ? "<i class='fas fa-caret-down' style='color:red'></i>" +
+                  sorted[i].rankingChangeAbs
+                : " -")
+            : "</td><td>") +
           "</td><td class='imageDiv'><img class='poolsterImage' src=" +
           sorted[i].image +
           "></td><td class='poolsterHandle'>" +
