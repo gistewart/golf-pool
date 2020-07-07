@@ -249,7 +249,7 @@ $(document).ready(function () {
         if (a[j].endDate < "2020-12-31" && !a[j].reStartDate) {
           result[i].Players[j].active = "no";
         }
-        if (a[j].effDate < "2020-07-07" && a[j].type == "regular") {
+        if (a[j].effDate > "2020-07-05" && a[j].type == "regular") {
           playerCount++;
         }
         b = a[j].Tournaments;
@@ -279,9 +279,41 @@ $(document).ready(function () {
       (a, b) => b.poolsterEarnings - a.poolsterEarnings
     );
 
-    for (let i = 0; i < sorted.length; i++) {
-      sorted[i].ranking = i + 1;
+    // for (let i = 0; i < sorted.length; i++) {
+    //   sorted[i].ranking = i + 1;
+    // }
+    sorted[0].ranking = 1;
+    let ties = 0;
+    for (let i = 1; i < sorted.length; i++) {
+      if (sorted[i].poolsterEarnings !== sorted[i - 1].poolsterEarnings) {
+        sorted[i].ranking = i + 1;
+        ties = 0;
+      } else {
+        ties++;
+        sorted[i].ranking = i + 1 - ties;
+      }
     }
+
+    for (let i = 0; i < sorted.length; i++) {
+      if (i === 0 && sorted[0].ranking === sorted[1].ranking) {
+        sorted[0].rankingDisplay = "T" + sorted[i].ranking;
+      } else if (
+        i > 0 &&
+        i < sorted.length - 1 &&
+        (sorted[i].ranking === sorted[i - 1].ranking ||
+          sorted[i].ranking === sorted[i + 1].ranking)
+      ) {
+        sorted[i].rankingDisplay = "T" + sorted[i].ranking;
+      } else if (
+        i === sorted.length - 1 &&
+        sorted[i].ranking === sorted[i - 1].ranking
+      ) {
+        sorted[i].rankingDisplay = "T" + sorted[i].ranking;
+      } else {
+        sorted[i].rankingDisplay = sorted[i].ranking;
+      }
+    }
+
     //sorting by Players on each team by Tier then their Start Date
     for (let i = 0; i < sorted.length; i++) {
       sorted[i].Players.sort(function (a, b) {

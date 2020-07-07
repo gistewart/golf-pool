@@ -364,7 +364,7 @@ module.exports = function (app) {
   });
 
   app.get("/api/webSchedule", async function (req, res) {
-    // NEW TEMPORARY CODE
+    // NEW TEMPORARY CODE (SWAP)
     await db.ScheduleStage.findAll({})
       // await db.ScheduleStage.sync({ force: true })
       //   .then(async function () {
