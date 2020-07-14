@@ -15,9 +15,6 @@ module.exports = function (sequelize, DataTypes) {
       },
     },
     toPar: DataTypes.STRING,
-    earnings: {
-      type: DataTypes.INTEGER,
-    },
   });
 
   liveResult.associate = function (models) {

@@ -3,6 +3,8 @@ var sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const seedScheduleStage = require("../scripts/seedScheduleStage");
 const seedLiveEventSchedule = require("../scripts/seedLiveEventSchedule");
+const runLiveResults = require("../scripts/runLiveResults");
+
 const runResults = require("../scripts/runResults");
 require("dotenv").config();
 
@@ -622,7 +624,14 @@ module.exports = function (app) {
       //   .then(function () {
       //     return db.liveEventSchedule.findAll({});
       //   })
-      // Product End
+      // Production End
+      .then(async function () {
+        await db.liveResult.sync({ force: true });
+        const temp = await runLiveResults();
+      })
+      .then(async function () {
+        return db.liveResult.findAll({});
+      })
       .then((result) => {
         res.json(result);
       });
