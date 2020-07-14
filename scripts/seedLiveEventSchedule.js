@@ -4,18 +4,15 @@ var cheerio = require("cheerio");
 
 module.exports = async function () {
   const scheduleStage = [];
-  let maxDate = [];
-  let maxDateArr = [];
 
   // get details of current tournament
   await axios
     .get("https://www.espn.com/golf/schedule")
     .then(function (response) {
       var $ = cheerio.load(response.data);
-
+      console.log("current tournament(s) scrape here");
       $(".mb5:nth-of-type(4) tbody tr").each(function (i, element) {
         var result = {};
-        console.log("current tournament(s) scrape here");
         result.tournamentId = $(this).children("td:nth-child(2)").find("a")
           .length
           ? (result.tournamentId = $(this)
@@ -40,11 +37,20 @@ module.exports = async function () {
         result.tEndDate = f;
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
+        result.purse = Number(
+          $(this)
+            .children("td:nth-child(4)")
+            .find("div")
+            .text()
+            .replace(/[\$,]/g, "")
+        );
+
         scheduleStage.push(result);
-        console.log(scheduleStage);
       });
       return;
     });
+
+  console.log("line 46", scheduleStage);
 
   // is current tournament finished?
   for (let i = 0; i < scheduleStage.length; i++) {
@@ -61,58 +67,26 @@ module.exports = async function () {
           console.log(hold);
         });
       });
-    if (hold.status != "Final") {
+    if (
+      !/Tournament Field|Final|Round 1 - Play Complete|^Round [2-4]/gi.test(
+        hold.status
+      )
+    ) {
       scheduleStage.splice(i, 1);
       i--;
+      console.log("deleting");
     }
-    console.log("current tournament included:", scheduleStage);
   }
 
-  await axios
-    .get("https://www.espn.com/golf/schedule")
-    .then(function (response) {
-      var $ = cheerio.load(response.data);
+  console.log("current tournament included:", scheduleStage);
+  finishedEventsArr = scheduleStage.filter(
+    (el) => el.tournamentId >= "401155413"
+  );
+  console.log("finishedEventsArr", finishedEventsArr);
 
-      console.log("scraping completed tournaments");
-      $(".mb5:last-of-type tbody tr").each(function (i, element) {
-        var result = {};
+  console.log("-----ready to seed liveEventSchedule table------");
+  const temp = await db.liveEventSchedule.bulkCreate(finishedEventsArr);
 
-        result.tournamentId = $(this).children("td:nth-child(2)").find("a")
-          .length
-          ? (result.tournamentId = $(this)
-              .children("td:nth-child(2)")
-              .find("a")
-              .attr("href")
-              .match(/(?<=\=).+/)[0])
-          : "000000000";
-
-        result.tDate = $(this).children("td:first-child").text();
-        let monthDay = $(this)
-          .children("td:first-child")
-          .text()
-          .match(/[A-Z]{3} [0-9]{1,2}/gi)[0];
-        result.tStartDate =
-          result.tournamentId >= "401155413"
-            ? new Date(`2020 ${monthDay}`)
-            : new Date(`2019 ${monthDay}`);
-
-        let f = new Date(`2020 ${monthDay}`);
-        f.setDate(f.getDate() + 4);
-        result.tEndDate = f;
-        result.name = $(this).find("p").text();
-        result.winner = $(this).children("td:nth-child(3)").find("a").text();
-        scheduleStage.push(result);
-      });
-      finishedEventsArr = scheduleStage
-        .filter((el) => el.tournamentId >= "401155413")
-        .filter((el) => el.winner);
-      return;
-    })
-    .then(async function () {
-      console.log("-----ready to seed ScheduleStage table------");
-      const temp = await db.ScheduleStage.bulkCreate(finishedEventsArr);
-
-      console.log("-----finished seeding ScheduleStage table-----");
-      return;
-    });
+  console.log("-----finished seeding liveEventSchedule table-----");
+  return;
 };

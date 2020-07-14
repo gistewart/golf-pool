@@ -60,10 +60,6 @@ DELETE FROM `Results` WHERE (`tournamentId` = '401155466');
 
 -- 7/1: LOCAL
 
-UPDATE `golf-pool_db`.`PoolsterPlayers` SET `endDate` = '2020-07-01', `effDate` = '2020-07-01', `type` = 'regular' WHERE (`id` = '70');
-
-INSERT INTO `golf-pool_db`.`PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('11', '46', '2020-07-01', '2020-07-01', 'regular');
-
 UPDATE `golf-pool_db`.`PoolsterPlayers` SET `endDate` = '2020-07-01', `effDate` = '2020-07-01', `type` = 'regular' WHERE (`id` = '113');
 
 INSERT INTO `golf-pool_db`.`PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('17', '45', '2020-07-01', '2020-07-01', 'regular');
@@ -74,10 +70,6 @@ INSERT INTO `golf-pool_db`.`PoolsterPlayers` (`poolsterId`, `playerId`, `startDa
 
 -- 7/1: REMOTE
 
-UPDATE `PoolsterPlayers` SET `endDate` = '2020-07-01', `effDate` = '2020-07-01', `type` = 'regular' WHERE (`id` = '70');
-
-INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('11', '46', '2020-07-01', '2020-07-01', 'regular');
-
 UPDATE `PoolsterPlayers` SET `endDate` = '2020-07-01', `effDate` = '2020-07-01', `type` = 'regular' WHERE (`id` = '113');
 
 INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('17', '45', '2020-07-01', '2020-07-01', 'regular');
@@ -85,3 +77,25 @@ INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`,
 UPDATE `PoolsterPlayers` SET `endDate` = '2020-07-01', `effDate` = '2020-07-01', `type` = 'regular' WHERE (`id` = '95');
 
 INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('14', '6', '2020-07-01', '2020-07-01', 'regular');
+
+-- 7/8: LOCAL
+
+UPDATE `golf-pool_db`.`PoolsterPlayers` SET `endDate` = '2020-07-08', `effDate` = '2020-07-08', `type` = 'regular' WHERE (`id` = '70');
+
+INSERT INTO `golf-pool_db`.`PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('11', '46', '2020-07-08', '2020-07-08', 'regular');
+
+UPDATE `golf-pool_db`.`PoolsterPlayers` SET `endDate` = '2020-07-08', `effDate` = '2020-07-08', `type` = 'regular' WHERE (`id` = '83');
+
+INSERT INTO `golf-pool_db`.`PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('13', '19', '2020-07-08', '2020-07-08', 'regular');
+
+-- 7/8 REMOTE
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2020-07-08', `effDate` = '2020-07-8', `type` = 'regular' WHERE (`id` = '70');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('11', '46', '2020-07-08', '2020-07-08', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2020-07-08', `effDate` = '2020-07-08', `type` = 'regular' WHERE (`id` = '83');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('13', '19', '2020-07-08', '2020-07-08', 'regular');
+
+
