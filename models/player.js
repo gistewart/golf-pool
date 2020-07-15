@@ -25,10 +25,6 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: "playerName",
       sourceKey: "playerName",
     });
-    Player.hasMany(models.liveResult, {
-      foreignKey: "playerName",
-      sourceKey: "playerName",
-    });
     Player.hasMany(models.PoolsterPlayers, {
       as: "bar2",
       foreignKey: "playerId",

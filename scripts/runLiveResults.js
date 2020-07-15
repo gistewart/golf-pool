@@ -39,26 +39,12 @@ module.exports = function () {
               }
               resultsArray.push(result);
             });
-
-            return db.Player.findAll({
-              attributes: ["playerName"],
-            })
-
-              .then((playerNames) =>
-                playerNames.map((player) => player.dataValues.playerName)
-              )
-
-              .then(async function (playerNames) {
-                const filtered = resultsArray.filter((el) =>
-                  playerNames.includes(el.playerName)
-                );
-                console.log(
-                  `-----------finished runLiveResults for tournament ${id}------------`
-                );
-                const temp = await db.liveResult.bulkCreate(filtered);
-                return;
-              });
           });
       }
+      console.log(
+        `-----------finished runLiveResults for tournament -----------`
+      );
+      const arrToLoad = resultsArray.filter((el) => el.playerName);
+      const temp = await db.liveResult.bulkCreate(arrToLoad);
     });
 };
