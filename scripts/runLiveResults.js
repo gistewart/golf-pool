@@ -29,6 +29,15 @@ module.exports = function () {
 
               result.tournamentId = `${id}`;
               result.pos = $(this).children("td:first-child").text();
+              result.posAdj = $(this)
+                .children("td:first-child")
+                .text()
+                .match(/\d+/g)
+                ? (result.posAdj = $(this)
+                    .children("td:first-child")
+                    .text()
+                    .match(/\d+/g)[0])
+                : 0;
               result.playerName = $(this)
                 .children("td:nth-child(2)")
                 .children("a")

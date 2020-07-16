@@ -115,6 +115,49 @@ $(document).ready(function () {
     return;
   }
 
+  async function liveEvent() {
+    console.log("liveEvent function");
+    await $.get("api/liveResults", function (result) {
+      liveResults = result;
+    });
+    await $.get("api/livePurseSplit", function (result) {
+      livePurse = result;
+    });
+    console.log(liveResults, livePurse);
+    let obj = {};
+    for (let i = 0; i < liveResults.length; i++) {
+      obj[liveResults[i].posAdj]
+        ? (obj[liveResults[i].posAdj] += 1)
+        : (obj[liveResults[i].posAdj] = 1);
+    }
+    if (obj[0]) {
+      delete obj[0];
+    }
+    console.log(obj);
+    for (let j in obj) {
+      if (obj[j] == 1) {
+        for (let k = 0; k < livePurse.length; k++) {
+          if (j === livePurse[k].pos) {
+            obj[j] = Number(livePurse[k].percent);
+          }
+        }
+      } else {
+        sum = 0;
+        for (let l = 0; l < obj[j]; l++) {
+          // console.log(`j: ${j} l: ${l}`);
+          sum += Number(livePurse[Number(j) + l - 1].percent);
+          // console.log(`sum: ${sum}`);
+        }
+        // console.log(`-------total sum: ${sum}--------`);
+        let avg = sum / obj[j];
+        obj[j] = avg.toFixed(3);
+      }
+    }
+    console.log(obj);
+  }
+
+  liveEvent();
+
   //for the section at the top of the leaderboard
   function lastEventDetails() {
     console.log("entering lastEventDetails function");

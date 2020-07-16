@@ -4,7 +4,6 @@ const { Op } = require("sequelize");
 const seedScheduleStage = require("../scripts/seedScheduleStage");
 const seedLiveEventSchedule = require("../scripts/seedLiveEventSchedule");
 const runLiveResults = require("../scripts/runLiveResults");
-
 const runResults = require("../scripts/runResults");
 require("dotenv").config();
 
@@ -580,8 +579,6 @@ module.exports = function (app) {
           });
         }
 
-        console.log(averages);
-
         for (let i = 0; i < arr.length; i++) {
           let grade = "";
           for (let j = 0; j < averages.length; j++) {
@@ -610,20 +607,20 @@ module.exports = function (app) {
       });
   });
 
-  app.get("/api/liveEvents", async function (req, res) {
+  app.get("/api/liveResults", async function (req, res) {
     // Testing Start
+    // await db.liveEventSchedule
+    //   .findAll({})
+    // Test End
+    // Production Start
     await db.liveEventSchedule
-      .findAll({})
-      // Test End
-      // Production Start
-      // await db.liveEventSchedule
-      //   .sync({ force: true })
-      //   .then(async function () {
-      //     const temp = await seedLiveEventSchedule();
-      //   })
-      //   .then(function () {
-      //     return db.liveEventSchedule.findAll({});
-      //   })
+      .sync({ force: true })
+      .then(async function () {
+        const temp = await seedLiveEventSchedule();
+      })
+      .then(function () {
+        return db.liveEventSchedule.findAll({});
+      })
       // Production End
       .then(async function () {
         await db.liveResult.sync({ force: true });
@@ -635,6 +632,12 @@ module.exports = function (app) {
       .then((result) => {
         res.json(result);
       });
+  });
+
+  app.get("/api/livePurseSplit", function (req, res) {
+    db.livePurseSplit.findAll({}).then(function (result) {
+      res.json(result);
+    });
   });
 
   app.get("/api/posts", function (req, res) {

@@ -52,7 +52,7 @@ module.exports = async function () {
 
   console.log("line 46", scheduleStage);
 
-  // is current tournament finished?
+  // has Round 1 of current tournament been completed
   for (let i = 0; i < scheduleStage.length; i++) {
     const id = scheduleStage[i].tournamentId;
     console.log(id);
@@ -68,7 +68,7 @@ module.exports = async function () {
         });
       });
     if (
-      !/Tournament Field|Final|Round 1 - Play Complete|^Round [2-4]/gi.test(
+      !/Tournament Field|Final|Round 1 - Play Complete|^Round [1-4]/gi.test(
         hold.status
       )
     ) {

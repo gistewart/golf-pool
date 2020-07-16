@@ -6,6 +6,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
     },
     pos: DataTypes.STRING,
+    posAdj: DataTypes.STRING,
     playerName: {
       type: DataTypes.STRING,
     },
