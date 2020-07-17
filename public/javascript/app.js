@@ -404,7 +404,7 @@ $(document).ready(function () {
           sorted[i].poolster +
           " " +
           (sorted[i].poolster === "The Trader"
-            ? "<i class='fas fa-ribbon' style='color:purple; border:black'></i>"
+            ? "<i class='fas fa-ribbon' style='color:purple'></i>"
             : sorted[i].playerCount > 0 &&
               apiCall == "Season" &&
               sorted[i].poolster !== "The Trader"
