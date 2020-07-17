@@ -164,4 +164,26 @@ UPDATE `PoolsterPlayers` SET `endDate` = '2020-07-08', `effDate` = '2020-07-08',
 
 INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('13', '19', '2020-07-08', '2020-07-08', 'regular');
 
+-- 7/15: LOCAL
 
+UPDATE `golf-pool_db`.`PoolsterPlayers` SET `endDate` = '2020-07-15', `effDate` = '2020-07-15', `type` = 'regular' WHERE (`id` = '68');
+
+INSERT INTO `golf-pool_db`.`PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('10', '46', '2020-07-15', '2020-07-15', 'regular');
+
+UPDATE `golf-pool_db`.`PoolsterPlayers` SET `endDate` = '2020-07-15', `effDate` = '2020-07-15', `type` = 'regular' WHERE (`id` = '27');
+
+INSERT INTO `golf-pool_db`.`PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('5', '1', '2020-07-15', '2020-07-15', 'regular');
+
+UPDATE `golf-pool_db`.`Poolsters` SET `image` = 'https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_28237.png' WHERE (`poolsterId` = '5');
+
+-- 7/15 REMOTE
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2020-07-15', `effDate` = '2020-07-15', `type` = 'regular' WHERE (`id` = '68');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('10', '46', '2020-07-15', '2020-07-15', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2020-07-15', `effDate` = '2020-07-15', `type` = 'regular' WHERE (`id` = '27');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('5', '1', '2020-07-15', '2020-07-15', 'regular');
+
+UPDATE `Poolsters` SET `image` = 'https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_28237.png' WHERE (`poolsterId` = '5');

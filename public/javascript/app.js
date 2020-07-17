@@ -121,39 +121,88 @@ $(document).ready(function () {
       liveResults = result;
     });
     await $.get("api/livePurseSplit", function (result) {
-      livePurse = result;
+      livePurseSplit = result;
     });
-    console.log(liveResults, livePurse);
-    let obj = {};
-    for (let i = 0; i < liveResults.length; i++) {
-      obj[liveResults[i].posAdj]
-        ? (obj[liveResults[i].posAdj] += 1)
-        : (obj[liveResults[i].posAdj] = 1);
-    }
-    if (obj[0]) {
-      delete obj[0];
-    }
-    console.log(obj);
-    for (let j in obj) {
-      if (obj[j] == 1) {
-        for (let k = 0; k < livePurse.length; k++) {
-          if (j === livePurse[k].pos) {
-            obj[j] = Number(livePurse[k].percent);
-          }
+    await $.get("api/liveSchedule", function (result) {
+      liveSchedule = result;
+    });
+    console.log(liveResults, liveSchedule);
+
+    let purseArr = [];
+
+    for (let i in liveResults) {
+      let match = false;
+      for (let j in purseArr) {
+        if (purseArr[j].pos === liveResults[i].posAdj) {
+          purseArr[j].data[0].count += 1;
+          match = true;
+          break;
         }
-      } else {
-        sum = 0;
-        for (let l = 0; l < obj[j]; l++) {
-          // console.log(`j: ${j} l: ${l}`);
-          sum += Number(livePurse[Number(j) + l - 1].percent);
-          // console.log(`sum: ${sum}`);
-        }
-        // console.log(`-------total sum: ${sum}--------`);
-        let avg = sum / obj[j];
-        obj[j] = avg.toFixed(3);
+      }
+      if (!match) {
+        purseArr.push({ pos: liveResults[i].posAdj, data: [{ count: 1 }] });
       }
     }
-    console.log(obj);
+    console.log(purseArr);
+    let purseSum = 0;
+    for (let i in purseArr) {
+      if (purseArr[i].pos > 0 && purseArr[i].pos <= 65) {
+        if (purseArr[i].data[0].count === 1) {
+          purseArr[i].data[0].avgPercent = Number(livePurseSplit[i].percent);
+          purseArr[i].data[0].dollars =
+            (livePurseSplit[i].percent * liveSchedule[0].purse) / 100;
+        } else {
+          purseSum = 0;
+          for (let j = 0; j < purseArr[i].data[0].count; j++) {
+            purseSum +=
+              typeof livePurseSplit[Number(purseArr[i].pos) + j - 1] ===
+              "undefined"
+                ? 0.2
+                : Number(
+                    livePurseSplit[Number(purseArr[i].pos) + j - 1].percent
+                  );
+          }
+          purseArr[i].data[0].totPercent = purseSum;
+          purseArr[i].data[0].avgPercent = purseSum / purseArr[i].data[0].count;
+          purseArr[i].data[0].dollars =
+            (purseArr[i].data[0].avgPercent * liveSchedule[0].purse) / 100;
+        }
+      } else {
+        purseArr[i].data[0].avgPercent = 0;
+        purseArr[i].data[0].dollars = 0;
+      }
+    }
+    console.log(purseArr);
+
+    // let obj = {};
+    // for (let i = 0; i < liveResults.length; i++) {
+    //   obj[liveResults[i].posAdj]
+    //     ? (obj[liveResults[i].posAdj] += 1)
+    //     : (obj[liveResults[i].posAdj] = 1);
+    // }
+    // if (obj[0]) {
+    //   delete obj[0];
+    // }
+    // console.log(obj);
+    // for (let j in obj) {
+    //   if (j <= 21) {
+    //     if (obj[j] == 1) {
+    //       obj[j] =
+    //         (Number(livePurseSplit[Number(j) - 1].percent) / 100) *
+    //         liveSchedule[0].purse;
+    //     } else {
+    //       sum = 0;
+    //       for (let l = 0; l < obj[j]; l++) {
+    //         console.log(`j: ${j} l: ${l}`);
+    //         sum += Number(livePurseSplit[Number(j) + l - 1].percent);
+    //         console.log(`sum: ${sum}`);
+    //       }
+    //       console.log(`-------total sum: ${sum}--------`);
+    //       let avg = sum / obj[j];
+    //       obj[j] = Number(((avg / 100) * liveSchedule[0].purse).toFixed(0));
+    //     }
+    //   }
+    // }
   }
 
   liveEvent();
