@@ -38,14 +38,17 @@ module.exports = function () {
                     .text()
                     .match(/\d+/g)[0])
                 : 0;
+              // for round 1 - in progress subtract 1 from nth-child for remaining properties
               result.playerName = $(this)
-                .children("td:nth-child(2)")
+                .children("td:nth-child(3)")
                 .children("a")
                 .text();
-              result.toPar = $(this).children("td:nth-child(3)").text();
+              result.toPar = $(this).children("td:nth-child(4)").text();
               if (result.toPar == "CUT") {
                 result.pos = "MC";
               }
+              result.thru = $(this).children("td:nth-child(6)").text();
+              console.log(result);
               resultsArray.push(result);
             });
           });

@@ -2,15 +2,12 @@ var db = require(".");
 
 module.exports = function (sequelize, DataTypes) {
   var liveResult = sequelize.define("liveResult", {
-    tournamentId: {
-      type: DataTypes.INTEGER,
-    },
+    tournamentId: DataTypes.INTEGER,
     pos: DataTypes.STRING,
     posAdj: DataTypes.STRING,
-    playerName: {
-      type: DataTypes.STRING,
-    },
+    playerName: DataTypes.STRING,
     toPar: DataTypes.STRING,
+    thru: DataTypes.STRING,
   });
 
   return liveResult;

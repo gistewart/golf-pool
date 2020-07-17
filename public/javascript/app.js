@@ -126,7 +126,7 @@ $(document).ready(function () {
     await $.get("api/liveSchedule", function (result) {
       liveSchedule = result;
     });
-    console.log(liveResults, liveSchedule);
+    console.log(liveSchedule);
 
     let purseArr = [];
 
@@ -143,7 +143,6 @@ $(document).ready(function () {
         purseArr.push({ pos: liveResults[i].posAdj, data: [{ count: 1 }] });
       }
     }
-    console.log(purseArr);
     let purseSum = 0;
     for (let i in purseArr) {
       if (purseArr[i].pos > 0 && purseArr[i].pos <= 65) {
@@ -174,35 +173,16 @@ $(document).ready(function () {
     }
     console.log(purseArr);
 
-    // let obj = {};
-    // for (let i = 0; i < liveResults.length; i++) {
-    //   obj[liveResults[i].posAdj]
-    //     ? (obj[liveResults[i].posAdj] += 1)
-    //     : (obj[liveResults[i].posAdj] = 1);
-    // }
-    // if (obj[0]) {
-    //   delete obj[0];
-    // }
-    // console.log(obj);
-    // for (let j in obj) {
-    //   if (j <= 21) {
-    //     if (obj[j] == 1) {
-    //       obj[j] =
-    //         (Number(livePurseSplit[Number(j) - 1].percent) / 100) *
-    //         liveSchedule[0].purse;
-    //     } else {
-    //       sum = 0;
-    //       for (let l = 0; l < obj[j]; l++) {
-    //         console.log(`j: ${j} l: ${l}`);
-    //         sum += Number(livePurseSplit[Number(j) + l - 1].percent);
-    //         console.log(`sum: ${sum}`);
-    //       }
-    //       console.log(`-------total sum: ${sum}--------`);
-    //       let avg = sum / obj[j];
-    //       obj[j] = Number(((avg / 100) * liveSchedule[0].purse).toFixed(0));
-    //     }
-    //   }
-    // }
+    for (let i in liveResults) {
+      for (let j in purseArr) {
+        if (liveResults[i].posAdj === purseArr[j].pos) {
+          liveResults[i].avgPercent = purseArr[j].data[0].avgPercent;
+          liveResults[i].dollars = purseArr[j].data[0].dollars;
+          break;
+        }
+      }
+    }
+    console.log(liveResults);
   }
 
   liveEvent();
@@ -371,9 +351,6 @@ $(document).ready(function () {
       (a, b) => b.poolsterEarnings - a.poolsterEarnings
     );
 
-    // for (let i = 0; i < sorted.length; i++) {
-    //   sorted[i].ranking = i + 1;
-    // }
     sorted[0].ranking = 1;
     let ties = 0;
     for (let i = 1; i < sorted.length; i++) {
