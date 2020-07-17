@@ -403,7 +403,11 @@ $(document).ready(function () {
           "></td><td class='poolsterHandle'>" +
           sorted[i].poolster +
           " " +
-          (sorted[i].playerCount > 0 && apiCall == "Season"
+          (sorted[i].poolster === "The Trader"
+            ? "<i class='fas fa-ribbon' style='color:purple; border:black'></i>"
+            : sorted[i].playerCount > 0 &&
+              apiCall == "Season" &&
+              sorted[i].poolster !== "The Trader"
             ? "<i class='subIcon2 material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
             : sorted[i].playerCount == 0 && apiCall == "Season"
             ? "<i class='subIcon1 material-icons md-15'>swap_horizontal_circle</i>"
