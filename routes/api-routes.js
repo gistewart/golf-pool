@@ -665,26 +665,23 @@ module.exports = function (app) {
 
   app.get("/api/livePositions", async function (req, res) {
     // Testing Start
-    // await db.liveEventSchedule
-    //   .findAll({})
-    // Test End
-    // Production Start
-    await db.liveEventSchedule
-      .sync({ force: true })
-      .then(async function () {
-        const temp = await seedLiveEventSchedule();
-      })
-      .then(function () {
-        return db.liveEventSchedule.findAll({});
-      })
+    await db.livePosition
+      .findAll({})
+      // Test End
+      // Production Start
+      // await db.liveEventSchedule
+      //   .sync({ force: true })
+      //   .then(async function () {
+      //     const temp = await seedLiveEventSchedule();
+      //   })
+      //   .then(async function () {
+      //     await db.livePosition.sync({ force: true });
+      //     const temp = await runLivePositions();
+      //   })
+      //   .then(async function () {
+      //     return db.livePosition.findAll({});
+      //   })
       // Production End
-      .then(async function () {
-        await db.livePosition.sync({ force: true });
-        const temp = await runLivePositions();
-      })
-      .then(async function () {
-        return db.livePosition.findAll({});
-      })
       .then((result) => {
         res.json(result);
       });
