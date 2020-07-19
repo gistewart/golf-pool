@@ -117,8 +117,8 @@ $(document).ready(function () {
 
   async function liveEvent() {
     console.log("liveEvent function");
-    await $.get("api/liveResults", function (result) {
-      liveResults = result;
+    await $.get("api/livePositions", function (result) {
+      livePositions = result;
     });
     await $.get("api/livePurseSplit", function (result) {
       livePurseSplit = result;
@@ -126,21 +126,24 @@ $(document).ready(function () {
     await $.get("api/liveSchedule", function (result) {
       liveSchedule = result;
     });
+    await $.get("api/livePlayers", function (result) {
+      livePlayers = result;
+    });
     console.log(liveSchedule);
 
     let purseArr = [];
 
-    for (let i in liveResults) {
+    for (let i in livePositions) {
       let match = false;
       for (let j in purseArr) {
-        if (purseArr[j].pos === liveResults[i].posAdj) {
+        if (purseArr[j].pos === livePositions[i].posAdj) {
           purseArr[j].data[0].count += 1;
           match = true;
           break;
         }
       }
       if (!match) {
-        purseArr.push({ pos: liveResults[i].posAdj, data: [{ count: 1 }] });
+        purseArr.push({ pos: livePositions[i].posAdj, data: [{ count: 1 }] });
       }
     }
     let purseSum = 0;
@@ -173,16 +176,35 @@ $(document).ready(function () {
     }
     console.log(purseArr);
 
-    for (let i in liveResults) {
+    for (let i in livePositions) {
       for (let j in purseArr) {
-        if (liveResults[i].posAdj === purseArr[j].pos) {
-          liveResults[i].avgPercent = purseArr[j].data[0].avgPercent;
-          liveResults[i].dollars = purseArr[j].data[0].dollars;
+        if (livePositions[i].posAdj === purseArr[j].pos) {
+          livePositions[i].avgPercent = purseArr[j].data[0].avgPercent;
+          livePositions[i].dollars = purseArr[j].data[0].dollars;
           break;
         }
       }
     }
-    console.log(liveResults);
+    console.log(livePositions);
+
+    for (let i in livePlayers) {
+      let a = livePlayers[i].Players,
+        tStart = liveSchedule[0].tStartDate;
+      for (let j = 0; j < a.length; j++) {
+        if (
+          (a[j].endDate > tStart && a[j].startDate < tStart) ||
+          (a[j].reEndDate > tStart && a[j].reStartDate < tStart)
+        ) {
+          a[j].Tournaments.push({
+            name: liveSchedule[0].name,
+          });
+        } else {
+          a.splice(j, 1);
+          j--;
+        }
+      }
+    }
+    console.log(livePlayers);
   }
 
   liveEvent();

@@ -38,7 +38,7 @@ module.exports = function () {
                     .text()
                     .match(/\d+/g)[0])
                 : 0;
-              // for round 1 - in progress subtract 1 from nth-child for remaining properties
+              // for round 1 - play complete: subtract 1 from nth-child for remaining properties
               result.playerName = $(this)
                 .children("td:nth-child(3)")
                 .children("a")
@@ -54,9 +54,9 @@ module.exports = function () {
           });
       }
       console.log(
-        `-----------finished runLiveResults for tournament -----------`
+        `-----------finished runLivePositions for tournament -----------`
       );
       const arrToLoad = resultsArray.filter((el) => el.playerName);
-      const temp = await db.liveResult.bulkCreate(arrToLoad);
+      const temp = await db.livePosition.bulkCreate(arrToLoad);
     });
 };

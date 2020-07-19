@@ -3,7 +3,7 @@ var sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const seedScheduleStage = require("../scripts/seedScheduleStage");
 const seedLiveEventSchedule = require("../scripts/seedLiveEventSchedule");
-const runLiveResults = require("../scripts/runLiveResults");
+const runLivePositions = require("../scripts/runLivePositions");
 const runResults = require("../scripts/runResults");
 require("dotenv").config();
 
@@ -329,6 +329,62 @@ module.exports = function (app) {
       });
   });
 
+  app.get("/api/livePlayers", async function (req, res) {
+    await db.Poolster.findAll({
+      attributes: ["poolsterId", "name", "handle", "image"],
+      include: [
+        {
+          model: db.PoolsterPlayers,
+          as: "PoolsterPlayers",
+          attributes: [
+            "startDate",
+            "endDate",
+            "reStartDate",
+            "reEndDate",
+            "effDate",
+            "type",
+          ],
+          include: [
+            {
+              model: db.Player,
+              as: "Player",
+              attributes: ["playerName", "tier"],
+            },
+          ],
+        },
+      ],
+    })
+      .then(function (data) {
+        let a, b, c;
+        let result = [];
+        for (let i = 0; i < data.length; i++) {
+          result.push({
+            name: data[i].name,
+            handle: data[i].handle,
+            image: data[i].image,
+            Players: [],
+          });
+          a = data[i].PoolsterPlayers;
+
+          for (let j = 0; j < a.length; j++) {
+            result[i].Players.push({
+              name: a[j].Player.playerName,
+              startDate: a[j].startDate,
+              endDate: a[j].endDate,
+              reStartDate: a[j].reStartDate,
+              reEndDate: a[j].reEndDate,
+              tier: a[j].Player.tier,
+              Tournaments: [],
+            });
+          }
+        }
+        return result;
+      })
+      .then((result) => {
+        res.json(result);
+      });
+  });
+
   app.get("/api/lastEventDetails", async function (req, res) {
     const date = await db.Schedule.max("tStartDate", {
       where: {
@@ -607,7 +663,7 @@ module.exports = function (app) {
       });
   });
 
-  app.get("/api/liveResults", async function (req, res) {
+  app.get("/api/livePositions", async function (req, res) {
     // Testing Start
     // await db.liveEventSchedule
     //   .findAll({})
@@ -623,11 +679,11 @@ module.exports = function (app) {
       })
       // Production End
       .then(async function () {
-        await db.liveResult.sync({ force: true });
-        const temp = await runLiveResults();
+        await db.livePosition.sync({ force: true });
+        const temp = await runLivePositions();
       })
       .then(async function () {
-        return db.liveResult.findAll({});
+        return db.livePosition.findAll({});
       })
       .then((result) => {
         res.json(result);

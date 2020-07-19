@@ -1,7 +1,7 @@
 var db = require(".");
 
 module.exports = function (sequelize, DataTypes) {
-  var liveResult = sequelize.define("liveResult", {
+  var livePosition = sequelize.define("livePosition", {
     tournamentId: DataTypes.INTEGER,
     pos: DataTypes.STRING,
     posAdj: DataTypes.STRING,
@@ -10,5 +10,5 @@ module.exports = function (sequelize, DataTypes) {
     thru: DataTypes.STRING,
   });
 
-  return liveResult;
+  return livePosition;
 };
