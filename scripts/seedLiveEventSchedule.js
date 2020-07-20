@@ -68,9 +68,8 @@ module.exports = async function () {
         });
       });
     if (
-      !/Tournament Field|Final|Round 1 - Play Complete|^Round [1-4]/gi.test(
-        hold.status
-      )
+      // !/Tournament Field|Final|Round 1 - Play Complete|^Round [2-4]/gi.test(
+      !/^Round [2-4]/gi.test(hold.status)
     ) {
       scheduleStage.splice(i, 1);
       i--;

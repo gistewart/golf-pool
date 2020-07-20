@@ -186,7 +186,7 @@ $(document).ready(function () {
       }
     }
     console.log(livePositions);
-
+    // filter livePlayers for active players only
     for (let i in livePlayers) {
       let a = livePlayers[i].Players,
         tStart = liveSchedule[0].tStartDate;
@@ -197,8 +197,32 @@ $(document).ready(function () {
         ) {
           a[j].Tournaments.push({
             name: liveSchedule[0].name,
+            date: liveSchedule[0].tDate,
+            start: liveSchedule[0].tStartDate,
           });
         } else {
+          a.splice(j, 1);
+          j--;
+        }
+      }
+    }
+    console.log(livePlayers);
+
+    //filter livePlayers for players who played in the tournament
+    for (let i = 0; i < livePlayers.length; i++) {
+      for (let j = 0; j < livePlayers[i].Players.length; j++) {
+        let a = livePlayers[i].Players;
+        let match = false;
+        for (let k = 0; k < livePositions.length; k++) {
+          if (a[j].name === livePositions[k].playerName) {
+            match = true;
+            a[j].Tournaments[0].pos = livePositions[k].pos;
+            a[j].Tournaments[0].dollars = livePositions[k].dollars;
+            a[j].Tournaments[0].thru = livePositions[k].thru;
+            a[j].Tournaments[0].percent = livePositions[k].avgPercent;
+          }
+        }
+        if (match === false) {
           a.splice(j, 1);
           j--;
         }
