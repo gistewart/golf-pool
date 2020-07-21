@@ -16,11 +16,6 @@ module.exports = function (app) {
     res.sendFile(path.join(__dirname, "../public/index.html"));
   });
 
-  // cms route loads cms.html
-  app.get("/comments", function (req, res) {
-    res.sendFile(path.join(__dirname, "../public/comments.html"));
-  });
-
   // image route loads index.ejs
   app.get("/image", (req, res) => res.render("index"));
 };

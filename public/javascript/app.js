@@ -143,6 +143,7 @@ $(document).ready(function () {
   $(document).on("click", "#seasonData", seasonData);
 
   function seasonData() {
+    $(".comments-container").hide();
     $(".main-container").show();
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");

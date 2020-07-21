@@ -577,8 +577,6 @@ module.exports = function (app) {
           });
         }
 
-        console.log(averages);
-
         for (let i = 0; i < arr.length; i++) {
           let grade = "";
           for (let j = 0; j < averages.length; j++) {
