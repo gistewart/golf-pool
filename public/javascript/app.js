@@ -206,7 +206,6 @@ $(document).ready(function () {
         }
       }
     }
-    console.log(livePlayers);
 
     //filter livePlayers for players who played in the tournament
     for (let i = 0; i < livePlayers.length; i++) {
