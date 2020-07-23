@@ -2,6 +2,7 @@ $(document).ready(function () {
   let resultsRefresh = false;
   $("#lastEventTitle").hide();
   $("#subIconLang").hide();
+  $("footer").hide();
   $(".comments-container").hide();
 
   $("#seasonData").addClass("is-loading");
@@ -405,7 +406,7 @@ $(document).ready(function () {
           sorted[i].poolster +
           " " +
           (sorted[i].poolster === "The Trader"
-            ? "<i class='fas fa-ribbon' style='color:purple'></i>"
+            ? "<i class='fas fa-ribbon'></i>"
             : sorted[i].playerCount > 0 &&
               apiCall == "Season" &&
               sorted[i].poolster !== "The Trader"
@@ -552,6 +553,7 @@ $(document).ready(function () {
     $(".subIcon2").attr("title", "Sub already used for this period");
 
     $("#subIconLang").show(3000);
+    $("footer").show(3000);
 
     console.log(sorted);
   }

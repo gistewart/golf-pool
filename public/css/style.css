@@ -6,7 +6,7 @@ body {
 .logo {
   position: relative;
   height: 30px;
-  background: rgba(18, 31, 219, 0.808);
+  background: rgba(9, 19, 163, 0.808);
   max-width: 620px;
 }
 
@@ -57,6 +57,7 @@ p {
 .table {
   table-layout: fixed;
   width: 100%;
+  margin-bottom: 1em !important;
 }
 
 .level1 {
@@ -184,7 +185,6 @@ p {
 
 .subIconLangShow {
   visibility: visible;
-  font-size: 0.75em;
   margin-top: -1.5em;
 }
 
@@ -216,6 +216,13 @@ p {
 .blog-title {
   font-size: 1.25em;
   padding: 0 30px 10px;
+}
+
+.footer {
+  background: #555;
+  padding: 5px;
+  margin-top: 1em;
+  font-size: 0.85em;
 }
 
 @media only screen and (min-width: 576px) {
