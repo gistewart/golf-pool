@@ -1,7 +1,7 @@
 $(document).ready(function () {
   let resultsRefresh = false;
   $("#lastEventTitle").hide();
-  $("#subIconLang").hide();
+  $("#footnotes").hide();
   $("footer").hide();
   $(".comments-container").hide();
 
@@ -146,6 +146,7 @@ $(document).ready(function () {
   function seasonData() {
     $(".comments-container").hide();
     $(".main-container").show();
+    $("#footnotes").show(3000);
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
     $("#lastEventTitle").show();
@@ -207,6 +208,7 @@ $(document).ready(function () {
   function eventData() {
     $(".main-container").show();
     $(".comments-container").hide();
+    $("#footnotes").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Tournament details:");
     apiCall = "Event";
@@ -403,6 +405,9 @@ $(document).ready(function () {
           "</td><td class='imageDiv'><img class='poolsterImage' src=" +
           sorted[i].image +
           "></td><td class='poolsterHandle'>" +
+          (sorted[i].poolster === "The Trader"
+            ? "<i class='fas fa-ribbon'></i>" + " "
+            : "") +
           sorted[i].poolster +
           " " +
           (sorted[i].poolster === "The Trader"
@@ -549,10 +554,10 @@ $(document).ready(function () {
         }
       }
     }
-    $(".subIcon1").attr("title", "Sub available for this period");
-    $(".subIcon2").attr("title", "Sub already used for this period");
+    // $(".subIcon1").attr("title", "Sub available for this period");
+    // $(".subIcon2").attr("title", "Sub already used for this period");
 
-    $("#subIconLang").show(3000);
+    // $("#subIconLang").show(3000);
     $("footer").show(3000);
 
     console.log(sorted);
@@ -564,6 +569,7 @@ $(document).ready(function () {
 
   function commentsPage() {
     $(".main-container").hide();
+    $("#footnotes").hide();
     $("#seasonData").removeClass("is-active");
     $("#eventData").removeClass("is-active");
     $("#commentsPage").addClass("is-active");
