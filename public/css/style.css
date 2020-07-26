@@ -1,3 +1,19 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.page-content {
+  min-height: 100%;
+  margin-bottom: -25px;
+}
+
+.page-content::after {
+  content: "";
+  display: block;
+}
+
 body {
   background: rgba(128, 128, 128, 0.25);
   font-size: 75%;
@@ -6,7 +22,7 @@ body {
 .logo {
   position: relative;
   height: 30px;
-  background: rgba(9, 19, 163, 0.808);
+  background: rgba(7, 15, 133, 0.808);
   max-width: 620px;
 }
 
@@ -218,6 +234,10 @@ p {
   padding: 0 30px 10px;
 }
 
+#footnotes {
+  margin-bottom: 15px;
+}
+
 #playerRankingLang > a:link {
   text-decoration: underline;
 }
@@ -230,8 +250,12 @@ hr {
 .footer {
   background: #555;
   padding: 5px;
-  margin-top: 1em;
   font-size: 0.85em;
+}
+
+.footer,
+.page-content::after {
+  height: 25px;
 }
 
 @media only screen and (min-width: 576px) {
