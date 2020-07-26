@@ -146,7 +146,7 @@ $(document).ready(function () {
   function seasonData() {
     $(".comments-container").hide();
     $(".main-container").show();
-    $("#footnotes").show(3000);
+    $("#footnotes").show(4000);
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
     $("#lastEventTitle").show();
@@ -226,51 +226,57 @@ $(document).ready(function () {
     //to sum earnings by player and poolster
     let a, b;
     let result = [];
+    let iAdj = 0;
     for (let i = 0; i < data.length; i++) {
-      let poolsterSum = 0;
-      let playerCount = 0;
-      result.push({
-        poolster: data[i].handle,
-        name: data[i].name,
-        image: data[i].image,
-        Players: [],
-      });
-      a = data[i].Players;
-      for (let j = 0; j < a.length; j++) {
-        let playerSum = 0;
-        result[i].Players.push({
-          player: a[j].name,
-          tier: a[j].tier,
-          startDate: a[j].startDate,
-          active: "yes",
-          endDate: a[j].endDate,
-          reStartDate: a[j].reStartDate,
-          reEndDate: a[j].reEndDate,
-          effDate: a[j].effDate,
-          type: a[j].type,
-          tournaments: [],
+      if (!(data[i].Players && data[i].Players.length)) {
+        iAdj++;
+      } else {
+        let poolsterSum = 0;
+        let playerCount = 0;
+        result.push({
+          poolster: data[i].handle,
+          name: data[i].name,
+          image: data[i].image,
+          Players: [],
         });
-        if (a[j].endDate < "2020-12-31" && !a[j].reStartDate) {
-          result[i].Players[j].active = "no";
-        }
-        if (a[j].effDate > "2020-07-05" && a[j].type == "regular") {
-          playerCount++;
-        }
-        b = a[j].Tournaments;
-        for (let k = 0; k < b.length; k++) {
-          playerSum += b[k].earnings;
-          poolsterSum += b[k].earnings;
-          result[i].Players[j].tournaments.push({
-            name: b[k].name,
-            date: b[k].date,
-            start: b[k].start,
-            position: b[k].position,
-            earnings: b[k].earnings,
+        a = data[i].Players;
+        for (let j = 0; j < a.length; j++) {
+          let playerSum = 0;
+
+          result[i - iAdj].Players.push({
+            player: a[j].name,
+            tier: a[j].tier,
+            startDate: a[j].startDate,
+            active: "yes",
+            endDate: a[j].endDate,
+            reStartDate: a[j].reStartDate,
+            reEndDate: a[j].reEndDate,
+            effDate: a[j].effDate,
+            type: a[j].type,
+            tournaments: [],
           });
+          if (a[j].endDate < "2020-12-31" && !a[j].reStartDate) {
+            result[i].Players[j].active = "no";
+          }
+          if (a[j].effDate > "2020-07-05" && a[j].type == "regular") {
+            playerCount++;
+          }
+          b = a[j].Tournaments;
+          for (let k = 0; k < b.length; k++) {
+            playerSum += b[k].earnings;
+            poolsterSum += b[k].earnings;
+            result[i - iAdj].Players[j].tournaments.push({
+              name: b[k].name,
+              date: b[k].date,
+              start: b[k].start,
+              position: b[k].position,
+              earnings: b[k].earnings,
+            });
+          }
+          result[i - iAdj].Players[j]["playerEarnings"] = playerSum;
+          result[i - iAdj]["poolsterEarnings"] = poolsterSum;
+          result[i - iAdj]["playerCount"] = playerCount;
         }
-        result[i].Players[j]["playerEarnings"] = playerSum;
-        result[i]["poolsterEarnings"] = poolsterSum;
-        result[i]["playerCount"] = playerCount;
       }
     }
     console.log(result);
@@ -558,7 +564,7 @@ $(document).ready(function () {
     // $(".subIcon2").attr("title", "Sub already used for this period");
 
     // $("#subIconLang").show(3000);
-    $("footer").show(3000);
+    $("footer").show(4000);
 
     console.log(sorted);
   }
