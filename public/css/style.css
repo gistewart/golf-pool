@@ -77,7 +77,6 @@ p {
 }
 
 .level1 {
-  /* background: url("../images/vichy.png"); */
   background: rgba(128, 128, 128, 0.125);
 }
 
@@ -111,10 +110,12 @@ p {
 }
 
 .poolsterHandle {
+  font-size: 3.5vw;
+  /* 
   font-size: 1.15em;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; */
 }
 
 .poolsterName {
@@ -130,7 +131,8 @@ p {
 }
 
 .level1 .earnings {
-  font-size: 1.15em;
+  font-size: 3.5vw;
+  /* font-size: 1.15em; */
 }
 
 .level2 {
@@ -270,5 +272,9 @@ hr {
   }
   .logo {
     height: 60px !important;
+  }
+  .poolsterHandle,
+  .level1 .earnings {
+    font-size: 1.15em;
   }
 }
