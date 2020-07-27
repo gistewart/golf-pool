@@ -411,6 +411,7 @@ $(document).ready(function () {
           "</td><td class='imageDiv'><img class='poolsterImage' src=" +
           sorted[i].image +
           "></td><td class='poolsterHandle'>" +
+          "<span>" +
           (sorted[i].poolster === "The Trader"
             ? "<i class='fas fa-ribbon'></i>" + " "
             : "") +
@@ -425,6 +426,7 @@ $(document).ready(function () {
             : sorted[i].playerCount == 0 && apiCall == "Season"
             ? "<i class='subIcon1 material-icons md-15'>swap_horizontal_circle</i>"
             : "") +
+          "</span>" +
           "<p class='poolsterName'>" +
           sorted[i].name +
           "<p></td><td class='earnings'>" +
@@ -450,7 +452,6 @@ $(document).ready(function () {
             ": " +
             sorted[i].Players[j].player +
             " " +
-            // new here
             "<i title = 'Category earnings (including any subs) are " +
             ((sorted[i].Players[j].gradePercent * 100).toFixed(0) + "%") +
             " of pool average of " +
@@ -560,10 +561,39 @@ $(document).ready(function () {
         }
       }
     }
+
+    $(function () {
+      $(".poolsterHandle").each(function () {
+        var fitWidth = $(".poolsterHandle").innerWidth();
+        // console.log(fitWidth);
+        var $div = $(this);
+        $(this)
+          .find("span")
+          .each(function () {
+            var c = 0;
+            var spanWidth = parseInt($(this).width());
+            console.log(spanWidth);
+            while (fitWidth < 1.1 * spanWidth) {
+              $div.find("span").each(function () {
+                var fontSize = parseInt($(this).css("font-size"));
+                console.log(fontSize);
+                fontSize = fontSize - 0.1 + "px";
+                $(this).css("font-size", fontSize);
+              });
+              spanWidth = parseInt($(this).width());
+              c++;
+              if (c > 999) {
+                $div.css("background", "red");
+                break;
+              }
+            }
+          });
+      });
+    });
+
     // $(".subIcon1").attr("title", "Sub available for this period");
     // $(".subIcon2").attr("title", "Sub already used for this period");
 
-    // $("#subIconLang").show(3000);
     $("footer").show(4000);
 
     console.log(sorted);

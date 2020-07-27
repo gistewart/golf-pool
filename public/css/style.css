@@ -110,12 +110,17 @@ p {
 }
 
 .poolsterHandle {
-  font-size: 3.75vw;
-  /* 
+  /* display: block;
+  float: left;
+  width: 100%; */
   font-size: 1.15em;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; */
+  text-overflow: ellipsis;
+}
+
+.poolsterHandle span {
+  font-size: 1.15em;
 }
 
 .poolsterName {
@@ -131,8 +136,8 @@ p {
 }
 
 .level1 .earnings {
-  font-size: 3.75vw;
-  /* font-size: 1.15em; */
+  /* font-size: 3.75vw; */
+  font-size: 1.15em;
 }
 
 .level2 {
@@ -273,8 +278,8 @@ hr {
   .logo {
     height: 60px !important;
   }
-  .poolsterHandle,
+  /* .poolsterHandle,
   .level1 .earnings {
     font-size: 1.15em;
-  }
+  } */
 }
