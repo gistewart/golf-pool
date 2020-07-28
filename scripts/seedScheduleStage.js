@@ -63,6 +63,7 @@ module.exports = async function () {
       });
     if (hold.status != "Final") {
       scheduleStage.splice(i, 1);
+      i--;
     }
     console.log("current tournament included:", scheduleStage);
   }

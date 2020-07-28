@@ -36,7 +36,10 @@ module.exports = function () {
               result.toPar = $(this).children("td:nth-child(3)").text();
               if (result.toPar == "CUT") {
                 result.pos = "MC";
+              } else if (result.toPar == "WD") {
+                result.pos = "WD";
               }
+
               result.earnings = Number(
                 $(this)
                   .children("td:nth-child(9)")
