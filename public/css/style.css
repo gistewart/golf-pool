@@ -1,3 +1,8 @@
+body {
+  /* background: rgba(128, 128, 128, 0.25); */
+  font-size: 75%;
+}
+
 html,
 body {
   height: 100%;
@@ -5,6 +10,7 @@ body {
 }
 
 .page-content {
+  background: rgba(128, 128, 128, 0.25);
   min-height: 100%;
   margin-bottom: -25px;
 }
@@ -12,11 +18,6 @@ body {
 .page-content::after {
   content: "";
   display: block;
-}
-
-body {
-  background: rgba(128, 128, 128, 0.25);
-  font-size: 75%;
 }
 
 .logo {
@@ -110,10 +111,6 @@ p {
 }
 
 .poolsterHandle {
-  /* display: block;
-  float: left;
-  width: 100%; */
-  font-size: 1.15em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -136,7 +133,6 @@ p {
 }
 
 .level1 .earnings {
-  /* font-size: 3.75vw; */
   font-size: 1.15em;
 }
 

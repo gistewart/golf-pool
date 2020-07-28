@@ -565,24 +565,21 @@ $(document).ready(function () {
     $(function () {
       $(".poolsterHandle").each(function () {
         var fitWidth = $(".poolsterHandle").innerWidth();
-        // console.log(fitWidth);
         var $div = $(this);
         $(this)
           .find("span")
           .each(function () {
             var c = 0;
             var spanWidth = parseInt($(this).width());
-            console.log(spanWidth);
             while (fitWidth < 1.1 * spanWidth) {
               $div.find("span").each(function () {
-                var fontSize = parseInt($(this).css("font-size"));
-                console.log(fontSize);
-                fontSize = fontSize - 0.1 + "px";
+                var fontSize = parseFloat($(this).css("font-size"));
+                fontSize = fontSize - 0.5 + "px";
                 $(this).css("font-size", fontSize);
               });
               spanWidth = parseInt($(this).width());
               c++;
-              if (c > 999) {
+              if (c > 10) {
                 $div.css("background", "red");
                 break;
               }
@@ -590,9 +587,44 @@ $(document).ready(function () {
           });
       });
     });
+    // $(function () {
+    //   $(".level2").each(function () {
+    //     // var fitWidth = $(".level2").innerWidth() - $(".earnings").innerWidth();
+    //     var fitWidth = $(".level2A").actual("width");
+    //     console.log("fitWidth ", fitWidth);
+    //     var $div = $(this);
+    //     $(this)
+    //       .find("td:first-child")
+    //       .each(function () {
+    //         var c = 0;
+    //         var spanWidth = parseInt($(this).width());
+    //         console.log(
+    //           "spanWidth prior to while loop ",
+    //           (spanWidth * 1.1).toFixed(1)
+    //         );
+    //         while (fitWidth < 1.2 * spanWidth) {
+    //           $div.find("span").each(function () {
+    //             var fontSize = parseFloat($(this).css("font-size"));
+    //             console.log("fontSize 1", fontSize);
+    //             fontSize = fontSize - 0.5 + "px";
+    //             console.log("fontSize 2 ", fontSize);
+    //             $(this).css("font-size", fontSize);
+    //           });
+    //           spanWidth = parseInt($(this).width());
+    //           console.log("spanWidth ", (spanWidth * 1.1).toFixed(1));
+    //           c++;
+    //           console.log("c ", c);
+    //           if (c > 3) {
+    //             $div.css("background", "red");
+    //             break;
+    //           }
+    //         }
+    //       });
+    //   });
+    // });
 
-    // $(".subIcon1").attr("title", "Sub available for this period");
-    // $(".subIcon2").attr("title", "Sub already used for this period");
+    // var temp = $(".logo").actual("width");
+    // console.log(temp);
 
     $("footer").show(4000);
 
