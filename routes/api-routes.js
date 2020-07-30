@@ -67,6 +67,7 @@ module.exports = function (app) {
             image: data[i].image,
             Players: [],
           });
+
           a = data[i].PoolsterPlayers;
           for (let j = 0; j < a.length; j++) {
             result[i].Players.push({
@@ -80,24 +81,34 @@ module.exports = function (app) {
               tier: a[j].Player.tier,
               Tournaments: [],
             });
+
             b = a[j].Player.Results;
+            let kAdj = 0;
             for (let k = 0; k < b.length; k++) {
               c = b[k].Schedule;
               if (
-                (a[j].startDate < c.tStartDate &&
-                  a[j].endDate > c.tStartDate) ||
-                (a[j].reStartDate < c.tStartDate &&
-                  a[j].reEndDate > c.tStartDate)
-              ) {
+                !(
+                  (a[j].startDate < c.tStartDate &&
+                    a[j].endDate > c.tStartDate) ||
+                  (a[j].reStartDate < c.tStartDate &&
+                    a[j].reEndDate > c.tStartDate)
+                )
+              )
+                kAdj++;
+              else {
                 result[i].Players[j].Tournaments.push({
                   name: c.name,
-                  shortName: c.ScheduleShortName.shortName,
+                  shortName: c.name,
                   date: c.tDate,
                   start: c.tStartDate,
                   position: b[k].pos,
                   toPar: b[k].toPar,
                   earnings: b[k].earnings,
                 });
+                if (c.ScheduleShortName) {
+                  result[i].Players[j].Tournaments[k - kAdj].shortName =
+                    c.ScheduleShortName.shortName;
+                }
               }
             }
           }
@@ -191,6 +202,7 @@ module.exports = function (app) {
             image: data[i].image,
             Players: [],
           });
+
           a = data[i].PoolsterPlayers;
           let jAdj = 0;
           for (let j = 0; j < a.length; j++) {
@@ -215,13 +227,18 @@ module.exports = function (app) {
                 c = b[k].Schedule;
                 result[i].Players[j + jAdj].Tournaments.push({
                   name: c.name,
-                  shortName: c.ScheduleShortName.shortName,
+                  shortName: c.name,
                   date: c.tDate,
                   start: c.tStartDate,
                   position: b[k].pos,
                   toPar: b[k].toPar,
                   earnings: b[k].earnings,
                 });
+
+                if (result[i].Players && c.ScheduleShortName) {
+                  result[i].Players[j + jAdj].Tournaments[k].shortName =
+                    c.ScheduleShortName.shortName;
+                }
               }
             } else {
               jAdj += -1;
