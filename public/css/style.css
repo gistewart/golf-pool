@@ -96,10 +96,10 @@ p {
   padding-right: 0 !important;
 }
 
-.rankingChange {
+table tbody .level1 .rankingChange {
   font-size: 0.8em;
-  text-align: center !important;
-  padding: 1em 0 0 0.35em !important;
+  text-align: center;
+  padding: 1em 0 0 0.35em;
 }
 
 .poolsterImage {

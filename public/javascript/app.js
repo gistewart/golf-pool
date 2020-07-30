@@ -227,6 +227,7 @@ $(document).ready(function () {
     let a, b;
     let result = [];
     let iAdj = 0;
+    console.log(data);
     for (let i = 0; i < data.length; i++) {
       if (!(data[i].Players && data[i].Players.length)) {
         iAdj++;
@@ -267,6 +268,7 @@ $(document).ready(function () {
             poolsterSum += b[k].earnings;
             result[i - iAdj].Players[j].tournaments.push({
               name: b[k].name,
+              shortName: b[k].shortName,
               date: b[k].date,
               start: b[k].start,
               position: b[k].position,
@@ -544,7 +546,7 @@ $(document).ready(function () {
               "' ><td class='level3A' colspan='4'>" +
               sorted[i].Players[j].tournaments[k].date +
               " | " +
-              sorted[i].Players[j].tournaments[k].name +
+              sorted[i].Players[j].tournaments[k].shortName +
               " | " +
               sorted[i].Players[j].tournaments[k].position +
               "</td><td class='earnings'>" +

@@ -42,6 +42,12 @@ module.exports = function (app) {
                       model: db.Schedule,
                       as: "Schedule",
                       attributes: ["name", "tDate", "tStartDate", "tEndDate"],
+                      include: [
+                        {
+                          model: db.ScheduleShortName,
+                          attributes: ["shortName"],
+                        },
+                      ],
                     },
                   ],
                 },
@@ -85,6 +91,7 @@ module.exports = function (app) {
               ) {
                 result[i].Players[j].Tournaments.push({
                   name: c.name,
+                  shortName: c.ScheduleShortName.shortName,
                   date: c.tDate,
                   start: c.tStartDate,
                   position: b[k].pos,
@@ -158,6 +165,12 @@ module.exports = function (app) {
                             },
                           },
                           attributes: ["name", "tDate", "tStartDate"],
+                          include: [
+                            {
+                              model: db.ScheduleShortName,
+                              attributes: ["shortName"],
+                            },
+                          ],
                         },
                       ],
                     },
@@ -202,6 +215,7 @@ module.exports = function (app) {
                 c = b[k].Schedule;
                 result[i].Players[j + jAdj].Tournaments.push({
                   name: c.name,
+                  shortName: c.ScheduleShortName.shortName,
                   date: c.tDate,
                   start: c.tStartDate,
                   position: b[k].pos,
