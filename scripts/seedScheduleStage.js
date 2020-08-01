@@ -40,7 +40,11 @@ module.exports = async function () {
         result.tEndDate = f;
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
-        scheduleStage.push(result);
+
+        // to exclude the Barracuda while it is taking place
+        if (result.tournamentId !== "401155468") {
+          scheduleStage.push(result);
+        }
         console.log(scheduleStage);
       });
       return;
@@ -68,6 +72,7 @@ module.exports = async function () {
     console.log("current tournament included:", scheduleStage);
   }
 
+  //now grab details of completed tournaments
   await axios
     .get("https://www.espn.com/golf/schedule")
     .then(function (response) {
@@ -103,8 +108,11 @@ module.exports = async function () {
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
         scheduleStage.push(result);
       });
+
+      //filter for this year's events; (not the Barracuda;) presence of a winner
       finishedEventsArr = scheduleStage
         .filter((el) => el.tournamentId >= "401155413")
+        // .filter((el) => el.tournamentId !== "401155468")
         .filter((el) => el.winner);
       return;
     })

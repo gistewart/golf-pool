@@ -139,3 +139,36 @@ INSERT INTO `ScheduleShortNames` (`tournamentId`, `shortName`) VALUES ('40115547
 INSERT INTO `ScheduleShortNames` (`tournamentId`, `shortName`) VALUES ('401155474', 'Northern Trust');
 INSERT INTO `ScheduleShortNames` (`tournamentId`, `shortName`) VALUES ('401155475', 'BMW');
 INSERT INTO `ScheduleShortNames` (`tournamentId`, `shortName`) VALUES ('401155476', 'Tour Championship');
+
+-- 7/29: LOCAL
+
+UPDATE `golf-pool_db`.`PoolsterPlayers` SET `endDate` = '2020-07-29', `effDate` = '2020-07-29', `type` = 'regular' WHERE (`id` = '77');
+
+INSERT INTO `golf-pool_db`.`PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('12', '19', '2020-07-29', '2020-07-29', 'regular');
+
+-- 7/29: REMOTE
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2020-07-29', `effDate` = '2020-07-29', `type` = 'regular' WHERE (`id` = '77');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('12', '19', '2020-07-29', '2020-07-29', 'regular');
+
+-- 8/2 LOCAL Barracuda manual load
+
+INSERT INTO `golf-pool_db`.`Schedules` (`tournamentId`, `tDate`, `tStartDate`, `tEndDate`, `name`, `winner`) VALUES ('401155468', 'Jul 30-Aug 2', '2020-07-30', '2020-08-02', 'Barracuda Championship', 'Matthias Schwab');
+
+-- Change id after WGC-FedEx has loaded
+INSERT INTO `golf-pool_db`.`Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('1466', '401155468', 'T6', 'Maverick McNealy', '+19 (MS)', '88888', '2020-08-03 04:00:00', '2020-08-03 04:00:00');
+
+-- 8/2 REMOTE Barracuda manual load
+
+INSERT INTO `Schedules` (`tournamentId`, `tDate`, `tStartDate`, `tEndDate`, `name`, `winner`) VALUES ('401155468', 'Jul 30-Aug 2', '2020-07-30', '2020-08-02', 'Barracuda Championship', 'Matthias Schwab');
+
+-- Change id after WGC-FedEx has loaded
+INSERT INTO `Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('1466', '401155468', 'T6', 'Maverick McNealy', '+19 (MS)', '88888', '2020-08-03 04:00:00', '2020-08-03 04:00:00');
+
+
+
+
+
+
+

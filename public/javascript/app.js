@@ -38,7 +38,10 @@ $(document).ready(function () {
           !appScheduleArr.some(({ tournamentId: id2 }) => id2 === id1)
       );
       console.log("diffSchedule: ", diffScheduleArr);
-      if (diffScheduleArr.length) {
+      if (
+        diffScheduleArr.length &&
+        webScheduleArr.length > appScheduleArr.length
+      ) {
         console.log("ready to post new event details");
         for (let i = 0; i < diffScheduleArr.length; i++) {
           console.log("in loop");
