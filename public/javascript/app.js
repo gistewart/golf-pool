@@ -97,7 +97,7 @@ $(document).ready(function () {
     );
     console.log("diffResultsArr: ", diffResultsArr);
     if (diffResultsArr.length) {
-      getMissingResults(diffResultsArr);
+      // getMissingResults(diffResultsArr);
     } else {
       console.log("skipping getMissingResults function");
     }
