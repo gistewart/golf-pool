@@ -154,17 +154,22 @@ INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`,
 
 -- 8/2 LOCAL Barracuda manual load
 
-INSERT INTO `golf-pool_db`.`Schedules` (`tournamentId`, `tDate`, `tStartDate`, `tEndDate`, `name`, `winner`) VALUES ('401155468', 'Jul 30-Aug 2', '2020-07-30', '2020-08-02', 'Barracuda Championship', 'Matthias Schwab');
+INSERT INTO `golf-pool_db`.`Schedules` (`tournamentId`, `tDate`, `tStartDate`, `tEndDate`, `name`, `winner`) VALUES ('401155468', 'Jul 30-Aug 2', '2020-07-30', '2020-08-02', 'Barracuda Championship', 'Richy Werenski');
 
 -- Change id after WGC-FedEx has loaded
-INSERT INTO `golf-pool_db`.`Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('1466', '401155468', 'T6', 'Maverick McNealy', '+19 (MS)', '88888', '2020-08-03 04:00:00', '2020-08-03 04:00:00');
+INSERT INTO `golf-pool_db`.`Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('1504', '401155468', '7', 'Maverick McNealy', '+34 (MS)', '118125', '2020-08-03 04:00:00', '2020-08-03 04:00:00');
+
+INSERT INTO `golf-pool_db`.`Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('1505', '401155468', 'T25', 'Charley Hoffman', '+25 (MS)', '28087', '2020-08-03 04:00:00', '2020-08-03 04:00:00');
 
 -- 8/2 REMOTE Barracuda manual load
 
 INSERT INTO `Schedules` (`tournamentId`, `tDate`, `tStartDate`, `tEndDate`, `name`, `winner`) VALUES ('401155468', 'Jul 30-Aug 2', '2020-07-30', '2020-08-02', 'Barracuda Championship', 'Matthias Schwab');
 
 -- Change id after WGC-FedEx has loaded
-INSERT INTO `Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('1466', '401155468', 'T6', 'Maverick McNealy', '+19 (MS)', '88888', '2020-08-03 04:00:00', '2020-08-03 04:00:00');
+
+INSERT INTO `Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('1504', '401155468', 'T6', 'Maverick McNealy', '+19 (MS)', '88888', '2020-08-03 04:00:00', '2020-08-03 04:00:00');
+
+INSERT INTO `Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('1505', '401155468', 'T6', 'Charley Hoffman', '+25 (MS)', '88888', '2020-08-03 04:00:00', '2020-08-03 04:00:00');
 
 
 
