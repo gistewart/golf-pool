@@ -5,7 +5,7 @@ $(document).ready(function () {
   $("footer").hide();
   $(".comments-container").hide();
 
-  $("#seasonData").addClass("is-loading");
+  $("#seasonData #spinner").addClass("lds-hourglass");
 
   pageLoad();
 
@@ -97,7 +97,9 @@ $(document).ready(function () {
     );
     console.log("diffResultsArr: ", diffResultsArr);
     if (diffResultsArr.length) {
+      // Test start
       // getMissingResults(diffResultsArr);
+      // Test end
     } else {
       console.log("skipping getMissingResults function");
     }
@@ -203,7 +205,6 @@ $(document).ready(function () {
         });
       });
     });
-    $("#seasonData").removeClass("is-loading");
   }
 
   $(document).on("click", "#eventData", eventData);
@@ -565,6 +566,7 @@ $(document).ready(function () {
           );
         }
       }
+      $("#seasonData #spinner").removeClass("lds-hourglass");
     }
 
     $(function () {
