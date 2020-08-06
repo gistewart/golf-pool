@@ -169,6 +169,23 @@ INSERT INTO `Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earn
 INSERT INTO `Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('1505', '401155468', 'T25', 'Charley Hoffman', '+25 (MS)', '28087', '2020-08-03 04:00:00', '2020-08-03 04:00:00');
 
 
+-- 8/6 LOCAL Sub
+
+INSERT INTO `golf-pool_db`.`Players` (`playerId`, `playerName`, `tier`, `createdAt`, `updatedAt`) VALUES ('47', 'Daniel Berger', '6', '2020-08-06 16:00:00', '2020-08-06 16:00:00');
+
+UPDATE `golf-pool_db`.`PoolsterPlayers` SET `endDate` = '2020-08-05', `effDate` = '2020-08-05', `type` = 'regular' WHERE (`id` = '54');
+
+INSERT INTO `golf-pool_db`.`PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('8', '47', '2020-08-05', '2020-08-05', 'regular');
+
+-- 8/6 REMOTE Sub
+
+INSERT INTO `Players` (`playerId`, `playerName`, `tier`, `createdAt`, `updatedAt`) VALUES ('47', 'Daniel Berger', '6', '2020-08-06 16:00:00', '2020-08-06 16:00:00');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2020-08-05', `effDate` = '2020-08-05', `type` = 'regular' WHERE (`id` = '54');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('8', '47', '2020-08-05', '2020-08-05', 'regular');
+
+
 
 
 

@@ -5,7 +5,7 @@ $(document).ready(function () {
   $("footer").hide();
   $(".comments-container").hide();
 
-  $("#seasonData #spinner").addClass("lds-hourglass");
+  $("#seasonData .spinner").addClass("lds-hourglass");
 
   pageLoad();
 
@@ -38,10 +38,7 @@ $(document).ready(function () {
           !appScheduleArr.some(({ tournamentId: id2 }) => id2 === id1)
       );
       console.log("diffSchedule: ", diffScheduleArr);
-      if (
-        diffScheduleArr.length &&
-        webScheduleArr.length > appScheduleArr.length
-      ) {
+      if (diffScheduleArr.length) {
         console.log("ready to post new event details");
         for (let i = 0; i < diffScheduleArr.length; i++) {
           console.log("in loop");
@@ -78,7 +75,6 @@ $(document).ready(function () {
     });
     console.log("new event posted");
     return;
-    // missingResults();
   }
 
   async function missingResults() {
@@ -149,6 +145,7 @@ $(document).ready(function () {
   $(document).on("click", "#seasonData", seasonData);
 
   function seasonData() {
+    $("#seasonData .spinner").addClass("lds-hourglass");
     $(".comments-container").hide();
     $(".main-container").show();
     $("#footnotes").show(4000);
@@ -210,6 +207,7 @@ $(document).ready(function () {
   $(document).on("click", "#eventData", eventData);
 
   function eventData() {
+    $("#eventData .spinner").addClass("lds-hourglass");
     $(".main-container").show();
     $(".comments-container").hide();
     $("#footnotes").hide();
@@ -566,7 +564,12 @@ $(document).ready(function () {
           );
         }
       }
-      $("#seasonData #spinner").removeClass("lds-hourglass");
+      if ((apiCall = "Season")) {
+        $("#seasonData .spinner").removeClass("lds-hourglass");
+      }
+      if ((apiCall = "Event")) {
+        $("#eventData .spinner").removeClass("lds-hourglass");
+      }
     }
 
     $(function () {
