@@ -93,9 +93,9 @@ $(document).ready(function () {
     );
     console.log("diffResultsArr: ", diffResultsArr);
     if (diffResultsArr.length) {
-      // Test start
+      // Production start
       // getMissingResults(diffResultsArr);
-      // Test end
+      // Production end
     } else {
       console.log("skipping getMissingResults function");
     }
@@ -396,6 +396,7 @@ $(document).ready(function () {
     console.log(sorted);
 
     $(".leaderboard-container > tbody").html("");
+    console.log(apiCall);
     for (let i = 0; i < sorted.length; i++) {
       $(".leaderboard-container > tbody").append(
         "<tr data-toggle='collapse' data-target='#demo" +
@@ -564,10 +565,10 @@ $(document).ready(function () {
           );
         }
       }
-      if ((apiCall = "Season")) {
+      if (apiCall === "Season") {
         $("#seasonData .spinner").removeClass("lds-hourglass");
       }
-      if ((apiCall = "Event")) {
+      if (apiCall === "Event") {
         $("#eventData .spinner").removeClass("lds-hourglass");
       }
     }
