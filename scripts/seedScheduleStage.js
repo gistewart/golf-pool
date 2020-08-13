@@ -70,7 +70,7 @@ module.exports = async function () {
       i--;
       console.log("current tournament included:", scheduleStage);
     }
-    //have earnings been posted for all players who made the cut
+    // have earnings been posted for all players who made the cut
     else {
       await axios
         .get(`https://www.espn.com/golf/leaderboard?tournamentId=${id}`)
@@ -112,6 +112,11 @@ module.exports = async function () {
           resultsArray[j].earnings
         );
         // this is where the magic happens!
+        // to exclude amateurs from the earnings check
+        if (/\(a\)$/.test(resultsArray[j].playerName)) {
+          continue;
+        }
+        // to delete tourney if any pros who made cut have earnings of 0
         if (!isNaN(resultsArray[j].pos) && resultsArray[j].earnings === 0) {
           console.log("break now");
           scheduleStage.splice(i, 1);
