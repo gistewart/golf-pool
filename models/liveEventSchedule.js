@@ -12,6 +12,7 @@ module.exports = function (sequelize, DataTypes) {
       name: DataTypes.STRING,
       winner: DataTypes.STRING,
       purse: DataTypes.INTEGER,
+      status: DataTypes.STRING,
     },
     {
       timestamps: false,

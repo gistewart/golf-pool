@@ -50,7 +50,7 @@ module.exports = async function () {
       return;
     });
 
-  console.log("line 46", scheduleStage);
+  console.log("line 53", scheduleStage);
 
   // has Round 1 of current tournament been completed
   for (let i = 0; i < scheduleStage.length; i++) {
@@ -63,13 +63,14 @@ module.exports = async function () {
         var $ = cheerio.load(response.data);
 
         $(".status").each(function (i, element) {
-          hold.status = $(this).find("span").text();
-          console.log(hold);
+          hold.status = $(this).children("span:first-child").text();
+          console.log("hold: ", hold);
         });
       });
+    scheduleStage[i].status = hold.status;
     if (
       // !/Tournament Field|Final|Round 1 - Play Complete|^Round [2-4]/gi.test(
-      !/^Round [2-4]/gi.test(hold.status)
+      !/^Round [1-4]/gi.test(hold.status)
     ) {
       scheduleStage.splice(i, 1);
       i--;
