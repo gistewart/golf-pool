@@ -21,7 +21,7 @@ module.exports = function () {
         console.log("new check: ", tournamentIds);
         for (let i = 0; i < tournamentIds.length; i++) {
           const id = tournamentIds[i].tournamentId;
-          let statusAdj = -1;
+          let statusAdj = 0;
           if (/^Round 1/.test(tournamentIds[i].status)) {
             statusAdj = -1;
             console.log(
@@ -48,7 +48,7 @@ module.exports = function () {
                       .text()
                       .match(/\d+/g)[0])
                   : 0;
-                // for any Round 1 status, subtract 1 from nth-child for remaining properties
+                // for any Round 1 status, subtracting 1 from nth-child for remaining properties
                 result.playerName = $(this)
                   .children("td:nth-child(" + (3 + statusAdj) + ")")
                   .children("a")

@@ -146,9 +146,15 @@ $(document).ready(function () {
         purseArr.push({ pos: livePositions[i].posAdj, data: [{ count: 1 }] });
       }
     }
+    console.log(purseArr);
+
+    let roundStatus = liveSchedule[0].status;
+    let round = roundStatus.match(/\d/)[0];
     let purseSum = 0;
+
     for (let i in purseArr) {
-      if (purseArr[i].pos > 0 && purseArr[i].pos <= 65) {
+      if (purseArr[i].pos > 0) {
+        // if (purseArr[i].pos > 0 && purseArr[i].pos <= 65 && round < 3) {
         if (purseArr[i].data[0].count === 1) {
           purseArr[i].data[0].avgPercent = Number(livePurseSplit[i].percent);
           purseArr[i].data[0].dollars =
@@ -159,7 +165,7 @@ $(document).ready(function () {
             purseSum +=
               typeof livePurseSplit[Number(purseArr[i].pos) + j - 1] ===
               "undefined"
-                ? 0.2
+                ? 0.183
                 : Number(
                     livePurseSplit[Number(purseArr[i].pos) + j - 1].percent
                   );

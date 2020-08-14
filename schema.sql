@@ -71,6 +71,22 @@ INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `upd
 INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('64', '.217', '2020-07-14','2020-07-14');
 INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('65', '.215', '2020-07-14','2020-07-14');
 
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('66', '.213', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('67', '.211', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('68', '.209', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('69', '.207', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('70', '.205', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('71', '.203', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('72', '.201', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('73', '.199', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('74', '.197', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('75', '.195', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('76', '.193', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('77', '.191', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('78', '.189', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('79', '.187', '2020-07-14','2020-07-14');
+INSERT INTO `golf-pool_db`.`livePurseSplits` (`pos`, `percent`,`createdAt`, `updatedAt`) VALUES ('80', '.185', '2020-07-14','2020-07-14');
+
 -- 6/24 changes (LOCAL)
 
 UPDATE `golf-pool_db`.`PoolsterPlayers` SET `endDate` = '2020-06-24', `effDate` = '2020-06-24', `type` = 'no-cost' WHERE (`id` = '76');
