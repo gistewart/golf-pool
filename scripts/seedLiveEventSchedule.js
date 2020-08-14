@@ -69,7 +69,7 @@ module.exports = async function () {
       });
     scheduleStage[i].status = hold.status;
     if (
-      // !/Tournament Field|Final|Round 1 - Play Complete|^Round [2-4]/gi.test(
+      // !/Tournament Field|Final|Round 1 - Suspended | Round 1 - Play Complete|^Round [2-4]/gi.test(
       !/^Round [1-4]/gi.test(hold.status)
     ) {
       scheduleStage.splice(i, 1);
