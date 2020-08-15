@@ -83,6 +83,7 @@ module.exports = function (app) {
             });
 
             b = a[j].Player.Results;
+            //kAdj for shortName purposes
             let kAdj = 0;
             for (let k = 0; k < b.length; k++) {
               c = b[k].Schedule;
@@ -204,6 +205,7 @@ module.exports = function (app) {
           });
 
           a = data[i].PoolsterPlayers;
+          // jAdj accounts for inactive players when building Tournaments array for each player
           let jAdj = 0;
           for (let j = 0; j < a.length; j++) {
             if (

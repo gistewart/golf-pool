@@ -228,6 +228,7 @@ $(document).ready(function () {
     //to sum earnings by player and poolster
     let a, b;
     let result = [];
+    // iAdj below accounts for inactive players being the ONLY players on a poolster's team (it handles an empty array issue)
     let iAdj = 0;
     console.log(data);
     for (let i = 0; i < data.length; i++) {
