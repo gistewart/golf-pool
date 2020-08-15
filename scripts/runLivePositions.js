@@ -56,8 +56,8 @@ module.exports = function () {
                 result.toPar = $(this)
                   .children("td:nth-child(" + (4 + statusAdj) + ")")
                   .text();
-                if (result.toPar == "CUT") {
-                  result.pos = "MC";
+                if (result.pos == "-") {
+                  result.pos = result.toPar;
                 }
                 result.thru = $(this)
                   .children("td:nth-child(" + (6 + statusAdj) + ")")

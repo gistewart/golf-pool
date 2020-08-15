@@ -373,6 +373,8 @@ module.exports = function (app) {
               endDate: a[j].endDate,
               reStartDate: a[j].reStartDate,
               reEndDate: a[j].reEndDate,
+              effDate: a[j].effDate,
+              type: a[j].type,
               tier: a[j].Player.tier,
               Tournaments: [],
             });

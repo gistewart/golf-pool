@@ -24,6 +24,10 @@ body {
   text-decoration: none;
 }
 
+#liveData {
+  color: red;
+}
+
 .lastEventDetails {
   max-width: 620px;
   width: 95%;

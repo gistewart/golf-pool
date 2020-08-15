@@ -115,7 +115,19 @@ $(document).ready(function () {
     return;
   }
 
+  $(document).on("click", "#liveData", liveEvent);
+
   async function liveEvent() {
+    $(".main-container").show();
+    $(".comments-container").hide();
+    $("#lastEventTitle").show();
+    $("#lastEventTitle").text("Current tournament details:");
+    apiCall = "Live";
+    $("#liveData").addClass("is-active");
+    $("#eventData").removeClass("is-active");
+    $("#seasonData").removeClass("is-active");
+    $("#commentsPage").removeClass("is-active");
+
     console.log("liveEvent function");
     await $.get("api/livePositions", function (result) {
       livePositions = result;
@@ -154,7 +166,6 @@ $(document).ready(function () {
 
     for (let i in purseArr) {
       if (purseArr[i].pos > 0) {
-        // if (purseArr[i].pos > 0 && purseArr[i].pos <= 65 && round < 3) {
         if (purseArr[i].data[0].count === 1) {
           purseArr[i].data[0].avgPercent = Number(livePurseSplit[i].percent);
           purseArr[i].data[0].dollars =
@@ -175,13 +186,15 @@ $(document).ready(function () {
           purseArr[i].data[0].dollars =
             (purseArr[i].data[0].avgPercent * liveSchedule[0].purse) / 100;
         }
-      } else {
+      }
+      if ((round < 3 && purseArr[i].pos > 65) || purseArr[i].pos == 0) {
+        purseArr[i].data[0].totPercent = 0;
         purseArr[i].data[0].avgPercent = 0;
         purseArr[i].data[0].dollars = 0;
       }
     }
     console.log(purseArr);
-
+    // add purse info to livePositions array
     for (let i in livePositions) {
       for (let j in purseArr) {
         if (livePositions[i].posAdj === purseArr[j].pos) {
@@ -221,8 +234,8 @@ $(document).ready(function () {
         for (let k = 0; k < livePositions.length; k++) {
           if (a[j].name === livePositions[k].playerName) {
             match = true;
-            a[j].Tournaments[0].pos = livePositions[k].pos;
-            a[j].Tournaments[0].dollars = livePositions[k].dollars;
+            a[j].Tournaments[0].position = livePositions[k].pos;
+            a[j].Tournaments[0].earnings = livePositions[k].dollars;
             a[j].Tournaments[0].thru = livePositions[k].thru;
             a[j].Tournaments[0].percent = livePositions[k].avgPercent;
           }
@@ -234,9 +247,8 @@ $(document).ready(function () {
       }
     }
     console.log(livePlayers);
+    sumData(livePlayers);
   }
-
-  liveEvent();
 
   //for the section at the top of the leaderboard
   function lastEventDetails() {
@@ -276,6 +288,7 @@ $(document).ready(function () {
 
     apiCall = "Season";
     $("#eventData").removeClass("is-active");
+    $("#liveData").removeClass("is-active");
     $("#commentsPage").removeClass("is-active");
     $("#seasonData").addClass("is-active");
     $.get("/api/allEvents", function (data) {
@@ -336,6 +349,7 @@ $(document).ready(function () {
       sumData(data);
       $("#eventData").addClass("is-active");
       $("#seasonData").removeClass("is-active");
+      $("#liveData").removeClass("is-active");
       $("#commentsPage").removeClass("is-active");
     });
     $("#eventData").removeClass("is-loading");

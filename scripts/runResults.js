@@ -34,8 +34,8 @@ module.exports = function () {
                 .children("a")
                 .text();
               result.toPar = $(this).children("td:nth-child(3)").text();
-              if (result.toPar == "CUT") {
-                result.pos = "MC";
+              if (result.pos == "-") {
+                result.pos = result.toPar;
               }
               result.earnings = Number(
                 $(this)
@@ -44,6 +44,7 @@ module.exports = function () {
                   .replace(/[\$,]/g, "")
                   .replace(/--/, 0)
               );
+
               resultsArray.push(result);
             });
 
