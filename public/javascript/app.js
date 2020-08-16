@@ -117,6 +117,8 @@ $(document).ready(function () {
 
   $(document).on("click", "#liveData", liveEvent);
 
+  let apiCall = "";
+
   async function liveEvent() {
     $(".main-container").show();
     $(".comments-container").hide();
@@ -167,9 +169,11 @@ $(document).ready(function () {
     for (let i in purseArr) {
       if (purseArr[i].pos > 0) {
         if (purseArr[i].data[0].count === 1) {
-          purseArr[i].data[0].avgPercent = Number(livePurseSplit[i].percent);
+          purseArr[i].data[0].avgPercent = Number(
+            livePurseSplit[purseArr[i].pos - 1].percent
+          );
           purseArr[i].data[0].dollars =
-            (livePurseSplit[i].percent * liveSchedule[0].purse) / 100;
+            (purseArr[i].data[0].avgPercent * liveSchedule[0].purse) / 100;
         } else {
           purseSum = 0;
           for (let j = 0; j < purseArr[i].data[0].count; j++) {
@@ -247,6 +251,21 @@ $(document).ready(function () {
       }
     }
     console.log(livePlayers);
+    $.get("api/liveSchedule", function (result) {
+      console.log(result);
+      $("#lastEventDetails").html("");
+      for (let i = 0; i < result.length; i++) {
+        $("#lastEventDetails").append(
+          "<p>" +
+            result[i].tDate +
+            " | " +
+            result[i].name +
+            " | " +
+            result[i].status +
+            "</p>"
+        );
+      }
+    });
     sumData(livePlayers);
   }
 
@@ -254,6 +273,7 @@ $(document).ready(function () {
   function lastEventDetails() {
     console.log("entering lastEventDetails function");
     $.get("api/lastEventDetails", function (result) {
+      $("#lastEventDetails").html("");
       for (let i = 0; i < result.length; i++) {
         $("#lastEventDetails").append(
           "<p>" +
@@ -272,8 +292,7 @@ $(document).ready(function () {
   }
 
   let mainData = [],
-    partData = [],
-    apiCall = "";
+    partData = [];
 
   $(document).on("click", "#seasonData", seasonData);
 
@@ -285,7 +304,7 @@ $(document).ready(function () {
     $("#lastEventTitle").text(
       "Results reflect all tournaments up to and including:"
     );
-
+    lastEventDetails();
     apiCall = "Season";
     $("#eventData").removeClass("is-active");
     $("#liveData").removeClass("is-active");
@@ -343,6 +362,7 @@ $(document).ready(function () {
     $(".comments-container").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Tournament details:");
+    lastEventDetails();
     apiCall = "Event";
     $("#eventData").addClass("is-loading");
     $.get("/api/lastEvent", function (data) {
@@ -366,44 +386,52 @@ $(document).ready(function () {
         poolster: data[i].handle,
         name: data[i].name,
         image: data[i].image,
+        liveZeroPlayersText: "",
         Players: [],
       });
       a = data[i].Players;
-      for (let j = 0; j < a.length; j++) {
-        let playerSum = 0;
-        result[i].Players.push({
-          player: a[j].name,
-          tier: a[j].tier,
-          startDate: a[j].startDate,
-          active: "yes",
-          endDate: a[j].endDate,
-          reStartDate: a[j].reStartDate,
-          reEndDate: a[j].reEndDate,
-          effDate: a[j].effDate,
-          type: a[j].type,
-          tournaments: [],
-        });
-        if (a[j].endDate < "2020-12-31" && !a[j].reStartDate) {
-          result[i].Players[j].active = "no";
-        }
-        if (a[j].effDate > "2020-07-05" && a[j].type == "regular") {
-          playerCount++;
-        }
-        b = a[j].Tournaments;
-        for (let k = 0; k < b.length; k++) {
-          playerSum += b[k].earnings;
-          poolsterSum += b[k].earnings;
-          result[i].Players[j].tournaments.push({
-            name: b[k].name,
-            date: b[k].date,
-            start: b[k].start,
-            position: b[k].position,
-            earnings: b[k].earnings,
+
+      if (a.length === 0) {
+        result[i]["poolsterEarnings"] = 0;
+        result[i]["liveZeroPlayersText"] = " (0 players)";
+      } else {
+        for (let j = 0; j < a.length; j++) {
+          let playerSum = 0;
+          result[i].Players.push({
+            player: a[j].name,
+            tier: a[j].tier,
+            startDate: a[j].startDate,
+            active: "yes",
+            endDate: a[j].endDate,
+            reStartDate: a[j].reStartDate,
+            reEndDate: a[j].reEndDate,
+            effDate: a[j].effDate,
+            type: a[j].type,
+            tournaments: [],
           });
+          if (a[j].endDate < "2020-12-31" && !a[j].reStartDate) {
+            result[i].Players[j].active = "no";
+          }
+          if (a[j].effDate > "2020-07-05" && a[j].type == "regular") {
+            playerCount++;
+          }
+
+          b = a[j].Tournaments;
+          for (let k = 0; k < b.length; k++) {
+            playerSum += b[k].earnings;
+            poolsterSum += b[k].earnings;
+            result[i].Players[j].tournaments.push({
+              name: b[k].name,
+              date: b[k].date,
+              start: b[k].start,
+              position: b[k].position,
+              earnings: b[k].earnings,
+            });
+          }
+          result[i].Players[j]["playerEarnings"] = playerSum;
+          result[i]["poolsterEarnings"] = poolsterSum;
+          result[i]["playerCount"] = playerCount;
         }
-        result[i].Players[j]["playerEarnings"] = playerSum;
-        result[i]["poolsterEarnings"] = poolsterSum;
-        result[i]["playerCount"] = playerCount;
       }
     }
     console.log(result);
@@ -536,6 +564,9 @@ $(document).ready(function () {
           sorted[i].image +
           "></td><td class='poolsterHandle'>" +
           sorted[i].poolster +
+          "<small>" +
+          sorted[i].liveZeroPlayersText +
+          "</small>" +
           " " +
           (sorted[i].playerCount > 0 && apiCall == "Season"
             ? "<i class='subIcon2 material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
@@ -549,6 +580,7 @@ $(document).ready(function () {
             style: "currency",
             currency: "USD",
             minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
           }) +
           "</td></tr>"
       );
@@ -647,6 +679,7 @@ $(document).ready(function () {
               style: "currency",
               currency: "USD",
               minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
             }) +
             "</td></tr>"
         );
@@ -670,6 +703,7 @@ $(document).ready(function () {
                   style: "currency",
                   currency: "USD",
                   minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
                 }
               ) +
               "</td></tr>"
