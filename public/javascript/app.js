@@ -93,7 +93,9 @@ $(document).ready(function () {
     );
     console.log("diffResultsArr: ", diffResultsArr);
     if (diffResultsArr.length) {
-      getMissingResults(diffResultsArr);
+      // Production start
+      // getMissingResults(diffResultsArr);
+      // Production end
     } else {
       console.log("skipping getMissingResults function");
     }
@@ -143,6 +145,11 @@ $(document).ready(function () {
     await $.get("api/livePlayers", function (result) {
       livePlayers = result;
     });
+    // await $.get("api/liveAllEvents", function (result) {
+    //   partResult = result;
+    //   console.log(partResult);
+    // });
+
     console.log(liveSchedule);
 
     let purseArr = [];
@@ -160,7 +167,6 @@ $(document).ready(function () {
         purseArr.push({ pos: livePositions[i].posAdj, data: [{ count: 1 }] });
       }
     }
-    console.log(purseArr);
 
     let roundStatus = liveSchedule[0].status;
     let round = roundStatus.match(/\d/)[0];

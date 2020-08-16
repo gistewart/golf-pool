@@ -5,6 +5,7 @@ const seedScheduleStage = require("../scripts/seedScheduleStage");
 const seedLiveEventSchedule = require("../scripts/seedLiveEventSchedule");
 const runLivePositions = require("../scripts/runLivePositions");
 const runResults = require("../scripts/runResults");
+const e = require("express");
 require("dotenv").config();
 
 module.exports = function (app) {
@@ -387,6 +388,116 @@ module.exports = function (app) {
       });
   });
 
+  app.get("/api/liveAllEvents", async function (req, res) {
+    await db.Poolster.findAll({
+      attributes: ["poolsterId", "name", "handle", "image"],
+      include: [
+        {
+          model: db.PoolsterPlayers,
+          as: "PoolsterPlayers",
+          attributes: [
+            "startDate",
+            "endDate",
+            "reStartDate",
+            "reEndDate",
+            "effDate",
+            "type",
+          ],
+          include: [
+            {
+              model: db.Player,
+              as: "Player",
+              attributes: ["playerName", "tier"],
+              include: [
+                {
+                  model: db.Result,
+                  as: "Results",
+                  attributes: ["earnings", "toPar", "pos"],
+                  include: [
+                    {
+                      model: db.Schedule,
+                      as: "Schedule",
+                      attributes: ["name", "tDate", "tStartDate", "tEndDate"],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+      .then(function (data) {
+        let a, b, c;
+        let result = [];
+        for (let i = 0; i < data.length; i++) {
+          result.push({
+            name: data[i].name,
+            handle: data[i].handle,
+            image: data[i].image,
+            poolsterEarnings: 0,
+            ranking: 0,
+            Players: [],
+          });
+          a = data[i].PoolsterPlayers;
+          for (let j = 0; j < a.length; j++) {
+            result[i].Players.push({
+              name: a[j].Player.playerName,
+              startDate: a[j].startDate,
+              endDate: a[j].endDate,
+              reStartDate: a[j].reStartDate,
+              reEndDate: a[j].reEndDate,
+              effDate: a[j].effDate,
+              type: a[j].type,
+              tier: a[j].Player.tier,
+              Tournaments: [],
+            });
+            b = a[j].Player.Results;
+            for (let k = 0; k < b.length; k++) {
+              c = b[k].Schedule;
+              if (
+                (a[j].startDate < c.tStartDate &&
+                  a[j].endDate > c.tStartDate) ||
+                (a[j].reStartDate < c.tStartDate &&
+                  a[j].reEndDate > c.tStartDate)
+              ) {
+                result[i].Players[j].Tournaments.push({
+                  name: c.name,
+                  date: c.tDate,
+                  start: c.tStartDate,
+                  position: b[k].pos,
+                  toPar: b[k].toPar,
+                  earnings: b[k].earnings,
+                });
+              }
+            }
+          }
+        }
+        for (let i = 0; i < result.length; i++) {
+          let poolsterSum = 0;
+          for (let j = 0; j < result[i].Players.length; j++) {
+            for (let k = 0; k < result[i].Players[j].Tournaments.length; k++) {
+              poolsterSum += result[i].Players[j].Tournaments[k].earnings;
+            }
+          }
+          result[i]["poolsterEarnings"] = poolsterSum;
+        }
+        result = result.sort((a, b) =>
+          a.poolsterEarnings < b.poolsterEarnings ? 1 : -1
+        );
+        result = result.forEach((el, i, a) => (a[i].ranking = i + 1));
+
+        // for (let i = 0; i < result.length; i++) {
+        //   result[i].ranking = i + 1;
+        // }
+
+        return result;
+      })
+      .then((result) => {
+        res.json(result);
+      });
+  });
+
   app.get("/api/lastEventDetails", async function (req, res) {
     const date = await db.Schedule.max("tStartDate", {
       where: {
@@ -667,22 +778,22 @@ module.exports = function (app) {
 
   app.get("/api/livePositions", async function (req, res) {
     // Testing Start
-    // await db.livePosition
-    //   .findAll({})
-    // Test End
-    // Production Start
-    await db.liveEventSchedule
-      .sync({ force: true })
-      .then(async function () {
-        const temp = await seedLiveEventSchedule();
-      })
-      .then(async function () {
-        await db.livePosition.sync({ force: true });
-        const temp = await runLivePositions();
-      })
-      .then(async function () {
-        return db.livePosition.findAll({});
-      })
+    await db.livePosition
+      .findAll({})
+      // Test End
+      // Production Start
+      // await db.liveEventSchedule
+      //   .sync({ force: true })
+      //   .then(async function () {
+      //     const temp = await seedLiveEventSchedule();
+      //   })
+      //   .then(async function () {
+      //     await db.livePosition.sync({ force: true });
+      //     const temp = await runLivePositions();
+      //   })
+      //   .then(async function () {
+      //     return db.livePosition.findAll({});
+      //   })
       // Production End
       .then((result) => {
         res.json(result);
