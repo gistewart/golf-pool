@@ -230,7 +230,7 @@ $(document).ready(function () {
       }
     }
 
-    //filter livePlayers for players who played in the tournament
+    //filter livePlayers for players who played in the tournament and add tournament performance data
     for (let i = 0; i < livePlayers.length; i++) {
       for (let j = 0; j < livePlayers[i].Players.length; j++) {
         let a = livePlayers[i].Players;
@@ -241,6 +241,7 @@ $(document).ready(function () {
             a[j].Tournaments[0].position = livePositions[k].pos;
             a[j].Tournaments[0].earnings = livePositions[k].dollars;
             a[j].Tournaments[0].thru = livePositions[k].thru;
+            a[j].Tournaments[0].toPar = livePositions[k].toPar;
             a[j].Tournaments[0].percent = livePositions[k].avgPercent;
           }
         }
@@ -426,6 +427,8 @@ $(document).ready(function () {
               start: b[k].start,
               position: b[k].position,
               earnings: b[k].earnings,
+              toPar: b[k].toPar,
+              thru: b[k].thru,
             });
           }
           result[i].Players[j]["playerEarnings"] = playerSum;
@@ -696,6 +699,13 @@ $(document).ready(function () {
               sorted[i].Players[j].tournaments[k].name +
               " | " +
               sorted[i].Players[j].tournaments[k].position +
+              (apiCall == "Live" &&
+              /\d/.test(sorted[i].Players[j].tournaments[k].position)
+                ? " | " +
+                  sorted[i].Players[j].tournaments[k].toPar +
+                  " | thru " +
+                  sorted[i].Players[j].tournaments[k].thru
+                : "") +
               "</td><td class='earnings'>" +
               sorted[i].Players[j].tournaments[k].earnings.toLocaleString(
                 "us-US",
