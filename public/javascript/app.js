@@ -145,10 +145,10 @@ $(document).ready(function () {
     await $.get("api/livePlayers", function (result) {
       livePlayers = result;
     });
-    // await $.get("api/liveAllEvents", function (result) {
-    //   partResult = result;
-    //   console.log(partResult);
-    // });
+    await $.get("api/liveAllEvents", function (result) {
+      partResult = result;
+      console.log(partResult);
+    });
 
     console.log(liveSchedule);
 
@@ -249,6 +249,7 @@ $(document).ready(function () {
             a[j].Tournaments[0].thru = livePositions[k].thru;
             a[j].Tournaments[0].toPar = livePositions[k].toPar;
             a[j].Tournaments[0].percent = livePositions[k].avgPercent;
+            break;
           }
         }
         if (match === false) {
@@ -257,7 +258,19 @@ $(document).ready(function () {
         }
       }
     }
+
+    for (let i = 0; i < livePlayers.length; i++) {
+      for (let j = 0; j < partResult.length; j++) {
+        if (livePlayers[i].name === partResult[j].name) {
+          livePlayers[i]["livePriorRanking"] = partResult[j].ranking;
+          livePlayers[i]["livePriorEarnings"] = partResult[j].poolsterEarnings;
+          break;
+        }
+      }
+    }
+
     console.log(livePlayers);
+
     $.get("api/liveSchedule", function (result) {
       console.log(result);
       $("#lastEventDetails").html("");
@@ -393,6 +406,8 @@ $(document).ready(function () {
         poolster: data[i].handle,
         name: data[i].name,
         image: data[i].image,
+        livePriorRanking: data[i].livePriorRanking,
+        livePriorEarnings: data[i].livePriorEarnings,
         liveZeroPlayersText: "",
         Players: [],
       });
@@ -607,82 +622,95 @@ $(document).ready(function () {
             sorted[i].Players[j].tier +
             ": " +
             sorted[i].Players[j].player +
-            " " +
-            // new here
-            "<i title = 'Category earnings (including any subs) are " +
-            ((sorted[i].Players[j].gradePercent * 100).toFixed(0) + "%") +
-            " of pool average of " +
-            Number(sorted[i].Players[j].poolAverage).toLocaleString("us-US", {
-              style: "currency",
-              currency: "USD",
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            }) +
-            "'" +
-            (sorted[i].Players[j].grade == "A"
-              ? "class='gradeIcon fas fa-angle-double-up fa-s'></i>"
-              : sorted[i].Players[j].grade == "B"
-              ? "class='gradeIcon fas fa-angle-up fa-s'></i>"
-              : sorted[i].Players[j].grade == "C"
-              ? "class='gradeIcon fas fa-arrows-alt-v fa-s'></i>"
-              : sorted[i].Players[j].grade == "D"
-              ? "class='gradeIcon fas fa-angle-down fa-s'></i>"
-              : sorted[i].Players[j].grade == "E"
-              ? "class='gradeIcon fas fa-angle-double-down fa-s'></i>"
-              : "") +
-            "  " +
-            (sorted[i].Players[j].active == "yes" &&
-            (sorted[i].Players[j].startDate > "2020-01-01" ||
-              sorted[i].Players[j].endDate < "2020-12-31")
-              ? " | "
-              : "") +
-            (sorted[i].Players[j].startDate > "2020-01-01"
-              ? " " +
-                "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
+            // " " +
+            // to add Live data to this layer
+            (apiCall === "Live"
+              ? ": " +
+                sorted[i].Players[j].tournaments[0].position +
+                (/\d/.test(sorted[i].Players[j].tournaments[0].position)
+                  ? " | " +
+                    sorted[i].Players[j].tournaments[0].toPar +
+                    " | thru " +
+                    sorted[i].Players[j].tournaments[0].thru
+                  : "")
+              : " " +
+                "<i title = 'Category earnings (including any subs) are " +
+                ((sorted[i].Players[j].gradePercent * 100).toFixed(0) + "%") +
+                " of pool average of " +
+                Number(sorted[i].Players[j].poolAverage).toLocaleString(
+                  "us-US",
+                  {
+                    style: "currency",
+                    currency: "USD",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }
+                ) +
+                "'" +
+                (sorted[i].Players[j].grade == "A"
+                  ? "class='gradeIcon fas fa-angle-double-up fa-s'></i>"
+                  : sorted[i].Players[j].grade == "B"
+                  ? "class='gradeIcon fas fa-angle-up fa-s'></i>"
+                  : sorted[i].Players[j].grade == "C"
+                  ? "class='gradeIcon fas fa-arrows-alt-v fa-s'></i>"
+                  : sorted[i].Players[j].grade == "D"
+                  ? "class='gradeIcon fas fa-angle-down fa-s'></i>"
+                  : sorted[i].Players[j].grade == "E"
+                  ? "class='gradeIcon fas fa-angle-double-down fa-s'></i>"
+                  : "") +
                 "  " +
-                new Date(sorted[i].Players[j].startDate).toLocaleString(
-                  "default",
-                  {
-                    month: "short",
-                    day: "numeric",
-                  }
-                )
-              : sorted[i].Players[j].endDate < "2020-12-31"
-              ? "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
-                " " +
-                new Date(sorted[i].Players[j].endDate).toLocaleString(
-                  "default",
-                  {
-                    month: "short",
-                    day: "numeric",
-                  }
-                )
-              : "") +
-            (sorted[i].Players[j].startDate > "2020-01-01" &&
-            sorted[i].Players[j].endDate < "2020-12-31"
-              ? " | " +
-                "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
-                "  " +
-                new Date(sorted[i].Players[j].endDate).toLocaleString(
-                  "default",
-                  {
-                    month: "short",
-                    day: "numeric",
-                  }
-                )
-              : "") +
-            (sorted[i].Players[j].reStartDate > "2020-01-01"
-              ? " | " +
-                "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
-                "  " +
-                new Date(sorted[i].Players[j].reStartDate).toLocaleString(
-                  "default",
-                  {
-                    month: "short",
-                    day: "numeric",
-                  }
-                )
-              : "") +
+                (sorted[i].Players[j].active == "yes" &&
+                (sorted[i].Players[j].startDate > "2020-01-01" ||
+                  sorted[i].Players[j].endDate < "2020-12-31")
+                  ? " | "
+                  : "") +
+                (sorted[i].Players[j].startDate > "2020-01-01"
+                  ? " " +
+                    "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
+                    "  " +
+                    new Date(sorted[i].Players[j].startDate).toLocaleString(
+                      "default",
+                      {
+                        month: "short",
+                        day: "numeric",
+                      }
+                    )
+                  : sorted[i].Players[j].endDate < "2020-12-31"
+                  ? "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
+                    " " +
+                    new Date(sorted[i].Players[j].endDate).toLocaleString(
+                      "default",
+                      {
+                        month: "short",
+                        day: "numeric",
+                      }
+                    )
+                  : "") +
+                (sorted[i].Players[j].startDate > "2020-01-01" &&
+                sorted[i].Players[j].endDate < "2020-12-31"
+                  ? " | " +
+                    "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
+                    "  " +
+                    new Date(sorted[i].Players[j].endDate).toLocaleString(
+                      "default",
+                      {
+                        month: "short",
+                        day: "numeric",
+                      }
+                    )
+                  : "") +
+                (sorted[i].Players[j].reStartDate > "2020-01-01"
+                  ? " | " +
+                    "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
+                    "  " +
+                    new Date(sorted[i].Players[j].reStartDate).toLocaleString(
+                      "default",
+                      {
+                        month: "short",
+                        day: "numeric",
+                      }
+                    )
+                  : "")) +
             "</td><td class='earnings'>" +
             sorted[i].Players[j].playerEarnings.toLocaleString("us-US", {
               style: "currency",
@@ -693,37 +721,33 @@ $(document).ready(function () {
             "</td></tr>"
         );
 
-        for (let k = 0; k < sorted[i].Players[j].tournaments.length; k++) {
-          $(".leaderboard-container").append(
-            "<tr class='level3 hiddenRow collapse' id='demo-" +
-              i +
-              "-" +
-              j +
-              "' ><td class='level3A' colspan='4'>" +
-              sorted[i].Players[j].tournaments[k].date +
-              " | " +
-              sorted[i].Players[j].tournaments[k].name +
-              " | " +
-              sorted[i].Players[j].tournaments[k].position +
-              (apiCall == "Live" &&
-              /\d/.test(sorted[i].Players[j].tournaments[k].position)
-                ? " | " +
-                  sorted[i].Players[j].tournaments[k].toPar +
-                  " | thru " +
-                  sorted[i].Players[j].tournaments[k].thru
-                : "") +
-              "</td><td class='earnings'>" +
-              sorted[i].Players[j].tournaments[k].earnings.toLocaleString(
-                "us-US",
-                {
-                  style: "currency",
-                  currency: "USD",
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 0,
-                }
-              ) +
-              "</td></tr>"
-          );
+        //to exclude this layer if apiCall = "Live"
+        if (apiCall !== "Live") {
+          for (let k = 0; k < sorted[i].Players[j].tournaments.length; k++) {
+            $(".leaderboard-container").append(
+              "<tr class='level3 hiddenRow collapse' id='demo-" +
+                i +
+                "-" +
+                j +
+                "' ><td class='level3A' colspan='4'>" +
+                sorted[i].Players[j].tournaments[k].date +
+                " | " +
+                sorted[i].Players[j].tournaments[k].name +
+                " | " +
+                sorted[i].Players[j].tournaments[k].position +
+                "</td><td class='earnings'>" +
+                sorted[i].Players[j].tournaments[k].earnings.toLocaleString(
+                  "us-US",
+                  {
+                    style: "currency",
+                    currency: "USD",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }
+                ) +
+                "</td></tr>"
+            );
+          }
         }
       }
     }

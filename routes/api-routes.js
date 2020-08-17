@@ -390,7 +390,7 @@ module.exports = function (app) {
 
   app.get("/api/liveAllEvents", async function (req, res) {
     await db.Poolster.findAll({
-      attributes: ["poolsterId", "name", "handle", "image"],
+      attributes: ["poolsterId", "name", "handle"],
       include: [
         {
           model: db.PoolsterPlayers,
@@ -412,7 +412,7 @@ module.exports = function (app) {
                 {
                   model: db.Result,
                   as: "Results",
-                  attributes: ["earnings", "toPar", "pos"],
+                  attributes: ["earnings"],
                   include: [
                     {
                       model: db.Schedule,
@@ -434,7 +434,6 @@ module.exports = function (app) {
           result.push({
             name: data[i].name,
             handle: data[i].handle,
-            image: data[i].image,
             poolsterEarnings: 0,
             ranking: 0,
             Players: [],
@@ -465,8 +464,6 @@ module.exports = function (app) {
                   name: c.name,
                   date: c.tDate,
                   start: c.tStartDate,
-                  position: b[k].pos,
-                  toPar: b[k].toPar,
                   earnings: b[k].earnings,
                 });
               }
@@ -485,11 +482,12 @@ module.exports = function (app) {
         result = result.sort((a, b) =>
           a.poolsterEarnings < b.poolsterEarnings ? 1 : -1
         );
-        result = result.forEach((el, i, a) => (a[i].ranking = i + 1));
+        // result = result.forEach((el, i, a) => (a[i].ranking = i + 1));
 
-        // for (let i = 0; i < result.length; i++) {
-        //   result[i].ranking = i + 1;
-        // }
+        for (let i = 0; i < result.length; i++) {
+          result[i].ranking = i + 1;
+          delete result[i].Players;
+        }
 
         return result;
       })
