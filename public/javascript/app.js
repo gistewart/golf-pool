@@ -320,7 +320,6 @@ $(document).ready(function () {
     console.log(livePlayers);
 
     $.get("api/liveSchedule", function (result) {
-      console.log(result);
       $("#lastEventDetails").html("");
       for (let i = 0; i < result.length; i++) {
         $("#lastEventDetails").append(
@@ -447,55 +446,60 @@ $(document).ready(function () {
     //to sum earnings by player and poolster
     let a, b;
     let result = [];
+    let iAdj = 0;
     for (let i = 0; i < data.length; i++) {
-      let poolsterSum = 0;
-      let playerCount = 0;
-      result.push({
-        poolster: data[i].handle,
-        name: data[i].name,
-        image: data[i].image,
-        Players: [],
-      });
-      a = data[i].Players;
-
-      for (let j = 0; j < a.length; j++) {
-        let playerSum = 0;
-        result[i].Players.push({
-          player: a[j].name,
-          tier: a[j].tier,
-          startDate: a[j].startDate,
-          active: "yes",
-          endDate: a[j].endDate,
-          reStartDate: a[j].reStartDate,
-          reEndDate: a[j].reEndDate,
-          effDate: a[j].effDate,
-          type: a[j].type,
-          tournaments: [],
+      if (!(data[i].Players && data[i].Players.length)) {
+        iAdj++;
+      } else {
+        let poolsterSum = 0;
+        let playerCount = 0;
+        result.push({
+          poolster: data[i].handle,
+          name: data[i].name,
+          image: data[i].image,
+          Players: [],
         });
-        if (a[j].endDate < "2020-12-31" && !a[j].reStartDate) {
-          result[i].Players[j].active = "no";
-        }
-        if (a[j].effDate > "2020-07-05" && a[j].type == "regular") {
-          playerCount++;
-        }
+        a = data[i].Players;
 
-        b = a[j].Tournaments;
-        for (let k = 0; k < b.length; k++) {
-          playerSum += b[k].earnings;
-          poolsterSum += b[k].earnings;
-          result[i].Players[j].tournaments.push({
-            name: b[k].name,
-            date: b[k].date,
-            start: b[k].start,
-            position: b[k].position,
-            earnings: b[k].earnings,
-            toPar: b[k].toPar,
-            thru: b[k].thru,
+        for (let j = 0; j < a.length; j++) {
+          let playerSum = 0;
+          result[i - iAdj].Players.push({
+            player: a[j].name,
+            tier: a[j].tier,
+            startDate: a[j].startDate,
+            active: "yes",
+            endDate: a[j].endDate,
+            reStartDate: a[j].reStartDate,
+            reEndDate: a[j].reEndDate,
+            effDate: a[j].effDate,
+            type: a[j].type,
+            tournaments: [],
           });
+          if (a[j].endDate < "2020-12-31" && !a[j].reStartDate) {
+            result[i].Players[j].active = "no";
+          }
+          if (a[j].effDate > "2020-07-05" && a[j].type == "regular") {
+            playerCount++;
+          }
+
+          b = a[j].Tournaments;
+          for (let k = 0; k < b.length; k++) {
+            playerSum += b[k].earnings;
+            poolsterSum += b[k].earnings;
+            result[i - iAdj].Players[j].tournaments.push({
+              name: b[k].name,
+              date: b[k].date,
+              start: b[k].start,
+              position: b[k].position,
+              earnings: b[k].earnings,
+              toPar: b[k].toPar,
+              thru: b[k].thru,
+            });
+          }
+          result[i - iAdj].Players[j]["playerEarnings"] = playerSum;
+          result[i - iAdj]["poolsterEarnings"] = poolsterSum;
+          result[i - iAdj]["playerCount"] = playerCount;
         }
-        result[i].Players[j]["playerEarnings"] = playerSum;
-        result[i]["poolsterEarnings"] = poolsterSum;
-        result[i]["playerCount"] = playerCount;
       }
     }
     console.log(result);
@@ -550,12 +554,15 @@ $(document).ready(function () {
       });
     }
     //sorting each Player's results based on tournament Start Date
-    for (let i = 0; i < sorted.length; i++) {
-      for (let j = 0; j < sorted[i].Players.length; j++) {
-        sorted[i].Players[j].tournaments.sort(function (a, b) {
-          if (a.start < b.start) return -1;
-          if (a.start > b.start) return 1;
-        });
+    //excluding apiCall = "Live"
+    if (apiCall !== "Live") {
+      for (let i = 0; i < sorted.length; i++) {
+        for (let j = 0; j < sorted[i].Players.length; j++) {
+          sorted[i].Players[j].tournaments.sort(function (a, b) {
+            if (a.start < b.start) return -1;
+            if (a.start > b.start) return 1;
+          });
+        }
       }
     }
     console.log(sorted, playerRankings);
