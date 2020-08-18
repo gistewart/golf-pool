@@ -362,7 +362,7 @@ module.exports = function (app) {
           result.push({
             id: data[i].poolsterId,
             name: data[i].name,
-            handle: data[i].handle,
+            poolster: data[i].handle,
             image: data[i].image,
             Players: [],
           });
@@ -370,7 +370,7 @@ module.exports = function (app) {
 
           for (let j = 0; j < a.length; j++) {
             result[i].Players.push({
-              name: a[j].Player.playerName,
+              player: a[j].Player.playerName,
               startDate: a[j].startDate,
               endDate: a[j].endDate,
               reStartDate: a[j].reStartDate,

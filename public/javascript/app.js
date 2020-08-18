@@ -245,7 +245,7 @@ $(document).ready(function () {
         let a = livePlayers[i].Players;
         let match = false;
         for (let k = 0; k < livePositions.length; k++) {
-          if (a[j].name === livePositions[k].playerName) {
+          if (a[j].player === livePositions[k].playerName) {
             match = true;
             a[j].Tournaments[0].position = livePositions[k].pos;
             a[j].Tournaments[0].earnings = livePositions[k].dollars;
@@ -280,6 +280,7 @@ $(document).ready(function () {
         for (let k = 0; k < livePlayers[i].Players[j].Tournaments.length; k++) {
           sum += livePlayers[i].Players[j].Tournaments[k].earnings;
         }
+        livePlayers[i].Players[j].playerEarnings = sum;
       }
       livePlayers[i]["poolsterEarnings"] = sum;
     }
@@ -673,12 +674,12 @@ $(document).ready(function () {
             // to add Live data to this layer
             (apiCall === "Live"
               ? ": " +
-                sorted[i].Players[j].tournaments[0].position +
-                (/\d/.test(sorted[i].Players[j].tournaments[0].position)
+                sorted[i].Players[j].Tournaments[0].position +
+                (/\d/.test(sorted[i].Players[j].Tournaments[0].position)
                   ? " | " +
-                    sorted[i].Players[j].tournaments[0].toPar +
+                    sorted[i].Players[j].Tournaments[0].toPar +
                     " | thru " +
-                    sorted[i].Players[j].tournaments[0].thru
+                    sorted[i].Players[j].Tournaments[0].thru
                   : "")
               : " " +
                 "<i title = 'Category earnings (including any subs) are " +
