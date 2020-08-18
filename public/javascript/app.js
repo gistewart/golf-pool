@@ -152,8 +152,8 @@ $(document).ready(function () {
 
     console.log(liveSchedule);
 
+    // creates purseArr and counts the number of players at each position for the entire field
     let purseArr = [];
-
     for (let i in livePositions) {
       let match = false;
       for (let j in purseArr) {
@@ -172,6 +172,7 @@ $(document).ready(function () {
     let round = roundStatus.match(/\d/)[0];
     let purseSum = 0;
 
+    //calculates purse values for each position in purseArr
     for (let i in purseArr) {
       if (purseArr[i].pos > 0) {
         if (purseArr[i].data[0].count === 1) {
@@ -204,6 +205,7 @@ $(document).ready(function () {
       }
     }
     console.log(purseArr);
+
     // add purse info to livePositions array
     for (let i in livePositions) {
       for (let j in purseArr) {
@@ -215,6 +217,7 @@ $(document).ready(function () {
       }
     }
     console.log(livePositions);
+
     // filter livePlayers for active players only
     for (let i in livePlayers) {
       let a = livePlayers[i].Players,
@@ -259,13 +262,58 @@ $(document).ready(function () {
       }
     }
 
+    // add priorRanking and priorEarnings to livePlayers array
     for (let i = 0; i < livePlayers.length; i++) {
       for (let j = 0; j < partResult.length; j++) {
-        if (livePlayers[i].name === partResult[j].name) {
+        if (livePlayers[i].id === partResult[j].id) {
           livePlayers[i]["livePriorRanking"] = partResult[j].ranking;
           livePlayers[i]["livePriorEarnings"] = partResult[j].poolsterEarnings;
           break;
         }
+      }
+    }
+
+    // calculate poolsterEarnings (for the live tourney), add to livePlayers array
+    for (let i = 0; i < livePlayers.length; i++) {
+      let sum = 0;
+      for (let j = 0; j < livePlayers[i].Players.length; j++) {
+        for (let k = 0; k < livePlayers[i].Players[j].Tournaments.length; k++) {
+          sum += livePlayers[i].Players[j].Tournaments[k].earnings;
+        }
+      }
+      livePlayers[i]["poolsterEarnings"] = sum;
+    }
+
+    // add liveNewEarnings to livePlayers array
+    for (let i in livePlayers) {
+      livePlayers[i].liveNewEarnings =
+        livePlayers[i].livePriorEarnings + livePlayers[i].poolsterEarnings;
+    }
+
+    // sort livePlayers array based on liveNewEarnings
+    livePlayers = livePlayers.sort(
+      (a, b) => b.liveNewEarnings - a.liveNewEarnings
+    );
+
+    // add liveNewRanking to livePlayers array
+    for (let i = 0; i < livePlayers.length; i++) {
+      livePlayers[i].liveNewRanking = i + 1;
+    }
+
+    // add liveRankingChange (and related) to LivePlayers array
+    for (let i = 0; i < livePlayers.length; i++) {
+      livePlayers[i].liveRankingChange =
+        livePlayers[i].livePriorRanking - livePlayers[i].liveNewRanking;
+      let l = livePlayers[i].liveRankingChange;
+      l > 0
+        ? (livePlayers[i].liveRankingMove = "up")
+        : l < 0
+        ? (livePlayers[i].liveRankingMove = "down")
+        : "nc";
+      livePlayers[i].liveRankingChangeAbs = Math.abs(l);
+      livePlayers[i].liveZeroPlayersText = "";
+      if (livePlayers[i].Players.length === 0) {
+        livePlayers[i]["liveZeroPlayersText"] = " (0 players)";
       }
     }
 
@@ -286,7 +334,7 @@ $(document).ready(function () {
         );
       }
     });
-    sumData(livePlayers);
+    sortData(livePlayers);
   }
 
   //for the section at the top of the leaderboard
@@ -406,56 +454,48 @@ $(document).ready(function () {
         poolster: data[i].handle,
         name: data[i].name,
         image: data[i].image,
-        livePriorRanking: data[i].livePriorRanking,
-        livePriorEarnings: data[i].livePriorEarnings,
-        liveZeroPlayersText: "",
         Players: [],
       });
       a = data[i].Players;
 
-      if (a.length === 0) {
-        result[i]["poolsterEarnings"] = 0;
-        result[i]["liveZeroPlayersText"] = " (0 players)";
-      } else {
-        for (let j = 0; j < a.length; j++) {
-          let playerSum = 0;
-          result[i].Players.push({
-            player: a[j].name,
-            tier: a[j].tier,
-            startDate: a[j].startDate,
-            active: "yes",
-            endDate: a[j].endDate,
-            reStartDate: a[j].reStartDate,
-            reEndDate: a[j].reEndDate,
-            effDate: a[j].effDate,
-            type: a[j].type,
-            tournaments: [],
-          });
-          if (a[j].endDate < "2020-12-31" && !a[j].reStartDate) {
-            result[i].Players[j].active = "no";
-          }
-          if (a[j].effDate > "2020-07-05" && a[j].type == "regular") {
-            playerCount++;
-          }
-
-          b = a[j].Tournaments;
-          for (let k = 0; k < b.length; k++) {
-            playerSum += b[k].earnings;
-            poolsterSum += b[k].earnings;
-            result[i].Players[j].tournaments.push({
-              name: b[k].name,
-              date: b[k].date,
-              start: b[k].start,
-              position: b[k].position,
-              earnings: b[k].earnings,
-              toPar: b[k].toPar,
-              thru: b[k].thru,
-            });
-          }
-          result[i].Players[j]["playerEarnings"] = playerSum;
-          result[i]["poolsterEarnings"] = poolsterSum;
-          result[i]["playerCount"] = playerCount;
+      for (let j = 0; j < a.length; j++) {
+        let playerSum = 0;
+        result[i].Players.push({
+          player: a[j].name,
+          tier: a[j].tier,
+          startDate: a[j].startDate,
+          active: "yes",
+          endDate: a[j].endDate,
+          reStartDate: a[j].reStartDate,
+          reEndDate: a[j].reEndDate,
+          effDate: a[j].effDate,
+          type: a[j].type,
+          tournaments: [],
+        });
+        if (a[j].endDate < "2020-12-31" && !a[j].reStartDate) {
+          result[i].Players[j].active = "no";
         }
+        if (a[j].effDate > "2020-07-05" && a[j].type == "regular") {
+          playerCount++;
+        }
+
+        b = a[j].Tournaments;
+        for (let k = 0; k < b.length; k++) {
+          playerSum += b[k].earnings;
+          poolsterSum += b[k].earnings;
+          result[i].Players[j].tournaments.push({
+            name: b[k].name,
+            date: b[k].date,
+            start: b[k].start,
+            position: b[k].position,
+            earnings: b[k].earnings,
+            toPar: b[k].toPar,
+            thru: b[k].thru,
+          });
+        }
+        result[i].Players[j]["playerEarnings"] = playerSum;
+        result[i]["poolsterEarnings"] = poolsterSum;
+        result[i]["playerCount"] = playerCount;
       }
     }
     console.log(result);
@@ -588,9 +628,9 @@ $(document).ready(function () {
           sorted[i].image +
           "></td><td class='poolsterHandle'>" +
           sorted[i].poolster +
-          "<small>" +
-          sorted[i].liveZeroPlayersText +
-          "</small>" +
+          (apiCall == "Live"
+            ? "<small>" + sorted[i].liveZeroPlayersText + "</small>"
+            : "") +
           " " +
           (sorted[i].playerCount > 0 && apiCall == "Season"
             ? "<i class='subIcon2 material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
@@ -599,7 +639,7 @@ $(document).ready(function () {
             : "") +
           "<p class='poolsterName'>" +
           sorted[i].name +
-          "<p></td><td class='earnings'>" +
+          "</p></td><td class='earnings'>" +
           sorted[i].poolsterEarnings.toLocaleString("us-US", {
             style: "currency",
             currency: "USD",
@@ -721,7 +761,7 @@ $(document).ready(function () {
             "</td></tr>"
         );
 
-        //to exclude this layer if apiCall = "Live"
+        //to exclude this layer if apiCall === "Live"
         if (apiCall !== "Live") {
           for (let k = 0; k < sorted[i].Players[j].tournaments.length; k++) {
             $(".leaderboard-container").append(

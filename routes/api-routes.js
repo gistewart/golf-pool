@@ -360,6 +360,7 @@ module.exports = function (app) {
         let result = [];
         for (let i = 0; i < data.length; i++) {
           result.push({
+            id: data[i].poolsterId,
             name: data[i].name,
             handle: data[i].handle,
             image: data[i].image,
@@ -432,6 +433,7 @@ module.exports = function (app) {
         let result = [];
         for (let i = 0; i < data.length; i++) {
           result.push({
+            id: data[i].poolsterId,
             name: data[i].name,
             handle: data[i].handle,
             poolsterEarnings: 0,
@@ -482,7 +484,6 @@ module.exports = function (app) {
         result = result.sort((a, b) =>
           a.poolsterEarnings < b.poolsterEarnings ? 1 : -1
         );
-        // result = result.forEach((el, i, a) => (a[i].ranking = i + 1));
 
         for (let i = 0; i < result.length; i++) {
           result[i].ranking = i + 1;
