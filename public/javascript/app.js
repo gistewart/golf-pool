@@ -657,11 +657,26 @@ $(document).ready(function () {
             maximumFractionDigits: 0,
           }) +
           (apiCall == "Live"
-            ? "<table><tr><th>" +
+            ? "<table class='liveProjTable'><tr><th>" +
               "Proj." +
               "</th><th>" +
               "Start" +
-              "</th></tr></table>"
+              "</th><th style='padding-left: 0.5em; padding-right: 0.5em'>" +
+              "<i class='fas fa-long-arrow-alt-up'></i>" +
+              "<i class='fas fa-long-arrow-alt-down'></i>" +
+              "</th></tr><tr><td>" +
+              sorted[i].liveNewRanking +
+              "</td><td>" +
+              sorted[i].livePriorRanking +
+              "</td><td>" +
+              (sorted[i].liveRankingMove == "up"
+                ? "<i class='fas fa-arrow-up' style='color:green;'></i>" +
+                  sorted[i].liveRankingChangeAbs
+                : sorted[i].liveRankingMove == "down"
+                ? "<i class='fas fa-arrow-down' style='color:red;'></i>" +
+                  sorted[i].liveRankingChangeAbs
+                : "-") +
+              "</td></tr></table>"
             : "") +
           "</td></tr>"
       );
