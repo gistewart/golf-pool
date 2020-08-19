@@ -275,14 +275,16 @@ $(document).ready(function () {
 
     // calculate poolsterEarnings (for the live tourney), add to livePlayers array
     for (let i = 0; i < livePlayers.length; i++) {
-      let sum = 0;
+      let poolsterSum = 0;
       for (let j = 0; j < livePlayers[i].Players.length; j++) {
+        let playerSum = 0;
         for (let k = 0; k < livePlayers[i].Players[j].Tournaments.length; k++) {
-          sum += livePlayers[i].Players[j].Tournaments[k].earnings;
+          playerSum += livePlayers[i].Players[j].Tournaments[k].earnings;
         }
-        livePlayers[i].Players[j].playerEarnings = sum;
+        poolsterSum += playerSum;
+        livePlayers[i].Players[j].playerEarnings = playerSum;
       }
-      livePlayers[i]["poolsterEarnings"] = sum;
+      livePlayers[i]["poolsterEarnings"] = poolsterSum;
     }
 
     // add liveNewEarnings to livePlayers array
@@ -654,6 +656,13 @@ $(document).ready(function () {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           }) +
+          (apiCall == "Live"
+            ? "<table><tr><th>" +
+              "Proj." +
+              "</th><th>" +
+              "Start" +
+              "</th></tr></table>"
+            : "") +
           "</td></tr>"
       );
 
