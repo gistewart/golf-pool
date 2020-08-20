@@ -330,6 +330,7 @@ module.exports = function (app) {
       });
   });
 
+  // poolsters and all their players, in a formatted array
   app.get("/api/livePlayers", async function (req, res) {
     await db.Poolster.findAll({
       attributes: ["poolsterId", "name", "handle", "image"],

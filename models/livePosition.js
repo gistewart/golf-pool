@@ -7,6 +7,7 @@ module.exports = function (sequelize, DataTypes) {
     posAdj: DataTypes.STRING,
     playerName: DataTypes.STRING,
     toPar: DataTypes.STRING,
+    today: DataTypes.STRING,
     thru: DataTypes.STRING,
   });
 

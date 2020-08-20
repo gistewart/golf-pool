@@ -23,10 +23,12 @@ module.exports = async function () {
           : "000000000";
 
         result.tDate = $(this).children("td:first-child").text();
+
         let monthDay = $(this)
           .children("td:first-child")
           .text()
           .match(/[A-Z]{3} [0-9]{1,2}/gi)[0];
+
         result.tStartDate =
           result.tournamentId >= "401155413"
             ? new Date(`2020 ${monthDay}`)
@@ -35,6 +37,7 @@ module.exports = async function () {
         let f = new Date(`2020 ${monthDay}`);
         f.setDate(f.getDate() + 4);
         result.tEndDate = f;
+
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
         result.purse = Number(
@@ -52,7 +55,7 @@ module.exports = async function () {
 
   console.log("line 53", scheduleStage);
 
-  // has Round 1 of current tournament been completed
+  // is the tournament underway
   for (let i = 0; i < scheduleStage.length; i++) {
     const id = scheduleStage[i].tournamentId;
     console.log(id);
@@ -69,7 +72,7 @@ module.exports = async function () {
       });
     scheduleStage[i].status = hold.status;
     if (
-      // !/Tournament Field|Final|Round 1 - Suspended | Round 1 - Play Complete|^Round [2-4]/gi.test(
+      // examples only of status: !/Tournament Field|Final|Round 1 - Suspended | Round 1 - Play Complete|^Round [2-4]/gi.test(
       !/^Round [1-4]/gi.test(hold.status)
     ) {
       scheduleStage.splice(i, 1);

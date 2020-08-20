@@ -168,6 +168,8 @@ $(document).ready(function () {
       }
     }
 
+    console.log(purseArr);
+
     let roundStatus = liveSchedule[0].status;
     let round = roundStatus.match(/\d/)[0];
     let purseSum = 0;
@@ -176,9 +178,10 @@ $(document).ready(function () {
     for (let i in purseArr) {
       if (purseArr[i].pos > 0) {
         if (purseArr[i].data[0].count === 1) {
-          purseArr[i].data[0].avgPercent = Number(
-            livePurseSplit[purseArr[i].pos - 1].percent
-          );
+          purseArr[i].data[0].avgPercent =
+            typeof livePurseSplit[purseArr[i].pos - 1] === "undefined"
+              ? 0
+              : Number(livePurseSplit[purseArr[i].pos - 1].percent);
           purseArr[i].data[0].dollars =
             (purseArr[i].data[0].avgPercent * liveSchedule[0].purse) / 100;
         } else {
@@ -249,8 +252,9 @@ $(document).ready(function () {
             match = true;
             a[j].Tournaments[0].position = livePositions[k].pos;
             a[j].Tournaments[0].earnings = livePositions[k].dollars;
-            a[j].Tournaments[0].thru = livePositions[k].thru;
             a[j].Tournaments[0].toPar = livePositions[k].toPar;
+            a[j].Tournaments[0].today = livePositions[k].today;
+            a[j].Tournaments[0].thru = livePositions[k].thru;
             a[j].Tournaments[0].percent = livePositions[k].avgPercent;
             break;
           }
@@ -572,7 +576,8 @@ $(document).ready(function () {
     displayData(sorted, sortedPartResult, playerRankings);
   }
 
-  function displayData(sorted, sortedPartResult, playerRankings) {
+  async function displayData(sorted, sortedPartResult, playerRankings) {
+    let round = 0;
     // to display sorted results
     // to add prior ranking data to main arr
     if (apiCall == "Season") {
@@ -614,7 +619,16 @@ $(document).ready(function () {
             }
           }
       }
+      // for Live, to establish round number
+    } else if (apiCall == "Live") {
+      await $.get("api/liveSchedule", function (result) {
+        liveSchedule = result;
+        console.log(liveSchedule);
+        let roundStatus = liveSchedule[0].status;
+        round = roundStatus.match(/\d/)[0];
+      });
     }
+
     console.log(sorted);
 
     $(".leaderboard-container > tbody").html("");
@@ -656,6 +670,7 @@ $(document).ready(function () {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           }) +
+          // to add Start Proj table for Live version
           (apiCall == "Live"
             ? "<table class='liveProjTable'><tr><th>" +
               "Proj." +
@@ -682,6 +697,14 @@ $(document).ready(function () {
       );
 
       for (let j = 0; j < sorted[i].Players.length; j++) {
+        // temp only; for Live section here
+        if (apiCall === "Live") {
+          console.log(
+            sorted[i].Players[j].player,
+            round,
+            sorted[i].Players[j].Tournaments[0].thru
+          );
+        }
         $(".leaderboard-container").append(
           "<tr class='level2 hiddenRow collapse' id='demo" +
             i +
@@ -699,10 +722,20 @@ $(document).ready(function () {
             (apiCall === "Live"
               ? ": " +
                 sorted[i].Players[j].Tournaments[0].position +
-                (/\d/.test(sorted[i].Players[j].Tournaments[0].position)
+                (round == 1 &&
+                /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
+                  ? " | " + sorted[i].Players[j].Tournaments[0].thru
+                  : round == 1 &&
+                    /^\d+$/.test(sorted[i].Players[j].Tournaments[0].thru)
                   ? " | " +
                     sorted[i].Players[j].Tournaments[0].toPar +
                     " | thru " +
+                    sorted[i].Players[j].Tournaments[0].thru
+                  : round == 1 &&
+                    /F/.test(sorted[i].Players[j].Tournaments[0].thru)
+                  ? " | " +
+                    sorted[i].Players[j].Tournaments[0].toPar +
+                    " | " +
                     sorted[i].Players[j].Tournaments[0].thru
                   : "")
               : " " +

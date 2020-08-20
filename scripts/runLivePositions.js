@@ -59,6 +59,9 @@ module.exports = function () {
                 if (result.pos == "-") {
                   result.pos = result.toPar;
                 }
+                result.today = $(this)
+                  .children("td:nth-child(" + (5 + statusAdj) + ")")
+                  .text();
                 result.thru = $(this)
                   .children("td:nth-child(" + (6 + statusAdj) + ")")
                   .text();
