@@ -66,9 +66,10 @@ module.exports = async function () {
         });
       });
     if (hold.status != "Final") {
+      console.log("entering hold.status if clause");
       scheduleStage.splice(i, 1);
       i--;
-      console.log("current tournament included:", scheduleStage);
+      console.log("hold status current tournament included:", scheduleStage);
     }
     // have earnings been posted for all players who made the cut
     else {
