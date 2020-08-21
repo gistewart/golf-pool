@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  let mcLine = 0,
+    round = 0;
   let resultsRefresh = false;
   $("#lastEventTitle").hide();
   $("#subIconLang").hide();
@@ -171,7 +173,7 @@ $(document).ready(function () {
     console.log(purseArr);
 
     let roundStatus = liveSchedule[0].status;
-    let round = roundStatus.match(/\d/)[0];
+    round = roundStatus.match(/\d/)[0];
     let purseSum = 0;
 
     //calculates purse values for each position in purseArr
@@ -208,6 +210,15 @@ $(document).ready(function () {
       }
     }
     console.log(purseArr);
+
+    // calculate cut-line from purseArr
+    for (let i = 0; i < purseArr.length - 1; i++) {
+      if (round == 1 && purseArr[i + 1].pos > 65) {
+        mcLine = purseArr[i].pos;
+        break;
+      }
+    }
+    console.log(mcLine);
 
     // add purse info to livePositions array
     for (let i in livePositions) {
@@ -251,6 +262,7 @@ $(document).ready(function () {
           if (a[j].player === livePositions[k].playerName) {
             match = true;
             a[j].Tournaments[0].position = livePositions[k].pos;
+            a[j].Tournaments[0].posAdj = livePositions[k].posAdj;
             a[j].Tournaments[0].earnings = livePositions[k].dollars;
             a[j].Tournaments[0].toPar = livePositions[k].toPar;
             a[j].Tournaments[0].today = livePositions[k].today;
@@ -577,7 +589,7 @@ $(document).ready(function () {
   }
 
   async function displayData(sorted, sortedPartResult, playerRankings) {
-    let round = 0;
+    // let round = 0;
     // to display sorted results
     // to add prior ranking data to main arr
     if (apiCall == "Season") {
@@ -619,14 +631,6 @@ $(document).ready(function () {
             }
           }
       }
-      // for Live, to establish round number
-    } else if (apiCall == "Live") {
-      await $.get("api/liveSchedule", function (result) {
-        liveSchedule = result;
-        console.log(liveSchedule);
-        let roundStatus = liveSchedule[0].status;
-        round = roundStatus.match(/\d/)[0];
-      });
     }
 
     console.log(sorted);
@@ -699,11 +703,7 @@ $(document).ready(function () {
       for (let j = 0; j < sorted[i].Players.length; j++) {
         // temp only; for Live section here
         if (apiCall === "Live") {
-          console.log(
-            sorted[i].Players[j].player,
-            round,
-            sorted[i].Players[j].Tournaments[0].thru
-          );
+          console.log(mcLine);
         }
         $(".leaderboard-container").append(
           "<tr class='level2 hiddenRow collapse' id='demo" +
@@ -725,18 +725,24 @@ $(document).ready(function () {
                 (round == 1 &&
                 /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
                   ? " | " + sorted[i].Players[j].Tournaments[0].thru
-                  : round == 1 &&
-                    /^\d+$/.test(sorted[i].Players[j].Tournaments[0].thru)
+                  : /^\d+$/.test(sorted[i].Players[j].Tournaments[0].thru)
                   ? " | " +
                     sorted[i].Players[j].Tournaments[0].toPar +
                     " | thru " +
                     sorted[i].Players[j].Tournaments[0].thru
-                  : round == 1 &&
-                    /F/.test(sorted[i].Players[j].Tournaments[0].thru)
+                  : /am|pm|F/i.test(sorted[i].Players[j].Tournaments[0].thru)
                   ? " | " +
                     sorted[i].Players[j].Tournaments[0].toPar +
                     " | " +
                     sorted[i].Players[j].Tournaments[0].thru
+                  : "") +
+                (round == 1 && sorted[i].Players[j].Tournaments[0].posAdj > 65
+                  ? " " +
+                    "<i class='fas fa-exclamation-circle fa-s' style='color:red'></i>"
+                  : round == 1 &&
+                    sorted[i].Players[j].Tournaments[0].posAdj == mcLine
+                  ? " " +
+                    "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"
                   : "")
               : " " +
                 "<i title = 'Category earnings (including any subs) are " +
