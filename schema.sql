@@ -203,3 +203,11 @@ UPDATE `PoolsterPlayers` SET `endDate` = '2020-07-15', `effDate` = '2020-07-15',
 INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('5', '1', '2020-07-15', '2020-07-15', 'regular');
 
 UPDATE `Poolsters` SET `image` = 'https://pga-tour-res.cloudinary.com/image/upload/c_fill,d_headshots_default.png,f_auto,g_face:center,h_294,q_auto,w_220/headshots_28237.png' WHERE (`poolsterId` = '5');
+
+-- 8/21 Seed LOCAL liveTourneyType table
+
+INSERT INTO `golf-pool_db`.`liveTourneyTypes` (`tType`, `tName`, `tMCLine`) VALUES ('reg', 'THE NORTHERN TRUST', '65');
+
+INSERT INTO `golf-pool_db`.`liveTourneyTypes` (`tType`, `tName`, `tMCLine`) VALUES ('bmw', 'BMW Championship', '70');
+
+INSERT INTO `golf-pool_db`.`liveTourneyTypes` (`tType`, `tName`, `tMCLine`) VALUES ('tc', 'Tour Championship', '30');

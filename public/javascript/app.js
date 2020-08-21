@@ -135,14 +135,12 @@ $(document).ready(function () {
     $("#commentsPage").removeClass("is-active");
 
     console.log("liveEvent function");
-    await $.get("api/livePositions", function (result) {
-      livePositions = result;
-    });
-    await $.get("api/livePurseSplit", function (result) {
-      livePurseSplit = result;
-    });
+
     await $.get("api/liveSchedule", function (result) {
       liveSchedule = result;
+    });
+    await $.get("api/livePositions", function (result) {
+      livePositions = result;
     });
     await $.get("api/livePlayers", function (result) {
       livePlayers = result;
@@ -150,6 +148,9 @@ $(document).ready(function () {
     await $.get("api/liveAllEvents", function (result) {
       partResult = result;
       console.log(partResult);
+    });
+    await $.get("api/livePurseSplit", function (result) {
+      livePurseSplit = result;
     });
 
     console.log(liveSchedule);
@@ -213,7 +214,7 @@ $(document).ready(function () {
 
     // calculate cut-line from purseArr
     for (let i = 0; i < purseArr.length - 1; i++) {
-      if (round == 1 && purseArr[i + 1].pos > 65) {
+      if (round == 2 && purseArr[i + 1].pos > 65) {
         mcLine = purseArr[i].pos;
         break;
       }
@@ -736,10 +737,10 @@ $(document).ready(function () {
                     " | " +
                     sorted[i].Players[j].Tournaments[0].thru
                   : "") +
-                (round == 1 && sorted[i].Players[j].Tournaments[0].posAdj > 65
+                (round == 2 && sorted[i].Players[j].Tournaments[0].posAdj > 65
                   ? " " +
                     "<i class='fas fa-exclamation-circle fa-s' style='color:red'></i>"
-                  : round == 1 &&
+                  : round == 2 &&
                     sorted[i].Players[j].Tournaments[0].posAdj == mcLine
                   ? " " +
                     "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"

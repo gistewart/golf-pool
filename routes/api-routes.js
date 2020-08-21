@@ -7,6 +7,7 @@ const runLivePositions = require("../scripts/runLivePositions");
 const runResults = require("../scripts/runResults");
 const e = require("express");
 require("dotenv").config();
+const { QueryTypes } = require("sequelize");
 
 module.exports = function (app) {
   app.get("/api/poolsters", function (req, res) {
@@ -330,6 +331,147 @@ module.exports = function (app) {
       });
   });
 
+  app.get("/api/lastEventDetails", async function (req, res) {
+    const date = await db.Schedule.max("tStartDate", {
+      where: {
+        winner: {
+          [Op.regexp]: "^[A-Z]",
+        },
+        tournamentID: {
+          [Op.gte]: "401155413",
+          // [Op.lte]: "401155425",
+        },
+      },
+    })
+      .then(function (date) {
+        return db.Schedule.findAll({
+          attributes: ["name", "tDate", "tStartDate", "winner"],
+          where: {
+            tStartDate: {
+              [Op.eq]: date,
+            },
+            winner: {
+              [Op.regexp]: "^[A-Z]",
+            },
+          },
+        });
+      })
+      .then((result) => {
+        res.json(result);
+      });
+  });
+
+  app.get("/api/appSchedule", async function (req, res) {
+    db.Schedule.findAll({}).then((result) => {
+      res.json(result);
+    });
+  });
+
+  app.get("/api/webSchedule", async function (req, res) {
+    // NEW TEMPORARY CODE (SWAP)
+    // Testing Start
+    await db.ScheduleStage.findAll({})
+      // Testing End
+      // Production Start
+      // await db.ScheduleStage.sync({ force: true })
+      //   .then(async function () {
+      //     const temp = await seedScheduleStage();
+      //   })
+      //   .then(function () {
+      //     return db.ScheduleStage.findAll({});
+      //   })
+      //Production End
+      .then((result) => {
+        res.json(result);
+      });
+  });
+
+  app.post("/api/submitTournament", async function (req, res) {
+    console.log("------req.body-------:", req.body);
+    await db.Schedule.bulkCreate(req.body).then(function (data) {
+      res.json(data);
+    });
+  });
+
+  app.get("/api/resultsPosted", async function (req, res) {
+    await db.Result.findAll({
+      attributes: ["tournamentId"],
+      group: ["tournamentId"],
+    }).then(function (result) {
+      res.json(result);
+    });
+  });
+
+  app.post("/api/missingResults", async function (req, res) {
+    console.log("------req.body-------:", req.body);
+    await db.missingTournament.sync({ force: true });
+    await db.missingTournament
+      .bulkCreate(req.body)
+      .then(async function () {
+        const temp = await runResults();
+      })
+      .then(function (data) {
+        res.json(data);
+      });
+  });
+
+  // gets livePositions by first seeding liveEventSchedule, then running runLivePositions
+  app.get("/api/livePositions", async function (req, res) {
+    // Testing Start
+    // await db.livePosition
+    //   .findAll({})
+    // Test End
+    // Production Start
+    await db.liveEventSchedule
+      .sync({ force: true })
+      .then(async function () {
+        const temp = await seedLiveEventSchedule();
+      })
+      .then(async function () {
+        await db.livePosition.sync({ force: true });
+        const temp = await runLivePositions();
+      })
+      .then(async function () {
+        return db.livePosition.findAll({});
+      })
+      // Production End
+      .then((result) => {
+        res.json(result);
+      });
+  });
+
+  // app.get("/api/livePurseSplit", async function (req, res) {
+  //   const name = await db.liveEventSchedule.findAll({
+  //     attributes: ["name"],
+  //   });
+
+  //   await db.liveTourneyType
+  //     .findAll({
+  //       attributes: ["tType"],
+  //       where: {
+  //         tName: {
+  //           [Sequelize.Op.eq]: sequelize.literal(`(${name})`),
+  //         },
+  //       },
+  //     })
+
+  //     .then(function (result) {
+  //       res.json(result);
+  //     });
+  // });
+
+  app.get("/api/livePurseSplit", function (req, res) {
+    db.livePurseSplit.findAll({}).then(function (result) {
+      res.json(result);
+    });
+  });
+
+  app.get("/api/liveSchedule", function (req, res) {
+    db.liveEventSchedule.findAll({}).then(function (result) {
+      res.json(result);
+    });
+  });
+
   // poolsters and all their players, in a formatted array
   app.get("/api/livePlayers", async function (req, res) {
     await db.Poolster.findAll({
@@ -495,90 +637,6 @@ module.exports = function (app) {
       })
       .then((result) => {
         res.json(result);
-      });
-  });
-
-  app.get("/api/lastEventDetails", async function (req, res) {
-    const date = await db.Schedule.max("tStartDate", {
-      where: {
-        winner: {
-          [Op.regexp]: "^[A-Z]",
-        },
-        tournamentID: {
-          [Op.gte]: "401155413",
-          // [Op.lte]: "401155425",
-        },
-      },
-    })
-      .then(function (date) {
-        return db.Schedule.findAll({
-          attributes: ["name", "tDate", "tStartDate", "winner"],
-          where: {
-            tStartDate: {
-              [Op.eq]: date,
-            },
-            winner: {
-              [Op.regexp]: "^[A-Z]",
-            },
-          },
-        });
-      })
-      .then((result) => {
-        res.json(result);
-      });
-  });
-
-  app.get("/api/appSchedule", async function (req, res) {
-    db.Schedule.findAll({}).then((result) => {
-      res.json(result);
-    });
-  });
-
-  app.get("/api/webSchedule", async function (req, res) {
-    // NEW TEMPORARY CODE (SWAP)
-    // Testing Start
-    await db.ScheduleStage.findAll({})
-      // Testing End
-      // Production Start
-      // await db.ScheduleStage.sync({ force: true })
-      //   .then(async function () {
-      //     const temp = await seedScheduleStage();
-      //   })
-      //   .then(function () {
-      //     return db.ScheduleStage.findAll({});
-      //   })
-      //Production End
-      .then((result) => {
-        res.json(result);
-      });
-  });
-
-  app.post("/api/submitTournament", async function (req, res) {
-    console.log("------req.body-------:", req.body);
-    await db.Schedule.bulkCreate(req.body).then(function (data) {
-      res.json(data);
-    });
-  });
-
-  app.get("/api/resultsPosted", async function (req, res) {
-    await db.Result.findAll({
-      attributes: ["tournamentId"],
-      group: ["tournamentId"],
-    }).then(function (result) {
-      res.json(result);
-    });
-  });
-
-  app.post("/api/missingResults", async function (req, res) {
-    console.log("------req.body-------:", req.body);
-    await db.missingTournament.sync({ force: true });
-    await db.missingTournament
-      .bulkCreate(req.body)
-      .then(async function () {
-        const temp = await runResults();
-      })
-      .then(function (data) {
-        res.json(data);
       });
   });
 
@@ -774,42 +832,6 @@ module.exports = function (app) {
       .then((arr) => {
         res.json(arr);
       });
-  });
-
-  app.get("/api/livePositions", async function (req, res) {
-    // Testing Start
-    await db.livePosition
-      .findAll({})
-      // Test End
-      // Production Start
-      // await db.liveEventSchedule
-      //   .sync({ force: true })
-      //   .then(async function () {
-      //     const temp = await seedLiveEventSchedule();
-      //   })
-      //   .then(async function () {
-      //     await db.livePosition.sync({ force: true });
-      //     const temp = await runLivePositions();
-      //   })
-      //   .then(async function () {
-      //     return db.livePosition.findAll({});
-      //   })
-      // Production End
-      .then((result) => {
-        res.json(result);
-      });
-  });
-
-  app.get("/api/livePurseSplit", function (req, res) {
-    db.livePurseSplit.findAll({}).then(function (result) {
-      res.json(result);
-    });
-  });
-
-  app.get("/api/liveSchedule", function (req, res) {
-    db.liveEventSchedule.findAll({}).then(function (result) {
-      res.json(result);
-    });
   });
 
   app.get("/api/posts", function (req, res) {
