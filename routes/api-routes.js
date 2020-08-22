@@ -418,52 +418,85 @@ module.exports = function (app) {
   // gets livePositions by first seeding liveEventSchedule, then running runLivePositions
   app.get("/api/livePositions", async function (req, res) {
     // Testing Start
-    // await db.livePosition
-    //   .findAll({})
-    // Test End
-    // Production Start
-    await db.liveEventSchedule
-      .sync({ force: true })
-      .then(async function () {
-        const temp = await seedLiveEventSchedule();
-      })
-      .then(async function () {
-        await db.livePosition.sync({ force: true });
-        const temp = await runLivePositions();
-      })
-      .then(async function () {
-        return db.livePosition.findAll({});
-      })
+    await db.livePosition
+      .findAll({})
+      // Test End
+      // Production Start
+      // await db.liveEventSchedule
+      //   .sync({ force: true })
+      //   .then(async function () {
+      //     const temp = await seedLiveEventSchedule();
+      //   })
+      //   .then(async function () {
+      //     await db.livePosition.sync({ force: true });
+      //     const temp = await runLivePositions();
+      //   })
+      //   .then(async function () {
+      //     return db.livePosition.findAll({});
+      //   })
       // Production End
       .then((result) => {
         res.json(result);
       });
   });
 
-  // app.get("/api/livePurseSplit", async function (req, res) {
-  //   const name = await db.liveEventSchedule.findAll({
-  //     attributes: ["name"],
-  //   });
+  app.get("/api/livePurseSplit", async function (req, res) {
+    // get name of tournament from liveEventSchedule
+    await db.liveEventSchedule
+      .findAll({
+        attributes: ["name"],
+      })
 
-  //   await db.liveTourneyType
-  //     .findAll({
-  //       attributes: ["tType"],
-  //       where: {
-  //         tName: {
-  //           [Sequelize.Op.eq]: sequelize.literal(`(${name})`),
-  //         },
-  //       },
-  //     })
+      // get tType of tournament identified above
+      .then(function (name) {
+        return db.liveTourneyType.findAll({
+          attributes: ["tType"],
+          where: {
+            tName: {
+              [Op.eq]: name[0].name,
+            },
+          },
+        });
+      })
 
-  //     .then(function (result) {
-  //       res.json(result);
-  //     });
-  // });
+      // get purse info for this tType
+      .then(function (tType) {
+        return db.livePurseSplit.findAll({
+          where: {
+            class: {
+              [Op.eq]: tType[0].tType,
+            },
+          },
+        });
+      })
 
-  app.get("/api/livePurseSplit", function (req, res) {
-    db.livePurseSplit.findAll({}).then(function (result) {
-      res.json(result);
-    });
+      .then(function (result) {
+        res.json(result);
+      });
+  });
+
+  app.get("/api/liveMCLine", async function (req, res) {
+    // get name of tournament from liveEventSchedule
+    await db.liveEventSchedule
+      .findAll({
+        attributes: ["name"],
+      })
+
+      // get MCLine of tournament identified above
+      .then(function (name) {
+        return db.liveTourneyType.findAll({
+          attributes: ["tMCLine"],
+          where: {
+            tName: {
+              [Op.eq]: name[0].name,
+            },
+          },
+        });
+      })
+
+      .then(function (result) {
+        res.json(result);
+      });
   });
 
   app.get("/api/liveSchedule", function (req, res) {

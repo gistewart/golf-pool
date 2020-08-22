@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let mcLine = 0,
+  let mcLine = 99,
     round = 0;
   let resultsRefresh = false;
   $("#lastEventTitle").hide();
@@ -152,8 +152,12 @@ $(document).ready(function () {
     await $.get("api/livePurseSplit", function (result) {
       livePurseSplit = result;
     });
+    await $.get("api/liveMCLine", function (result) {
+      liveMCLine = result;
+    });
 
     console.log(liveSchedule);
+    console.log(liveMCLine);
 
     // creates purseArr and counts the number of players at each position for the entire field
     let purseArr = [];
@@ -212,7 +216,7 @@ $(document).ready(function () {
     }
     console.log(purseArr);
 
-    // calculate cut-line from purseArr
+    // calculate round 2 in progress cut-line from purseArr
     for (let i = 0; i < purseArr.length - 1; i++) {
       if (round == 2 && purseArr[i + 1].pos > 65) {
         mcLine = purseArr[i].pos;
