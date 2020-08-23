@@ -167,6 +167,9 @@ $(document).ready(function () {
     });
     await $.get("api/liveSchedule", function (result) {
       liveSchedule = result;
+      if (liveSchedule.length === 0) {
+        return;
+      }
     });
     await $.get("api/livePurseSplit", function (result) {
       livePurseSplit = result;
