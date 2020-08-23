@@ -55,7 +55,7 @@ module.exports = async function () {
 
   console.log("line 53", scheduleStage);
 
-  // is the tournament underway
+  // is the tournament in progress
   for (let i = 0; i < scheduleStage.length; i++) {
     const id = scheduleStage[i].tournamentId;
     console.log(id);

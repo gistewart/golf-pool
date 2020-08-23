@@ -415,6 +415,22 @@ module.exports = function (app) {
       });
   });
 
+  app.get("/api/liveTourneyStatus", async function (req, res) {
+    // Testing Start
+    // Test End
+    // Production Start
+    await db.liveEventSchedule.sync({ force: true }).then(async function () {
+      const temp = await seedLiveEventSchedule();
+      return;
+    });
+    await db.liveEventSchedule
+      .findAll({})
+      // Production End
+      .then((result) => {
+        res.json(result);
+      });
+  });
+
   // gets livePositions by first seeding liveEventSchedule, then running runLivePositions
   app.get("/api/livePositions", async function (req, res) {
     // Testing Start

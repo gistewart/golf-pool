@@ -1,8 +1,11 @@
 $(document).ready(function () {
   let mcLine = 99,
-    round = 0;
+    round = 0,
+    liveScoring = "hide";
   let resultsRefresh = false;
   $("#lastEventTitle").hide();
+  $("#liveData").hide();
+  $("#refreshButton").hide();
   $("#subIconLang").hide();
   $(".comments-container").hide();
 
@@ -14,9 +17,23 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
+    await displayLiveTab();
     setTimeout(function () {
       seasonData();
     }, 1000);
+  }
+
+  async function displayLiveTab() {
+    console.log("running displayLiveTab");
+    await $.get("api/liveTourneyStatus", function (result) {
+      console.log(result);
+      console.log(result.length);
+      if (result.length === 1) {
+        $("#liveData").show();
+      } else {
+        $("#liveData").hide();
+      }
+    });
   }
 
   async function eventCheck() {
@@ -120,11 +137,14 @@ $(document).ready(function () {
   }
 
   $(document).on("click", "#liveData", liveEvent);
+  $(document).on("click", "#refreshButton", liveEvent);
 
   let apiCall = "";
 
   async function liveEvent() {
     $(".main-container").show();
+    $(".tapToReveal").hide();
+    $("#refreshButton").show();
     $(".comments-container").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Current tournament details:");
@@ -136,9 +156,6 @@ $(document).ready(function () {
 
     console.log("liveEvent function");
 
-    await $.get("api/liveSchedule", function (result) {
-      liveSchedule = result;
-    });
     await $.get("api/livePositions", function (result) {
       livePositions = result;
     });
@@ -147,7 +164,9 @@ $(document).ready(function () {
     });
     await $.get("api/liveAllEvents", function (result) {
       partResult = result;
-      console.log(partResult);
+    });
+    await $.get("api/liveSchedule", function (result) {
+      liveSchedule = result;
     });
     await $.get("api/livePurseSplit", function (result) {
       livePurseSplit = result;
@@ -155,6 +174,10 @@ $(document).ready(function () {
     await $.get("api/liveMCLine", function (result) {
       liveMCLine = result;
     });
+
+    let roundStatus = liveSchedule[0].status;
+    round = roundStatus.match(/\d/)[0];
+    console.log(round);
 
     console.log(liveSchedule);
     console.log(liveMCLine);
@@ -177,8 +200,6 @@ $(document).ready(function () {
 
     console.log(purseArr);
 
-    let roundStatus = liveSchedule[0].status;
-    round = roundStatus.match(/\d/)[0];
     let purseSum = 0;
 
     //calculates purse values for each position in purseArr
@@ -396,6 +417,8 @@ $(document).ready(function () {
       "Results reflect all tournaments up to and including:"
     );
     lastEventDetails();
+    $(".tapToReveal").show();
+    $("#refreshButton").hide();
     apiCall = "Season";
     $("#eventData").removeClass("is-active");
     $("#liveData").removeClass("is-active");
@@ -454,6 +477,8 @@ $(document).ready(function () {
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Tournament details:");
     lastEventDetails();
+    $(".tapToReveal").show();
+    $("#refreshButton").hide();
     apiCall = "Event";
     $("#eventData").addClass("is-loading");
     $.get("/api/lastEvent", function (data) {
@@ -706,10 +731,6 @@ $(document).ready(function () {
       );
 
       for (let j = 0; j < sorted[i].Players.length; j++) {
-        // temp only; for Live section here
-        if (apiCall === "Live") {
-          console.log(mcLine);
-        }
         $(".leaderboard-container").append(
           "<tr class='level2 hiddenRow collapse' id='demo" +
             i +
@@ -730,16 +751,32 @@ $(document).ready(function () {
                 (round == 1 &&
                 /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
                   ? " | " + sorted[i].Players[j].Tournaments[0].thru
+                  : /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
+                  ? " | " +
+                    sorted[i].Players[j].Tournaments[0].toPar +
+                    "<span class='todaysScore'>" +
+                    " (" +
+                    sorted[i].Players[j].Tournaments[0].thru +
+                    ")" +
+                    "</span>"
                   : /^\d+$/.test(sorted[i].Players[j].Tournaments[0].thru)
                   ? " | " +
                     sorted[i].Players[j].Tournaments[0].toPar +
-                    " | thru " +
-                    sorted[i].Players[j].Tournaments[0].thru
-                  : /am|pm|F/i.test(sorted[i].Players[j].Tournaments[0].thru)
+                    "<span class='todaysScore'>" +
+                    " (today: " +
+                    sorted[i].Players[j].Tournaments[0].today +
+                    " thru " +
+                    sorted[i].Players[j].Tournaments[0].thru +
+                    ")" +
+                    "</span>"
+                  : /F/i.test(sorted[i].Players[j].Tournaments[0].thru)
                   ? " | " +
                     sorted[i].Players[j].Tournaments[0].toPar +
-                    " | " +
-                    sorted[i].Players[j].Tournaments[0].thru
+                    "<span class='todaysScore'>" +
+                    " (today: " +
+                    sorted[i].Players[j].Tournaments[0].today +
+                    " thru 18)" +
+                    "</span>"
                   : "") +
                 (round == 2 && sorted[i].Players[j].Tournaments[0].posAdj > 65
                   ? " " +

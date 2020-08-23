@@ -61,6 +61,10 @@ p {
   margin-bottom: 0.5em;
 }
 
+div.buttons.is-centered {
+  margin-bottom: 0em;
+}
+
 .main-container {
   max-width: 650px;
   margin: 0 auto;
@@ -154,6 +158,10 @@ p {
 
 .level2A {
   padding-left: 0.5em !important;
+}
+
+.todaysScore {
+  font-size: 0.95em;
 }
 
 .fa-angle-double-up,
