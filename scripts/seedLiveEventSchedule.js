@@ -39,6 +39,7 @@ module.exports = async function () {
         result.tEndDate = f;
 
         result.name = $(this).find("p").text();
+        // need regex to exclude space, hyphen and anything afterwards
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
         result.purse = Number(
           $(this)

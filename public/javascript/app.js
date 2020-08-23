@@ -137,7 +137,13 @@ $(document).ready(function () {
   }
 
   $(document).on("click", "#liveData", liveEvent);
-  $(document).on("click", "#refreshButton", liveEvent);
+  $(document).on("click", "#refreshButton", refreshLiveButton);
+
+  async function refreshLiveButton() {
+    $("#refreshButton").addClass("is-loading");
+    await liveEvent();
+    $("#refreshButton").removeClass("is-loading");
+  }
 
   let apiCall = "";
 
@@ -168,6 +174,7 @@ $(document).ready(function () {
     await $.get("api/liveSchedule", function (result) {
       liveSchedule = result;
       if (liveSchedule.length === 0) {
+        $("#liveData").hide();
         return;
       }
     });
