@@ -1,7 +1,8 @@
 $(document).ready(function () {
+  //change mcLine to mcPos
   let mcLine = 99,
-    round = 0,
-    liveScoring = "hide";
+    round = 0;
+  $("#liveScoring").hide();
   let resultsRefresh = false;
   $("#lastEventTitle").hide();
   $("#liveData").hide();
@@ -182,6 +183,7 @@ $(document).ready(function () {
       livePurseSplit = result;
     });
     await $.get("api/liveMCLine", function (result) {
+      //change liveMCLine to mcTop;
       liveMCLine = result;
     });
 
@@ -190,6 +192,7 @@ $(document).ready(function () {
     console.log(round);
 
     console.log(liveSchedule);
+    //change to mcTop;
     console.log(liveMCLine);
 
     // creates purseArr and counts the number of players at each position for the entire field
@@ -239,6 +242,7 @@ $(document).ready(function () {
             (purseArr[i].data[0].avgPercent * liveSchedule[0].purse) / 100;
         }
       }
+      //change 65 to mcTop
       if ((round < 3 && purseArr[i].pos > 65) || purseArr[i].pos == 0) {
         purseArr[i].data[0].totPercent = 0;
         purseArr[i].data[0].avgPercent = 0;
@@ -247,13 +251,16 @@ $(document).ready(function () {
     }
     console.log(purseArr);
 
-    // calculate round 2 in progress cut-line from purseArr
+    // calculate rounds 1 & 2 in progress cut-line from purseArr
     for (let i = 0; i < purseArr.length - 1; i++) {
-      if (round == 2 && purseArr[i + 1].pos > 65) {
+      //change 65 to mcTop
+      if (round < 3 && purseArr[i + 1].pos > 65) {
+        //change mcLine to mcPos
         mcLine = purseArr[i].pos;
         break;
       }
     }
+    //change mcLine to mcPos
     console.log(mcLine);
 
     // add purse info to livePositions array
@@ -410,7 +417,7 @@ $(document).ready(function () {
         );
       }
     });
-    console.log("exiting lastEventDeails function");
+    console.log("exiting lastEventDetails function");
   }
 
   let mainData = [],
@@ -788,6 +795,8 @@ $(document).ready(function () {
                     " thru 18)" +
                     "</span>"
                   : "") +
+                // change 65 to mcPos
+                //change mcLine to mcPos
                 (round == 2 && sorted[i].Players[j].Tournaments[0].posAdj > 65
                   ? " " +
                     "<i class='fas fa-exclamation-circle fa-s' style='color:red'></i>"

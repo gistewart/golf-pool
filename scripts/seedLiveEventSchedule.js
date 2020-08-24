@@ -38,8 +38,7 @@ module.exports = async function () {
         f.setDate(f.getDate() + 4);
         result.tEndDate = f;
 
-        result.name = $(this).find("p").text();
-        // need regex to exclude space, hyphen and anything afterwards
+        result.name = $(this).find("p").text().replace(" - Play Suspended", "");
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
         result.purse = Number(
           $(this)
@@ -73,8 +72,8 @@ module.exports = async function () {
       });
     scheduleStage[i].status = hold.status;
     if (
-      // examples only of status: !/Tournament Field|Final|Round 1 - Suspended | Round 1 - Play Complete|^Round [2-4]/gi.test(
-      !/^Round [1-4]/gi.test(hold.status)
+      // examples only of status: /Tournament Field|Final|Round 1 - Suspended | Round 1 - Play Complete|^Round [2-4]/gi.test(
+      !/^Round/gi.test(hold.status)
     ) {
       scheduleStage.splice(i, 1);
       i--;
