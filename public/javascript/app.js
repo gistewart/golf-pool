@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  //change mcLine to mcPos
-  let mcLine = 99,
-    round = 0;
+  let mcPos = 99,
+    round = 0,
+    noCut = false;
   $("#liveScoring").hide();
   let resultsRefresh = false;
   $("#lastEventTitle").hide();
@@ -183,17 +183,21 @@ $(document).ready(function () {
       livePurseSplit = result;
     });
     await $.get("api/liveMCLine", function (result) {
-      //change liveMCLine to mcTop;
-      liveMCLine = result;
+      mcTop = Number(result[0].tMCLine);
     });
 
     let roundStatus = liveSchedule[0].status;
     round = roundStatus.match(/\d/)[0];
     console.log(round);
 
+    let livePositionsLen = livePositions.length;
+    console.log("field size: ", livePositionsLen, "cut line (top): ", mcTop);
+    if (livePositionsLen <= mcTop) {
+      noCut = true;
+      console.log("noCut value", noCut);
+    }
+
     console.log(liveSchedule);
-    //change to mcTop;
-    console.log(liveMCLine);
 
     // creates purseArr and counts the number of players at each position for the entire field
     let purseArr = [];
@@ -242,8 +246,10 @@ $(document).ready(function () {
             (purseArr[i].data[0].avgPercent * liveSchedule[0].purse) / 100;
         }
       }
-      //change 65 to mcTop
-      if ((round < 3 && purseArr[i].pos > 65) || purseArr[i].pos == 0) {
+      if (
+        (round < 3 && Number(purseArr[i].pos) > mcTop) ||
+        Number(purseArr[i].pos) == 0
+      ) {
         purseArr[i].data[0].totPercent = 0;
         purseArr[i].data[0].avgPercent = 0;
         purseArr[i].data[0].dollars = 0;
@@ -253,15 +259,12 @@ $(document).ready(function () {
 
     // calculate rounds 1 & 2 in progress cut-line from purseArr
     for (let i = 0; i < purseArr.length - 1; i++) {
-      //change 65 to mcTop
-      if (round < 3 && purseArr[i + 1].pos > 65) {
-        //change mcLine to mcPos
-        mcLine = purseArr[i].pos;
+      if (round < 3 && Number(purseArr[i + 1].pos) > mcTop) {
+        mcPos = Number(purseArr[i].pos);
+        console.log(mcPos);
         break;
       }
     }
-    //change mcLine to mcPos
-    console.log(mcLine);
 
     // add purse info to livePositions array
     for (let i in livePositions) {
@@ -795,13 +798,14 @@ $(document).ready(function () {
                     " thru 18)" +
                     "</span>"
                   : "") +
-                // change 65 to mcPos
-                //change mcLine to mcPos
-                (round == 2 && sorted[i].Players[j].Tournaments[0].posAdj > 65
+                (noCut === false &&
+                round == 1 &&
+                sorted[i].Players[j].Tournaments[0].posAdj > mcPos
                   ? " " +
                     "<i class='fas fa-exclamation-circle fa-s' style='color:red'></i>"
-                  : round == 2 &&
-                    sorted[i].Players[j].Tournaments[0].posAdj == mcLine
+                  : noCut === false &&
+                    round == 1 &&
+                    sorted[i].Players[j].Tournaments[0].posAdj == mcPos
                   ? " " +
                     "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"
                   : "")

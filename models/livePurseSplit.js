@@ -10,8 +10,6 @@ module.exports = function (sequelize, DataTypes) {
       },
       pos: DataTypes.STRING,
       percent: DataTypes.DECIMAL(5, 3),
-      createdAt: DataTypes.DATEONLY,
-      updatedAt: DataTypes.DATEONLY,
     },
     {
       timestamps: false,

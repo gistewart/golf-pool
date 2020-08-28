@@ -28,6 +28,18 @@ header .tabs li a .icon:first-child {
   margin-right: 0.15em;
 }
 
+.Blink {
+  animation: blinker 1s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
+}
+@keyframes blinker {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 .commentsLink {
   text-decoration: none;
 }
