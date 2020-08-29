@@ -826,8 +826,7 @@ $(document).ready(function () {
                     sorted[i].Players[j].Tournaments[0].posAdj == mcPos
                   ? " " +
                     "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"
-                  : "")
-              : " " +
+                  : "") +
                 "<i title = 'Category earnings (including any subs) are " +
                 ((sorted[i].Players[j].gradePercent * 100).toFixed(0) + "%") +
                 " of pool average of " +
@@ -841,6 +840,60 @@ $(document).ready(function () {
                   }
                 ) +
                 "'" +
+                // (sorted[i].Players[j].grade == "A"
+                //   ? "class='gradeIcon fas fa-angle-double-up fa-s'></i>"
+                //   : sorted[i].Players[j].grade == "B"
+                //   ? "class='gradeIcon fas fa-angle-up fa-s'></i>"
+                //   : sorted[i].Players[j].grade == "C"
+                //   ? "class='gradeIcon fas fa-arrows-alt-v fa-s'></i>"
+                //   : sorted[i].Players[j].grade == "D"
+                //   ? "class='gradeIcon fas fa-angle-down fa-s'></i>"
+                //   : sorted[i].Players[j].grade == "E"
+                //   ? "class='gradeIcon fas fa-angle-double-down fa-s'></i>"
+                //   : "") +
+                // "  " +
+                // (sorted[i].Players[j].active == "yes" &&
+                // (sorted[i].Players[j].startDate > "2020-01-01" ||
+                //   sorted[i].Players[j].endDate < "2020-12-31")
+                //   ? " | "
+                //   : "") +
+                // (sorted[i].Players[j].startDate > "2020-01-01"
+                //   ? " " +
+                //     "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
+                //     "  " +
+                //     new Date(sorted[i].Players[j].startDate).toLocaleString(
+                //       "default",
+                //       {
+                //         month: "short",
+                //         day: "numeric",
+                //       }
+                //     )
+                //   : sorted[i].Players[j].endDate < "2020-12-31"
+                //   ? "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
+                //     " " +
+                //     new Date(sorted[i].Players[j].endDate).toLocaleString(
+                //       "default",
+                //       {
+                //         month: "short",
+                //         day: "numeric",
+                //       }
+                //     )
+                //   : "") +
+                // (sorted[i].Players[j].startDate > "2020-01-01" &&
+                // sorted[i].Players[j].endDate < "2020-12-31"
+                //   ? " | " +
+                //     "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
+                //     "  " +
+                //     new Date(sorted[i].Players[j].endDate).toLocaleString(
+                //       "default",
+                //       {
+                //         style: "currency",
+                //         currency: "USD",
+                //         minimumFractionDigits: 0,
+                //         maximumFractionDigits: 0,
+                //       }
+                //     ) +
+                //     "'" +
                 (sorted[i].Players[j].grade == "A"
                   ? "class='gradeIcon fas fa-angle-double-up fa-s'></i>"
                   : sorted[i].Players[j].grade == "B"
@@ -888,77 +941,24 @@ $(document).ready(function () {
                     new Date(sorted[i].Players[j].endDate).toLocaleString(
                       "default",
                       {
-                        style: "currency",
-                        currency: "USD",
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0,
+                        month: "short",
+                        day: "numeric",
                       }
-                    ) +
-                    "'" +
-                    (sorted[i].Players[j].grade == "A"
-                      ? "class='gradeIcon fas fa-angle-double-up fa-s'></i>"
-                      : sorted[i].Players[j].grade == "B"
-                      ? "class='gradeIcon fas fa-angle-up fa-s'></i>"
-                      : sorted[i].Players[j].grade == "C"
-                      ? "class='gradeIcon fas fa-arrows-alt-v fa-s'></i>"
-                      : sorted[i].Players[j].grade == "D"
-                      ? "class='gradeIcon fas fa-angle-down fa-s'></i>"
-                      : sorted[i].Players[j].grade == "E"
-                      ? "class='gradeIcon fas fa-angle-double-down fa-s'></i>"
-                      : "") +
+                    )
+                  : "") +
+                (sorted[i].Players[j].reStartDate > "2020-01-01"
+                  ? " | " +
+                    "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
                     "  " +
-                    (sorted[i].Players[j].active == "yes" &&
-                    (sorted[i].Players[j].startDate > "2020-01-01" ||
-                      sorted[i].Players[j].endDate < "2020-12-31")
-                      ? " | "
-                      : "") +
-                    (sorted[i].Players[j].startDate > "2020-01-01"
-                      ? " " +
-                        "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
-                        "  " +
-                        new Date(sorted[i].Players[j].startDate).toLocaleString(
-                          "default",
-                          {
-                            month: "short",
-                            day: "numeric",
-                          }
-                        )
-                      : sorted[i].Players[j].endDate < "2020-12-31"
-                      ? "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
-                        " " +
-                        new Date(sorted[i].Players[j].endDate).toLocaleString(
-                          "default",
-                          {
-                            month: "short",
-                            day: "numeric",
-                          }
-                        )
-                      : "") +
-                    (sorted[i].Players[j].startDate > "2020-01-01" &&
-                    sorted[i].Players[j].endDate < "2020-12-31"
-                      ? " | " +
-                        "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
-                        "  " +
-                        new Date(sorted[i].Players[j].endDate).toLocaleString(
-                          "default",
-                          {
-                            month: "short",
-                            day: "numeric",
-                          }
-                        )
-                      : "") +
-                    (sorted[i].Players[j].reStartDate > "2020-01-01"
-                      ? " | " +
-                        "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
-                        "  " +
-                        new Date(
-                          sorted[i].Players[j].reStartDate
-                        ).toLocaleString("default", {
-                          month: "short",
-                          day: "numeric",
-                        })
-                      : "")
-                  : "")) +
+                    new Date(sorted[i].Players[j].reStartDate).toLocaleString(
+                      "default",
+                      {
+                        month: "short",
+                        day: "numeric",
+                      }
+                    )
+                  : "")
+              : "") +
             "</td><td class='earnings'>" +
             sorted[i].Players[j].playerEarnings.toLocaleString("us-US", {
               style: "currency",
