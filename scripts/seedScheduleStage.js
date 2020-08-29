@@ -40,7 +40,11 @@ module.exports = async function () {
         result.tEndDate = f;
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
-        scheduleStage.push(result);
+
+        // to exclude the Barracuda while it is taking place
+        if (result.tournamentId !== "401155468") {
+          scheduleStage.push(result);
+        }
         console.log(scheduleStage);
       });
       return;
@@ -62,12 +66,70 @@ module.exports = async function () {
         });
       });
     if (hold.status != "Final") {
+      console.log("entering hold.status if clause");
       scheduleStage.splice(i, 1);
       i--;
+      console.log("hold status current tournament included:", scheduleStage);
+    }
+    // have earnings been posted for all players who made the cut
+    else {
+      await axios
+        .get(`https://www.espn.com/golf/leaderboard?tournamentId=${id}`)
+        .then(function (response) {
+          var $ = cheerio.load(response.data);
+          resultsArray = [];
+
+          $("tbody tr").each(function (i, element) {
+            var result = {};
+
+            result.tournamentId = `${id}`;
+            result.pos = $(this)
+              .children("td:first-child")
+              .text()
+              .replace(/^T/, "");
+            result.playerName = $(this)
+              .children("td:nth-child(2)")
+              .children("a")
+              .text();
+            result.toPar = $(this).children("td:nth-child(3)").text();
+            if (result.pos == "-") {
+              result.pos = result.toPar;
+            }
+            result.earnings = Number(
+              $(this)
+                .children("td:nth-child(9)")
+                .text()
+                .replace(/[\$,]/g, "")
+                .replace(/--/, 0)
+            );
+            resultsArray.push(result);
+          });
+        });
+      // console.log("new results: ", resultsArray);
+      for (let j = 0; j < resultsArray.length; j++) {
+        console.log(
+          resultsArray[j].pos,
+          resultsArray[j].playerName,
+          resultsArray[j].earnings
+        );
+        // this is where the magic happens!
+        // to exclude amateurs from the earnings check
+        if (/\(a\)$/.test(resultsArray[j].playerName)) {
+          continue;
+        }
+        // to delete tourney if any pros who made cut have earnings of 0
+        if (!isNaN(resultsArray[j].pos) && resultsArray[j].earnings === 0) {
+          console.log("break now");
+          scheduleStage.splice(i, 1);
+          i--;
+          break;
+        }
+      }
     }
     console.log("current tournament included:", scheduleStage);
   }
 
+  //now grab details of completed tournaments
   await axios
     .get("https://www.espn.com/golf/schedule")
     .then(function (response) {
@@ -103,8 +165,11 @@ module.exports = async function () {
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
         scheduleStage.push(result);
       });
+
+      //filter for this year's events; (not the Barracuda;) presence of a winner
       finishedEventsArr = scheduleStage
         .filter((el) => el.tournamentId >= "401155413")
+        // .filter((el) => el.tournamentId !== "401155468")
         .filter((el) => el.winner);
       return;
     })

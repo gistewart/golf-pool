@@ -8,9 +8,11 @@ $(document).ready(function () {
   $("#liveData").hide();
   $("#refreshButton").hide();
   $("#subIconLang").hide();
+  $("#footnotes").hide();
+  $("footer").hide();
   $(".comments-container").hide();
 
-  $("#seasonData").addClass("is-loading");
+  $("#seasonData .spinner").addClass("lds-hourglass");
 
   pageLoad();
 
@@ -94,7 +96,6 @@ $(document).ready(function () {
     });
     console.log("new event posted");
     return;
-    // missingResults();
   }
 
   async function missingResults() {
@@ -429,7 +430,10 @@ $(document).ready(function () {
   $(document).on("click", "#seasonData", seasonData);
 
   function seasonData() {
+    $("#seasonData .spinner").addClass("lds-hourglass");
+    $(".comments-container").hide();
     $(".main-container").show();
+    $("#footnotes").show(4000);
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
     $("#lastEventTitle").show();
@@ -486,14 +490,15 @@ $(document).ready(function () {
         });
       });
     });
-    $("#seasonData").removeClass("is-loading");
   }
 
   $(document).on("click", "#eventData", eventData);
 
   function eventData() {
+    $("#eventData .spinner").addClass("lds-hourglass");
     $(".main-container").show();
     $(".comments-container").hide();
+    $("#footnotes").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Tournament details:");
     lastEventDetails();
@@ -515,7 +520,9 @@ $(document).ready(function () {
     //to sum earnings by player and poolster
     let a, b;
     let result = [];
+    // iAdj below accounts for inactive players being the ONLY players on a poolster's team (it handles an empty array issue)
     let iAdj = 0;
+    console.log(data);
     for (let i = 0; i < data.length; i++) {
       if (!(data[i].Players && data[i].Players.length)) {
         iAdj++;
@@ -529,9 +536,9 @@ $(document).ready(function () {
           Players: [],
         });
         a = data[i].Players;
-
         for (let j = 0; j < a.length; j++) {
           let playerSum = 0;
+
           result[i - iAdj].Players.push({
             player: a[j].name,
             tier: a[j].tier,
@@ -557,6 +564,7 @@ $(document).ready(function () {
             poolsterSum += b[k].earnings;
             result[i - iAdj].Players[j].tournaments.push({
               name: b[k].name,
+              shortName: b[k].shortName,
               date: b[k].date,
               start: b[k].start,
               position: b[k].position,
@@ -686,6 +694,7 @@ $(document).ready(function () {
     console.log(sorted);
 
     $(".leaderboard-container > tbody").html("");
+    console.log(apiCall);
     for (let i = 0; i < sorted.length; i++) {
       $(".leaderboard-container > tbody").append(
         "<tr data-toggle='collapse' data-target='#demo" +
@@ -705,16 +714,25 @@ $(document).ready(function () {
           "</td><td class='imageDiv'><img class='poolsterImage' src=" +
           sorted[i].image +
           "></td><td class='poolsterHandle'>" +
+          "<span>" +
+          (sorted[i].poolster === "The Trader"
+            ? "<i class='fas fa-ribbon'></i>" + " "
+            : "") +
           sorted[i].poolster +
           (apiCall == "Live"
             ? "<small>" + sorted[i].liveZeroPlayersText + "</small>"
             : "") +
           " " +
-          (sorted[i].playerCount > 0 && apiCall == "Season"
+          (sorted[i].poolster === "The Trader"
+            ? "<i class='fas fa-ribbon'></i>"
+            : sorted[i].playerCount > 0 &&
+              apiCall == "Season" &&
+              sorted[i].poolster !== "The Trader"
             ? "<i class='subIcon2 material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
             : sorted[i].playerCount == 0 && apiCall == "Season"
             ? "<i class='subIcon1 material-icons md-15'>swap_horizontal_circle</i>"
             : "") +
+          "</span>" +
           "<p class='poolsterName'>" +
           sorted[i].name +
           "</p></td><td class='earnings'>" +
@@ -799,12 +817,12 @@ $(document).ready(function () {
                     "</span>"
                   : "") +
                 (noCut === false &&
-                round == 1 &&
+                round == 2 &&
                 sorted[i].Players[j].Tournaments[0].posAdj > mcPos
                   ? " " +
                     "<i class='fas fa-exclamation-circle fa-s' style='color:red'></i>"
                   : noCut === false &&
-                    round == 1 &&
+                    round == 2 &&
                     sorted[i].Players[j].Tournaments[0].posAdj == mcPos
                   ? " " +
                     "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"
@@ -870,22 +888,76 @@ $(document).ready(function () {
                     new Date(sorted[i].Players[j].endDate).toLocaleString(
                       "default",
                       {
-                        month: "short",
-                        day: "numeric",
+                        style: "currency",
+                        currency: "USD",
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
                       }
-                    )
-                  : "") +
-                (sorted[i].Players[j].reStartDate > "2020-01-01"
-                  ? " | " +
-                    "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
+                    ) +
+                    "'" +
+                    (sorted[i].Players[j].grade == "A"
+                      ? "class='gradeIcon fas fa-angle-double-up fa-s'></i>"
+                      : sorted[i].Players[j].grade == "B"
+                      ? "class='gradeIcon fas fa-angle-up fa-s'></i>"
+                      : sorted[i].Players[j].grade == "C"
+                      ? "class='gradeIcon fas fa-arrows-alt-v fa-s'></i>"
+                      : sorted[i].Players[j].grade == "D"
+                      ? "class='gradeIcon fas fa-angle-down fa-s'></i>"
+                      : sorted[i].Players[j].grade == "E"
+                      ? "class='gradeIcon fas fa-angle-double-down fa-s'></i>"
+                      : "") +
                     "  " +
-                    new Date(sorted[i].Players[j].reStartDate).toLocaleString(
-                      "default",
-                      {
-                        month: "short",
-                        day: "numeric",
-                      }
-                    )
+                    (sorted[i].Players[j].active == "yes" &&
+                    (sorted[i].Players[j].startDate > "2020-01-01" ||
+                      sorted[i].Players[j].endDate < "2020-12-31")
+                      ? " | "
+                      : "") +
+                    (sorted[i].Players[j].startDate > "2020-01-01"
+                      ? " " +
+                        "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
+                        "  " +
+                        new Date(sorted[i].Players[j].startDate).toLocaleString(
+                          "default",
+                          {
+                            month: "short",
+                            day: "numeric",
+                          }
+                        )
+                      : sorted[i].Players[j].endDate < "2020-12-31"
+                      ? "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
+                        " " +
+                        new Date(sorted[i].Players[j].endDate).toLocaleString(
+                          "default",
+                          {
+                            month: "short",
+                            day: "numeric",
+                          }
+                        )
+                      : "") +
+                    (sorted[i].Players[j].startDate > "2020-01-01" &&
+                    sorted[i].Players[j].endDate < "2020-12-31"
+                      ? " | " +
+                        "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
+                        "  " +
+                        new Date(sorted[i].Players[j].endDate).toLocaleString(
+                          "default",
+                          {
+                            month: "short",
+                            day: "numeric",
+                          }
+                        )
+                      : "") +
+                    (sorted[i].Players[j].reStartDate > "2020-01-01"
+                      ? " | " +
+                        "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
+                        "  " +
+                        new Date(
+                          sorted[i].Players[j].reStartDate
+                        ).toLocaleString("default", {
+                          month: "short",
+                          day: "numeric",
+                        })
+                      : "")
                   : "")) +
             "</td><td class='earnings'>" +
             sorted[i].Players[j].playerEarnings.toLocaleString("us-US", {
@@ -908,7 +980,7 @@ $(document).ready(function () {
                 "' ><td class='level3A' colspan='4'>" +
                 sorted[i].Players[j].tournaments[k].date +
                 " | " +
-                sorted[i].Players[j].tournaments[k].name +
+                sorted[i].Players[j].tournaments[k].shortName +
                 " | " +
                 sorted[i].Players[j].tournaments[k].position +
                 "</td><td class='earnings'>" +
@@ -924,13 +996,105 @@ $(document).ready(function () {
                 "</td></tr>"
             );
           }
+          // for (let k = 0; k < sorted[i].Players[j].tournaments.length; k++) {
+          //   $(".leaderboard-container").append(
+          //     "<tr class='level3 hiddenRow collapse' id='demo-" +
+          //       i +
+          //       "-" +
+          //       j +
+          //       "' ><td class='level3A' colspan='4'>" +
+          //       sorted[i].Players[j].tournaments[k].date +
+          //       " | " +
+          //       sorted[i].Players[j].tournaments[k].shortName +
+          //       " | " +
+          //       sorted[i].Players[j].tournaments[k].position +
+          //       "</td><td class='earnings'>" +
+          //       sorted[i].Players[j].tournaments[k].earnings.toLocaleString(
+          //         "us-US",
+          //         {
+          //           style: "currency",
+          //           currency: "USD",
+          //           minimumFractionDigits: 0,
+          //         }
+          //       ) +
+          //       "</td></tr>"
+          //   );
+          // }
         }
       }
+      if (apiCall === "Season") {
+        $("#seasonData .spinner").removeClass("lds-hourglass");
+      }
+      if (apiCall === "Event") {
+        $("#eventData .spinner").removeClass("lds-hourglass");
+      }
     }
-    $(".subIcon1").attr("title", "Sub available for this period");
-    $(".subIcon2").attr("title", "Sub already used for this period");
 
-    $("#subIconLang").show(3000);
+    $(function () {
+      $(".poolsterHandle").each(function () {
+        var fitWidth = $(".poolsterHandle").innerWidth();
+        var $div = $(this);
+        $(this)
+          .find("span")
+          .each(function () {
+            var c = 0;
+            var spanWidth = parseInt($(this).width());
+            while (fitWidth < 1.1 * spanWidth) {
+              $div.find("span").each(function () {
+                var fontSize = parseFloat($(this).css("font-size"));
+                fontSize = fontSize - 0.5 + "px";
+                $(this).css("font-size", fontSize);
+              });
+              spanWidth = parseInt($(this).width());
+              c++;
+              if (c > 10) {
+                $div.css("background", "red");
+                break;
+              }
+            }
+          });
+      });
+    });
+    // $(function () {
+    //   $(".level2").each(function () {
+    //     // var fitWidth = $(".level2").innerWidth() - $(".earnings").innerWidth();
+    //     var fitWidth = $(".level2A").actual("width");
+    //     console.log("fitWidth ", fitWidth);
+    //     var $div = $(this);
+    //     $(this)
+    //       .find("td:first-child")
+    //       .each(function () {
+    //         var c = 0;
+    //         var spanWidth = parseInt($(this).width());
+    //         console.log(
+    //           "spanWidth prior to while loop ",
+    //           (spanWidth * 1.1).toFixed(1)
+    //         );
+    //         while (fitWidth < 1.2 * spanWidth) {
+    //           $div.find("span").each(function () {
+    //             var fontSize = parseFloat($(this).css("font-size"));
+    //             console.log("fontSize 1", fontSize);
+    //             fontSize = fontSize - 0.5 + "px";
+    //             console.log("fontSize 2 ", fontSize);
+    //             $(this).css("font-size", fontSize);
+    //           });
+    //           spanWidth = parseInt($(this).width());
+    //           console.log("spanWidth ", (spanWidth * 1.1).toFixed(1));
+    //           c++;
+    //           console.log("c ", c);
+    //           if (c > 3) {
+    //             $div.css("background", "red");
+    //             break;
+    //           }
+    //         }
+    //       });
+    //   });
+    // });
+
+    // var temp = $(".logo").actual("width");
+    // console.log(temp);
+
+    $("footer").show(4000);
 
     console.log(sorted);
   }
@@ -941,6 +1105,7 @@ $(document).ready(function () {
 
   function commentsPage() {
     $(".main-container").hide();
+    $("#footnotes").hide();
     $("#seasonData").removeClass("is-active");
     $("#eventData").removeClass("is-active");
     $("#commentsPage").addClass("is-active");

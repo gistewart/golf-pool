@@ -1,12 +1,29 @@
 body {
-  background: rgba(128, 128, 128, 0.25);
+  /* background: rgba(128, 128, 128, 0.25); */
   font-size: 75%;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.page-content {
+  background: rgba(128, 128, 128, 0.25);
+  min-height: 100%;
+  margin-bottom: -25px;
+}
+
+.page-content::after {
+  content: "";
+  display: block;
 }
 
 .logo {
   position: relative;
   height: 30px;
-  background: rgba(18, 31, 219, 0.808);
+  background: rgba(7, 15, 133, 0.808);
   max-width: 620px;
 }
 
@@ -40,12 +57,44 @@ header .tabs li a .icon:first-child {
   }
 }
 
+#liveData {
+  color: red;
+}
+
 .commentsLink {
   text-decoration: none;
 }
 
-#liveData {
-  color: red;
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: inline-block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 2px 2px 2px 6px;
+  box-sizing: border-box;
+  border: 8px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
 }
 
 .lastEventDetails {
@@ -85,10 +134,10 @@ div.buttons.is-centered {
 .table {
   table-layout: fixed;
   width: 100%;
+  margin-bottom: 1em !important;
 }
 
 .level1 {
-  /* background: url("../images/vichy.png"); */
   background: rgba(128, 128, 128, 0.125);
 }
 
@@ -102,15 +151,15 @@ div.buttons.is-centered {
 .ranking {
   color: black;
   font-size: 1.5em;
-  padding-left: 0.5em !important;
+  padding-left: 0.25em !important;
   margin-right: 0 !important;
   padding-right: 0 !important;
 }
 
-.rankingChange {
+table tbody .level1 .rankingChange {
   font-size: 0.8em;
-  text-align: left;
-  padding: 1em 0 0 0.65em !important;
+  text-align: center;
+  padding: 1em 0 0 0.35em;
 }
 
 .poolsterImage {
@@ -122,10 +171,13 @@ div.buttons.is-centered {
 }
 
 .poolsterHandle {
-  font-size: 1.15em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.poolsterHandle span {
+  font-size: 1.15em;
 }
 
 .poolsterName {
@@ -212,10 +264,6 @@ div.buttons.is-centered {
   background: rgba(128, 128, 128, 0.125);
 }
 
-.level3A {
-  padding-left: 1.5em !important;
-}
-
 .material-icons.md-16 {
   font-size: 1em;
 }
@@ -239,7 +287,6 @@ div.buttons.is-centered {
 
 .subIconLangShow {
   visibility: visible;
-  font-size: 0.75em;
   margin-top: -1.5em;
 }
 
@@ -273,6 +320,30 @@ div.buttons.is-centered {
   padding: 0 30px 10px;
 }
 
+#footnotes {
+  margin-bottom: 20px;
+}
+
+#playerRankingLang > a:link {
+  text-decoration: underline;
+}
+
+hr {
+  border: 1px solid rgb(168, 166, 166);
+  margin: 5px 0px;
+}
+
+.footer {
+  background: #555;
+  padding: 5px;
+  font-size: 0.85em;
+}
+
+.footer,
+.page-content::after {
+  height: 25px;
+}
+
 @media only screen and (min-width: 576px) {
   body {
     font-size: 100%;
@@ -286,4 +357,8 @@ div.buttons.is-centered {
   .logo {
     height: 60px !important;
   }
+  /* .poolsterHandle,
+  .level1 .earnings {
+    font-size: 1.15em;
+  } */
 }

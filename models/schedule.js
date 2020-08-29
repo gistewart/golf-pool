@@ -22,6 +22,10 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: "tournamentId",
       sourceKey: "tournamentId",
     });
+    Schedule.hasOne(models.ScheduleShortName, {
+      foreignKey: "tournamentId",
+      sourceKey: "tournamentId",
+    });
   };
 
   return Schedule;
