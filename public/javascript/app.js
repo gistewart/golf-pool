@@ -248,7 +248,7 @@ $(document).ready(function () {
         }
       }
       if (
-        (round < 3 && Number(purseArr[i].pos) > mcTop) ||
+        (round < 4 && Number(purseArr[i].pos) > mcTop) ||
         Number(purseArr[i].pos) == 0
       ) {
         purseArr[i].data[0].totPercent = 0;
@@ -260,7 +260,7 @@ $(document).ready(function () {
 
     // calculate rounds 1 & 2 in progress cut-line from purseArr
     for (let i = 0; i < purseArr.length - 1; i++) {
-      if (round < 3 && Number(purseArr[i + 1].pos) > mcTop) {
+      if (round < 4 && Number(purseArr[i + 1].pos) > mcTop) {
         mcPos = Number(purseArr[i].pos);
         console.log(mcPos);
         break;
@@ -817,16 +817,17 @@ $(document).ready(function () {
                     "</span>"
                   : "") +
                 (noCut === false &&
-                round == 2 &&
+                round == 3 &&
                 sorted[i].Players[j].Tournaments[0].posAdj > mcPos
                   ? " " +
                     "<i class='fas fa-exclamation-circle fa-s' style='color:red'></i>"
                   : noCut === false &&
-                    round == 2 &&
+                    round == 3 &&
                     sorted[i].Players[j].Tournaments[0].posAdj == mcPos
                   ? " " +
                     "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"
-                  : "") +
+                  : "")
+              : " " +
                 "<i title = 'Category earnings (including any subs) are " +
                 ((sorted[i].Players[j].gradePercent * 100).toFixed(0) + "%") +
                 " of pool average of " +
@@ -957,8 +958,7 @@ $(document).ready(function () {
                         day: "numeric",
                       }
                     )
-                  : "")
-              : "") +
+                  : "")) +
             "</td><td class='earnings'>" +
             sorted[i].Players[j].playerEarnings.toLocaleString("us-US", {
               style: "currency",
