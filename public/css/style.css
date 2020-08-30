@@ -126,6 +126,11 @@ div.buttons.is-centered {
   margin-bottom: 0em;
 }
 
+div.buttons.is-centered #refreshButton {
+  padding: 0px 12px;
+  font-weight: 800;
+}
+
 .main-container {
   max-width: 650px;
   margin: 0 auto;

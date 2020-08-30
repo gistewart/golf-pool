@@ -36,7 +36,7 @@
                     </li>
                     <li id="eventData"><a><span class="icon"><i class="fas fa-calendar-week"></i></span><span>Last
                                 Week</span><span class="spinner"></span></a></li>
-                    <li id="liveData"><a><span class="icon"><i class="fas fa-circle text-danger Blink"></i></span><span>
+                    <li id="liveData"><a><span class="icon"><i class="fas fa-circle text-danger"></i></span><span>
                                 Live
                                 Scoring
                             </span><span class="spinner"></span></a></li>
@@ -124,62 +124,63 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="container comments-container">
-                    <div class="row">
-                        <div class="container tabs-container">
-                            <div class="tabs is-centered is-boxed is-small" style="padding: 0 1em;">
-                                <ul>
-                                    <li id="submitComments"><a style="padding: 0 1em;"><span class="icon"><i
-                                                    class="fas fa-pen"></i></span><span>Submit</span></a>
-                                    </li>
-                                    <li id="displayComments"><a style="padding: 0 1em;"><span class="icon"><i
-                                                    class="fas fa-list"></i></span><span>Display</span></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="container submit-comments-container" id="submit-comments-container">
-                            <div class="">
-                                <form id="cms">
-                                    <div class="form-group">
-                                        <select class="custom-select" style="font-size: 1em;" id="poolster">
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <select class="custom-select" style="font-size: 1em;" id="category">
-                                            <option value="" disabled selected>Select Category</option>
-                                            <option value="Data error">Data error</option>
-                                            <option value="Suggestion">Suggestion</option>
-                                            <option value="Other">Other</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea style="font-size: 1em;"
-                                            placeholder="Details - please note that submitted comments appear immediately in the Display section"
-                                            class="form-control" rows="5" id="body"></textarea>
-                                    </div>
-
-                                    <br />
-                                    <button type="submit" class="btn btn-sm btn-success submit"
-                                        id="commentSubmitButton">Submit</button>
-
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="container display-comments-container" id="display-comments-container">
-                        <div class="row blog-title">
-                            Previously submitted comments
-                        </div>
-                        <div class="blog-container">
+            <div class="container comments-container">
+                <div class="row">
+                    <div class="container tabs-container">
+                        <div class="tabs is-centered is-boxed is-small" style="padding: 0 1em;">
+                            <ul>
+                                <li id="submitComments"><a style="padding: 0 1em;"><span class="icon"><i
+                                                class="fas fa-pen"></i></span><span>Submit</span></a>
+                                </li>
+                                <li id="displayComments"><a style="padding: 0 1em;"><span class="icon"><i
+                                                class="fas fa-list"></i></span><span>Display</span></a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="container submit-comments-container" id="submit-comments-container">
+                        <div class="">
+                            <form id="cms">
+                                <div class="form-group">
+                                    <select class="custom-select" style="font-size: 1em;" id="poolster">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select class="custom-select" style="font-size: 1em;" id="category">
+                                        <option value="" disabled selected>Select Category</option>
+                                        <option value="Data error">Data error</option>
+                                        <option value="Suggestion">Suggestion</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <textarea style="font-size: 1em;"
+                                        placeholder="Details - please note that submitted comments appear immediately in the Display section"
+                                        class="form-control" rows="5" id="body"></textarea>
+                                </div>
+
+                                <br />
+                                <button type="submit" class="btn btn-sm btn-success submit"
+                                    id="commentSubmitButton">Submit</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container display-comments-container" id="display-comments-container">
+                    <div class="row blog-title">
+                        Previously submitted comments
+                    </div>
+                    <div class="blog-container">
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 

@@ -33,6 +33,7 @@ $(document).ready(function () {
       console.log(result.length);
       if (result.length === 1) {
         $("#liveData").show();
+        $(".text-danger").addClass("Blink");
       } else {
         $("#liveData").hide();
       }
@@ -141,15 +142,21 @@ $(document).ready(function () {
   $(document).on("click", "#liveData", liveEvent);
   $(document).on("click", "#refreshButton", refreshLiveButton);
 
+  let refreshRunning = false;
   async function refreshLiveButton() {
+    refreshRunning = true;
     $("#refreshButton").addClass("is-loading");
     await liveEvent();
     $("#refreshButton").removeClass("is-loading");
+    refreshRunning = false;
   }
 
   let apiCall = "";
 
   async function liveEvent() {
+    if (refreshRunning === false) {
+      $("#liveData .spinner").addClass("lds-hourglass");
+    }
     $(".main-container").show();
     $(".tapToReveal").hide();
     $("#refreshButton").show();
@@ -158,6 +165,7 @@ $(document).ready(function () {
     $("#lastEventTitle").text("Current tournament details:");
     apiCall = "Live";
     $("#liveData").addClass("is-active");
+    $(".text-danger").removeClass("Blink");
     $("#eventData").removeClass("is-active");
     $("#seasonData").removeClass("is-active");
     $("#commentsPage").removeClass("is-active");
@@ -248,7 +256,7 @@ $(document).ready(function () {
         }
       }
       if (
-        (round < 4 && Number(purseArr[i].pos) > mcTop) ||
+        (round < 3 && Number(purseArr[i].pos) > mcTop) ||
         Number(purseArr[i].pos) == 0
       ) {
         purseArr[i].data[0].totPercent = 0;
@@ -260,7 +268,7 @@ $(document).ready(function () {
 
     // calculate rounds 1 & 2 in progress cut-line from purseArr
     for (let i = 0; i < purseArr.length - 1; i++) {
-      if (round < 4 && Number(purseArr[i + 1].pos) > mcTop) {
+      if (round < 3 && Number(purseArr[i + 1].pos) > mcTop) {
         mcPos = Number(purseArr[i].pos);
         console.log(mcPos);
         break;
@@ -400,6 +408,7 @@ $(document).ready(function () {
       }
     });
     sortData(livePlayers);
+    $("#seasonData .spinner").removeClass("lds-hourglass");
   }
 
   //for the section at the top of the leaderboard
@@ -513,7 +522,6 @@ $(document).ready(function () {
       $("#liveData").removeClass("is-active");
       $("#commentsPage").removeClass("is-active");
     });
-    $("#eventData").removeClass("is-loading");
   }
 
   function sumData(data, sortedPartResult, playerRankings) {
@@ -817,12 +825,12 @@ $(document).ready(function () {
                     "</span>"
                   : "") +
                 (noCut === false &&
-                round == 3 &&
+                round == 2 &&
                 sorted[i].Players[j].Tournaments[0].posAdj > mcPos
                   ? " " +
                     "<i class='fas fa-exclamation-circle fa-s' style='color:red'></i>"
                   : noCut === false &&
-                    round == 3 &&
+                    round == 2 &&
                     sorted[i].Players[j].Tournaments[0].posAdj == mcPos
                   ? " " +
                     "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"
@@ -942,30 +950,6 @@ $(document).ready(function () {
                 "</td></tr>"
             );
           }
-          // for (let k = 0; k < sorted[i].Players[j].tournaments.length; k++) {
-          //   $(".leaderboard-container").append(
-          //     "<tr class='level3 hiddenRow collapse' id='demo-" +
-          //       i +
-          //       "-" +
-          //       j +
-          //       "' ><td class='level3A' colspan='4'>" +
-          //       sorted[i].Players[j].tournaments[k].date +
-          //       " | " +
-          //       sorted[i].Players[j].tournaments[k].shortName +
-          //       " | " +
-          //       sorted[i].Players[j].tournaments[k].position +
-          //       "</td><td class='earnings'>" +
-          //       sorted[i].Players[j].tournaments[k].earnings.toLocaleString(
-          //         "us-US",
-          //         {
-          //           style: "currency",
-          //           currency: "USD",
-          //           minimumFractionDigits: 0,
-          //         }
-          //       ) +
-          //       "</td></tr>"
-          //   );
-          // }
         }
       }
       if (apiCall === "Season") {
@@ -973,6 +957,9 @@ $(document).ready(function () {
       }
       if (apiCall === "Event") {
         $("#eventData .spinner").removeClass("lds-hourglass");
+      }
+      if (apiCall === "Live") {
+        $("#liveData .spinner").removeClass("lds-hourglass");
       }
     }
 
@@ -1054,6 +1041,7 @@ $(document).ready(function () {
     $("#footnotes").hide();
     $("#seasonData").removeClass("is-active");
     $("#eventData").removeClass("is-active");
+    $("#liveData").removeClass("is-active");
     $("#commentsPage").addClass("is-active");
 
     $(".comments-container").show();
