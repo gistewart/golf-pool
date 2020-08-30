@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>The Chief's Golf Pool</title>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     </script>
@@ -17,10 +16,8 @@
     <script src="https://kit.fontawesome.com/0afeff4a0f.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
-
     <!-- External stylesheet link-->
     <link rel="stylesheet" href="css/style.css">
-
 </head>
 
 <body>
@@ -39,10 +36,13 @@
                     </li>
                     <li id="eventData"><a><span class="icon"><i class="fas fa-calendar-week"></i></span><span>Last
                                 Week</span><span class="spinner"></span></a></li>
+                    <li id="liveData"><a><span class="icon"><i class="fas fa-circle text-danger"></i></span><span>
+                                Live
+                                Scoring
+                            </span><span class="spinner"></span></a></li>
                     <li id="commentsPage"><a class="commentsLink"><span class="icon"><i
                                     class="far fa-comment"></i></span><span>Comments</span></a>
                     </li>
-
                 </ul>
             </div>
         </header>
@@ -61,18 +61,23 @@
                             name,
                             to
                             show/hide details</span></p>
-                    <i class="material-icons md-15">settings_backup_restore</i><span> Tap Season/Last Week links above
+                    <i class="material-icons md-15">settings_backup_restore</i><span> Tap Season/Last Week links
+                        above
                         to
                         reset
                         view</span>
                 </div>
 
+                <div class="buttons is-centered">
+                    <button id="refreshButton" class="button is-success is-small is-centered">Refresh</button>
+                </div>
+
                 <div class="container">
-                    <table class="table table-sm leaderboard-container">
+                    <table class="table table-sm leaderboard-container" id="leaderboard-container">
                         <col width="7%">
-                        <col width="6%">
+                        <col width="7%">
                         <col width="15%">
-                        <col width="43%">
+                        <col width="42%">
                         <col width="29%">
                         <thead>
                             <tr>
@@ -85,29 +90,35 @@
                         <tbody>
                         </tbody>
                     </table>
+                </div>
 
-                    <div id="footnotes">
-                        <div id="subIconLang" style="font-size: 0.85em;"><i
-                                class="subIcon1 material-icons md-15">swap_horizontal_circle</i> Period sub available |
-                            <i class="subIcon2 material-icons md-dark md-inactive md-15">swap_horizontal_circle</i>
-                            Period
-                            sub already used
-                        </div>
-                        <hr>
-                        <div id="playerRankingLang" style="font-size: 0.85em;">
-                            <a data-toggle="collapse" id="playerRatingHref" href="#playerRankingCollapse">Player Rating
-                                information</a> (show/hide)
-                            <div class="collapse" id="playerRankingCollapse">
-                                <div>Each active player has a rating which indicates their earnings relative to the
-                                    average earnings of all players picked in the same category (earnings totals are
-                                    inclusive of any subs).<br> <span><i class='fas fa-angle-double-down fa-xs'>
-                                        </i> 49%- | <i class='fas fa-angle-down fa-xs'>
-                                        </i> 50% to 74% | <i class='fas fa-arrows-alt-v fa-xs'>
-                                        </i> 75% to 124% | <i class='fas fa-angle-up fa-xs'>
-                                        </i> 125% to 149% | <i class='fas fa-angle-double-up fa-xs'>
-                                        </i> 150%+</span>
-                                    <br>
-                                    A mouse hover over the rating icon of a player will display more information.
+                <div>
+                    <div class="container">
+                        <div id="footnotes">
+                            <div id="subIconLang" style="font-size: 0.85em;"><i
+                                    class="subIcon1 material-icons md-15">swap_horizontal_circle</i> Period sub
+                                available |
+                                <i class="subIcon2 material-icons md-dark md-inactive md-15">swap_horizontal_circle</i>
+                                Period
+                                sub already used
+                            </div>
+                            <hr>
+                            <div id="playerRankingLang" style="font-size: 0.85em;">
+                                <a data-toggle="collapse" id="playerRatingHref" href="#playerRankingCollapse">Player
+                                    Rating
+                                    information</a> (show/hide)
+                                <div class="collapse" id="playerRankingCollapse">
+                                    <div>Each active player has a rating which indicates their earnings relative to the
+                                        average earnings of all players picked in the same category (earnings totals are
+                                        inclusive of any subs).<br> <span><i class='fas fa-angle-double-down fa-xs'>
+                                            </i> 49%- | <i class='fas fa-angle-down fa-xs'>
+                                            </i> 50% to 74% | <i class='fas fa-arrows-alt-v fa-xs'>
+                                            </i> 75% to 124% | <i class='fas fa-angle-up fa-xs'>
+                                            </i> 125% to 149% | <i class='fas fa-angle-double-up fa-xs'>
+                                            </i> 150%+</span>
+                                        <br>
+                                        A mouse hover over the rating icon of a player will display more information.
+                                    </div>
                                 </div>
                             </div>
                         </div>

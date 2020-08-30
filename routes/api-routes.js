@@ -2,8 +2,12 @@ var db = require("../models");
 var sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const seedScheduleStage = require("../scripts/seedScheduleStage");
+const seedLiveEventSchedule = require("../scripts/seedLiveEventSchedule");
+const runLivePositions = require("../scripts/runLivePositions");
 const runResults = require("../scripts/runResults");
+const e = require("express");
 require("dotenv").config();
+const { QueryTypes } = require("sequelize");
 
 module.exports = function (app) {
   app.get("/api/poolsters", function (req, res) {
@@ -441,6 +445,277 @@ module.exports = function (app) {
       })
       .then(function (data) {
         res.json(data);
+      });
+  });
+
+  // api to determine if Live Scoring tab should be shown (gets ESPN tournament id, date, name, purse, status)
+  app.get("/api/liveTourneyStatus", async function (req, res) {
+    // Production Start
+    // await db.liveEventSchedule.sync({ force: true }).then(async function () {
+    //   const temp = await seedLiveEventSchedule();
+    //   return;
+    // });
+    // Production End
+    await db.liveEventSchedule.findAll({}).then((result) => {
+      res.json(result);
+    });
+  });
+
+  // gets livePositions by first seeding liveEventSchedule, then running runLivePositions
+  app.get("/api/livePositions", async function (req, res) {
+    // Testing Start
+    await db.livePosition
+      .findAll({})
+      // Test End
+      // Production Start
+      // await db.liveEventSchedule
+      //   .sync({ force: true })
+      //   .then(async function () {
+      //     const temp = await seedLiveEventSchedule();
+      //   })
+      //   .then(async function () {
+      //     await db.livePosition.sync({ force: true });
+      //     const temp = await runLivePositions();
+      //   })
+      //   .then(async function () {
+      //     return db.livePosition.findAll({});
+      //   })
+      // Production End
+      .then((result) => {
+        res.json(result);
+      });
+  });
+
+  app.get("/api/livePurseSplit", async function (req, res) {
+    // get name of tournament from liveEventSchedule
+    await db.liveEventSchedule
+      .findAll({
+        attributes: ["name"],
+      })
+
+      // get tType of tournament identified above
+      .then(function (name) {
+        return db.liveTourneyType.findAll({
+          attributes: ["tType"],
+          where: {
+            tName: {
+              [Op.eq]: name[0].name,
+            },
+          },
+        });
+      })
+
+      // get purse info for this tType
+      .then(function (tType) {
+        return db.livePurseSplit.findAll({
+          where: {
+            class: {
+              [Op.eq]: tType[0].tType,
+            },
+          },
+        });
+      })
+
+      .then(function (result) {
+        res.json(result);
+      });
+  });
+
+  app.get("/api/liveMCLine", async function (req, res) {
+    // get name of tournament from liveEventSchedule
+    await db.liveEventSchedule
+      .findAll({
+        attributes: ["name"],
+      })
+
+      // get MCLine of tournament identified above
+      .then(function (name) {
+        return db.liveTourneyType.findAll({
+          attributes: ["tMCLine"],
+          where: {
+            tName: {
+              [Op.eq]: name[0].name,
+            },
+          },
+        });
+      })
+
+      .then(function (result) {
+        res.json(result);
+      });
+  });
+
+  app.get("/api/liveSchedule", function (req, res) {
+    db.liveEventSchedule.findAll({}).then(function (result) {
+      res.json(result);
+    });
+  });
+
+  // poolsters and all their players, in a formatted array
+  app.get("/api/livePlayers", async function (req, res) {
+    await db.Poolster.findAll({
+      attributes: ["poolsterId", "name", "handle", "image"],
+      include: [
+        {
+          model: db.PoolsterPlayers,
+          as: "PoolsterPlayers",
+          attributes: [
+            "startDate",
+            "endDate",
+            "reStartDate",
+            "reEndDate",
+            "effDate",
+            "type",
+          ],
+          include: [
+            {
+              model: db.Player,
+              as: "Player",
+              attributes: ["playerName", "tier"],
+            },
+          ],
+        },
+      ],
+    })
+      .then(function (data) {
+        let a, b, c;
+        let result = [];
+        for (let i = 0; i < data.length; i++) {
+          result.push({
+            id: data[i].poolsterId,
+            name: data[i].name,
+            poolster: data[i].handle,
+            image: data[i].image,
+            Players: [],
+          });
+          a = data[i].PoolsterPlayers;
+
+          for (let j = 0; j < a.length; j++) {
+            result[i].Players.push({
+              player: a[j].Player.playerName,
+              startDate: a[j].startDate,
+              endDate: a[j].endDate,
+              reStartDate: a[j].reStartDate,
+              reEndDate: a[j].reEndDate,
+              effDate: a[j].effDate,
+              type: a[j].type,
+              tier: a[j].Player.tier,
+              Tournaments: [],
+            });
+          }
+        }
+        return result;
+      })
+      .then((result) => {
+        res.json(result);
+      });
+  });
+
+  app.get("/api/liveAllEvents", async function (req, res) {
+    await db.Poolster.findAll({
+      attributes: ["poolsterId", "name", "handle"],
+      include: [
+        {
+          model: db.PoolsterPlayers,
+          as: "PoolsterPlayers",
+          attributes: [
+            "startDate",
+            "endDate",
+            "reStartDate",
+            "reEndDate",
+            "effDate",
+            "type",
+          ],
+          include: [
+            {
+              model: db.Player,
+              as: "Player",
+              attributes: ["playerName", "tier"],
+              include: [
+                {
+                  model: db.Result,
+                  as: "Results",
+                  attributes: ["earnings"],
+                  include: [
+                    {
+                      model: db.Schedule,
+                      as: "Schedule",
+                      attributes: ["name", "tDate", "tStartDate", "tEndDate"],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+      .then(function (data) {
+        let a, b, c;
+        let result = [];
+        for (let i = 0; i < data.length; i++) {
+          result.push({
+            id: data[i].poolsterId,
+            name: data[i].name,
+            handle: data[i].handle,
+            poolsterEarnings: 0,
+            ranking: 0,
+            Players: [],
+          });
+          a = data[i].PoolsterPlayers;
+          for (let j = 0; j < a.length; j++) {
+            result[i].Players.push({
+              name: a[j].Player.playerName,
+              startDate: a[j].startDate,
+              endDate: a[j].endDate,
+              reStartDate: a[j].reStartDate,
+              reEndDate: a[j].reEndDate,
+              effDate: a[j].effDate,
+              type: a[j].type,
+              tier: a[j].Player.tier,
+              Tournaments: [],
+            });
+            b = a[j].Player.Results;
+            for (let k = 0; k < b.length; k++) {
+              c = b[k].Schedule;
+              if (
+                (a[j].startDate < c.tStartDate &&
+                  a[j].endDate > c.tStartDate) ||
+                (a[j].reStartDate < c.tStartDate &&
+                  a[j].reEndDate > c.tStartDate)
+              ) {
+                result[i].Players[j].Tournaments.push({
+                  name: c.name,
+                  date: c.tDate,
+                  start: c.tStartDate,
+                  earnings: b[k].earnings,
+                });
+              }
+            }
+          }
+        }
+        for (let i = 0; i < result.length; i++) {
+          let poolsterSum = 0;
+          for (let j = 0; j < result[i].Players.length; j++) {
+            for (let k = 0; k < result[i].Players[j].Tournaments.length; k++) {
+              poolsterSum += result[i].Players[j].Tournaments[k].earnings;
+            }
+          }
+          result[i]["poolsterEarnings"] = poolsterSum;
+        }
+        result = result.sort((a, b) =>
+          a.poolsterEarnings < b.poolsterEarnings ? 1 : -1
+        );
+
+        for (let i = 0; i < result.length; i++) {
+          result[i].ranking = i + 1;
+          delete result[i].Players;
+        }
+
+        return result;
+      })
+      .then((result) => {
+        res.json(result);
       });
   });
 

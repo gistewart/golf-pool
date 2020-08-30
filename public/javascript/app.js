@@ -1,6 +1,13 @@
 $(document).ready(function () {
+  let mcPos = 99,
+    round = 0,
+    noCut = false;
+  $("#liveScoring").hide();
   let resultsRefresh = false;
   $("#lastEventTitle").hide();
+  $("#liveData").hide();
+  $("#refreshButton").hide();
+  $("#subIconLang").hide();
   $("#footnotes").hide();
   $("footer").hide();
   $(".comments-container").hide();
@@ -13,9 +20,24 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
+    await displayLiveTab();
     setTimeout(function () {
       seasonData();
     }, 1000);
+  }
+
+  async function displayLiveTab() {
+    console.log("running displayLiveTab");
+    await $.get("api/liveTourneyStatus", function (result) {
+      console.log(result);
+      console.log(result.length);
+      if (result.length === 1) {
+        $("#liveData").show();
+        $(".text-danger").addClass("Blink");
+      } else {
+        $("#liveData").hide();
+      }
+    });
   }
 
   async function eventCheck() {
@@ -117,10 +139,283 @@ $(document).ready(function () {
     return;
   }
 
+  $(document).on("click", "#liveData", liveEvent);
+  $(document).on("click", "#refreshButton", refreshLiveButton);
+
+  let refreshRunning = false;
+  async function refreshLiveButton() {
+    refreshRunning = true;
+    $("#refreshButton").addClass("is-loading");
+    await liveEvent();
+    $("#refreshButton").removeClass("is-loading");
+    refreshRunning = false;
+  }
+
+  let apiCall = "";
+
+  async function liveEvent() {
+    if (refreshRunning === false) {
+      $("#liveData .spinner").addClass("lds-hourglass");
+    }
+    $(".main-container").show();
+    $(".tapToReveal").hide();
+    $("#refreshButton").show();
+    $(".comments-container").hide();
+    $("#lastEventTitle").show();
+    $("#lastEventTitle").text("Current tournament details:");
+    apiCall = "Live";
+    $("#liveData").addClass("is-active");
+    $(".text-danger").removeClass("Blink");
+    $("#eventData").removeClass("is-active");
+    $("#seasonData").removeClass("is-active");
+    $("#commentsPage").removeClass("is-active");
+
+    console.log("liveEvent function");
+
+    await $.get("api/livePositions", function (result) {
+      livePositions = result;
+    });
+    await $.get("api/livePlayers", function (result) {
+      livePlayers = result;
+    });
+    await $.get("api/liveAllEvents", function (result) {
+      partResult = result;
+    });
+    await $.get("api/liveSchedule", function (result) {
+      liveSchedule = result;
+      if (liveSchedule.length === 0) {
+        $("#liveData").hide();
+        return;
+      }
+    });
+    await $.get("api/livePurseSplit", function (result) {
+      livePurseSplit = result;
+    });
+    await $.get("api/liveMCLine", function (result) {
+      mcTop = Number(result[0].tMCLine);
+    });
+
+    let roundStatus = liveSchedule[0].status;
+    round = roundStatus.match(/\d/)[0];
+    console.log(round);
+
+    let livePositionsLen = livePositions.length;
+    console.log("field size: ", livePositionsLen, "cut line (top): ", mcTop);
+    if (livePositionsLen <= mcTop) {
+      noCut = true;
+      console.log("noCut value", noCut);
+    }
+
+    console.log(liveSchedule);
+
+    // creates purseArr and counts the number of players at each position for the entire field
+    let purseArr = [];
+    for (let i in livePositions) {
+      let match = false;
+      for (let j in purseArr) {
+        if (purseArr[j].pos === livePositions[i].posAdj) {
+          purseArr[j].data[0].count += 1;
+          match = true;
+          break;
+        }
+      }
+      if (!match) {
+        purseArr.push({ pos: livePositions[i].posAdj, data: [{ count: 1 }] });
+      }
+    }
+
+    console.log(purseArr);
+
+    let purseSum = 0;
+
+    //calculates purse values for each position in purseArr
+    for (let i in purseArr) {
+      if (purseArr[i].pos > 0) {
+        if (purseArr[i].data[0].count === 1) {
+          purseArr[i].data[0].avgPercent =
+            typeof livePurseSplit[purseArr[i].pos - 1] === "undefined"
+              ? 0
+              : Number(livePurseSplit[purseArr[i].pos - 1].percent);
+          purseArr[i].data[0].dollars =
+            (purseArr[i].data[0].avgPercent * liveSchedule[0].purse) / 100;
+        } else {
+          purseSum = 0;
+          for (let j = 0; j < purseArr[i].data[0].count; j++) {
+            purseSum +=
+              typeof livePurseSplit[Number(purseArr[i].pos) + j - 1] ===
+              "undefined"
+                ? 0.183
+                : Number(
+                    livePurseSplit[Number(purseArr[i].pos) + j - 1].percent
+                  );
+          }
+          purseArr[i].data[0].totPercent = purseSum;
+          purseArr[i].data[0].avgPercent = purseSum / purseArr[i].data[0].count;
+          purseArr[i].data[0].dollars =
+            (purseArr[i].data[0].avgPercent * liveSchedule[0].purse) / 100;
+        }
+      }
+      if (
+        (round < 3 && Number(purseArr[i].pos) > mcTop) ||
+        Number(purseArr[i].pos) == 0
+      ) {
+        purseArr[i].data[0].totPercent = 0;
+        purseArr[i].data[0].avgPercent = 0;
+        purseArr[i].data[0].dollars = 0;
+      }
+    }
+    console.log(purseArr);
+
+    // calculate rounds 1 & 2 in progress cut-line from purseArr
+    for (let i = 0; i < purseArr.length - 1; i++) {
+      if (round < 3 && Number(purseArr[i + 1].pos) > mcTop) {
+        mcPos = Number(purseArr[i].pos);
+        console.log(mcPos);
+        break;
+      }
+    }
+
+    // add purse info to livePositions array
+    for (let i in livePositions) {
+      for (let j in purseArr) {
+        if (livePositions[i].posAdj === purseArr[j].pos) {
+          livePositions[i].avgPercent = purseArr[j].data[0].avgPercent;
+          livePositions[i].dollars = purseArr[j].data[0].dollars;
+          break;
+        }
+      }
+    }
+    console.log(livePositions);
+
+    // filter livePlayers for active players only
+    for (let i in livePlayers) {
+      let a = livePlayers[i].Players,
+        tStart = liveSchedule[0].tStartDate;
+      for (let j = 0; j < a.length; j++) {
+        if (
+          (a[j].endDate > tStart && a[j].startDate < tStart) ||
+          (a[j].reEndDate > tStart && a[j].reStartDate < tStart)
+        ) {
+          a[j].Tournaments.push({
+            name: liveSchedule[0].name,
+            date: liveSchedule[0].tDate,
+            start: liveSchedule[0].tStartDate,
+          });
+        } else {
+          a.splice(j, 1);
+          j--;
+        }
+      }
+    }
+
+    //filter livePlayers for players who played in the tournament and add tournament performance data
+    for (let i = 0; i < livePlayers.length; i++) {
+      for (let j = 0; j < livePlayers[i].Players.length; j++) {
+        let a = livePlayers[i].Players;
+        let match = false;
+        for (let k = 0; k < livePositions.length; k++) {
+          if (a[j].player === livePositions[k].playerName) {
+            match = true;
+            a[j].Tournaments[0].position = livePositions[k].pos;
+            a[j].Tournaments[0].posAdj = livePositions[k].posAdj;
+            a[j].Tournaments[0].earnings = livePositions[k].dollars;
+            a[j].Tournaments[0].toPar = livePositions[k].toPar;
+            a[j].Tournaments[0].today = livePositions[k].today;
+            a[j].Tournaments[0].thru = livePositions[k].thru;
+            a[j].Tournaments[0].percent = livePositions[k].avgPercent;
+            break;
+          }
+        }
+        if (match === false) {
+          a.splice(j, 1);
+          j--;
+        }
+      }
+    }
+
+    // add priorRanking and priorEarnings to livePlayers array
+    for (let i = 0; i < livePlayers.length; i++) {
+      for (let j = 0; j < partResult.length; j++) {
+        if (livePlayers[i].id === partResult[j].id) {
+          livePlayers[i]["livePriorRanking"] = partResult[j].ranking;
+          livePlayers[i]["livePriorEarnings"] = partResult[j].poolsterEarnings;
+          break;
+        }
+      }
+    }
+
+    // calculate poolsterEarnings (for the live tourney), add to livePlayers array
+    for (let i = 0; i < livePlayers.length; i++) {
+      let poolsterSum = 0;
+      for (let j = 0; j < livePlayers[i].Players.length; j++) {
+        let playerSum = 0;
+        for (let k = 0; k < livePlayers[i].Players[j].Tournaments.length; k++) {
+          playerSum += livePlayers[i].Players[j].Tournaments[k].earnings;
+        }
+        poolsterSum += playerSum;
+        livePlayers[i].Players[j].playerEarnings = playerSum;
+      }
+      livePlayers[i]["poolsterEarnings"] = poolsterSum;
+    }
+
+    // add liveNewEarnings to livePlayers array
+    for (let i in livePlayers) {
+      livePlayers[i].liveNewEarnings =
+        livePlayers[i].livePriorEarnings + livePlayers[i].poolsterEarnings;
+    }
+
+    // sort livePlayers array based on liveNewEarnings
+    livePlayers = livePlayers.sort(
+      (a, b) => b.liveNewEarnings - a.liveNewEarnings
+    );
+
+    // add liveNewRanking to livePlayers array
+    for (let i = 0; i < livePlayers.length; i++) {
+      livePlayers[i].liveNewRanking = i + 1;
+    }
+
+    // add liveRankingChange (and related) to LivePlayers array
+    for (let i = 0; i < livePlayers.length; i++) {
+      livePlayers[i].liveRankingChange =
+        livePlayers[i].livePriorRanking - livePlayers[i].liveNewRanking;
+      let l = livePlayers[i].liveRankingChange;
+      l > 0
+        ? (livePlayers[i].liveRankingMove = "up")
+        : l < 0
+        ? (livePlayers[i].liveRankingMove = "down")
+        : "nc";
+      livePlayers[i].liveRankingChangeAbs = Math.abs(l);
+      livePlayers[i].liveZeroPlayersText = "";
+      if (livePlayers[i].Players.length === 0) {
+        livePlayers[i]["liveZeroPlayersText"] = " (0 players)";
+      }
+    }
+
+    console.log(livePlayers);
+
+    $.get("api/liveSchedule", function (result) {
+      $("#lastEventDetails").html("");
+      for (let i = 0; i < result.length; i++) {
+        $("#lastEventDetails").append(
+          "<p>" +
+            result[i].tDate +
+            " | " +
+            result[i].name +
+            " | " +
+            result[i].status +
+            "</p>"
+        );
+      }
+    });
+    sortData(livePlayers);
+    $("#seasonData .spinner").removeClass("lds-hourglass");
+  }
+
   //for the section at the top of the leaderboard
   function lastEventDetails() {
     console.log("entering lastEventDetails function");
     $.get("api/lastEventDetails", function (result) {
+      $("#lastEventDetails").html("");
       for (let i = 0; i < result.length; i++) {
         $("#lastEventDetails").append(
           "<p>" +
@@ -135,12 +430,11 @@ $(document).ready(function () {
         );
       }
     });
-    console.log("exiting lastEventDeails function");
+    console.log("exiting lastEventDetails function");
   }
 
   let mainData = [],
-    partData = [],
-    apiCall = "";
+    partData = [];
 
   $(document).on("click", "#seasonData", seasonData);
 
@@ -155,9 +449,12 @@ $(document).ready(function () {
     $("#lastEventTitle").text(
       "Results reflect all tournaments up to and including:"
     );
-
+    lastEventDetails();
+    $(".tapToReveal").show();
+    $("#refreshButton").hide();
     apiCall = "Season";
     $("#eventData").removeClass("is-active");
+    $("#liveData").removeClass("is-active");
     $("#commentsPage").removeClass("is-active");
     $("#seasonData").addClass("is-active");
     $.get("/api/allEvents", function (data) {
@@ -213,15 +510,18 @@ $(document).ready(function () {
     $("#footnotes").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Tournament details:");
+    lastEventDetails();
+    $(".tapToReveal").show();
+    $("#refreshButton").hide();
     apiCall = "Event";
     $("#eventData").addClass("is-loading");
     $.get("/api/lastEvent", function (data) {
       sumData(data);
       $("#eventData").addClass("is-active");
       $("#seasonData").removeClass("is-active");
+      $("#liveData").removeClass("is-active");
       $("#commentsPage").removeClass("is-active");
     });
-    $("#eventData").removeClass("is-loading");
   }
 
   function sumData(data, sortedPartResult, playerRankings) {
@@ -265,6 +565,7 @@ $(document).ready(function () {
           if (a[j].effDate > "2020-07-05" && a[j].type == "regular") {
             playerCount++;
           }
+
           b = a[j].Tournaments;
           for (let k = 0; k < b.length; k++) {
             playerSum += b[k].earnings;
@@ -276,6 +577,8 @@ $(document).ready(function () {
               start: b[k].start,
               position: b[k].position,
               earnings: b[k].earnings,
+              toPar: b[k].toPar,
+              thru: b[k].thru,
             });
           }
           result[i - iAdj].Players[j]["playerEarnings"] = playerSum;
@@ -294,9 +597,6 @@ $(document).ready(function () {
       (a, b) => b.poolsterEarnings - a.poolsterEarnings
     );
 
-    // for (let i = 0; i < sorted.length; i++) {
-    //   sorted[i].ranking = i + 1;
-    // }
     sorted[0].ranking = 1;
     let ties = 0;
     for (let i = 1; i < sorted.length; i++) {
@@ -339,19 +639,23 @@ $(document).ready(function () {
       });
     }
     //sorting each Player's results based on tournament Start Date
-    for (let i = 0; i < sorted.length; i++) {
-      for (let j = 0; j < sorted[i].Players.length; j++) {
-        sorted[i].Players[j].tournaments.sort(function (a, b) {
-          if (a.start < b.start) return -1;
-          if (a.start > b.start) return 1;
-        });
+    //excluding apiCall = "Live"
+    if (apiCall !== "Live") {
+      for (let i = 0; i < sorted.length; i++) {
+        for (let j = 0; j < sorted[i].Players.length; j++) {
+          sorted[i].Players[j].tournaments.sort(function (a, b) {
+            if (a.start < b.start) return -1;
+            if (a.start > b.start) return 1;
+          });
+        }
       }
     }
     console.log(sorted, playerRankings);
     displayData(sorted, sortedPartResult, playerRankings);
   }
 
-  function displayData(sorted, sortedPartResult, playerRankings) {
+  async function displayData(sorted, sortedPartResult, playerRankings) {
+    // let round = 0;
     // to display sorted results
     // to add prior ranking data to main arr
     if (apiCall == "Season") {
@@ -394,6 +698,7 @@ $(document).ready(function () {
           }
       }
     }
+
     console.log(sorted);
 
     $(".leaderboard-container > tbody").html("");
@@ -422,6 +727,9 @@ $(document).ready(function () {
             ? "<i class='fas fa-ribbon'></i>" + " "
             : "") +
           sorted[i].poolster +
+          (apiCall == "Live"
+            ? "<small>" + sorted[i].liveZeroPlayersText + "</small>"
+            : "") +
           " " +
           (sorted[i].poolster === "The Trader"
             ? "<i class='fas fa-ribbon'></i>"
@@ -435,12 +743,36 @@ $(document).ready(function () {
           "</span>" +
           "<p class='poolsterName'>" +
           sorted[i].name +
-          "<p></td><td class='earnings'>" +
+          "</p></td><td class='earnings'>" +
           sorted[i].poolsterEarnings.toLocaleString("us-US", {
             style: "currency",
             currency: "USD",
             minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
           }) +
+          // to add Start Proj table for Live version
+          (apiCall == "Live"
+            ? "<table class='liveProjTable'><tr><th>" +
+              "Proj." +
+              "</th><th>" +
+              "Start" +
+              "</th><th style='padding-left: 0.5em; padding-right: 0.5em'>" +
+              "<i class='fas fa-long-arrow-alt-up'></i>" +
+              "<i class='fas fa-long-arrow-alt-down'></i>" +
+              "</th></tr><tr><td>" +
+              sorted[i].liveNewRanking +
+              "</td><td>" +
+              sorted[i].livePriorRanking +
+              "</td><td>" +
+              (sorted[i].liveRankingMove == "up"
+                ? "<i class='fas fa-arrow-up' style='color:green;'></i>" +
+                  sorted[i].liveRankingChangeAbs
+                : sorted[i].liveRankingMove == "down"
+                ? "<i class='fas fa-arrow-down' style='color:red;'></i>" +
+                  sorted[i].liveRankingChangeAbs
+                : "-") +
+              "</td></tr></table>"
+            : "") +
           "</td></tr>"
       );
 
@@ -457,113 +789,167 @@ $(document).ready(function () {
             sorted[i].Players[j].tier +
             ": " +
             sorted[i].Players[j].player +
-            " " +
-            "<i title = 'Category earnings (including any subs) are " +
-            ((sorted[i].Players[j].gradePercent * 100).toFixed(0) + "%") +
-            " of pool average of " +
-            Number(sorted[i].Players[j].poolAverage).toLocaleString("us-US", {
-              style: "currency",
-              currency: "USD",
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            }) +
-            "'" +
-            (sorted[i].Players[j].grade == "A"
-              ? "class='gradeIcon fas fa-angle-double-up fa-s'></i>"
-              : sorted[i].Players[j].grade == "B"
-              ? "class='gradeIcon fas fa-angle-up fa-s'></i>"
-              : sorted[i].Players[j].grade == "C"
-              ? "class='gradeIcon fas fa-arrows-alt-v fa-s'></i>"
-              : sorted[i].Players[j].grade == "D"
-              ? "class='gradeIcon fas fa-angle-down fa-s'></i>"
-              : sorted[i].Players[j].grade == "E"
-              ? "class='gradeIcon fas fa-angle-double-down fa-s'></i>"
-              : "") +
-            "  " +
-            (sorted[i].Players[j].active == "yes" &&
-            (sorted[i].Players[j].startDate > "2020-01-01" ||
-              sorted[i].Players[j].endDate < "2020-12-31")
-              ? " | "
-              : "") +
-            (sorted[i].Players[j].startDate > "2020-01-01"
-              ? " " +
-                "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
+            // " " +
+            // to add Live data to this layer
+            (apiCall === "Live"
+              ? ": " +
+                sorted[i].Players[j].Tournaments[0].position +
+                (round == 1 &&
+                /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
+                  ? " | " + sorted[i].Players[j].Tournaments[0].thru
+                  : /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
+                  ? " | " +
+                    sorted[i].Players[j].Tournaments[0].toPar +
+                    "<span class='todaysScore'>" +
+                    " (" +
+                    sorted[i].Players[j].Tournaments[0].thru +
+                    ")" +
+                    "</span>"
+                  : /^\d+$/.test(sorted[i].Players[j].Tournaments[0].thru)
+                  ? " | " +
+                    sorted[i].Players[j].Tournaments[0].toPar +
+                    "<span class='todaysScore'>" +
+                    " (today: " +
+                    sorted[i].Players[j].Tournaments[0].today +
+                    " thru " +
+                    sorted[i].Players[j].Tournaments[0].thru +
+                    ")" +
+                    "</span>"
+                  : /F/i.test(sorted[i].Players[j].Tournaments[0].thru)
+                  ? " | " +
+                    sorted[i].Players[j].Tournaments[0].toPar +
+                    "<span class='todaysScore'>" +
+                    " (today: " +
+                    sorted[i].Players[j].Tournaments[0].today +
+                    " thru 18)" +
+                    "</span>"
+                  : "") +
+                (noCut === false &&
+                round == 2 &&
+                sorted[i].Players[j].Tournaments[0].posAdj > mcPos
+                  ? " " +
+                    "<i class='fas fa-exclamation-circle fa-s' style='color:red'></i>"
+                  : noCut === false &&
+                    round == 2 &&
+                    sorted[i].Players[j].Tournaments[0].posAdj == mcPos
+                  ? " " +
+                    "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"
+                  : "")
+              : " " +
+                "<i title = 'Category earnings (including any subs) are " +
+                ((sorted[i].Players[j].gradePercent * 100).toFixed(0) + "%") +
+                " of pool average of " +
+                Number(sorted[i].Players[j].poolAverage).toLocaleString(
+                  "us-US",
+                  {
+                    style: "currency",
+                    currency: "USD",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }
+                ) +
+                "'" +
+                (sorted[i].Players[j].grade == "A"
+                  ? "class='gradeIcon fas fa-angle-double-up fa-s'></i>"
+                  : sorted[i].Players[j].grade == "B"
+                  ? "class='gradeIcon fas fa-angle-up fa-s'></i>"
+                  : sorted[i].Players[j].grade == "C"
+                  ? "class='gradeIcon fas fa-arrows-alt-v fa-s'></i>"
+                  : sorted[i].Players[j].grade == "D"
+                  ? "class='gradeIcon fas fa-angle-down fa-s'></i>"
+                  : sorted[i].Players[j].grade == "E"
+                  ? "class='gradeIcon fas fa-angle-double-down fa-s'></i>"
+                  : "") +
                 "  " +
-                new Date(sorted[i].Players[j].startDate).toLocaleString(
-                  "default",
-                  {
-                    month: "short",
-                    day: "numeric",
-                  }
-                )
-              : sorted[i].Players[j].endDate < "2020-12-31"
-              ? "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
-                " " +
-                new Date(sorted[i].Players[j].endDate).toLocaleString(
-                  "default",
-                  {
-                    month: "short",
-                    day: "numeric",
-                  }
-                )
-              : "") +
-            (sorted[i].Players[j].startDate > "2020-01-01" &&
-            sorted[i].Players[j].endDate < "2020-12-31"
-              ? " | " +
-                "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
-                "  " +
-                new Date(sorted[i].Players[j].endDate).toLocaleString(
-                  "default",
-                  {
-                    month: "short",
-                    day: "numeric",
-                  }
-                )
-              : "") +
-            (sorted[i].Players[j].reStartDate > "2020-01-01"
-              ? " | " +
-                "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
-                "  " +
-                new Date(sorted[i].Players[j].reStartDate).toLocaleString(
-                  "default",
-                  {
-                    month: "short",
-                    day: "numeric",
-                  }
-                )
-              : "") +
+                (sorted[i].Players[j].active == "yes" &&
+                (sorted[i].Players[j].startDate > "2020-01-01" ||
+                  sorted[i].Players[j].endDate < "2020-12-31")
+                  ? " | "
+                  : "") +
+                (sorted[i].Players[j].startDate > "2020-01-01"
+                  ? " " +
+                    "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
+                    "  " +
+                    new Date(sorted[i].Players[j].startDate).toLocaleString(
+                      "default",
+                      {
+                        month: "short",
+                        day: "numeric",
+                      }
+                    )
+                  : sorted[i].Players[j].endDate < "2020-12-31"
+                  ? "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
+                    " " +
+                    new Date(sorted[i].Players[j].endDate).toLocaleString(
+                      "default",
+                      {
+                        month: "short",
+                        day: "numeric",
+                      }
+                    )
+                  : "") +
+                (sorted[i].Players[j].startDate > "2020-01-01" &&
+                sorted[i].Players[j].endDate < "2020-12-31"
+                  ? " | " +
+                    "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
+                    "  " +
+                    new Date(sorted[i].Players[j].endDate).toLocaleString(
+                      "default",
+                      {
+                        month: "short",
+                        day: "numeric",
+                      }
+                    )
+                  : "") +
+                (sorted[i].Players[j].reStartDate > "2020-01-01"
+                  ? " | " +
+                    "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
+                    "  " +
+                    new Date(sorted[i].Players[j].reStartDate).toLocaleString(
+                      "default",
+                      {
+                        month: "short",
+                        day: "numeric",
+                      }
+                    )
+                  : "")) +
             "</td><td class='earnings'>" +
             sorted[i].Players[j].playerEarnings.toLocaleString("us-US", {
               style: "currency",
               currency: "USD",
               minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
             }) +
             "</td></tr>"
         );
 
-        for (let k = 0; k < sorted[i].Players[j].tournaments.length; k++) {
-          $(".leaderboard-container").append(
-            "<tr class='level3 hiddenRow collapse' id='demo-" +
-              i +
-              "-" +
-              j +
-              "' ><td class='level3A' colspan='4'>" +
-              sorted[i].Players[j].tournaments[k].date +
-              " | " +
-              sorted[i].Players[j].tournaments[k].shortName +
-              " | " +
-              sorted[i].Players[j].tournaments[k].position +
-              "</td><td class='earnings'>" +
-              sorted[i].Players[j].tournaments[k].earnings.toLocaleString(
-                "us-US",
-                {
-                  style: "currency",
-                  currency: "USD",
-                  minimumFractionDigits: 0,
-                }
-              ) +
-              "</td></tr>"
-          );
+        //to exclude this layer if apiCall === "Live"
+        if (apiCall !== "Live") {
+          for (let k = 0; k < sorted[i].Players[j].tournaments.length; k++) {
+            $(".leaderboard-container").append(
+              "<tr class='level3 hiddenRow collapse' id='demo-" +
+                i +
+                "-" +
+                j +
+                "' ><td class='level3A' colspan='4'>" +
+                sorted[i].Players[j].tournaments[k].date +
+                " | " +
+                sorted[i].Players[j].tournaments[k].shortName +
+                " | " +
+                sorted[i].Players[j].tournaments[k].position +
+                "</td><td class='earnings'>" +
+                sorted[i].Players[j].tournaments[k].earnings.toLocaleString(
+                  "us-US",
+                  {
+                    style: "currency",
+                    currency: "USD",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }
+                ) +
+                "</td></tr>"
+            );
+          }
         }
       }
       if (apiCall === "Season") {
@@ -571,6 +957,9 @@ $(document).ready(function () {
       }
       if (apiCall === "Event") {
         $("#eventData .spinner").removeClass("lds-hourglass");
+      }
+      if (apiCall === "Live") {
+        $("#liveData .spinner").removeClass("lds-hourglass");
       }
     }
 
@@ -652,6 +1041,7 @@ $(document).ready(function () {
     $("#footnotes").hide();
     $("#seasonData").removeClass("is-active");
     $("#eventData").removeClass("is-active");
+    $("#liveData").removeClass("is-active");
     $("#commentsPage").addClass("is-active");
 
     $(".comments-container").show();

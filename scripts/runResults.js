@@ -44,6 +44,7 @@ module.exports = function () {
                   .replace(/[\$,]/g, "")
                   .replace(/--/, 0)
               );
+
               resultsArray.push(result);
             });
 

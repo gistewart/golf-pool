@@ -37,6 +37,30 @@ body {
   text-align: center;
 }
 
+header .tabs li a {
+  padding: 0.25em;
+}
+
+header .tabs li a .icon:first-child {
+  margin-right: 0.15em;
+}
+
+.Blink {
+  animation: blinker 1s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
+}
+@keyframes blinker {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+#liveData {
+  color: red;
+}
+
 .commentsLink {
   text-decoration: none;
 }
@@ -96,6 +120,15 @@ p {
 .tapToReveal {
   font-size: 0.8em;
   margin-bottom: 0.5em;
+}
+
+div.buttons.is-centered {
+  margin-bottom: 0em;
+}
+
+div.buttons.is-centered #refreshButton {
+  padding: 0px 12px;
+  font-weight: 800;
 }
 
 .main-container {
@@ -158,14 +191,33 @@ table tbody .level1 .rankingChange {
   margin-bottom: 0.5em !important;
 }
 
-.earnings {
-  text-align: right !important;
-  padding-right: 0.25em !important;
-  padding-left: 0 !important;
+#leaderboard-container .earnings {
+  text-align: right;
+  padding-right: 0.25em;
+  padding-left: 0;
 }
 
 .level1 .earnings {
   font-size: 1.15em;
+}
+
+#leaderboard-container .liveProjTable {
+  font-size: 0.7em;
+  background-color: white;
+  margin-left: auto;
+  border: 1px solid grey;
+}
+
+#leaderboard-container .liveProjTable th {
+  text-align: center;
+  padding: 0.1em;
+  background-color: rgb(217, 233, 238);
+  border-top: 1px solid grey;
+}
+
+#leaderboard-container .liveProjTable td {
+  text-align: center;
+  padding: 0;
 }
 
 .level2 {
@@ -175,6 +227,10 @@ table tbody .level1 .rankingChange {
 
 .level2A {
   padding-left: 0.5em !important;
+}
+
+.todaysScore {
+  font-size: 0.95em;
 }
 
 .fa-angle-double-up,
