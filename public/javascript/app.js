@@ -271,6 +271,7 @@ $(document).ready(function () {
             (purseArr[i].data[0].avgPercent * liveSchedule[0].purse) / 100;
         } else {
           purseSum = 0;
+          purseSumComp = "";
           for (let j = 0; j < purseArr[i].data[0].count; j++) {
             purseSum +=
               typeof livePurseSplit[Number(purseArr[i].pos) + j - 1] ===
@@ -969,7 +970,6 @@ $(document).ready(function () {
         );
 
         if (apiCall === "Season") {
-          console.log("line 972");
           $(".level2").addClass("pointer");
         } else {
           $(".level2").removeClass("pointer");

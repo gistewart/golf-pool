@@ -448,6 +448,13 @@ module.exports = function (app) {
       });
   });
 
+  // new api call
+  app.get("/api/missingResults", async function (req, res) {
+    const temp = await runResults().then(function (data) {
+      res.json(data);
+    });
+  });
+
   // api to determine if Live Scoring tab should be shown (gets ESPN tournament id, date, name, purse, status)
   app.get("/api/liveTourneyStatus", async function (req, res) {
     // Production Start
