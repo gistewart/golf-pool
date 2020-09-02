@@ -148,8 +148,11 @@ div.buttons.is-centered #refreshButton {
 
 .poolsterImage,
 .poolsterHandle,
-.poolsterName,
-.level2A {
+.poolsterName {
+  cursor: pointer;
+}
+
+.pointer {
   cursor: pointer;
 }
 

@@ -1,6 +1,7 @@
 var db = require("../models");
 var axios = require("axios");
 var cheerio = require("cheerio");
+var moment = require("moment");
 
 module.exports = async function () {
   const scheduleStage = [];
@@ -53,7 +54,8 @@ module.exports = async function () {
       return;
     });
 
-  console.log("line 53", scheduleStage);
+  console.log("line 57", scheduleStage);
+  let day = 0;
 
   // is the tournament in progress
   for (let i = 0; i < scheduleStage.length; i++) {
@@ -71,14 +73,33 @@ module.exports = async function () {
         });
       });
     scheduleStage[i].status = hold.status;
+    console.log("line 75", scheduleStage);
+
+    const d = new Date();
+    const uset = moment.tz(d, "America/New_York");
+    console.log("uset: ", uset);
+    day = uset.day();
+    console.log("day: ", day);
+
+    // examples only of status: /Tournament Field|Final|Round 1 - Suspended | Round 1 - Play Complete|^Round [2-4]/
+
+    // remove ! for production version
     if (
-      // examples only of status: /Tournament Field|Final|Round 1 - Suspended | Round 1 - Play Complete|^Round [2-4]/gi.test(
-      !/^Round/gi.test(hold.status)
+      !(
+        /^Tournament/gi.test(hold.status) ||
+        (hold.status === "Final" && /[01]/.test(day))
+      )
     ) {
       scheduleStage.splice(i, 1);
       i--;
       console.log("deleting");
     }
+  }
+
+  // remove ! for production version
+  if (!(hold.status === "Final" && /[4-6]/.test(day))) {
+    console.log("hold status change");
+    scheduleStage[0].status = `Round ${day - 3} - Play Complete*`;
   }
 
   console.log("current tournament included:", scheduleStage);

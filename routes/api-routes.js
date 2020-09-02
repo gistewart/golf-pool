@@ -486,6 +486,12 @@ module.exports = function (app) {
       });
   });
 
+  app.get("/api/livePositionsFreeze", async function (req, res) {
+    await db.livePosition.findAll({}).then((result) => {
+      res.json(result);
+    });
+  });
+
   app.get("/api/livePurseSplit", async function (req, res) {
     // get name of tournament from liveEventSchedule
     await db.liveEventSchedule

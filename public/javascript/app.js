@@ -1,9 +1,11 @@
 $(document).ready(function () {
   let mcPos = 99,
     round = 0,
-    noCut = false;
+    noCut = false,
+    resultsRefresh = false,
+    liveExit = false;
+
   $("#liveScoring").hide();
-  let resultsRefresh = false;
   $("#lastEventTitle").hide();
   $("#liveData").hide();
   $("#refreshButton").hide();
@@ -20,7 +22,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(function () {
       seasonData();
     }, 1000);
@@ -172,15 +174,43 @@ $(document).ready(function () {
 
     console.log("liveEvent function");
 
-    await $.get("api/livePositions", function (result) {
-      livePositions = result;
+    //new code for liveFreeze/liveExit functionality
+    await $.get("api/liveTourneyStatus", function (result) {
+      liveStatus = result;
+      console.log(liveStatus);
+      // test for Final -> exit
+      if (liveStatus.length === 0) {
+        liveExit = true;
+        console.log("empty liveStatus array indicating new Final status");
+      }
+      // freeze test for Final && Round 1/2/3 combo, indicated by asterisk
+      else if (/\*/.test(liveStatus[0].status)) {
+        console.log("freeze test passed");
+        $.get("api/livePositionsFreeze", function (result) {
+          console.log("livePositions not refreshed");
+          livePositions = result;
+        });
+      } else {
+        console.log("freeze test not passed");
+        $.get("api/livePositions", function (result) {
+          console.log("livePositions were refreshed");
+          livePositions = result;
+        });
+      }
     });
+
+    if (liveExit) {
+      $("#liveData").hide();
+      return;
+    }
+
     await $.get("api/livePlayers", function (result) {
       livePlayers = result;
     });
     await $.get("api/liveAllEvents", function (result) {
       partResult = result;
     });
+    //still needed?
     await $.get("api/liveSchedule", function (result) {
       liveSchedule = result;
       if (liveSchedule.length === 0) {
@@ -227,6 +257,7 @@ $(document).ready(function () {
     console.log(purseArr);
 
     let purseSum = 0;
+    let purseSumComp = "";
 
     //calculates purse values for each position in purseArr
     for (let i in purseArr) {
@@ -248,7 +279,13 @@ $(document).ready(function () {
                 : Number(
                     livePurseSplit[Number(purseArr[i].pos) + j - 1].percent
                   );
+            purseSumComp =
+              purseSumComp +
+              livePurseSplit[purseArr[i].pos + j - 1].percent +
+              ", ";
           }
+
+          purseArr[i].data[0].comp = purseSumComp;
           purseArr[i].data[0].totPercent = purseSum;
           purseArr[i].data[0].avgPercent = purseSum / purseArr[i].data[0].count;
           purseArr[i].data[0].dollars =
@@ -789,7 +826,6 @@ $(document).ready(function () {
             sorted[i].Players[j].tier +
             ": " +
             sorted[i].Players[j].player +
-            // " " +
             // to add Live data to this layer
             (apiCall === "Live"
               ? ": " +
@@ -835,8 +871,10 @@ $(document).ready(function () {
                   ? " " +
                     "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"
                   : "")
-              : " " +
-                "<i title = 'Category earnings (including any subs) are " +
+              : "") +
+            " " +
+            (apiCall === "Season"
+              ? "<i title = 'Category earnings (including any subs) are " +
                 ((sorted[i].Players[j].gradePercent * 100).toFixed(0) + "%") +
                 " of pool average of " +
                 Number(sorted[i].Players[j].poolAverage).toLocaleString(
@@ -859,60 +897,67 @@ $(document).ready(function () {
                   ? "class='gradeIcon fas fa-angle-down fa-s'></i>"
                   : sorted[i].Players[j].grade == "E"
                   ? "class='gradeIcon fas fa-angle-double-down fa-s'></i>"
-                  : "") +
+                  : "")
+              : "") +
+            "  " +
+            (sorted[i].Players[j].active == "yes" &&
+            (sorted[i].Players[j].startDate > "2020-01-01" ||
+              sorted[i].Players[j].endDate < "2020-12-31")
+              ? " | "
+              : "") +
+            (sorted[i].Players[j].startDate > "2020-01-01"
+              ? " " +
+                "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
                 "  " +
-                (sorted[i].Players[j].active == "yes" &&
-                (sorted[i].Players[j].startDate > "2020-01-01" ||
-                  sorted[i].Players[j].endDate < "2020-12-31")
-                  ? " | "
-                  : "") +
-                (sorted[i].Players[j].startDate > "2020-01-01"
-                  ? " " +
-                    "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
-                    "  " +
-                    new Date(sorted[i].Players[j].startDate).toLocaleString(
-                      "default",
-                      {
-                        month: "short",
-                        day: "numeric",
-                      }
-                    )
-                  : sorted[i].Players[j].endDate < "2020-12-31"
-                  ? "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
-                    " " +
-                    new Date(sorted[i].Players[j].endDate).toLocaleString(
-                      "default",
-                      {
-                        month: "short",
-                        day: "numeric",
-                      }
-                    )
-                  : "") +
-                (sorted[i].Players[j].startDate > "2020-01-01" &&
-                sorted[i].Players[j].endDate < "2020-12-31"
-                  ? " | " +
-                    "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
-                    "  " +
-                    new Date(sorted[i].Players[j].endDate).toLocaleString(
-                      "default",
-                      {
-                        month: "short",
-                        day: "numeric",
-                      }
-                    )
-                  : "") +
-                (sorted[i].Players[j].reStartDate > "2020-01-01"
-                  ? " | " +
-                    "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
-                    "  " +
-                    new Date(sorted[i].Players[j].reStartDate).toLocaleString(
-                      "default",
-                      {
-                        month: "short",
-                        day: "numeric",
-                      }
-                    )
-                  : "")) +
+                new Date(sorted[i].Players[j].startDate).toLocaleString(
+                  "default",
+                  {
+                    month: "short",
+                    day: "numeric",
+                  }
+                )
+              : sorted[i].Players[j].endDate < "2020-12-31"
+              ? "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
+                " " +
+                new Date(sorted[i].Players[j].endDate).toLocaleString(
+                  "default",
+                  {
+                    month: "short",
+                    day: "numeric",
+                  }
+                )
+              : "") +
+            (sorted[i].Players[j].startDate > "2020-01-01" &&
+            sorted[i].Players[j].endDate < "2020-12-31"
+              ? " | " +
+                "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
+                "  " +
+                new Date(sorted[i].Players[j].endDate).toLocaleString(
+                  "default",
+                  {
+                    month: "short",
+                    day: "numeric",
+                  }
+                )
+              : "") +
+            (sorted[i].Players[j].reStartDate > "2020-01-01"
+              ? " | " +
+                "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
+                "  " +
+                new Date(sorted[i].Players[j].reStartDate).toLocaleString(
+                  "default",
+                  {
+                    month: "short",
+                    day: "numeric",
+                  }
+                )
+              : "") +
+            (apiCall === "Event"
+              ? " | " +
+                sorted[i].Players[j].tournaments[0].shortName +
+                " | " +
+                sorted[i].Players[j].tournaments[0].position
+              : "") +
             "</td><td class='earnings'>" +
             sorted[i].Players[j].playerEarnings.toLocaleString("us-US", {
               style: "currency",
@@ -923,8 +968,15 @@ $(document).ready(function () {
             "</td></tr>"
         );
 
-        //to exclude this layer if apiCall === "Live"
-        if (apiCall !== "Live") {
+        if (apiCall === "Season") {
+          console.log("line 972");
+          $(".level2").addClass("pointer");
+        } else {
+          $(".level2").removeClass("pointer");
+        }
+
+        //to include this layer only if apiCall === "Season"
+        if (apiCall === "Season") {
           for (let k = 0; k < sorted[i].Players[j].tournaments.length; k++) {
             $(".leaderboard-container").append(
               "<tr class='level3 hiddenRow collapse' id='demo-" +
