@@ -39,7 +39,7 @@ module.exports = function () {
               }
               // Tour Championship if else statement
               if (id == 401056542) {
-                result.Tot = Number(
+                result.tot = Number(
                   $(this)
                     .children("td:nth-child(8)")
                     .text()
@@ -59,7 +59,10 @@ module.exports = function () {
               resultsArray.push(result);
             });
 
-            purseCalc();
+            if (id == 401056542) {
+              purseCalc();
+            }
+
             async function purseCalc() {
               const purseSplit = await db.livePurseSplit.findAll({
                 where: {
@@ -70,48 +73,51 @@ module.exports = function () {
                 raw: true,
               });
 
-              const sorted = resultsArray.sort((a, b) => a.Tot - b.Tot);
+              resultsArray = resultsArray.sort((a, b) => a.tot - b.tot);
 
-              // add posTC based on Tot
-              sorted[0].posTC = 1;
+              // add posTC based on tot
+              resultsArray[0].posTC = 1;
               let ties = 0;
-              for (let i = 1; i < sorted.length; i++) {
-                if (sorted[i].Tot !== sorted[i - 1].Tot) {
-                  sorted[i].posTC = i + 1;
+              for (let i = 1; i < resultsArray.length; i++) {
+                if (resultsArray[i].tot !== resultsArray[i - 1].tot) {
+                  resultsArray[i].posTC = i + 1;
                   ties = 0;
                 } else {
                   ties++;
-                  sorted[i].posTC = i + 1 - ties;
+                  resultsArray[i].posTC = i + 1 - ties;
                 }
               }
 
               // adds "T" for ties
-              for (let i = 0; i < sorted.length; i++) {
-                if (i === 0 && sorted[0].posTC === sorted[1].posTC) {
-                  sorted[0].posTCDisplay = "T" + sorted[i].posTC;
+              for (let i = 0; i < resultsArray.length; i++) {
+                if (
+                  i === 0 &&
+                  resultsArray[0].posTC === resultsArray[1].posTC
+                ) {
+                  resultsArray[0].posTCDisplay = "T" + resultsArray[i].posTC;
                 } else if (
                   i > 0 &&
-                  i < sorted.length - 1 &&
-                  (sorted[i].posTC === sorted[i - 1].posTC ||
-                    sorted[i].posTC === sorted[i + 1].posTC)
+                  i < resultsArray.length - 1 &&
+                  (resultsArray[i].posTC === resultsArray[i - 1].posTC ||
+                    resultsArray[i].posTC === resultsArray[i + 1].posTC)
                 ) {
-                  sorted[i].posTCDisplay = "T" + sorted[i].posTC;
+                  resultsArray[i].posTCDisplay = "T" + resultsArray[i].posTC;
                 } else if (
-                  i === sorted.length - 1 &&
-                  sorted[i].posTC === sorted[i - 1].posTC
+                  i === resultsArray.length - 1 &&
+                  resultsArray[i].posTC === resultsArray[i - 1].posTC
                 ) {
-                  sorted[i].posTCDisplay = "T" + sorted[i].posTC;
+                  resultsArray[i].posTCDisplay = "T" + resultsArray[i].posTC;
                 } else {
-                  sorted[i].posTCDisplay = sorted[i].posTC;
+                  resultsArray[i].posTCDisplay = resultsArray[i].posTC;
                 }
               }
 
               // creates purseArr and counts the number of players at each position for the entire field
               let purseArr = [];
-              for (let i in sorted) {
+              for (let i in resultsArray) {
                 let match = false;
                 for (let j in purseArr) {
-                  if (purseArr[j].pos === sorted[i].posTC) {
+                  if (purseArr[j].pos === resultsArray[i].posTC) {
                     purseArr[j].data[0].count += 1;
                     match = true;
                     break;
@@ -119,7 +125,7 @@ module.exports = function () {
                 }
                 if (!match) {
                   purseArr.push({
-                    pos: sorted[i].posTC,
+                    pos: resultsArray[i].posTC,
                     data: [{ count: 1 }],
                   });
                 }
@@ -135,7 +141,7 @@ module.exports = function () {
                     purseArr[i].data[0].avgPercent = Number(
                       purseSplit[purseArr[i].pos - 1].percent
                     );
-                    purseArr[i].data[0].dollars =
+                    purseArr[i].data[0].earnings =
                       (purseArr[i].data[0].avgPercent * purseSize) / 100;
                   } else {
                     purseSum = 0;
@@ -154,7 +160,7 @@ module.exports = function () {
                     purseArr[i].data[0].totPercent = purseSum;
                     purseArr[i].data[0].avgPercent =
                       purseSum / purseArr[i].data[0].count;
-                    purseArr[i].data[0].dollars =
+                    purseArr[i].data[0].earnings =
                       (purseArr[i].data[0].avgPercent * purseSize) / 100;
                   }
                 }
@@ -163,44 +169,52 @@ module.exports = function () {
               let purseSumCheck = 0;
               for (let i in purseArr) {
                 purseSumCheck +=
-                  purseArr[i].data[0].count * purseArr[i].data[0].dollars;
+                  purseArr[i].data[0].count * purseArr[i].data[0].earnings;
               }
 
               console.log(purseSumCheck);
 
               for (let i in purseArr) {
-                console.log(purseArr[i].pos, purseArr[i].data);
+                // console.log(purseArr[i].pos, purseArr[i].data);
               }
 
-              // add purse info to sorted array
-              for (let i in sorted) {
+              // add purse info to resultsArray
+              for (let i in resultsArray) {
                 for (let j in purseArr) {
-                  if (sorted[i].posTC === purseArr[j].pos) {
-                    sorted[i].avgPercent = purseArr[j].data[0].avgPercent;
-                    sorted[i].dollars = purseArr[j].data[0].dollars;
+                  if (resultsArray[i].posTC === purseArr[j].pos) {
+                    resultsArray[i].avgPercent = purseArr[j].data[0].avgPercent;
+                    resultsArray[i].earnings = purseArr[j].data[0].earnings;
                     break;
                   }
                 }
               }
 
-              //adding fields to sorted array
+              //adding helpful fields to resultsArray
               let Par = 280;
               let toParTC = 0;
-              for (let i in sorted) {
-                sorted[i].toParTC = sorted[i].Tot - Par;
-                sorted[i].toParTCDisplay =
-                  sorted[i].toParTC === 0
+              for (let i in resultsArray) {
+                resultsArray[i].toParTC = resultsArray[i].tot - Par;
+                resultsArray[i].toParTCDisplay =
+                  resultsArray[i].toParTC === 0
                     ? "E"
-                    : sorted[i].toParTC > 0
-                    ? "+" + sorted[i].toParTC
-                    : sorted[i].toParTC;
-                sorted[i].toParAdj = sorted[i].toPar
+                    : resultsArray[i].toParTC > 0
+                    ? "+" + resultsArray[i].toParTC
+                    : resultsArray[i].toParTC;
+                resultsArray[i].toParAdj = resultsArray[i].toPar
                   .replace(/\+/, "")
                   .replace(/E/, 0);
-                sorted[i].handicap = sorted[i].toParAdj - sorted[i].toParTC;
+                resultsArray[i].handicap =
+                  resultsArray[i].toParAdj - resultsArray[i].toParTC;
               }
+              // console.log(resultsArray);
 
-              console.log(sorted);
+              await db.ResultTC.sync({ force: true });
+              await db.ResultTC.bulkCreate(resultsArray);
+
+              for (let i in resultsArray) {
+                resultsArray[i].pos = resultsArray[i].posTCDisplay;
+                resultsArray[i].toPar = resultsArray[i].toParTCDisplay;
+              }
             }
 
             return db.Player.findAll({
@@ -215,10 +229,11 @@ module.exports = function () {
                 const filtered = resultsArray.filter((el) =>
                   playerNames.includes(el.playerName)
                 );
+                // console.log(filtered);
                 console.log(
                   `-----------finished runResults for tournament ${id}------------`
                 );
-                // return db.Result.bulkCreate(filtered);
+                return db.Result.bulkCreate(filtered);
               });
           });
       }

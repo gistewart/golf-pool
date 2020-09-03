@@ -448,7 +448,7 @@ module.exports = function (app) {
       });
   });
 
-  // new api call
+  // new api call - needed for testing only
   app.get("/api/missingResults", async function (req, res) {
     const temp = await runResults().then(function (data) {
       res.json(data);
