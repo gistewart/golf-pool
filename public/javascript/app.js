@@ -7,6 +7,7 @@ $(document).ready(function () {
 
   $("#liveScoring").hide();
   $("#lastEventTitle").hide();
+  $("#tcCalcTableLink").hide();
   $("#liveData").hide();
   $("#refreshButton").hide();
   $("#subIconLang").hide();
@@ -1013,6 +1014,12 @@ $(document).ready(function () {
       if (apiCall === "Live") {
         $("#liveData .spinner").removeClass("lds-hourglass");
       }
+    }
+
+    if (apiCall === "Event") {
+      $("#tcCalcTableLink").show();
+    } else {
+      $("#tcCalcTableLink").hide();
     }
 
     $(function () {

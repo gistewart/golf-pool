@@ -107,6 +107,10 @@ header .tabs li a .icon:first-child {
   padding: 0 5px;
 }
 
+#tcCalcTableLink {
+  text-decoration: underline;
+}
+
 p {
   margin-bottom: 0.35rem !important;
 }

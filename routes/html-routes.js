@@ -17,5 +17,7 @@ module.exports = function (app) {
   });
 
   // image route loads index.ejs
-  app.get("/image", (req, res) => res.render("index"));
+  app.get("/tcCalc", function (req, res) {
+    res.sendFile(path.join(__dirname, "../public/tcCalc.html"));
+  });
 };

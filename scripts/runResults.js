@@ -208,8 +208,8 @@ module.exports = function () {
               }
               // console.log(resultsArray);
 
-              await db.ResultTC.sync({ force: true });
-              await db.ResultTC.bulkCreate(resultsArray);
+              // await db.ResultTC.sync({ force: true });
+              // await db.ResultTC.bulkCreate(resultsArray);
 
               for (let i in resultsArray) {
                 resultsArray[i].pos = resultsArray[i].posTCDisplay;
@@ -233,7 +233,7 @@ module.exports = function () {
                 console.log(
                   `-----------finished runResults for tournament ${id}------------`
                 );
-                return db.Result.bulkCreate(filtered);
+                // return db.Result.bulkCreate(filtered);
               });
           });
       }
