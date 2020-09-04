@@ -14,6 +14,7 @@ module.exports = function (sequelize, DataTypes) {
     tot: DataTypes.INTEGER,
     earnings: DataTypes.INTEGER,
     handicap: DataTypes.INTEGER,
+    avgPercent: DataTypes.DECIMAL(5, 3),
   });
 
   return ResultTC;

@@ -732,6 +732,12 @@ module.exports = function (app) {
       });
   });
 
+  app.get("/api/tcTable", function (req, res) {
+    db.ResultTC.findAll({}).then((data) => {
+      res.json(data);
+    });
+  });
+
   app.get("/api/poolsters", function (req, res) {
     db.Poolster.findAll({}).then((data) => {
       res.json(data);

@@ -346,6 +346,34 @@ UPDATE `PoolsterPlayers` SET `endDate` = '2020-08-26', `effDate` = '2020-08-26',
 
 INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('17', '10', '2020-08-26', '2020-08-26', 'regular');
 
+-- 9/3 LOCAL Sub
+
+UPDATE `golf-pool_db`.`PoolsterPlayers` SET `endDate` = '2020-09-03', `effDate` = '2020-09-03', `type` = 'regular' WHERE (`id` = '7');
+
+INSERT INTO `golf-pool_db`.`PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('2', '48', '2020-09-03', '2020-09-03', 'regular');
+
+-- 
+
+INSERT INTO `golf-pool_db`.`Players` (`playerId`, `playerName`, `tier`, `createdAt`, `updatedAt`) VALUES ('49', 'Dustin Johnson', '1', '2020-09-03 16:00:00', '2020-09-03 16:00:00');
+
+UPDATE `golf-pool_db`.`PoolsterPlayers` SET `endDate` = '2020-09-03', `effDate` = '2020-09-03', `type` = 'regular' WHERE (`id` = '90');
+
+INSERT INTO `golf-pool_db`.`PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('14', '49', '2020-09-03', '2020-09-03', 'regular');
+
+-- 9/3 REMOTE Sub
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2020-09-03', `effDate` = '2020-09-03', `type` = 'regular' WHERE (`id` = '7');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('2', '48', '2020-09-03', '2020-09-03', 'regular');
+
+-- 
+
+INSERT INTO `Players` (`playerId`, `playerName`, `tier`, `createdAt`, `updatedAt`) VALUES ('49', 'Dustin Johnson', '1', '2020-09-03 16:00:00', '2020-09-03 16:00:00');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2020-09-03', `effDate` = '2020-09-03', `type` = 'regular' WHERE (`id` = '90');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('14', '49', '2020-09-03', '2020-09-03', 'regular');
+
 
 
 

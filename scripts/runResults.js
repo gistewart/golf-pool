@@ -206,8 +206,9 @@ module.exports = function () {
                 resultsArray[i].handicap =
                   resultsArray[i].toParAdj - resultsArray[i].toParTC;
               }
-              // console.log(resultsArray);
+              console.log(resultsArray);
 
+              // Uncomment for Production
               // await db.ResultTC.sync({ force: true });
               // await db.ResultTC.bulkCreate(resultsArray);
 
@@ -233,6 +234,7 @@ module.exports = function () {
                 console.log(
                   `-----------finished runResults for tournament ${id}------------`
                 );
+                // Uncomment for Production
                 // return db.Result.bulkCreate(filtered);
               });
           });

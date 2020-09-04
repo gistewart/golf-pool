@@ -214,10 +214,10 @@ $(document).ready(function () {
     //still needed?
     await $.get("api/liveSchedule", function (result) {
       liveSchedule = result;
-      if (liveSchedule.length === 0) {
-        $("#liveData").hide();
-        return;
-      }
+      // if (liveSchedule.length === 0) {
+      //   $("#liveData").hide();
+      //   return;
+      // }
     });
     await $.get("api/livePurseSplit", function (result) {
       livePurseSplit = result;

@@ -6,20 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FedEx-to-Pool Conversion table</title>
 
+    <!-- load jquery -->
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    </script>
+
+    <script src="https://mottie.github.io/tablesorter/js/jquery.tablesorter.js">
+    </script>
+
+    <script src="https://mottie.github.io/tablesorter/js/jquery.tablesorter.widgets.js">
+    </script>
+
+    <link rel=" stylesheet" href="https://mottie.github.io/tablesorter/css/theme.jui.css">
+
+    <link rel=" stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/cupertino/jquery-ui.css">
+
+
     <!-- External stylesheet link-->
-    <link rel="stylesheet" href="css/tcCalc.css">
+    <link rel=" stylesheet" href="css/tcCalc.css">
 </head>
 
 <body>
-    <h2>test text</h2>
+    <table id="tcTable" class="tablesorter">
+        <thead>
+            <tr class="level1Heading tablesorter-ignoreRow">
+                <th></th>
+                <th colspan="3" class="fedex">FedEx version</th>
+                <th colspan="4" class="pool">Pool version</th>
+            </tr>
+            <tr>
+                <th>Player</th>
+                <th>Pos</th>
+                <th>To Par</th>
+                <th>Handicap</th>
+                <th>To Par</th>
+                <th>Pos</th>
+                <th>Purse Share</th>
+                <th>Earnings</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
-    <h2><a href="index.html">Return to main page</a></h2>
-
-
-
-    <!-- jQuery Library -->
-    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-    </script>
+    <h5><a href="index.html">Return to main page</a></h5>
 
     <!-- External javascript link-->
     <script type="text/javascript" src="javascript/tcCalc.js "></script>

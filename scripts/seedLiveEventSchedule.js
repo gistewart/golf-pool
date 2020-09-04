@@ -48,6 +48,10 @@ module.exports = async function () {
             .text()
             .replace(/[\$,]/g, "")
         );
+        // for Tour Championship
+        if (result.purse === 0) {
+          result.purse = 9500000;
+        }
 
         scheduleStage.push(result);
       });
@@ -75,19 +79,21 @@ module.exports = async function () {
     scheduleStage[i].status = hold.status;
     console.log("line 75", scheduleStage);
 
-    const d = new Date();
-    const uset = moment.tz(d, "America/New_York");
-    console.log("uset: ", uset);
-    day = uset.day();
-    console.log("day: ", day);
+    const today = new Date();
+    // const uset = moment.tz(today, "America/New_York");
+    // day = uset.day();
+    let startDate = scheduleStage[i].tStartDate;
+    let round = today.getDate() - startDate.getDate() + 1;
+    console.log("today: ", today, "startDate: ", startDate, "round: ", round);
 
     // examples only of status: /Tournament Field|Final|Round 1 - Suspended | Round 1 - Play Complete|^Round [2-4]/
 
-    // remove ! for production version
+    // event not considered Live if status starts with 'Tournament' or status === "Final" AND it's round 4 (really day 4 or 5)
+    // add/remove ! for test/production version
     if (
       !(
         /^Tournament/gi.test(hold.status) ||
-        (hold.status === "Final" && /[01]/.test(day))
+        (hold.status === "Final" && /[45]/.test(round))
       )
     ) {
       scheduleStage.splice(i, 1);
@@ -96,10 +102,11 @@ module.exports = async function () {
     }
   }
 
-  // remove ! for production version
-  if (!(hold.status === "Final" && /[4-6]/.test(day))) {
+  // false Freeze test - if status === "Final" but it's round 1/2/3 (really day 1/2/3), change status to correct day and add asterisk at end
+  // add/remove ! for test/production version
+  if (!(hold.status === "Final" && /[1-3]/.test(round))) {
     console.log("hold status change");
-    scheduleStage[0].status = `Round ${day - 3} - Play Complete*`;
+    scheduleStage[0].status = `Round ${day} - Play Complete*`;
   }
 
   console.log("current tournament included:", scheduleStage);
