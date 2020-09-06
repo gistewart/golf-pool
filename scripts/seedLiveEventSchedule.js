@@ -91,10 +91,8 @@ module.exports = async function () {
     // event not considered Live if status starts with 'Tournament' or status === "Final" AND it's round 4 (really day 4 or 5)
     // add/remove ! for test/production version
     if (
-      !(
-        /^Tournament/gi.test(hold.status) ||
-        (hold.status === "Final" && /[45]/.test(round))
-      )
+      /^Tournament/gi.test(hold.status) ||
+      (hold.status === "Final" && /[45]/.test(round))
     ) {
       scheduleStage.splice(i, 1);
       i--;
@@ -104,7 +102,7 @@ module.exports = async function () {
 
   // false Freeze test - if status === "Final" but it's round 1/2/3 (really day 1/2/3), change status to correct day and add asterisk at end
   // add/remove ! for test/production version
-  if (!(hold.status === "Final" && /[1-3]/.test(round))) {
+  if (hold.status === "Final" && /[1-3]/.test(round)) {
     console.log("hold status change");
     scheduleStage[0].status = `Round ${day} - Play Complete*`;
   }

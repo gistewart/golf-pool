@@ -5,6 +5,7 @@ const seedScheduleStage = require("../scripts/seedScheduleStage");
 const seedLiveEventSchedule = require("../scripts/seedLiveEventSchedule");
 const runLivePositions = require("../scripts/runLivePositions");
 const runResults = require("../scripts/runResults");
+const runTCHandicap = require("../scripts/runTCHandicap");
 const e = require("express");
 require("dotenv").config();
 const { QueryTypes } = require("sequelize");
@@ -475,15 +476,9 @@ module.exports = function (app) {
       .findAll({})
       // Test End
       // Production Start
-      // await db.liveEventSchedule
-      //   .sync({ force: true })
-      //   .then(async function () {
-      //     const temp = await seedLiveEventSchedule();
-      //   })
-      //   .then(async function () {
-      //     await db.livePosition.sync({ force: true });
-      //     const temp = await runLivePositions();
-      //   })
+      // await db.livePosition.sync({ force: true });
+      // const temp = await runLivePositions()
+      //   // })
       //   .then(async function () {
       //     return db.livePosition.findAll({});
       //   })
@@ -558,8 +553,8 @@ module.exports = function (app) {
       });
   });
 
-  app.get("/api/liveSchedule", function (req, res) {
-    db.liveEventSchedule.findAll({}).then(function (result) {
+  app.get("/api/liveSchedule", async function (req, res) {
+    await db.liveEventSchedule.findAll({}).then(function (result) {
       res.json(result);
     });
   });
@@ -732,6 +727,22 @@ module.exports = function (app) {
       });
   });
 
+  // new api call - run (via localhost... in browser) on day 1 of TC when toPar and Today values are good (it seeds TCHandicaps db table)
+  app.get("/api/liveTCHandicapSeed", async function (req, res) {
+    await db.liveTCHandicap.sync({ force: true });
+    await runTCHandicap().then(function (data) {
+      res.json(data);
+    });
+  });
+
+  // to grab handicaps for each player for app.js
+  app.get("/api/liveTCHandicap", function (req, res) {
+    db.liveTCHandicap.findAll({}).then((data) => {
+      res.json(data);
+    });
+  });
+
+  // for final TC results
   app.get("/api/tcTable", function (req, res) {
     db.ResultTC.findAll({}).then((data) => {
       res.json(data);

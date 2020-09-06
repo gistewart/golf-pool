@@ -1,6 +1,10 @@
 table.tablesorter-jui {
-  font-size: 12px;
+  font-size: 10px;
 }
+
+/* .wrapper {
+  overflow-x: scroll;
+} */
 
 table.tablesorter {
   width: auto;
@@ -18,6 +22,11 @@ table.tablesorter {
 .tablesorter-jui td {
   text-align: right;
   padding: 0 0.25em 0 0;
+}
+
+#tcTable.tablesorter-jui th,
+.tablesorter-jui td {
+  white-space: nowrap;
 }
 
 .tablesorter-jui td.earnings {

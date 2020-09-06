@@ -59,12 +59,18 @@ module.exports = function () {
                 if (result.pos == "-") {
                   result.pos = result.toPar;
                 }
+                result.toParAdj = $(this)
+                  .children("td:nth-child(" + (4 + statusAdj) + ")")
+                  .text()
+                  .replace("E", 0)
+                  .replace("+", "");
                 result.today = $(this)
                   .children("td:nth-child(" + (5 + statusAdj) + ")")
                   .text();
                 result.thru = $(this)
                   .children("td:nth-child(" + (6 + statusAdj) + ")")
                   .text();
+
                 resultsArray.push(result);
               });
             });

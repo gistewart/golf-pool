@@ -174,10 +174,6 @@ module.exports = function () {
 
               console.log(purseSumCheck);
 
-              for (let i in purseArr) {
-                // console.log(purseArr[i].pos, purseArr[i].data);
-              }
-
               // add purse info to resultsArray
               for (let i in resultsArray) {
                 for (let j in purseArr) {
