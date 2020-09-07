@@ -98,24 +98,24 @@ module.exports = async function () {
       i--;
       console.log("deleting");
     }
+
+    // false Freeze test - if status === "Final" but it's round 1/2/3 (really day 1/2/3), change status to correct day and add asterisk at end
+    // add/remove ! for test/production version
+    if (hold.status === "Final" && /[1-3]/.test(round)) {
+      console.log("hold status change");
+      scheduleStage[0].status = `Round ${day} - Play Complete*`;
+    }
+
+    console.log("current tournament included:", scheduleStage);
+    finishedEventsArr = scheduleStage.filter(
+      (el) => el.tournamentId >= "401155413"
+    );
+    console.log("finishedEventsArr", finishedEventsArr);
+
+    console.log("-----ready to seed liveEventSchedule table------");
+    const temp = await db.liveEventSchedule.bulkCreate(finishedEventsArr);
+
+    console.log("-----finished seeding liveEventSchedule table-----");
+    return;
   }
-
-  // false Freeze test - if status === "Final" but it's round 1/2/3 (really day 1/2/3), change status to correct day and add asterisk at end
-  // add/remove ! for test/production version
-  if (hold.status === "Final" && /[1-3]/.test(round)) {
-    console.log("hold status change");
-    scheduleStage[0].status = `Round ${day} - Play Complete*`;
-  }
-
-  console.log("current tournament included:", scheduleStage);
-  finishedEventsArr = scheduleStage.filter(
-    (el) => el.tournamentId >= "401155413"
-  );
-  console.log("finishedEventsArr", finishedEventsArr);
-
-  console.log("-----ready to seed liveEventSchedule table------");
-  const temp = await db.liveEventSchedule.bulkCreate(finishedEventsArr);
-
-  console.log("-----finished seeding liveEventSchedule table-----");
-  return;
 };

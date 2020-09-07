@@ -3,7 +3,8 @@ $(document).ready(function () {
     round = 0,
     noCut = false,
     resultsRefresh = false,
-    liveExit = false;
+    liveExit = false,
+    liveTC = false;
 
   $("#liveScoring").hide();
   $("#lastEventTitle").hide();
@@ -25,8 +26,8 @@ $(document).ready(function () {
     lastEventDetails();
     await displayLiveTab();
     setTimeout(function () {
-      // seasonData();
-      liveEvent();
+      seasonData();
+      // liveEvent();
     }, 1000);
   }
 
@@ -208,9 +209,9 @@ $(document).ready(function () {
       return;
     }
 
-    // IF STATEMENT FOR LIVE TC
-
+    // START OF IF STATEMENT FOR LIVE TC
     if (liveStatus[0].name === "Tour Championship") {
+      liveTC = true;
       let hCapTbl = [];
       console.log("reranking TC");
       await $.get("api/liveTCHandicap", function (result) {
@@ -264,12 +265,13 @@ $(document).ready(function () {
       for (let i = 0; i < livePositions.length; i++) {
         for (let j = 0; j < hCapTbl.length; j++) {
           if (livePositions[i].playerName === hCapTbl[j].playerName) {
+            livePositions[i].fecPos = livePositions[i].pos;
             livePositions[i].pos = hCapTbl[j].rankingDisplay;
             livePositions[i].posAdj = hCapTbl[j].ranking;
             livePositions[i].net = livePositions[i].toPar;
             livePositions[i].toPar = hCapTbl[j].gross
               .toString()
-              .replace(0, "E")
+              .replace(/^0$/, "E")
               .replace(/(^\d)/, "+$1");
             livePositions[i].handicap = hCapTbl[j].handicap;
             break;
@@ -437,6 +439,9 @@ $(document).ready(function () {
             a[j].Tournaments[0].today = livePositions[k].today;
             a[j].Tournaments[0].thru = livePositions[k].thru;
             a[j].Tournaments[0].percent = livePositions[k].avgPercent;
+            a[j].Tournaments[0].net = livePositions[k].net;
+            a[j].Tournaments[0].handicap = livePositions[k].handicap;
+            a[j].Tournaments[0].fecPos = livePositions[k].fecPos;
             break;
           }
         }
@@ -904,14 +909,15 @@ $(document).ready(function () {
             ": " +
             sorted[i].Players[j].player +
             // to add Live data to this layer
+            (liveTC ? "<p class = 'poolVersion'>" + "Pool: " : "") +
             (apiCall === "Live"
-              ? ": " +
+              ? " Pos " +
                 sorted[i].Players[j].Tournaments[0].position +
                 (round == 1 &&
                 /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
                   ? " | " + sorted[i].Players[j].Tournaments[0].thru
                   : /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
-                  ? " | " +
+                  ? " | To Par " +
                     sorted[i].Players[j].Tournaments[0].toPar +
                     "<span class='todaysScore'>" +
                     " (" +
@@ -919,7 +925,7 @@ $(document).ready(function () {
                     ")" +
                     "</span>"
                   : /^\d+$/.test(sorted[i].Players[j].Tournaments[0].thru)
-                  ? " | " +
+                  ? " | To Par " +
                     sorted[i].Players[j].Tournaments[0].toPar +
                     "<span class='todaysScore'>" +
                     " (today: " +
@@ -929,7 +935,7 @@ $(document).ready(function () {
                     ")" +
                     "</span>"
                   : /F/i.test(sorted[i].Players[j].Tournaments[0].thru)
-                  ? " | " +
+                  ? " | To Par " +
                     sorted[i].Players[j].Tournaments[0].toPar +
                     "<span class='todaysScore'>" +
                     " (today: " +
@@ -948,6 +954,18 @@ $(document).ready(function () {
                   ? " " +
                     "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"
                   : "")
+              : "") +
+            (liveTC
+              ? "</p>" +
+                "<p class='fecVersion'>" +
+                "FedEx Cup: Pos " +
+                sorted[i].Players[j].Tournaments[0].fecPos +
+                " | To Par " +
+                sorted[i].Players[j].Tournaments[0].net +
+                " (handicap: " +
+                sorted[i].Players[j].Tournaments[0].handicap +
+                ")" +
+                "</p>"
               : "") +
             " " +
             (apiCall === "Season"

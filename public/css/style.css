@@ -112,7 +112,7 @@ header .tabs li a .icon:first-child {
 }
 
 p {
-  margin-bottom: 0.35rem !important;
+  margin-bottom: 0.35rem;
 }
 
 .lastEventDetails p,
@@ -234,6 +234,17 @@ table tbody .level1 .rankingChange {
 
 .level2A {
   padding-left: 0.5em !important;
+}
+
+.level2 .poolVersion {
+  font-size: 0.9em;
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+
+.level2 .fecVersion {
+  color: purple;
+  font-size: 0.85em;
 }
 
 .todaysScore {
