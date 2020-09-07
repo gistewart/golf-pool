@@ -38,7 +38,7 @@ module.exports = function () {
                 result.pos = result.toPar;
               }
               // Tour Championship if else statement
-              if (id == 401056542) {
+              if (id == 401155476) {
                 result.tot = Number(
                   $(this)
                     .children("td:nth-child(8)")
@@ -59,7 +59,7 @@ module.exports = function () {
               resultsArray.push(result);
             });
 
-            if (id == 401056542) {
+            if (id == 401155476) {
               purseCalc();
             }
 
@@ -205,34 +205,34 @@ module.exports = function () {
               console.log(resultsArray);
 
               // Uncomment for Production
-              // await db.ResultTC.sync({ force: true });
-              // await db.ResultTC.bulkCreate(resultsArray);
+              await db.ResultTC.sync({ force: true });
+              await db.ResultTC.bulkCreate(resultsArray);
 
               for (let i in resultsArray) {
                 resultsArray[i].pos = resultsArray[i].posTCDisplay;
                 resultsArray[i].toPar = resultsArray[i].toParTCDisplay;
               }
+
+              return db.Player.findAll({
+                attributes: ["playerName"],
+              })
+
+                .then((playerNames) =>
+                  playerNames.map((player) => player.dataValues.playerName)
+                )
+
+                .then((playerNames) => {
+                  const filtered = resultsArray.filter((el) =>
+                    playerNames.includes(el.playerName)
+                  );
+                  // console.log(filtered);
+                  console.log(
+                    `-----------finished runResults for tournament ${id}------------`
+                  );
+                  // Uncomment for Production
+                  return db.Result.bulkCreate(filtered);
+                });
             }
-
-            return db.Player.findAll({
-              attributes: ["playerName"],
-            })
-
-              .then((playerNames) =>
-                playerNames.map((player) => player.dataValues.playerName)
-              )
-
-              .then((playerNames) => {
-                const filtered = resultsArray.filter((el) =>
-                  playerNames.includes(el.playerName)
-                );
-                // console.log(filtered);
-                console.log(
-                  `-----------finished runResults for tournament ${id}------------`
-                );
-                // Uncomment for Production
-                // return db.Result.bulkCreate(filtered);
-              });
           });
       }
     });
