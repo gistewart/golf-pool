@@ -572,6 +572,7 @@ $(document).ready(function () {
     $(".tapToReveal").show();
     $("#refreshButton").hide();
     apiCall = "Season";
+    liveTC = false;
     $("#eventData").removeClass("is-active");
     $("#liveData").removeClass("is-active");
     $("#commentsPage").removeClass("is-active");
@@ -633,6 +634,7 @@ $(document).ready(function () {
     $(".tapToReveal").show();
     $("#refreshButton").hide();
     apiCall = "Event";
+    liveTC = false;
     $("#eventData").addClass("is-loading");
     $.get("/api/lastEvent", function (data) {
       sumData(data);
