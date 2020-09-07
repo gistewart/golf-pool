@@ -240,10 +240,10 @@ table tbody .level1 .rankingChange {
   font-size: 0.9em;
   font-weight: 600;
   margin-bottom: 0px;
+  color: rgba(7, 15, 133, 0.808);
 }
 
 .level2 .fecVersion {
-  color: purple;
   font-size: 0.85em;
 }
 
