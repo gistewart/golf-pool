@@ -4,7 +4,8 @@ $(document).ready(function () {
     noCut = false,
     resultsRefresh = false,
     liveExit = false,
-    liveTC = false;
+    liveTC = false,
+    lastEventCount = 0;
 
   $("#liveScoring").hide();
   $("#lastEventTitle").hide();
@@ -534,6 +535,7 @@ $(document).ready(function () {
   function lastEventDetails() {
     console.log("entering lastEventDetails function");
     $.get("api/lastEventDetails", function (result) {
+      lastEventCount = result.length;
       $("#lastEventDetails").html("");
       for (let i = 0; i < result.length; i++) {
         $("#lastEventDetails").append(
@@ -776,7 +778,7 @@ $(document).ready(function () {
   }
 
   async function displayData(sorted, sortedPartResult, playerRankings) {
-    // let round = 0;
+    let round = 0;
     // to display sorted results
     // to add prior ranking data to main arr
     if (apiCall == "Season") {
@@ -1049,11 +1051,11 @@ $(document).ready(function () {
                     )
                   : "")
               : "") +
+            (apiCall === "Event" && lastEventCount > 1
+              ? " | " + sorted[i].Players[j].tournaments[0].shortName
+              : "") +
             (apiCall === "Event"
-              ? " | " +
-                sorted[i].Players[j].tournaments[0].shortName +
-                " | " +
-                sorted[i].Players[j].tournaments[0].position
+              ? " | " + sorted[i].Players[j].tournaments[0].position
               : "") +
             "</td><td class='earnings'>" +
             sorted[i].Players[j].playerEarnings.toLocaleString("us-US", {

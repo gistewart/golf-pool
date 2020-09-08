@@ -404,16 +404,16 @@ module.exports = function (app) {
   app.get("/api/webSchedule", async function (req, res) {
     // NEW TEMPORARY CODE (SWAP)
     // Testing Start
-    await db.ScheduleStage.findAll({})
-      // Testing End
-      // Production Start
-      // await db.ScheduleStage.sync({ force: true })
-      //   .then(async function () {
-      //     const temp = await seedScheduleStage();
-      //   })
-      //   .then(function () {
-      //     return db.ScheduleStage.findAll({});
-      //   })
+    // await db.ScheduleStage.findAll({})
+    // Testing End
+    // Production Start
+    await db.ScheduleStage.sync({ force: true })
+      .then(async function () {
+        const temp = await seedScheduleStage();
+      })
+      .then(function () {
+        return db.ScheduleStage.findAll({});
+      })
       //Production End
       .then((result) => {
         res.json(result);
@@ -450,11 +450,11 @@ module.exports = function (app) {
   });
 
   // new api call - needed for testing only
-  // app.get("/api/missingResults", async function (req, res) {
-  //   const temp = await runResults().then(function (data) {
-  //     res.json(data);
-  //   });
-  // });
+  app.get("/api/missingResults", async function (req, res) {
+    const temp = await runResults().then(function (data) {
+      res.json(data);
+    });
+  });
 
   // api to determine if Live Scoring tab should be shown (gets ESPN tournament id, date, name, purse, status)
   app.get("/api/liveTourneyStatus", async function (req, res) {

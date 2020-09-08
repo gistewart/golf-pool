@@ -1,0 +1,1 @@
+1. change seedScheduleStage to account for Final being declared on days 1, 2 or 3 if this espn.com problem persists

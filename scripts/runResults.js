@@ -9,15 +9,15 @@ module.exports = function () {
 
   return db.missingTournament
     .findAll({
-      attributes: ["tournamentId"],
+      attributes: ["tournamentId", "name"],
+      raw: true,
     })
-    .then((tournamentIds) =>
-      tournamentIds.map((tournament) => tournament.dataValues.tournamentId)
-    )
 
-    .then(async function (tournamentIds) {
-      for (let i = 0; i < tournamentIds.length; i++) {
-        const id = tournamentIds[i];
+    .then(async function (tourney) {
+      console.log(tourney);
+      for (let i = 0; i < tourney.length; i++) {
+        const id = tourney[i].tournamentId;
+        const name = tourney[i].name;
         await axios
           .get(`https://www.espn.com/golf/leaderboard?tournamentId=${id}`)
           .then(async function (response) {
@@ -38,7 +38,7 @@ module.exports = function () {
                 result.pos = result.toPar;
               }
               // Tour Championship if else statement
-              if (id == 401155476) {
+              if (/tour championship/i.test(name)) {
                 result.tot = Number(
                   $(this)
                     .children("td:nth-child(8)")
@@ -58,10 +58,6 @@ module.exports = function () {
 
               resultsArray.push(result);
             });
-
-            if (id == 401155476) {
-              purseCalc();
-            }
 
             async function purseCalc() {
               const purseSplit = await db.livePurseSplit.findAll({
@@ -202,7 +198,7 @@ module.exports = function () {
                 resultsArray[i].handicap =
                   resultsArray[i].toParAdj - resultsArray[i].toParTC;
               }
-              console.log(resultsArray);
+              console.log("for db.ResultTC: ", resultsArray);
 
               // Uncomment for Production
               await db.ResultTC.sync({ force: true });
@@ -211,6 +207,12 @@ module.exports = function () {
               for (let i in resultsArray) {
                 resultsArray[i].pos = resultsArray[i].posTCDisplay;
                 resultsArray[i].toPar = resultsArray[i].toParTCDisplay;
+              }
+            }
+
+            const secondFunction = async () => {
+              if (/tour championship/i.test(name)) {
+                const first = await purseCalc();
               }
 
               return db.Player.findAll({
@@ -225,14 +227,15 @@ module.exports = function () {
                   const filtered = resultsArray.filter((el) =>
                     playerNames.includes(el.playerName)
                   );
-                  // console.log(filtered);
+                  // console.log("filtered: ", filtered);
                   console.log(
                     `-----------finished runResults for tournament ${id}------------`
                   );
                   // Uncomment for Production
                   return db.Result.bulkCreate(filtered);
                 });
-            }
+            };
+            secondFunction();
           });
       }
     });

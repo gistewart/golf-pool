@@ -1,0 +1,16 @@
+EDIT #1:
+On seedScheduleStage.js
+After the TC goes final, on the espn schedule page, the TC tournament does not appear as a Current Tournament and the following code on seedScheduleStage.js points to ALL of the Completed Tournaments
+".mb5:nth-of-type(4) tbody tr"
+
+But the TC does appear in the Completed Tournaments section.
+Therefore, the Sections 1 and 2 of code need to be commented out for the TC to be loaded properly.
+OR manually record tournament on Schedules table in db and comment out schedule update code
+
+
+EDIT #2:
+On runResults.js
+check purseSize amount (around line 131)
+
+
+
