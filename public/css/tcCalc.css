@@ -1,3 +1,8 @@
+#tableInstruct {
+  text-decoration: none;
+  color: red;
+}
+
 table.tablesorter-jui {
   font-size: 10px;
 }
