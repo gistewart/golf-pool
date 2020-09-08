@@ -47,7 +47,7 @@ module.exports = async function () {
           scheduleStage.push(result);
         }
       });
-      // console.log(scheduleStage);
+      console.log("end of Section 1 array: ", scheduleStage);
       return;
     });
   // END OF SECTION 1
@@ -56,7 +56,7 @@ module.exports = async function () {
   // is current tournament finished?
   for (let i = 0; i < scheduleStage.length; i++) {
     const id = scheduleStage[i].tournamentId;
-    console.log(id);
+    console.log("section 2 id: ", id);
     var hold = {};
     await axios
       .get(`https://www.espn.com/golf/leaderboard?tournamentId=${id}`)
@@ -65,14 +65,14 @@ module.exports = async function () {
 
         $(".status").each(function (i, element) {
           hold.status = $(this).find("span").text();
-          console.log(hold);
+          console.log("section 2 hold status: ", hold);
         });
       });
     if (hold.status != "Final") {
-      console.log("entering hold.status if clause");
+      console.log("tourney not final, so about to delete");
       scheduleStage.splice(i, 1);
       i--;
-      console.log("hold status current tournament included:", scheduleStage);
+      console.log("array after deletion:", scheduleStage);
     }
     // have earnings been posted for all players who made the cut
     else {
@@ -108,7 +108,7 @@ module.exports = async function () {
             resultsArray.push(result);
           });
         });
-      // console.log("new results: ", resultsArray);
+      // console.log("earnings posted check: ", resultsArray);
       for (let j = 0; j < resultsArray.length; j++) {
         console.log(
           resultsArray[j].pos,
@@ -122,14 +122,14 @@ module.exports = async function () {
         }
         // to delete tourney if any pros who made cut have earnings of 0
         if (!isNaN(resultsArray[j].pos) && resultsArray[j].earnings === 0) {
-          console.log("break now");
+          console.log("breaking now");
           scheduleStage.splice(i, 1);
           i--;
           break;
         }
       }
     }
-    // console.log("current tournament included:", scheduleStage);
+    console.log("end of Section 2 array: ", scheduleStage);
   }
   // END OF SECTION 2
 
@@ -171,19 +171,21 @@ module.exports = async function () {
         scheduleStage.push(result);
       });
 
-      //filter for this year's events; (not the Barracuda;) presence of a winner
+      //filter for this year's events then for presence of a winner
       finishedEventsArr = scheduleStage
-        .filter((el) => el.tournamentId >= "401155413")
-        // .filter((el) => el.tournamentId !== "401155468")
+        .filter(
+          (el) =>
+            el.tournamentId == "401219333" || el.tournamentId == "401219478"
+        )
         .filter((el) => el.winner);
       return;
     })
     // END OF SECTION 3
 
     .then(async function () {
-      console.log("line 184", finishedEventsArr);
+      console.log("version of array to be sent to db: ", finishedEventsArr);
       console.log("-----ready to seed ScheduleStage table------");
-      // const temp = await db.ScheduleStage.bulkCreate(finishedEventsArr);
+      const temp = await db.ScheduleStage.bulkCreate(finishedEventsArr);
 
       console.log("-----finished seeding ScheduleStage table-----");
       return;
