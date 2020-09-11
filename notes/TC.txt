@@ -1,3 +1,6 @@
+IMPORTANT
+run liveTCHandicapSeed (via localhost...in browser) on day 1 of the TC when toPar and Today values are good to seed TCHandicaps db table
+
 EDIT #1:
 On seedScheduleStage.js
 After the TC goes final, on the espn schedule page, the TC tournament does not appear as a Current Tournament and the following code on seedScheduleStage.js points to ALL of the Completed Tournaments
@@ -6,7 +9,6 @@ After the TC goes final, on the espn schedule page, the TC tournament does not a
 But the TC does appear in the Completed Tournaments section.
 Therefore, the Sections 1 and 2 of code need to be commented out for the TC to be loaded properly.
 OR manually record tournament on Schedules table in db and comment out schedule update code
-
 
 EDIT #2:
 On runResults.js

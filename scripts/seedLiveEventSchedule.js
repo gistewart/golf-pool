@@ -40,6 +40,7 @@ module.exports = async function () {
         result.tEndDate = f;
 
         result.name = $(this).find("p").text().replace(" - Play Suspended", "");
+        result.name = $(this).find("p").text().replace(" - Suspended", "");
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
         result.purse = Number(
           $(this)

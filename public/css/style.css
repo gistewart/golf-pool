@@ -247,6 +247,10 @@ table tbody .level1 .rankingChange {
   font-size: 0.85em;
 }
 
+.posHighlite {
+  font-weight: 800;
+}
+
 .todaysScore {
   font-size: 0.95em;
 }

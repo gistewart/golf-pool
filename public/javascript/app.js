@@ -25,10 +25,10 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(function () {
-      seasonData();
-      // liveEvent();
+      // seasonData();
+      liveEvent();
     }, 1000);
   }
 
@@ -207,6 +207,7 @@ $(document).ready(function () {
 
     if (liveExit) {
       $("#liveData").hide();
+      seasonData();
       return;
     }
 
@@ -219,7 +220,7 @@ $(document).ready(function () {
         hCapTbl = result;
       });
 
-      // calculate gross scores
+      // calculate gross scores for LIVE TC
       for (let i in hCapTbl) {
         for (let j = 0; j < livePositions.length; j++) {
           if (hCapTbl[i].playerName === livePositions[j].playerName) {
@@ -359,10 +360,12 @@ $(document).ready(function () {
                 : Number(
                     livePurseSplit[Number(purseArr[i].pos) + j - 1].percent
                   );
-            purseSumComp =
-              purseSumComp +
-              livePurseSplit[Number(purseArr[i].pos) + j - 1].percent +
-              ", ";
+            purseSumComp +=
+              typeof livePurseSplit[Number(purseArr[i].pos) + j - 1] ===
+              "undefined"
+                ? 0.183 + ", "
+                : livePurseSplit[Number(purseArr[i].pos) + j - 1].percent +
+                  ", ";
           }
           purseSumComp = purseSumComp.replace(/, $/, "");
           purseArr[i].data[0].comp = purseSumComp;
@@ -376,6 +379,7 @@ $(document).ready(function () {
         (round < 3 && Number(purseArr[i].pos) > mcTop) ||
         Number(purseArr[i].pos) == 0
       ) {
+        purseArr[i].data[0].comp = "";
         purseArr[i].data[0].totPercent = 0;
         purseArr[i].data[0].avgPercent = 0;
         purseArr[i].data[0].dollars = 0;
@@ -717,7 +721,9 @@ $(document).ready(function () {
   function sortData(result, sortedPartResult, playerRankings) {
     // to sort all the data passed to function
     const sorted = result.sort(
-      (a, b) => b.poolsterEarnings - a.poolsterEarnings
+      (a, b) =>
+        b.poolsterEarnings - a.poolsterEarnings ||
+        b.Players.length - a.Players.length
     );
 
     sorted[0].ranking = 1;
@@ -915,8 +921,11 @@ $(document).ready(function () {
             // to add Live data to this layer
             (liveTC ? "<p class = 'poolVersion'>" + "Pool: " : "") +
             (apiCall === "Live"
-              ? " Pos " +
+              ? "," +
+                "<span class='posHighlite'>" +
+                " Pos " +
                 sorted[i].Players[j].Tournaments[0].position +
+                "</span>" +
                 (round == 1 &&
                 /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
                   ? " | " + sorted[i].Players[j].Tournaments[0].thru

@@ -404,16 +404,16 @@ module.exports = function (app) {
   app.get("/api/webSchedule", async function (req, res) {
     // NEW TEMPORARY CODE (SWAP)
     // Testing Start
-    // await db.ScheduleStage.findAll({})
-    // Testing End
-    // Production Start
-    await db.ScheduleStage.sync({ force: true })
-      .then(async function () {
-        const temp = await seedScheduleStage();
-      })
-      .then(function () {
-        return db.ScheduleStage.findAll({});
-      })
+    await db.ScheduleStage.findAll({})
+      // Testing End
+      // Production Start
+      // await db.ScheduleStage.sync({ force: true })
+      //   .then(async function () {
+      //     const temp = await seedScheduleStage();
+      //   })
+      //   .then(function () {
+      //     return db.ScheduleStage.findAll({});
+      //   })
       //Production End
       .then((result) => {
         res.json(result);
@@ -515,6 +515,10 @@ module.exports = function (app) {
 
       // get purse info for this tType
       .then(function (tType) {
+        // for tournaments not included on liveTourneyTypes db table, we default to a regular tType
+        if (tType.length === 0) {
+          tType = [{ tType: "reg" }];
+        }
         return db.livePurseSplit.findAll({
           where: {
             class: {
@@ -549,6 +553,10 @@ module.exports = function (app) {
       })
 
       .then(function (result) {
+        // for tournaments not included on liveTourneyTypes db table, we default to the regular cut line of 65
+        if (result.length === 0) {
+          result = [{ tMCLine: "65" }];
+        }
         res.json(result);
       });
   });

@@ -1,1 +1,5 @@
 1. change seedScheduleStage to account for Final being declared on days 1, 2 or 3 if this espn.com problem persists
+
+2. Live Scoring didn't exit properly at the end of day 4 of the TC (maybe because tourney disappeared from Current section of espn seedScheduleStage)
+
+3. TC table does not render properly on some browsers
