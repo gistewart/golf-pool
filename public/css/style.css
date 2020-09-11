@@ -109,6 +109,7 @@ header .tabs li a .icon:first-child {
 
 #tcCalcTableLink {
   text-decoration: underline;
+  font-size: 0.9em;
 }
 
 p {

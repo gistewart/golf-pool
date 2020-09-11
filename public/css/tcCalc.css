@@ -53,3 +53,7 @@ table.tablesorter {
   color: white;
   font-weight: 800;
 }
+
+#returnLink {
+  color: blue;
+}
