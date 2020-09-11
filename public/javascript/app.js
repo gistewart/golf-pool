@@ -25,10 +25,10 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    await displayLiveTab();
+    // await displayLiveTab();
     setTimeout(function () {
-      // seasonData();
-      liveEvent();
+      seasonData();
+      // liveEvent();
     }, 1000);
   }
 
