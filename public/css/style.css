@@ -134,6 +134,14 @@ div.buttons.is-centered {
 div.buttons.is-centered #refreshButton {
   padding: 0px 12px;
   font-weight: 800;
+  font-size: 0.85em;
+}
+
+div.buttons.is-centered #lastUpdate {
+  padding: 0px 5px;
+  font-weight: 400;
+  font-size: 0.85em;
+  background-color: white;
 }
 
 .main-container {

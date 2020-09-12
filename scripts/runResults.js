@@ -59,6 +59,7 @@ module.exports = function () {
               resultsArray.push(result);
             });
 
+            // TC purse calc function
             async function purseCalc() {
               const purseSplit = await db.livePurseSplit.findAll({
                 where: {

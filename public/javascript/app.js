@@ -11,7 +11,7 @@ $(document).ready(function () {
   $("#lastEventTitle").hide();
   $("#tcCalcTableLink").hide();
   $("#liveData").hide();
-  $("#refreshButton").hide();
+  $(".refreshContainer").hide();
   $("#subIconLang").hide();
   $("#footnotes").hide();
   $("footer").hide();
@@ -25,7 +25,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(function () {
       seasonData();
       // liveEvent();
@@ -165,7 +165,7 @@ $(document).ready(function () {
     }
     $(".main-container").show();
     $(".tapToReveal").hide();
-    $("#refreshButton").show();
+    $(".refreshContainer").show();
     $(".comments-container").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Current tournament details:");
@@ -531,6 +531,11 @@ $(document).ready(function () {
         );
       }
     });
+
+    $("#lastUpdate").html("");
+    let now = moment().format("LT");
+    $("#lastUpdate").append("last update: " + now);
+
     sortData(livePlayers);
     $("#seasonData .spinner").removeClass("lds-hourglass");
   }
@@ -576,7 +581,7 @@ $(document).ready(function () {
     );
     lastEventDetails();
     $(".tapToReveal").show();
-    $("#refreshButton").hide();
+    $(".refreshContainer").hide();
     apiCall = "Season";
     liveTC = false;
     $("#eventData").removeClass("is-active");
@@ -638,7 +643,7 @@ $(document).ready(function () {
     $("#lastEventTitle").text("Tournament details:");
     lastEventDetails();
     $(".tapToReveal").show();
-    $("#refreshButton").hide();
+    $(".refreshContainer").hide();
     apiCall = "Event";
     liveTC = false;
     $("#eventData").addClass("is-loading");
@@ -784,7 +789,8 @@ $(document).ready(function () {
   }
 
   async function displayData(sorted, sortedPartResult, playerRankings) {
-    let round = 0;
+    //for hard-coding round and other variables
+    // let round = 2;
     // to display sorted results
     // to add prior ranking data to main arr
     if (apiCall == "Season") {
@@ -906,6 +912,14 @@ $(document).ready(function () {
       );
 
       for (let j = 0; j < sorted[i].Players.length; j++) {
+        if (apiCall === "Live") {
+          console.log(
+            noCut,
+            round,
+            sorted[i].Players[j].Tournaments[0].posAdj,
+            mcPos
+          );
+        }
         $(".leaderboard-container").append(
           "<tr class='level2 hiddenRow collapse' id='demo" +
             i +
