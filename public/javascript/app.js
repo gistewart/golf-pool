@@ -27,8 +27,8 @@ $(document).ready(function () {
     lastEventDetails();
     await displayLiveTab();
     setTimeout(function () {
-      seasonData();
-      // liveEvent();
+      // seasonData();
+      liveEvent();
     }, 1000);
   }
 
@@ -318,19 +318,32 @@ $(document).ready(function () {
       console.log("noCut value", noCut);
     }
 
-    // creates purseArr and counts the number of players at each position for the entire field
+    // creates purseArr and counts the number of players (and amateurs) at each position for the entire field
     let purseArr = [];
     for (let i in livePositions) {
       let match = false;
+      let am = /\(a\)$/im.test(livePositions[i].playerName);
+
       for (let j in purseArr) {
         if (purseArr[j].pos === livePositions[i].posAdj) {
           purseArr[j].data[0].count += 1;
+          if (am) {
+            purseArr[j].data[0].amCount += 1;
+          }
           match = true;
           break;
         }
       }
-      if (!match) {
-        purseArr.push({ pos: livePositions[i].posAdj, data: [{ count: 1 }] });
+      if (!match && am) {
+        purseArr.push({
+          pos: livePositions[i].posAdj,
+          data: [{ count: 1, amCount: 1 }],
+        });
+      } else if (!match) {
+        purseArr.push({
+          pos: livePositions[i].posAdj,
+          data: [{ count: 1, amCount: 0 }],
+        });
       }
     }
 
@@ -340,37 +353,50 @@ $(document).ready(function () {
     let purseSumComp = "";
 
     //calculates purse values for each position in purseArr
+    let amTotal = 0;
     for (let i = 0; i < purseArr.length; i++) {
       if (purseArr[i].pos > 0) {
         if (purseArr[i].data[0].count === 1) {
           purseArr[i].data[0].avgPercent =
-            typeof livePurseSplit[purseArr[i].pos - 1] === "undefined"
+            typeof livePurseSplit[purseArr[i].pos - 1 - amTotal] === "undefined"
               ? 0
-              : Number(livePurseSplit[purseArr[i].pos - 1].percent);
+              : Number(livePurseSplit[purseArr[i].pos - 1 - amTotal].percent);
           purseArr[i].data[0].dollars =
             (purseArr[i].data[0].avgPercent * liveSchedule[0].purse) / 100;
+          if (purseArr[i].data[0].amCount === 1) {
+            amTotal++;
+            console.log(amTotal);
+          }
         } else {
           purseSum = 0;
           purseSumComp = "";
-          for (let j = 0; j < purseArr[i].data[0].count; j++) {
+          let posAmCount = purseArr[i].data[0].amCount;
+
+          for (let j = 0; j < purseArr[i].data[0].count - posAmCount; j++) {
             purseSum +=
-              typeof livePurseSplit[Number(purseArr[i].pos) + j - 1] ===
-              "undefined"
+              typeof livePurseSplit[
+                Number(purseArr[i].pos) + j - 1 - amTotal
+              ] === "undefined"
                 ? 0.183
                 : Number(
-                    livePurseSplit[Number(purseArr[i].pos) + j - 1].percent
+                    livePurseSplit[Number(purseArr[i].pos) + j - 1 - amTotal]
+                      .percent
                   );
             purseSumComp +=
-              typeof livePurseSplit[Number(purseArr[i].pos) + j - 1] ===
-              "undefined"
+              typeof livePurseSplit[
+                Number(purseArr[i].pos) + j - 1 - amTotal
+              ] === "undefined"
                 ? 0.183 + ", "
-                : livePurseSplit[Number(purseArr[i].pos) + j - 1].percent +
-                  ", ";
+                : livePurseSplit[Number(purseArr[i].pos) + j - 1 - amTotal]
+                    .percent + ", ";
           }
+          amTotal += purseArr[i].data[0].amCount;
+          console.log(amTotal);
           purseSumComp = purseSumComp.replace(/, $/, "");
           purseArr[i].data[0].comp = purseSumComp;
           purseArr[i].data[0].totPercent = purseSum;
-          purseArr[i].data[0].avgPercent = purseSum / purseArr[i].data[0].count;
+          purseArr[i].data[0].avgPercent =
+            purseSum / (purseArr[i].data[0].count - posAmCount);
           purseArr[i].data[0].dollars =
             (purseArr[i].data[0].avgPercent * liveSchedule[0].purse) / 100;
         }
@@ -397,15 +423,24 @@ $(document).ready(function () {
     }
 
     // add purse info to livePositions array
+    let totalDollars = 0;
     for (let i in livePositions) {
       for (let j in purseArr) {
         if (livePositions[i].posAdj === purseArr[j].pos) {
           livePositions[i].avgPercent = purseArr[j].data[0].avgPercent;
           livePositions[i].dollars = purseArr[j].data[0].dollars;
+          if (/\(a\)$/im.test(livePositions[i].playerName)) {
+            livePositions[i].avgPercent = 0;
+            livePositions[i].dollars = 0;
+          }
+          if (livePositions[i].posAdj < 66) {
+            totalDollars += livePositions[i].dollars;
+          }
           break;
         }
       }
     }
+    console.log(totalDollars);
     console.log(livePositions);
 
     // filter livePlayers for active players only
@@ -912,14 +947,14 @@ $(document).ready(function () {
       );
 
       for (let j = 0; j < sorted[i].Players.length; j++) {
-        if (apiCall === "Live") {
-          console.log(
-            noCut,
-            round,
-            sorted[i].Players[j].Tournaments[0].posAdj,
-            mcPos
-          );
-        }
+        // if (apiCall === "Live") {
+        //   console.log(
+        //     noCut,
+        //     round,
+        //     sorted[i].Players[j].Tournaments[0].posAdj,
+        //     mcPos
+        //   );
+        // }
         $(".leaderboard-container").append(
           "<tr class='level2 hiddenRow collapse' id='demo" +
             i +

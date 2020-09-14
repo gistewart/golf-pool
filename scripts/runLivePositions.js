@@ -59,11 +59,13 @@ module.exports = function () {
                 if (result.pos == "-") {
                   result.pos = result.toPar;
                 }
+                // toParAdj for TC only
                 result.toParAdj = $(this)
                   .children("td:nth-child(" + (4 + statusAdj) + ")")
                   .text()
                   .replace("E", 0)
-                  .replace("+", "");
+                  .replace("+", "")
+                  .replace("CUT", 0);
                 result.today = $(this)
                   .children("td:nth-child(" + (5 + statusAdj) + ")")
                   .text();
