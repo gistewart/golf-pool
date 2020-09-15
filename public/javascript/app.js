@@ -25,10 +25,10 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    await displayLiveTab();
+    // await displayLiveTab();
     setTimeout(function () {
-      // seasonData();
-      liveEvent();
+      seasonData();
+      // liveEvent();
     }, 1000);
   }
 
@@ -433,7 +433,7 @@ $(document).ready(function () {
             livePositions[i].avgPercent = 0;
             livePositions[i].dollars = 0;
           }
-          if (livePositions[i].posAdj < 66) {
+          if (livePositions[i].posAdj < mcTop) {
             totalDollars += livePositions[i].dollars;
           }
           break;

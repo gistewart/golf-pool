@@ -6,26 +6,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FedEx-to-Pool Conversion table</title>
 
-    <link rel=" stylesheet" href="https://mottie.github.io/tablesorter/css/theme.jui.css">
+    <!-- <link rel=" stylesheet" href="https://mottie.github.io/tablesorter/css/theme.jui.css"> -->
 
-    <script type="text/javascript" src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js">
     </script>
 
-    <script type="text/javascript" src="https://mottie.github.io/tablesorter/js/jquery.tablesorter.js">
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js">
+    </script>
+
+    <script type="text/javascript"
+        src="https://cdn.datatables.net/fixedcolumns/3.2.1/js/dataTables.fixedColumns.min.js"></script>
+
+    <script type="text/javascript" src="https:////cdn.datatables.net/plug-ins/1.10.21/sorting/natural.js"></script>
+
+    <!-- <script type="text/javascript" src="https://mottie.github.io/tablesorter/js/jquery.tablesorter.js">
     </script>
 
     <script type="text/javascript" src="https://mottie.github.io/tablesorter/js/jquery.tablesorter.widgets.js">
     </script>
 
-    <link rel=" stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/cupertino/jquery-ui.css">
+    <script type="text/javascript" src="https://mottie.github.io/tablesorter/js/widgets/widget-scroller.js">
+    </script>
+
+    <link rel=" stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/cupertino/jquery-ui.css"> -->
 
 
     <!-- External stylesheet link-->
-    <link rel=" stylesheet" href="css/tcCalc.css">
+    <link rel="stylesheet" href="css/tcCalc.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <link href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/fixedcolumns/3.2.1/css/fixedColumns.dataTables.min.css" />
+
 </head>
 
 <body>
-    <div class="wrapper">
+
+
+    <table id="tcTable" class="display compact" style="width:100%">
+        <thead>
+            <tr class="level1Heading">
+                <th></th>
+                <th colspan="3" class="fedex">FedEx Cup version</th>
+                <th colspan="4" class="pool">Pool version</th>
+            </tr>
+            <tr>
+                <th>Player</th>
+                <th>Pos</th>
+                <th>To Par</th>
+                <th>H'cap</th>
+                <th>To Par</th>
+                <th>Pos</th>
+                <th>% of Purse</th>
+                <th>Earnings</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+
+    <!-- <div class="wrapper">
         <table id="tcTable" class="tablesorter">
             <thead>
                 <tr class="level1Heading tablesorter-ignoreRow">
@@ -47,12 +88,11 @@
             <tbody>
             </tbody>
         </table>
-    </div>
+    </div> -->
 
     <h5><a id="returnLink" href="index.html">Return to Season view</a></h5>
 
     <!-- External javascript link-->
-    <!-- <script type="text/javascript" src="javascript/app.js "></script> -->
     <script type="text/javascript" src="javascript/tcCalc.js "></script>
 
 </body>
