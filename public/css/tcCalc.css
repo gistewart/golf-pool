@@ -1,6 +1,7 @@
 body {
-  font: 90%/1.45em "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif !important;
+  font: 75%/1.25em "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif !important;
   white-space: nowrap;
+  max-width: 700px;
 }
 
 /* table.tablesorter-jui {
@@ -43,9 +44,9 @@ table.tablesorter {
   padding-left: 0.25em;
 } */
 
-.dt-body-nowrap {
+/* .dt-body-nowrap {
   white-space: nowrap;
-}
+} */
 
 .fedex {
   background-color: purple;

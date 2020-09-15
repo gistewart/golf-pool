@@ -66,7 +66,7 @@ $(function () {
         responsive: true,
         bFilter: false,
         fixedHeader: { header: true },
-        scrollY: 600,
+        scrollY: 500,
         scrollX: true,
         scrollCollapse: true,
         scroller: true,
@@ -82,9 +82,6 @@ $(function () {
           },
           { type: "position", targets: [1, 5] },
           { type: "toPar", targets: [2, 4] },
-          { width: "10px", targets: [1, 2, 3, 4, 5] },
-          { width: "50px", targets: [6, 7] },
-          { width: "70px", targets: [0] },
         ],
       });
 
