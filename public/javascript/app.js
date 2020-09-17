@@ -25,7 +25,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(function () {
       seasonData();
       // liveEvent();
@@ -872,7 +872,6 @@ $(document).ready(function () {
     console.log(sorted);
 
     $(".leaderboard-container > tbody").html("");
-    console.log(apiCall);
     for (let i = 0; i < sorted.length; i++) {
       $(".leaderboard-container > tbody").append(
         "<tr data-toggle='collapse' data-target='#demo" +
@@ -969,16 +968,22 @@ $(document).ready(function () {
             sorted[i].Players[j].player +
             // to add Live data to this layer
             (liveTC ? "<p class = 'poolVersion'>" + "Pool: " : "") +
-            (apiCall === "Live"
+            (apiCall === "Live" &&
+            round == 1 &&
+            /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
+              ? ", " + sorted[i].Players[j].Tournaments[0].thru
+              : "") +
+            (apiCall === "Live" &&
+            !(
+              round == 1 &&
+              /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
+            )
               ? "," +
                 "<span class='posHighlite'>" +
                 " Pos " +
                 sorted[i].Players[j].Tournaments[0].position +
                 "</span>" +
-                (round == 1 &&
-                /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
-                  ? " | " + sorted[i].Players[j].Tournaments[0].thru
-                  : /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
+                (/am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
                   ? " | To Par " +
                     sorted[i].Players[j].Tournaments[0].toPar +
                     "<span class='todaysScore'>" +

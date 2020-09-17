@@ -4,7 +4,9 @@ module.exports = function (sequelize, DataTypes) {
   var liveField = sequelize.define(
     "liveField",
     {
-      name: DataTypes.STRING,
+      tournamentId: DataTypes.INTEGER,
+      playerName: DataTypes.STRING,
+      teeTime: DataTypes.STRING,
     },
     {
       timestamps: false,

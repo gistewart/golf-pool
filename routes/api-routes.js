@@ -9,6 +9,7 @@ const runTCHandicap = require("../scripts/runTCHandicap");
 const e = require("express");
 require("dotenv").config();
 const { QueryTypes } = require("sequelize");
+const runField = require("../scripts/runField");
 
 module.exports = function (app) {
   app.get("/api/poolsters", function (req, res) {
@@ -459,10 +460,10 @@ module.exports = function (app) {
   // api to determine if Live Scoring tab should be shown (gets ESPN tournament id, date, name, purse, status)
   app.get("/api/liveTourneyStatus", async function (req, res) {
     // Production Start
-    // await db.liveEventSchedule.sync({ force: true }).then(async function () {
-    //   const temp = await seedLiveEventSchedule();
-    //   return;
-    // });
+    await db.liveEventSchedule.sync({ force: true }).then(async function () {
+      const temp = await seedLiveEventSchedule();
+      return;
+    });
     // Production End
     await db.liveEventSchedule.findAll({}).then((result) => {
       res.json(result);
@@ -472,16 +473,16 @@ module.exports = function (app) {
   // gets livePositions by first seeding liveEventSchedule, then running runLivePositions
   app.get("/api/livePositions", async function (req, res) {
     // Testing Start
-    await db.livePosition
-      .findAll({})
-      // Test End
-      // Production Start
-      // await db.livePosition.sync({ force: true });
-      // const temp = await runLivePositions()
-      //   // })
-      //   .then(async function () {
-      //     return db.livePosition.findAll({});
-      //   })
+    // await db.livePosition
+    //   .findAll({})
+    // Test End
+    // Production Start
+    await db.livePosition.sync({ force: true });
+    const temp = await runLivePositions()
+      // })
+      .then(async function () {
+        return db.livePosition.findAll({});
+      })
       // Production End
       .then((result) => {
         res.json(result);
@@ -755,6 +756,11 @@ module.exports = function (app) {
     db.ResultTC.findAll({}).then((data) => {
       res.json(data);
     });
+  });
+
+  // for Field details
+  app.get("/api/onTheTee", async function (req, res) {
+    const temp = await runField().then((result) => res.json(result));
   });
 
   app.get("/api/poolsters", function (req, res) {

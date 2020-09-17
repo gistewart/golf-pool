@@ -84,41 +84,6 @@ $(function () {
           { type: "toPar", targets: [2, 4] },
         ],
       });
-
-      // $.tablesorter.addParser({
-      //   id: "position",
-      //   is: function (s) {
-      //     return false;
-      //   },
-      //   format: function (s) {
-      //     return s.replace(/T/g, "");
-      //   },
-      //   type: "numeric",
-      // });
-
-      // $.tablesorter.addParser({
-      //   id: "toPar",
-      //   is: function (s) {
-      //     return false;
-      //   },
-      //   format: function (s) {
-      //     return s.replace(/E/g, "0");
-      //   },
-      //   type: "numeric",
-      // });
-
-      // $("table").tablesorter({
-      //   theme: "jui",
-      //   headerTemplate: "{content}{icon}",
-      //   widgets: ["zebra", "uitheme"],
-      //   sortList: [[4, 0]],
-      //   headers: {
-      //     1: { sorter: "position" },
-      //     2: { sorter: "toPar" },
-      //     4: { sorter: "toPar" },
-      //     5: { sorter: "position" },
-      //   },
-      // });
     });
   }
 
