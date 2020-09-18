@@ -205,6 +205,32 @@ $(document).ready(function () {
     }
     console.log(livePositions);
 
+    let ams = [
+      "Davis Thompson",
+      "Chun An Yu",
+      "John Pak",
+      "Preston Summerhays",
+      "Takumi Kanaya",
+      "Ricky Castillo",
+      "Andy Ogletree",
+      "John Augenstein",
+      "Sandy Scott",
+      "Cole Hammer",
+      "James Sugrue",
+      "Lukas Michel",
+      "Eduard Rousaud",
+    ];
+
+    for (let i = 0; i < ams.length; i++) {
+      for (let j = 0; j < livePositions.length; j++) {
+        if (ams[i] == livePositions[j].playerName) {
+          livePositions[j].playerName = livePositions[j].playerName + " (a)";
+          // console.log(livePositions[j].playerName);
+          break;
+        }
+      }
+    }
+
     if (liveExit) {
       $("#liveData").hide();
       seasonData();
@@ -304,12 +330,11 @@ $(document).ready(function () {
     });
     await $.get("api/liveMCLine", function (result) {
       mcTop = Number(result[0].tMCLine);
-      console.log(mcTop);
     });
 
     let roundStatus = liveSchedule[0].status;
     round = roundStatus.match(/\d/)[0];
-    console.log(round);
+    console.log("round: ", round);
 
     let livePositionsLen = livePositions.length;
     console.log("field size: ", livePositionsLen, "cut line (top): ", mcTop);
@@ -365,7 +390,6 @@ $(document).ready(function () {
             (purseArr[i].data[0].avgPercent * liveSchedule[0].purse) / 100;
           if (purseArr[i].data[0].amCount === 1) {
             amTotal++;
-            console.log(amTotal);
           }
         } else {
           purseSum = 0;
@@ -391,7 +415,6 @@ $(document).ready(function () {
                     .percent + ", ";
           }
           amTotal += purseArr[i].data[0].amCount;
-          console.log(amTotal);
           purseSumComp = purseSumComp.replace(/, $/, "");
           purseArr[i].data[0].comp = purseSumComp;
           purseArr[i].data[0].totPercent = purseSum;
@@ -411,13 +434,14 @@ $(document).ready(function () {
         purseArr[i].data[0].dollars = 0;
       }
     }
+    console.log("amTotal: ", amTotal);
     console.log(purseArr);
 
     // calculate rounds 1 & 2 in progress cut-line from purseArr
     for (let i = 0; i < purseArr.length - 1; i++) {
       if (round < 3 && Number(purseArr[i + 1].pos) > mcTop) {
         mcPos = Number(purseArr[i].pos);
-        console.log(mcPos);
+        console.log("mcPos: ", mcPos);
         break;
       }
     }
@@ -514,7 +538,7 @@ $(document).ready(function () {
         poolsterSum += playerSum;
         livePlayers[i].Players[j].playerEarnings = playerSum;
       }
-      livePlayers[i]["poolsterEarnings"] = poolsterSum;
+      livePlayers[i]["poolsterEarnings"] = Math.round(poolsterSum);
     }
 
     // add liveNewEarnings to livePlayers array
@@ -825,7 +849,7 @@ $(document).ready(function () {
 
   async function displayData(sorted, sortedPartResult, playerRankings) {
     //for hard-coding round and other variables
-    // let round = 2;
+    // round = 2;
     // to display sorted results
     // to add prior ranking data to main arr
     if (apiCall == "Season") {
@@ -971,14 +995,17 @@ $(document).ready(function () {
             (apiCall === "Live" &&
             round == 1 &&
             /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
-              ? ", " + sorted[i].Players[j].Tournaments[0].thru
+              ? " To Par " +
+                sorted[i].Players[j].Tournaments[0].toPar +
+                " | " +
+                sorted[i].Players[j].Tournaments[0].thru
               : "") +
             (apiCall === "Live" &&
             !(
               round == 1 &&
               /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
             )
-              ? "," +
+              ? "" +
                 "<span class='posHighlite'>" +
                 " Pos " +
                 sorted[i].Players[j].Tournaments[0].position +
@@ -1025,14 +1052,21 @@ $(document).ready(function () {
             (liveTC
               ? "</p>" +
                 "<p class='fecVersion'>" +
-                "FedEx Cup: Pos " +
-                sorted[i].Players[j].Tournaments[0].fecPos +
-                " | To Par " +
-                sorted[i].Players[j].Tournaments[0].net +
-                " (handicap: " +
-                sorted[i].Players[j].Tournaments[0].handicap +
-                ")" +
-                "</p>"
+                (round == 1 &&
+                /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
+                  ? "FedEx Cup: To Par " +
+                    sorted[i].Players[j].Tournaments[0].net +
+                    " (handicap: " +
+                    sorted[i].Players[j].Tournaments[0].handicap +
+                    ")"
+                  : "FedEx Cup: Pos " +
+                    sorted[i].Players[j].Tournaments[0].fecPos +
+                    " | To Par " +
+                    sorted[i].Players[j].Tournaments[0].net +
+                    " (handicap: " +
+                    sorted[i].Players[j].Tournaments[0].handicap +
+                    ")" +
+                    "</p>")
               : "") +
             " " +
             (apiCall === "Season"

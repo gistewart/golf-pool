@@ -60,12 +60,12 @@ module.exports = function () {
                   result.pos = result.toPar;
                 }
                 // toParAdj for TC only
-                result.toParAdj = $(this)
-                  .children("td:nth-child(" + (4 + statusAdj) + ")")
-                  .text()
-                  .replace("E", 0)
-                  .replace("+", "")
-                  .replace("CUT", 0);
+                // result.toParAdj = $(this)
+                // .children("td:nth-child(" + (4 + statusAdj) + ")")
+                // .text()
+                // .replace("E", 0)
+                // .replace("+", "")
+                // .replace("CUT", 0);
                 result.today = $(this)
                   .children("td:nth-child(" + (5 + statusAdj) + ")")
                   .text();
@@ -77,6 +77,7 @@ module.exports = function () {
               });
             });
         }
+        console.log(resultsArray);
         console.log(
           `-----------finished runLivePositions for tournament -----------`
         );
