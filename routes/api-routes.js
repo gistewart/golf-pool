@@ -405,16 +405,16 @@ module.exports = function (app) {
   app.get("/api/webSchedule", async function (req, res) {
     // NEW TEMPORARY CODE (SWAP)
     // Testing Start
-    await db.ScheduleStage.findAll({})
-      // Testing End
-      // Production Start
-      // await db.ScheduleStage.sync({ force: true })
-      //   .then(async function () {
-      //     const temp = await seedScheduleStage();
-      //   })
-      //   .then(function () {
-      //     return db.ScheduleStage.findAll({});
-      //   })
+    await db.ScheduleStage.findAll({});
+    // Testing End
+    // Production Start
+    await db.ScheduleStage.sync({ force: true })
+      .then(async function () {
+        const temp = await seedScheduleStage();
+      })
+      .then(function () {
+        return db.ScheduleStage.findAll({});
+      })
       //Production End
       .then((result) => {
         res.json(result);
@@ -544,7 +544,7 @@ module.exports = function (app) {
       // get MCLine of tournament identified above
       .then(function (name) {
         return db.liveTourneyType.findAll({
-          attributes: ["tMCLine"],
+          attributes: ["tMCLine", "tTenShotRule"],
           where: {
             tName: {
               [Op.eq]: name[0].name,

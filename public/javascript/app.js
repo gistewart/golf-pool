@@ -123,7 +123,7 @@ $(document).ready(function () {
     console.log("diffResultsArr: ", diffResultsArr);
     if (diffResultsArr.length) {
       // Production start
-      // getMissingResults(diffResultsArr);
+      getMissingResults(diffResultsArr);
       // Production end
     } else {
       console.log("skipping getMissingResults function");
@@ -205,6 +205,12 @@ $(document).ready(function () {
     }
     console.log(livePositions);
 
+    if (liveExit) {
+      $("#liveData").hide();
+      seasonData();
+      return;
+    }
+
     let ams = [
       "Davis Thompson",
       "Chun An Yu",
@@ -229,12 +235,6 @@ $(document).ready(function () {
           break;
         }
       }
-    }
-
-    if (liveExit) {
-      $("#liveData").hide();
-      seasonData();
-      return;
     }
 
     // START OF IF STATEMENT FOR LIVE TC
@@ -330,6 +330,7 @@ $(document).ready(function () {
     });
     await $.get("api/liveMCLine", function (result) {
       mcTop = Number(result[0].tMCLine);
+      tenShotRule = Number(result[0].tTenShotRule);
     });
 
     let roundStatus = liveSchedule[0].status;
@@ -337,7 +338,24 @@ $(document).ready(function () {
     console.log("round: ", round);
 
     let livePositionsLen = livePositions.length;
-    console.log("field size: ", livePositionsLen, "cut line (top): ", mcTop);
+    console.log(
+      "field size: ",
+      livePositionsLen,
+      "cut line (top): ",
+      mcTop,
+      "10-shot rule: ",
+      tenShotRule
+    );
+
+    if (tenShotRule) {
+      console.log("10 shotter in play");
+      let leaderScore = livePositions[0].toPar.replace("E", 0).replace("+", "");
+      console.log(leaderScore);
+      // loop through livePositions
+      // when toParAdj > leaderScore plus 10, grab posAdj of i-1
+      // mcTop = Math.max(mcTop, the above position)
+    }
+
     if (livePositionsLen <= mcTop) {
       noCut = true;
       console.log("noCut value", noCut);

@@ -5,6 +5,7 @@ module.exports = function (sequelize, DataTypes) {
       tType: DataTypes.STRING,
       tName: DataTypes.STRING,
       tMCLine: DataTypes.STRING,
+      tTenShotRule: DataTypes.BOOLEAN,
     },
     {
       timestamps: false,
