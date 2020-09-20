@@ -10,7 +10,7 @@ module.exports = function () {
   return (
     db.liveEventSchedule
       .findAll({
-        attributes: ["tournamentId", "status"],
+        attributes: ["tournamentId", "status", "name"],
         raw: true,
       })
       // .then((tournamentIds) =>
@@ -21,6 +21,8 @@ module.exports = function () {
         console.log("new check: ", tournamentIds);
         for (let i = 0; i < tournamentIds.length; i++) {
           const id = tournamentIds[i].tournamentId;
+          const name = tournamentIds[i].name;
+          console.log(name);
           let statusAdj = 0;
           if (/^Round 1/.test(tournamentIds[i].status)) {
             statusAdj = -1;
@@ -59,13 +61,16 @@ module.exports = function () {
                 if (result.pos == "-") {
                   result.pos = result.toPar;
                 }
-                // toParAdj for TC only
-                // result.toParAdj = $(this)
-                // .children("td:nth-child(" + (4 + statusAdj) + ")")
-                // .text()
-                // .replace("E", 0)
-                // .replace("+", "")
-                // .replace("CUT", 0);
+                // toParAdj for TC only (not sure about last replace method below, intended for any WD or DQ?)
+                if (name == "Tour Championship") {
+                  result.toParAdj = $(this)
+                    .children("td:nth-child(" + (4 + statusAdj) + ")")
+                    .text()
+                    .replace("E", 0)
+                    .replace("+", "")
+                    .replace(/\w+/g, 99);
+                }
+
                 result.today = $(this)
                   .children("td:nth-child(" + (5 + statusAdj) + ")")
                   .text();
@@ -77,7 +82,7 @@ module.exports = function () {
               });
             });
         }
-        console.log(resultsArray);
+        // console.log(resultsArray);
         console.log(
           `-----------finished runLivePositions for tournament -----------`
         );

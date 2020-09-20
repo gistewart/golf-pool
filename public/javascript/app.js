@@ -5,7 +5,8 @@ $(document).ready(function () {
     resultsRefresh = false,
     liveExit = false,
     liveTC = false,
-    lastEventCount = 0;
+    lastEventCount = 0,
+    liveStatus = [];
 
   $("#liveScoring").hide();
   $("#lastEventTitle").hide();
@@ -178,7 +179,6 @@ $(document).ready(function () {
 
     console.log("liveEvent function");
 
-    let liveStatus = [];
     let livePositions = [];
 
     //new code for liveFreeze/liveExit functionality
@@ -995,7 +995,7 @@ $(document).ready(function () {
             (apiCall === "Live" &&
             round == 1 &&
             /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
-              ? " To Par " +
+              ? " | To Par " +
                 sorted[i].Players[j].Tournaments[0].toPar +
                 " | " +
                 sorted[i].Players[j].Tournaments[0].thru
@@ -1005,9 +1005,9 @@ $(document).ready(function () {
               round == 1 &&
               /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
             )
-              ? "" +
+              ? " | " +
                 "<span class='posHighlite'>" +
-                " Pos " +
+                "Pos " +
                 sorted[i].Players[j].Tournaments[0].position +
                 "</span>" +
                 (/am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
@@ -1039,14 +1039,14 @@ $(document).ready(function () {
                   : "") +
                 (noCut === false &&
                 round == 2 &&
-                sorted[i].Players[j].Tournaments[0].posAdj > mcPos
-                  ? " " +
-                    "<i class='fas fa-exclamation-circle fa-s' style='color:red'></i>"
-                  : noCut === false &&
-                    round == 2 &&
-                    sorted[i].Players[j].Tournaments[0].posAdj == mcPos
-                  ? " " +
-                    "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"
+                !/Play Complete/i.test(liveStatus[0].status)
+                  ? sorted[i].Players[j].Tournaments[0].posAdj > mcPos
+                    ? " " +
+                      "<i class='fas fa-exclamation-circle fa-s' style='color:red'></i>"
+                    : sorted[i].Players[j].Tournaments[0].posAdj == mcPos
+                    ? " " +
+                      "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"
+                    : ""
                   : "")
               : "") +
             (liveTC
