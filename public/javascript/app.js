@@ -26,10 +26,10 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(function () {
-      seasonData();
-      // liveEvent();
+      // seasonData();
+      liveEvent();
     }, 1000);
   }
 
@@ -211,6 +211,7 @@ $(document).ready(function () {
       return;
     }
 
+    //list of amateurs playing in tournament; required if '(a)' not appended to name on ESPN leaderboard
     let ams = [
       "Davis Thompson",
       "Chun An Yu",
@@ -395,6 +396,33 @@ $(document).ready(function () {
     let purseSum = 0;
     let purseSumComp = "";
 
+    // calculate rounds 1 & 2 in progress cut-line from purseArr
+    for (let i = 0; i < purseArr.length - 1; i++) {
+      if (round < 3 && Number(purseArr[i + 1].pos) > mcTop) {
+        mcPos = Number(purseArr[i].pos);
+        console.log("mcPos: ", mcPos);
+        break;
+      }
+    }
+
+    //for US Open only
+    let usOpenPurseAdjFactor = 1.0;
+    if (liveSchedule[0].name == "The U.S. Open") {
+      let playersMakingCut = 99;
+      for (let i = 0; i < livePositions.length - 1; i++) {
+        if (
+          (round < 3 && Number(livePositions[i + 1].posAdj) > mcTop) ||
+          (round > 2 && Number(livePositions[i + 1].posAdj) === 0)
+        ) {
+          playersMakingCut = Number(livePositions[i].id);
+          console.log("playersMakingCut: ", playersMakingCut);
+          break;
+        }
+      }
+      usOpenPurseAdjFactor = 1 + ((80 - playersMakingCut) / 20) * 0.037;
+      console.log("usOpenPurseAdjFactor: ", usOpenPurseAdjFactor);
+    }
+
     //calculates purse values for each position in purseArr
     let amTotal = 0;
     for (let i = 0; i < purseArr.length; i++) {
@@ -403,7 +431,10 @@ $(document).ready(function () {
           purseArr[i].data[0].avgPercent =
             typeof livePurseSplit[purseArr[i].pos - 1 - amTotal] === "undefined"
               ? 0
-              : Number(livePurseSplit[purseArr[i].pos - 1 - amTotal].percent);
+              : purseArr[i].pos < 3
+              ? Number(livePurseSplit[purseArr[i].pos - 1 - amTotal].percent)
+              : Number(livePurseSplit[purseArr[i].pos - 1 - amTotal].percent) *
+                usOpenPurseAdjFactor;
           purseArr[i].data[0].dollars =
             (purseArr[i].data[0].avgPercent * liveSchedule[0].purse) / 100;
           if (purseArr[i].data[0].amCount === 1) {
@@ -420,10 +451,15 @@ $(document).ready(function () {
                 Number(purseArr[i].pos) + j - 1 - amTotal
               ] === "undefined"
                 ? 0.183
+                : +purseArr[i].pos + j < 3
+                ? Number(
+                    livePurseSplit[Number(purseArr[i].pos) + j - 1 - amTotal]
+                      .percent
+                  )
                 : Number(
                     livePurseSplit[Number(purseArr[i].pos) + j - 1 - amTotal]
                       .percent
-                  );
+                  ) * usOpenPurseAdjFactor;
             purseSumComp +=
               typeof livePurseSplit[
                 Number(purseArr[i].pos) + j - 1 - amTotal
@@ -455,15 +491,7 @@ $(document).ready(function () {
     console.log("amTotal: ", amTotal);
     console.log(purseArr);
 
-    // calculate rounds 1 & 2 in progress cut-line from purseArr
-    for (let i = 0; i < purseArr.length - 1; i++) {
-      if (round < 3 && Number(purseArr[i + 1].pos) > mcTop) {
-        mcPos = Number(purseArr[i].pos);
-        console.log("mcPos: ", mcPos);
-        break;
-      }
-    }
-
+    // 3.7% adjustment goes here???
     // add purse info to livePositions array
     let totalDollars = 0;
     for (let i in livePositions) {
