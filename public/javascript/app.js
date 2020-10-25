@@ -347,16 +347,38 @@ $(document).ready(function () {
       "10-shot rule: ",
       tenShotRule
     );
-
+    // for Masters 10-short rule
     if (tenShotRule) {
-      console.log("10 shotter in play");
+      let within10shotsPos = 999;
+      console.log("10 shotter rule applies this week");
       let leaderScore = livePositions[0].toPar.replace("E", 0).replace("+", "");
-      console.log(leaderScore);
-      // loop through livePositions
-      // when toParAdj > leaderScore plus 10, grab posAdj of i-1
-      // mcTop = Math.max(mcTop, the above position)
+      let leaderScorePlus10 = +leaderScore + 10;
+      console.log(
+        "leaderScore: ",
+        leaderScore,
+        "leaderScorePlus10: ",
+        leaderScorePlus10
+      );
+      for (let i in livePositions) {
+        if (
+          livePositions[i].toPar.replace("E", 0).replace("+", "") >
+          leaderScorePlus10
+        ) {
+          within10shotsPos = livePositions[i - 1].posAdj;
+          console.log("within 10 shots POSITION: ", within10shotsPos);
+          break;
+        }
+      }
+      if (within10shotsPos > mcTop) {
+        console.log("10-shot rule in play");
+        mcTop = Math.max(mcTop, within10shotsPos);
+      } else {
+        console.log("10-shot rule not in play");
+      }
+      console.log("mcTop post 10-shot code: ", mcTop);
     }
 
+    // to determine if tournament has a cut or not
     if (livePositionsLen <= mcTop) {
       noCut = true;
       console.log("noCut value", noCut);
@@ -406,6 +428,8 @@ $(document).ready(function () {
     }
 
     //for US Open only
+    // purse split values in table based on 80 players making cut
+    // if only 60 players make cut, earnings for positions 3 and lower are 3.7% higher; code provides prorated adjustment for 60 to 79 players making cut
     let usOpenPurseAdjFactor = 1.0;
     if (liveSchedule[0].name == "The U.S. Open") {
       let playersMakingCut = 99;
@@ -491,7 +515,6 @@ $(document).ready(function () {
     console.log("amTotal: ", amTotal);
     console.log(purseArr);
 
-    // 3.7% adjustment goes here???
     // add purse info to livePositions array
     let totalDollars = 0;
     for (let i in livePositions) {
