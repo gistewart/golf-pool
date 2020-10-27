@@ -759,8 +759,103 @@ module.exports = function (app) {
   });
 
   // for Field details
-  app.get("/api/onTheTee", async function (req, res) {
+  app.get("/api/field", async function (req, res) {
     const temp = await runField().then((result) => res.json(result));
+  });
+
+  // for Field data test
+  app.get("/api/fieldData", async function (req, res) {
+    await db.Poolster.findAll({
+      attributes: ["poolsterId", "name", "handle"],
+      include: [
+        {
+          model: db.PoolsterPlayers,
+          as: "PoolsterPlayers",
+          attributes: [
+            "startDate",
+            "endDate",
+            "reStartDate",
+            "reEndDate",
+            "effDate",
+            "type",
+          ],
+          include: [
+            {
+              model: db.Player,
+              as: "Player",
+              attributes: ["playerName", "tier"],
+              include: [
+                {
+                  model: db.liveField,
+                  attributes: ["teeTime"],
+                },
+                { model: db.PlayerImage, attributes: ["playerImage"] },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+      // .then(function (data) {
+      //   let a, b, c;
+      //   let result = [];
+      //   for (let i = 0; i < data.length; i++) {
+      //     result.push({
+      //       name: data[i].name,
+      //       handle: data[i].handle,
+      //       image: data[i].image,
+      //       Players: [],
+      //     });
+      //     a = data[i].PoolsterPlayers;
+      //     for (let j = 0; j < a.length; j++) {
+      //       result[i].Players.push({
+      //         name: a[j].Player.playerName,
+      //         startDate: a[j].startDate,
+      //         endDate: a[j].endDate,
+      //         reStartDate: a[j].reStartDate,
+      //         reEndDate: a[j].reEndDate,
+      //         effDate: a[j].effDate,
+      //         type: a[j].type,
+      //         tier: a[j].Player.tier,
+      //         Tournaments: [],
+      //       });
+      //       b = a[j].Player.Results;
+      //       //kAdj for shortName purposes
+      //       let kAdj = 0;
+      //       for (let k = 0; k < b.length; k++) {
+      //         c = b[k].Schedule;
+      //         if (
+      //           !(
+      //             (a[j].startDate < c.tStartDate &&
+      //               a[j].endDate > c.tStartDate) ||
+      //             (a[j].reStartDate < c.tStartDate &&
+      //               a[j].reEndDate > c.tStartDate)
+      //           )
+      //         )
+      //           kAdj++;
+      //         else {
+      //           result[i].Players[j].Tournaments.push({
+      //             name: c.name,
+      //             shortName: c.name,
+      //             date: c.tDate,
+      //             start: c.tStartDate,
+      //             position: b[k].pos,
+      //             toPar: b[k].toPar,
+      //             earnings: b[k].earnings,
+      //           });
+      //           if (c.ScheduleShortName) {
+      //             result[i].Players[j].Tournaments[k - kAdj].shortName =
+      //               c.ScheduleShortName.shortName;
+      //           }
+      //         }
+      //       }
+      //     }
+      //   }
+      //   return result;
+      // })
+      .then((result) => {
+        res.json(result);
+      });
   });
 
   app.get("/api/poolsters", function (req, res) {
