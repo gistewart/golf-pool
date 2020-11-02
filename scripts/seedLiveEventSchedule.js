@@ -81,11 +81,13 @@ module.exports = async function () {
     console.log("line 75", scheduleStage);
 
     const today = new Date();
+    let a = moment(today, "M/D/YYYY");
     // const uset = moment.tz(today, "America/New_York");
     // day = uset.day();
     let startDate = scheduleStage[i].tStartDate;
-    let round = today.getDate() - startDate.getDate() + 1;
-    console.log("today: ", today, "startDate: ", startDate, "round: ", round);
+    let b = moment(startDate, "M/D/YYYY");
+    let round = a.diff(b, "days") + 1;
+    console.log("today: ", a, "startDate: ", b, "round: ", round);
 
     // examples only of status: /Tournament Field|Final|Round 1 - Suspended | Round 1 - Play Complete|^Round [2-4]/
 

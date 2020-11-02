@@ -6,10 +6,13 @@ const seedLiveEventSchedule = require("../scripts/seedLiveEventSchedule");
 const runLivePositions = require("../scripts/runLivePositions");
 const runResults = require("../scripts/runResults");
 const runTCHandicap = require("../scripts/runTCHandicap");
+const seedResultsAll = require("../scripts/seedResultsAll");
+const seedScheduleOther = require("../scripts/seedScheduleOther");
 const e = require("express");
 require("dotenv").config();
 const { QueryTypes } = require("sequelize");
 const runField = require("../scripts/runField");
+var moment = require("moment");
 
 module.exports = function (app) {
   app.get("/api/poolsters", function (req, res) {
@@ -450,7 +453,7 @@ module.exports = function (app) {
       });
   });
 
-  // new api call - needed for testing only
+  // GET route used for testing only
   app.get("/api/missingResults", async function (req, res) {
     const temp = await runResults().then(function (data) {
       res.json(data);
@@ -460,10 +463,10 @@ module.exports = function (app) {
   // api to determine if Live Scoring tab should be shown (gets ESPN tournament id, date, name, purse, status)
   app.get("/api/liveTourneyStatus", async function (req, res) {
     // Production Start
-    // await db.liveEventSchedule.sync({ force: true }).then(async function () {
-    //   const temp = await seedLiveEventSchedule();
-    //   return;
-    // });
+    await db.liveEventSchedule.sync({ force: true }).then(async function () {
+      const temp = await seedLiveEventSchedule();
+      return;
+    });
     // Production End
     await db.liveEventSchedule.findAll({}).then((result) => {
       res.json(result);
@@ -473,16 +476,16 @@ module.exports = function (app) {
   // gets livePositions by first seeding liveEventSchedule, then running runLivePositions
   app.get("/api/livePositions", async function (req, res) {
     // Testing Start
-    await db.livePosition
-      .findAll({})
-      // Test End
-      // Production Start
-      // await db.livePosition.sync({ force: true });
-      // const temp = await runLivePositions()
-      //   // })
-      //   .then(async function () {
-      //     return db.livePosition.findAll({});
-      //   })
+    // await db.livePosition
+    //   .findAll({})
+    // Test End
+    // Production Start
+    await db.livePosition.sync({ force: true });
+    const temp = await runLivePositions()
+      // })
+      .then(async function () {
+        return db.livePosition.findAll({});
+      })
       // Production End
       .then((result) => {
         res.json(result);
@@ -744,13 +747,6 @@ module.exports = function (app) {
     });
   });
 
-  // to grab handicaps for each player for app.js
-  app.get("/api/liveTCHandicap", function (req, res) {
-    db.liveTCHandicap.findAll({}).then((data) => {
-      res.json(data);
-    });
-  });
-
   // for final TC results
   app.get("/api/tcTable", function (req, res) {
     db.ResultTC.findAll({}).then((data) => {
@@ -758,12 +754,35 @@ module.exports = function (app) {
     });
   });
 
-  // for Field details
+  // to grab handicaps for each player for app.js
+  app.get("/api/liveTCHandicap", function (req, res) {
+    db.liveTCHandicap.findAll({}).then((data) => {
+      res.json(data);
+    });
+  });
+
+  // to seed silly season events in late Dec / early Jan; run via localhost
+  app.get("/api/seedScheduleOther", async function (req, res) {
+    await db.ScheduleOther.sync({ force: true });
+    await seedScheduleOther().then(function (data) {
+      res.json(data);
+    });
+  });
+
+  // seeds all results using ScheduleOther; run via localhost
+  app.get("/api/seedResultsAll", async function (req, res) {
+    // await db.ResultAll.sync({ force: true });
+    await seedResultsAll().then(function (data) {
+      res.json(data);
+    });
+  });
+
+  // populates onTheRange tbl
   app.get("/api/field", async function (req, res) {
     const temp = await runField().then((result) => res.json(result));
   });
 
-  // for Field data test
+  // for full Field data
   app.get("/api/fieldData", async function (req, res) {
     await db.Poolster.findAll({
       attributes: ["poolsterId", "name", "handle"],
@@ -790,69 +809,65 @@ module.exports = function (app) {
                   attributes: ["teeTime"],
                 },
                 { model: db.PlayerImage, attributes: ["playerImage"] },
+                {
+                  model: db.ResultAll,
+                  attributes: ["name", "startDate", "pos"],
+                },
               ],
             },
           ],
         },
       ],
     })
-      // .then(function (data) {
-      //   let a, b, c;
-      //   let result = [];
-      //   for (let i = 0; i < data.length; i++) {
-      //     result.push({
-      //       name: data[i].name,
-      //       handle: data[i].handle,
-      //       image: data[i].image,
-      //       Players: [],
-      //     });
-      //     a = data[i].PoolsterPlayers;
-      //     for (let j = 0; j < a.length; j++) {
-      //       result[i].Players.push({
-      //         name: a[j].Player.playerName,
-      //         startDate: a[j].startDate,
-      //         endDate: a[j].endDate,
-      //         reStartDate: a[j].reStartDate,
-      //         reEndDate: a[j].reEndDate,
-      //         effDate: a[j].effDate,
-      //         type: a[j].type,
-      //         tier: a[j].Player.tier,
-      //         Tournaments: [],
-      //       });
-      //       b = a[j].Player.Results;
-      //       //kAdj for shortName purposes
-      //       let kAdj = 0;
-      //       for (let k = 0; k < b.length; k++) {
-      //         c = b[k].Schedule;
-      //         if (
-      //           !(
-      //             (a[j].startDate < c.tStartDate &&
-      //               a[j].endDate > c.tStartDate) ||
-      //             (a[j].reStartDate < c.tStartDate &&
-      //               a[j].reEndDate > c.tStartDate)
-      //           )
-      //         )
-      //           kAdj++;
-      //         else {
-      //           result[i].Players[j].Tournaments.push({
-      //             name: c.name,
-      //             shortName: c.name,
-      //             date: c.tDate,
-      //             start: c.tStartDate,
-      //             position: b[k].pos,
-      //             toPar: b[k].toPar,
-      //             earnings: b[k].earnings,
-      //           });
-      //           if (c.ScheduleShortName) {
-      //             result[i].Players[j].Tournaments[k - kAdj].shortName =
-      //               c.ScheduleShortName.shortName;
-      //           }
-      //         }
-      //       }
-      //     }
-      //   }
-      //   return result;
-      // })
+      .then(function (data) {
+        let a, b, c;
+        let result = [];
+        for (let i = 0; i < data.length; i++) {
+          result.push({
+            name: data[i].name,
+            handle: data[i].handle,
+            Players: [],
+          });
+          a = data[i].PoolsterPlayers;
+          let jAdj = 0;
+          for (let j = 0; j < a.length; j++) {
+            let today = new Date();
+            if (
+              (moment(a[j].startDate).isBefore(today) &&
+                moment(a[j].endDate).isAfter(today)) ||
+              (moment(a[j].reStartDate).isBefore(today) &&
+                moment(a[j].reEndDate).isAfter(today))
+            ) {
+              result[i].Players.push({
+                name: a[j].Player.playerName,
+                startDate: a[j].startDate,
+                endDate: a[j].endDate,
+                reStartDate: a[j].reStartDate,
+                reEndDate: a[j].reEndDate,
+                tier: a[j].Player.tier,
+                image: a[j].Player.PlayerImage.playerImage,
+                Results: [],
+              });
+
+              result[i].Players[j - jAdj].teeTime = a[j].Player.liveField
+                ? a[j].Player.liveField.teeTime
+                : 0;
+
+              b = a[j].Player.ResultAlls;
+              for (let k = 0; k < b.length; k++) {
+                result[i].Players[j - jAdj].Results.push({
+                  name: b[k].name,
+                  startDate: b[k].startDate,
+                  pos: b[k].pos,
+                });
+              }
+            } else {
+              jAdj++;
+            }
+          }
+        }
+        return result;
+      })
       .then((result) => {
         res.json(result);
       });

@@ -11,7 +11,6 @@ $(document).ready(function () {
   $("#liveScoring").hide();
   $("#lastEventTitle").hide();
   $("#tcCalcTableLink").hide();
-  $("#liveData").hide();
   $(".refreshContainer").hide();
   $("#subIconLang").hide();
   $("#footnotes").hide();
@@ -26,10 +25,10 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(function () {
-      // seasonData();
-      liveEvent();
+      seasonData();
+      // liveEvent();
     }, 1000);
   }
 
@@ -39,10 +38,10 @@ $(document).ready(function () {
       console.log(result);
       console.log(result.length);
       if (result.length === 1) {
-        $("#liveData").show();
+        $("#liveScoring").show();
         $(".text-danger").addClass("Blink");
       } else {
-        $("#liveData").hide();
+        $("#liveScoring").hide();
       }
     });
   }
@@ -146,7 +145,7 @@ $(document).ready(function () {
     return;
   }
 
-  $(document).on("click", "#liveData", liveEvent);
+  $(document).on("click", "#liveScoring", liveEvent);
   $(document).on("click", "#refreshButton", refreshLiveButton);
 
   let refreshRunning = false;
@@ -160,9 +159,48 @@ $(document).ready(function () {
 
   let apiCall = "";
 
+  async function onTheRange() {
+    await $.get("api/fieldData", function (result) {
+      fieldData = result;
+      console.log(fieldData);
+    });
+    await $.get("api/liveAllEvents", function (result) {
+      leaderboard = result;
+      console.log(leaderboard);
+    });
+    // add leaderboard data to fieldData data
+    for (let i = 0; i < fieldData.length; i++) {
+      for (let j = 0; j < leaderboard.length; j++) {
+        if (fieldData[i].name === leaderboard[j].name) {
+          fieldData[i].poolsterEarnings = leaderboard[j].poolsterEarnings;
+          break;
+        }
+      }
+    }
+    fieldData = fieldData.sort(
+      (a, b) => b.poolsterEarnings - a.poolsterEarnings
+    );
+    for (let i = 0; i < fieldData.length; i++) {
+      fieldData[i].Players.sort((a, b) => a.tier - b.tier);
+      for (let j = 0; j < fieldData[i].Players.length; j++) {
+        fieldData[i].Players[j].Results.sort(function (a, b) {
+          if (a.startDate > b.startDate) return -1;
+          else return 1;
+        });
+        fieldData[i].Players[j].Results = fieldData[i].Players[j].Results.slice(
+          0,
+          5
+        );
+      }
+    }
+    console.log(fieldData);
+  }
+
+  onTheRange();
+
   async function liveEvent() {
     if (refreshRunning === false) {
-      $("#liveData .spinner").addClass("lds-hourglass");
+      $("#liveScoring .spinner").addClass("lds-hourglass");
     }
     $(".main-container").show();
     $(".tapToReveal").hide();
@@ -171,7 +209,7 @@ $(document).ready(function () {
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Current tournament details:");
     apiCall = "Live";
-    $("#liveData").addClass("is-active");
+    $("#liveScoring").addClass("is-active");
     $(".text-danger").removeClass("Blink");
     $("#eventData").removeClass("is-active");
     $("#seasonData").removeClass("is-active");
@@ -206,27 +244,13 @@ $(document).ready(function () {
     console.log(livePositions);
 
     if (liveExit) {
-      $("#liveData").hide();
+      $("#liveScoring").hide();
       seasonData();
       return;
     }
 
     //list of amateurs playing in tournament; required if '(a)' not appended to name on ESPN leaderboard
-    let ams = [
-      "Davis Thompson",
-      "Chun An Yu",
-      "John Pak",
-      "Preston Summerhays",
-      "Takumi Kanaya",
-      "Ricky Castillo",
-      "Andy Ogletree",
-      "John Augenstein",
-      "Sandy Scott",
-      "Cole Hammer",
-      "James Sugrue",
-      "Lukas Michel",
-      "Eduard Rousaud",
-    ];
+    let ams = ["Davis Thompson", "Chun An Yu"];
 
     for (let i = 0; i < ams.length; i++) {
       for (let j = 0; j < livePositions.length; j++) {
@@ -713,7 +737,7 @@ $(document).ready(function () {
     apiCall = "Season";
     liveTC = false;
     $("#eventData").removeClass("is-active");
-    $("#liveData").removeClass("is-active");
+    $("#liveScoring").removeClass("is-active");
     $("#commentsPage").removeClass("is-active");
     $("#seasonData").addClass("is-active");
     $.get("/api/allEvents", function (data) {
@@ -779,7 +803,7 @@ $(document).ready(function () {
       sumData(data);
       $("#eventData").addClass("is-active");
       $("#seasonData").removeClass("is-active");
-      $("#liveData").removeClass("is-active");
+      $("#liveScoring").removeClass("is-active");
       $("#commentsPage").removeClass("is-active");
     });
   }
@@ -1275,7 +1299,7 @@ $(document).ready(function () {
         $("#eventData .spinner").removeClass("lds-hourglass");
       }
       if (apiCall === "Live") {
-        $("#liveData .spinner").removeClass("lds-hourglass");
+        $("#liveScoring .spinner").removeClass("lds-hourglass");
       }
     }
 
@@ -1363,7 +1387,7 @@ $(document).ready(function () {
     $("#footnotes").hide();
     $("#seasonData").removeClass("is-active");
     $("#eventData").removeClass("is-active");
-    $("#liveData").removeClass("is-active");
+    $("#liveScoring").removeClass("is-active");
     $("#commentsPage").addClass("is-active");
 
     $(".comments-container").show();
