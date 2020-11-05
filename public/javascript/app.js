@@ -25,7 +25,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    await displayLiveTab();
+    // await displayLiveTab();
     setTimeout(function () {
       seasonData();
       // liveEvent();
@@ -160,6 +160,10 @@ $(document).ready(function () {
   let apiCall = "";
 
   async function onTheRange() {
+    await $.get("api/liveField", function (result) {
+      field = result;
+      console.log(field);
+    });
     await $.get("api/fieldData", function (result) {
       fieldData = result;
       console.log(fieldData);
@@ -193,7 +197,44 @@ $(document).ready(function () {
         );
       }
     }
+    await addRanking(fieldData);
     console.log(fieldData);
+
+    // to display data
+    $(".onTheRange-container > tbody").html("");
+    for (let i = 0; i < fieldData.length; i++) {
+      var tr = $(
+        "<tr><td class='ranking'>" +
+          fieldData[i].rankingDisplay +
+          "</td><td class = 'poolsterHandle'>" +
+          fieldData[i].handle +
+          "<p class='poolsterName'>" +
+          fieldData[i].name +
+          "</td>"
+      );
+
+      for (let j = 0; j < fieldData[i].Players.length; j++) {
+        let player = fieldData[i].Players[j];
+        console.log(player.teeTime);
+        if (player.teeTime != 0) {
+          console.log("entering playing");
+          var tr2 = $(
+            "<td class='imageDiv'><img class='playerImage playing' src=" +
+              player.image +
+              "></td></tr>"
+          );
+        } else {
+          var tr2 = $(
+            "<td class='imageDiv'><img class='playerImage notPlaying' src=" +
+              player.image +
+              "></td></tr>"
+          );
+        }
+
+        $(tr).append(tr2);
+      }
+      $(".onTheRange-container > tbody").append(tr);
+    }
   }
 
   onTheRange();
@@ -283,37 +324,8 @@ $(document).ready(function () {
       // sort TC live based on gross scores
       hCapTbl = hCapTbl.sort((a, b) => a.gross - b.gross);
       // now rank TC live
-      hCapTbl[0].ranking = 1;
-      let ties = 0;
-      for (let i = 1; i < hCapTbl.length; i++) {
-        if (hCapTbl[i].gross !== hCapTbl[i - 1].gross) {
-          hCapTbl[i].ranking = i + 1;
-          ties = 0;
-        } else {
-          ties++;
-          hCapTbl[i].ranking = i + 1 - ties;
-        }
-      }
-      // adds "T" for ties to TC live
-      for (let i = 0; i < hCapTbl.length; i++) {
-        if (i === 0 && hCapTbl[0].ranking === hCapTbl[1].ranking) {
-          hCapTbl[0].rankingDisplay = "T" + hCapTbl[i].ranking;
-        } else if (
-          i > 0 &&
-          i < hCapTbl.length - 1 &&
-          (hCapTbl[i].ranking === hCapTbl[i - 1].ranking ||
-            hCapTbl[i].ranking === hCapTbl[i + 1].ranking)
-        ) {
-          hCapTbl[i].rankingDisplay = "T" + hCapTbl[i].ranking;
-        } else if (
-          i === hCapTbl.length - 1 &&
-          hCapTbl[i].ranking === hCapTbl[i - 1].ranking
-        ) {
-          hCapTbl[i].rankingDisplay = "T" + hCapTbl[i].ranking;
-        } else {
-          hCapTbl[i].rankingDisplay = hCapTbl[i].ranking;
-        }
-      }
+      addRanking(hCapTbl);
+
       // edits livePositions with live TC position data
       for (let i = 0; i < livePositions.length; i++) {
         for (let j = 0; j < hCapTbl.length; j++) {
@@ -875,14 +887,8 @@ $(document).ready(function () {
     sortData(result, sortedPartResult, playerRankings);
   }
 
-  function sortData(result, sortedPartResult, playerRankings) {
-    // to sort all the data passed to function
-    const sorted = result.sort(
-      (a, b) =>
-        b.poolsterEarnings - a.poolsterEarnings ||
-        b.Players.length - a.Players.length
-    );
-
+  function addRanking(sorted) {
+    // add ranking
     sorted[0].ranking = 1;
     let ties = 0;
     for (let i = 1; i < sorted.length; i++) {
@@ -894,7 +900,7 @@ $(document).ready(function () {
         sorted[i].ranking = i + 1 - ties;
       }
     }
-    // adds "T" for ties
+    // now add "T" for ties to ranking
     for (let i = 0; i < sorted.length; i++) {
       if (i === 0 && sorted[0].ranking === sorted[1].ranking) {
         sorted[0].rankingDisplay = "T" + sorted[i].ranking;
@@ -914,6 +920,17 @@ $(document).ready(function () {
         sorted[i].rankingDisplay = sorted[i].ranking;
       }
     }
+  }
+
+  function sortData(result, sortedPartResult, playerRankings) {
+    // to sort all the data passed to function
+    const sorted = result.sort(
+      (a, b) =>
+        b.poolsterEarnings - a.poolsterEarnings ||
+        b.Players.length - a.Players.length
+    );
+
+    addRanking(sorted);
 
     //sorting by Players on each team by Tier then their Start Date
     for (let i = 0; i < sorted.length; i++) {

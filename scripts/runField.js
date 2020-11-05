@@ -7,7 +7,7 @@ const { Op } = require("sequelize");
 module.exports = function () {
   let resultsArray = [];
 
-  return db.liveEventSchedule
+  return db.liveFieldSchedule
     .findAll({
       attributes: ["tournamentId", "name"],
       raw: true,
@@ -51,7 +51,7 @@ module.exports = function () {
                   `-----------finished runResults for tournament ${id}------------`
                 );
                 // Uncomment for Production
-                // return db.liveField.bulkCreate(filtered);
+                return db.liveField.bulkCreate(filtered);
               });
           });
       }

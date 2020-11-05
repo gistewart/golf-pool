@@ -80,6 +80,11 @@ module.exports = async function () {
     scheduleStage[i].status = hold.status;
     console.log("line 75", scheduleStage);
 
+    if (/^Tournament Field/i.test(hold.status)) {
+      db.liveFieldSchedule.bulkCreate(scheduleStage);
+      return;
+    }
+
     const today = new Date();
     let a = moment(today, "M/D/YYYY");
     // const uset = moment.tz(today, "America/New_York");

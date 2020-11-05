@@ -476,16 +476,16 @@ module.exports = function (app) {
   // gets livePositions by first seeding liveEventSchedule, then running runLivePositions
   app.get("/api/livePositions", async function (req, res) {
     // Testing Start
-    // await db.livePosition
-    //   .findAll({})
-    // Test End
-    // Production Start
-    await db.livePosition.sync({ force: true });
-    const temp = await runLivePositions()
-      // })
-      .then(async function () {
-        return db.livePosition.findAll({});
-      })
+    await db.livePosition
+      .findAll({})
+      // Test End
+      // Production Start
+      // await db.livePosition.sync({ force: true });
+      // const temp = await runLivePositions()
+      //   // })
+      //   .then(async function () {
+      //     return db.livePosition.findAll({});
+      //   })
       // Production End
       .then((result) => {
         res.json(result);
@@ -777,9 +777,21 @@ module.exports = function (app) {
     });
   });
 
-  // populates onTheRange tbl
-  app.get("/api/field", async function (req, res) {
-    const temp = await runField().then((result) => res.json(result));
+  // populates and returns liveField data
+  app.get("/api/liveField", async function (req, res) {
+    // Prod start
+    // await db.liveFieldSchedule.sync({ force: true }).then(async function () {
+    //   const temp = await seedLiveEventSchedule();
+    //   return;
+    // });
+    // await db.liveField.sync({ force: true }).then(async function () {
+    //   const temp = await runField();
+    //   return;
+    // });
+    // Prod end
+    await db.liveField.findAll({}).then(function (result) {
+      res.json(result);
+    });
   });
 
   // for full Field data
