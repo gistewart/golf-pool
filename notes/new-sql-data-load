@@ -10,3 +10,5 @@ New Purse Amount data:
 7. in mysql prod, delete livePurseSplits table
 8. push some kind of update to heroku to reestablish table
 9. in mysql prod, use import wizard to import all data
+
+test only
