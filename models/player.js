@@ -38,10 +38,10 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: "name",
       sourceKey: "playerName",
     });
-    Player.hasMany(models.ResultAll, {
-      foreignKey: "playerNameX",
-      sourceKey: "playerName",
-    });
+    // Player.hasMany(models.ResultAll, {
+    //   foreignKey: "playerNameX",
+    //   sourceKey: "playerName",
+    // });
   };
 
   return Player;
