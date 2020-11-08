@@ -12,3 +12,7 @@ New Purse Amount data:
 9. in mysql prod, use import wizard to import all data
 
 test only
+
+a. delete ResultAlls tbl in prod
+b. push dummy change to heroku
+c. import data file
