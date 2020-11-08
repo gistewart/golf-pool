@@ -16,4 +16,4 @@ test only
 a. delete ResultAlls tbl in prod
 b. push dummy change to heroku
 c. import data file
-d. hope!
+
