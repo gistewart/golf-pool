@@ -34,10 +34,10 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: "playerName",
       sourceKey: "playerName",
     });
-    Player.hasOne(models.PlayerImage, {
-      foreignKey: "name",
-      sourceKey: "playerName",
-    });
+    // Player.hasOne(models.PlayerImage, {
+    //   foreignKey: "name",
+    //   sourceKey: "playerName",
+    // });
     Player.hasMany(models.ResultAll, {
       foreignKey: "playerNameX",
       sourceKey: "playerName",
