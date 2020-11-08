@@ -9,6 +9,8 @@ $(document).ready(function () {
     liveStatus = [];
 
   $("#liveScoring").hide();
+  $("#onTheRange").hide();
+  $(".onTheRange-container").hide();
   $("#lastEventTitle").hide();
   $("#tcCalcTableLink").hide();
   $(".refreshContainer").hide();
@@ -36,12 +38,19 @@ $(document).ready(function () {
     console.log("running displayLiveTab");
     await $.get("api/liveTourneyStatus", function (result) {
       console.log(result);
-      console.log(result.length);
       if (result.length === 1) {
-        $("#liveScoring").show();
-        $(".text-danger").addClass("Blink");
+        if (result[0].status === "Tournament Field") {
+          console.log("field check");
+          $("#onTheRange").show();
+          $("#liveScoring").hide();
+        } else {
+          $("#liveScoring").show();
+          $(".text-danger").addClass("Blink");
+          $("#onTheRange").hide();
+        }
       } else {
         $("#liveScoring").hide();
+        $("#ontheRange").hide();
       }
     });
   }
@@ -145,6 +154,7 @@ $(document).ready(function () {
     return;
   }
 
+  $(document).on("click", "#onTheRange", onTheRange);
   $(document).on("click", "#liveScoring", liveEvent);
   $(document).on("click", "#refreshButton", refreshLiveButton);
 
@@ -160,6 +170,16 @@ $(document).ready(function () {
   let apiCall = "";
 
   async function onTheRange() {
+    $("#onTheRange").addClass("is-active");
+    $(".onTheRange-container").show();
+
+    $(".main-container").hide();
+    $("#footnotes").hide();
+    $(".comments-container").hide();
+    $("#seasonData").removeClass("is-active");
+    $("#eventData").removeClass("is-active");
+    $("#commentsPage").removeClass("is-active");
+
     await $.get("api/liveField", function (result) {
       field = result;
       console.log(field);
@@ -181,6 +201,7 @@ $(document).ready(function () {
         }
       }
     }
+
     fieldData = fieldData.sort(
       (a, b) => b.poolsterEarnings - a.poolsterEarnings
     );
@@ -195,6 +216,16 @@ $(document).ready(function () {
           0,
           5
         );
+        fieldData[i].Players[j].name = fieldData[i].Players[j].name.split(
+          " "
+        )[1];
+
+        let a = fieldData[i].Players[j];
+        a.form = "";
+        for (let k = 0; k < fieldData[i].Players[j].Results.length; k++) {
+          a.form += a.Results[k].pos + ",&#8203;";
+        }
+        a.form = a.form.split(",").slice(0, -1).join(",");
       }
     }
     await addRanking(fieldData);
@@ -203,10 +234,10 @@ $(document).ready(function () {
     // to display data
     $(".onTheRange-container > tbody").html("");
     for (let i = 0; i < fieldData.length; i++) {
-      var tr = $(
+      var tr1 = $(
         "<tr><td class='ranking'>" +
           fieldData[i].rankingDisplay +
-          "</td><td class = 'poolsterHandle'>" +
+          "</td><td class = 'poolsterHandleField'>" +
           fieldData[i].handle +
           "<p class='poolsterName'>" +
           fieldData[i].name +
@@ -215,29 +246,39 @@ $(document).ready(function () {
 
       for (let j = 0; j < fieldData[i].Players.length; j++) {
         let player = fieldData[i].Players[j];
-        console.log(player.teeTime);
         if (player.teeTime != 0) {
-          console.log("entering playing");
-          var tr2 = $(
+          player.form = player.form
+            .replace(
+              /\b(T?[1-5])\b/gm,
+              (el) => "<b class='yellow'>" + el + "</b>"
+            )
+            .replace(/MC|WD/gm, (el) => el.fontcolor("red"));
+          var tr1b = $(
             "<td class='imageDiv'><img class='playerImage playing' src=" +
               player.image +
-              "></td></tr>"
+              ">" +
+              "<div class='playerDataField'><p class='playerName'>" +
+              player.name +
+              "</p><p class ='teeTime'>" +
+              player.teeTime +
+              "</p><p class = 'form'>" +
+              player.form +
+              "</p></div>"
           );
         } else {
-          var tr2 = $(
+          var tr1b = $(
             "<td class='imageDiv'><img class='playerImage notPlaying' src=" +
               player.image +
               "></td></tr>"
           );
         }
-
-        $(tr).append(tr2);
+        $(tr1).append(tr1b);
       }
-      $(".onTheRange-container > tbody").append(tr);
+      $(".onTheRange-container > tbody").append(tr1);
     }
   }
 
-  onTheRange();
+  // onTheRange();
 
   async function liveEvent() {
     if (refreshRunning === false) {
@@ -254,6 +295,7 @@ $(document).ready(function () {
     $(".text-danger").removeClass("Blink");
     $("#eventData").removeClass("is-active");
     $("#seasonData").removeClass("is-active");
+    $("#onTheRange").removeClass("is-active");
     $("#commentsPage").removeClass("is-active");
 
     console.log("liveEvent function");
@@ -750,6 +792,7 @@ $(document).ready(function () {
     liveTC = false;
     $("#eventData").removeClass("is-active");
     $("#liveScoring").removeClass("is-active");
+    $("#onTheRange").removeClass("is-active");
     $("#commentsPage").removeClass("is-active");
     $("#seasonData").addClass("is-active");
     $.get("/api/allEvents", function (data) {
@@ -816,6 +859,7 @@ $(document).ready(function () {
       $("#eventData").addClass("is-active");
       $("#seasonData").removeClass("is-active");
       $("#liveScoring").removeClass("is-active");
+      $("#onTheRange").removeClass("is-active");
       $("#commentsPage").removeClass("is-active");
     });
   }
@@ -1405,6 +1449,7 @@ $(document).ready(function () {
     $("#seasonData").removeClass("is-active");
     $("#eventData").removeClass("is-active");
     $("#liveScoring").removeClass("is-active");
+    $("#onTheRange").removeClass("is-active");
     $("#commentsPage").addClass("is-active");
 
     $(".comments-container").show();
@@ -1412,6 +1457,7 @@ $(document).ready(function () {
     $(".submit-comments-container").show();
     $("#submitComments").addClass("is-active");
     $(".display-comments-container").hide();
+    $(".onTheRange-container").hide();
   }
 
   // ---------SUBMIT COMMENT SECTION--------------

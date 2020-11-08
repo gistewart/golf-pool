@@ -5,6 +5,7 @@ var moment = require("moment");
 
 module.exports = async function () {
   const scheduleStage = [];
+  let liveSeedType = "";
 
   // get details of current tournament
   await axios
@@ -80,8 +81,11 @@ module.exports = async function () {
     scheduleStage[i].status = hold.status;
     console.log("line 75", scheduleStage);
 
+    // add/remove ! for testing
     if (/^Tournament Field/i.test(hold.status)) {
       db.liveFieldSchedule.bulkCreate(scheduleStage);
+      console.log("seeding liveFieldSchedule db tbl");
+      module.exports.liveSeedType = "field";
       return;
     }
 
@@ -120,7 +124,8 @@ module.exports = async function () {
     );
     console.log("finishedEventsArr", finishedEventsArr);
 
-    console.log("-----ready to seed liveEventSchedule table------");
+    console.log("seeding liveEventSchedule db tbl");
+    module.exports.liveSeedType = "event";
     const temp = await db.liveEventSchedule.bulkCreate(finishedEventsArr);
 
     console.log("-----finished seeding liveEventSchedule table-----");

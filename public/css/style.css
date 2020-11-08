@@ -191,22 +191,6 @@ table tbody .level1 .rankingChange {
   margin-left: 0.25em;
 }
 
-.playerImage {
-  width: 3.5em;
-  height: 3.5em;
-  border-radius: 50%;
-  margin-left: 0.25em;
-}
-
-.playerImage.playing {
-  border: 3px solid green;
-}
-
-.playerImage.notPlaying {
-  border: 1px solid grey;
-  opacity: 0.4;
-}
-
 .poolsterHandle {
   white-space: nowrap;
   overflow: hidden;
@@ -232,6 +216,76 @@ table tbody .level1 .rankingChange {
 .level1 .earnings {
   font-size: 1.15em;
 }
+
+/* field */
+
+#onTheRange-container th {
+  font-size: 0.8em;
+}
+
+.poolsterHandleField {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.8em;
+}
+
+.imageDiv {
+  margin-top: 125px;
+}
+
+.playerImage {
+  width: 4.5em;
+  height: 4.5em;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+}
+
+.playerImage.playing {
+  border: 4px solid green;
+}
+
+.playerImage.notPlaying {
+  border: 1px solid grey;
+  opacity: 0.4;
+}
+
+.playerDataField p {
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+.playerDataField p:not(:last-child) {
+  border-bottom: 0.5px solid rgb(190, 187, 187);
+}
+
+.playerName {
+  font-size: 0.7em;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.teeTime {
+  font-size: 0.75em;
+}
+
+.form {
+  font-size: 0.6em;
+}
+
+.yellow {
+  background-color: rgba(245, 245, 17, 0.993);
+}
+
+.form .top5 {
+  font-weight: bold;
+}
+
+/* end of field */
 
 #leaderboard-container .liveProjTable {
   font-size: 0.7em;

@@ -35,6 +35,9 @@
                     </li>
                     <li id="eventData"><a><span class="icon"><i class="fas fa-calendar-week"></i></span><span>Last
                                 Week</span><span class="spinner"></span></a></li>
+                    <li id="onTheRange"><a><span class="icon"><i class="fas fa-golf-ball"></i></span><span>
+                                On The Range
+                            </span><span class="spinner"></span></a></li>
                     <li id="liveScoring"><a><span class="icon"><i class="fas fa-circle text-danger"></i></span><span>
                                 Live
                                 Scoring
@@ -75,28 +78,6 @@
                 <div class="refreshContainer buttons has-addons is-centered">
                     <button id="refreshButton" class="button is-success is-small">Refresh</button>
                     <button id="lastUpdate" class="button is-success is-outlined is-small is-static"></button>
-                </div>
-
-                <div class="container">
-                    <table class="table table-sm onTheRange-container" id="onTheRange-container">
-                        <col width="7%">
-                        <col width="20%">
-                        <col width="13%">
-                        <col width="13%">
-                        <col width="13%">
-                        <col width="13%">
-                        <col width="13%">
-                        <col width="13%">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th style="padding-left:.5rem;">Poolster</th>
-                                <th colspan="6" scope="col">Players</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
                 </div>
 
                 <div class="container">
@@ -154,6 +135,28 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="container">
+                <table class="table table-sm onTheRange-container" id="onTheRange-container">
+                    <col width="7%">
+                    <col width="15%">
+                    <col width="13%">
+                    <col width="13%">
+                    <col width="13%">
+                    <col width="13%">
+                    <col width="13%">
+                    <col width="13%">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th style="padding-left:.5rem;">Poolster</th>
+                            <th colspan="6" scope="col" style="text-align: center">Players</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
 
             <div class="container comments-container">

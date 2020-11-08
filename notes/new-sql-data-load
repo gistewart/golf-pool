@@ -1,0 +1,12 @@
+Example
+New Purse Amount data:
+
+1. set up separate file to show workings, notes, etc
+2. copy new data to master file
+3. download master file as csv
+4. in mysql local, delete livePurseSplits table
+5. run nodemon server.js to re-establish table
+6. in mysql local, use import wizard (check table name) to import all data
+7. in mysql prod, delete livePurseSplits table
+8. push some kind of update to heroku to reestablish table
+9. in mysql prod, use import wizard to import all data
