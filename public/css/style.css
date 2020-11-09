@@ -296,6 +296,7 @@ table tbody .level1 .rankingChange {
   font-size: 0.6em;
   /* overflow-wrap: break-word; */
   white-space: normal;
+  word-wrap: break-all;
 }
 
 .yellow {
