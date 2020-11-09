@@ -27,7 +27,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(function () {
       seasonData();
       // liveEvent();
@@ -277,8 +277,6 @@ $(document).ready(function () {
       $(".onTheRange-container > tbody").append(tr1);
     }
   }
-
-  // onTheRange();
 
   async function liveEvent() {
     if (refreshRunning === false) {
