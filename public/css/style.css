@@ -265,7 +265,7 @@ table tbody .level1 .rankingChange {
   border: 4px solid green;
 }
 
-.playerImage.notPlaying {
+.playerImage.imageNP {
   border: 1px solid grey;
   opacity: 0.4;
 }
@@ -286,10 +286,36 @@ table tbody .level1 .rankingChange {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center;
 }
 
-.teeTime {
+.playerName.nameNP {
+  font-weight: 300;
+  text-align: center;
+}
+
+#onTheRange-container tbody tr.addRows td {
+  padding: 0;
+  margin: 0;
+}
+
+.teeTimeLabel {
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+#onTheRange-container .teeTime {
+  font-size: 0.7em;
+  text-align: center;
+}
+
+.form {
+  font-size: 0.6em;
+}
+
+.formLabel {
   font-size: 0.65em;
+  font-weight: 500;
 }
 
 #onTheRange-container p.form {

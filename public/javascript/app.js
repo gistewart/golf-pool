@@ -252,6 +252,16 @@ $(document).ready(function () {
           fieldData[i].name +
           "</td>"
       );
+      var tr2 = $(
+        "<tr class='addRows' style='padding: 0 !important'><td></td><td class='teeTimeLabel'>" +
+          "Rd 1 tee-time" +
+          "</td></tr>"
+      );
+      var tr3 = $(
+        "<tr class='addRows'><td></td><td class='formLabel'>" +
+          "Form (last 5)" +
+          "</td></tr>"
+      );
 
       for (let j = 0; j < fieldData[i].Players.length; j++) {
         let player = fieldData[i].Players[j];
@@ -266,24 +276,28 @@ $(document).ready(function () {
             "<td class='imageDiv'><img class='playerImage playing' src=" +
               player.image +
               ">" +
-              "<div class='playerDataField'><p class='playerName'>" +
+              "<p class='playerName'>" +
               player.name +
-              "</p><p class ='teeTime'>" +
-              player.teeTime +
-              "</p><p class = 'form'>" +
-              player.form +
-              "</p></div>"
+              "</p></td>"
           );
+          var tr2b = $("<td class='teeTime'>" + player.teeTime + "</td>");
+          var tr3b = $("<td class='form'>" + player.form + "</td>");
         } else {
           var tr1b = $(
-            "<td class='imageDiv'><img class='playerImage notPlaying' src=" +
+            "<td class='imageDiv'><img class='playerImage imageNP' src=" +
               player.image +
-              "></td></tr>"
+              "><p class='playerName nameNP'>" +
+              player.name +
+              "</p></td></tr>"
           );
+          var tr2b = $("<td></td>");
+          var tr3b = $("<td></td>");
         }
         $(tr1).append(tr1b);
+        $(tr2).append(tr2b);
+        $(tr3).append(tr3b);
       }
-      $(".onTheRange-container > tbody").append(tr1);
+      $(".onTheRange-container > tbody").append(tr1).append(tr2).append(tr3);
     }
   }
 
@@ -294,6 +308,7 @@ $(document).ready(function () {
     $(".main-container").show();
     $(".tapToReveal").hide();
     $(".refreshContainer").show();
+    $(".onTheRange-container").hide();
     $(".comments-container").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Current tournament details:");
@@ -784,6 +799,7 @@ $(document).ready(function () {
   function seasonData() {
     $("#seasonData .spinner").addClass("lds-hourglass");
     $(".comments-container").hide();
+    $(".onTheRange-container").hide();
     $(".main-container").show();
     $("#footnotes").show(4000);
     console.log("entering seasonData function");
@@ -852,6 +868,7 @@ $(document).ready(function () {
     $("#eventData .spinner").addClass("lds-hourglass");
     $(".main-container").show();
     $(".comments-container").hide();
+    $(".onTheRange-container").hide();
     $("#footnotes").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Tournament details:");
