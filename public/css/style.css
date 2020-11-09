@@ -292,9 +292,9 @@ table tbody .level1 .rankingChange {
   font-size: 0.65em;
 }
 
-.form {
+#onTheRange-container p.form {
   font-size: 0.6em;
-  word-wrap: normal;
+  word-break: normal;
 }
 
 .yellow {
