@@ -6,16 +6,13 @@ go to seedScheduleOther file; scrape should pull completed tournaments for curre
 edit year dates on lines 33, 34 and 36;
 check if clause starting on line 42
 
-Step 2:
-in api-routes, run on localhost:8080 api/seedScheduleOther
-
-Step 3: 
+Step 2: 
 go to seedResultsAll file;
 this file grabs the results for all the tournaments in the ScheduleOther table;
 check to see if where clause on line 13 needs edits
 
-Step 4: 
-in api-routes, run on localhost:8080 api/seedResultsAll
+Step 3: 
+this code will be run when the 'OnTheRange' tab is clicked
 
 ****************************************
 
