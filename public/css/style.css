@@ -223,20 +223,37 @@ table tbody .level1 .rankingChange {
   font-size: 0.8em;
 }
 
+.rankingField {
+  color: black;
+  font-size: 1em;
+  padding-left: 0.25em !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
 .poolsterHandleField {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 0.8em;
+  font-size: 0.75em;
+  font-weight: 800;
 }
 
-.imageDiv {
-  margin-top: 125px;
+.poolsterNameField {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.7em;
+  font-weight: 400;
+}
+
+#onTheRange-container tbody tr td.imageDiv {
+  padding: 0.05em;
 }
 
 .playerImage {
-  width: 4.5em;
-  height: 4.5em;
+  width: 3.5em;
+  height: 3.5em;
   border-radius: 50%;
   display: block;
   margin: 0 auto;
@@ -275,6 +292,7 @@ table tbody .level1 .rankingChange {
 
 .form {
   font-size: 0.6em;
+  word-wrap: normal;
 }
 
 .yellow {

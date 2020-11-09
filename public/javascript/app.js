@@ -235,11 +235,11 @@ $(document).ready(function () {
     $(".onTheRange-container > tbody").html("");
     for (let i = 0; i < fieldData.length; i++) {
       var tr1 = $(
-        "<tr><td class='ranking'>" +
+        "<tr><td class='rankingField'>" +
           fieldData[i].rankingDisplay +
           "</td><td class = 'poolsterHandleField'>" +
           fieldData[i].handle +
-          "<p class='poolsterName'>" +
+          "<p class='poolsterNameField'>" +
           fieldData[i].name +
           "</td>"
       );
