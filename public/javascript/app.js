@@ -253,13 +253,13 @@ $(document).ready(function () {
           "</td>"
       );
       var tr2 = $(
-        "<tr class='addRows' style='padding: 0 !important'><td></td><td class='teeTimeLabel'>" +
+        "<tr class='addRows'><td></td><td class='teeTimeLabel'>" +
           "Rd 1 tee-time" +
           "</td></tr>"
       );
       var tr3 = $(
         "<tr class='addRows'><td></td><td class='formLabel'>" +
-          "Form (last 5)" +
+          "Form" +
           "</td></tr>"
       );
 

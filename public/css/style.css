@@ -300,8 +300,8 @@ table tbody .level1 .rankingChange {
 }
 
 .teeTimeLabel {
-  font-size: 0.7em;
-  font-weight: 600;
+  font-size: 0.65em;
+  font-weight: 400;
 }
 
 #onTheRange-container .teeTime {
@@ -311,18 +311,15 @@ table tbody .level1 .rankingChange {
 
 .form {
   font-size: 0.6em;
+  overflow-wrap: break-word;
+  white-space: normal;
+  word-wrap: break-all;
+  height: 100%;
 }
 
 .formLabel {
   font-size: 0.65em;
   font-weight: 500;
-}
-
-#onTheRange-container p.form {
-  font-size: 0.6em;
-  overflow-wrap: break-word;
-  white-space: normal;
-  word-wrap: break-all;
 }
 
 .yellow {
