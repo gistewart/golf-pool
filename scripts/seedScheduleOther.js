@@ -39,8 +39,14 @@ module.exports = async function () {
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
         // console.log(result);
-        schedule.push(result);
+        if (
+          result.tournamentId == "401219799" ||
+          result.tournamentId == "401219800"
+        ) {
+          schedule.push(result);
+        }
       });
+      console.log(schedule);
       return;
     })
     .then(function () {

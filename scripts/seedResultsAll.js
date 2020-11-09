@@ -69,7 +69,6 @@ module.exports = function () {
 
             resultsArray.push(result);
           });
-          // console.log(resultsArray);
 
           // TC purse calc function
           async function purseCalc() {
@@ -226,7 +225,7 @@ module.exports = function () {
             }
 
             const filtered = resultsArray.filter((el) => el.playerNameX);
-            // console.log("filtered: ", filtered);
+            console.log("filtered: ", filtered);
             console.log(
               `-----------finished runResults for tournament ${id}------------`
             );

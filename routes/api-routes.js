@@ -774,16 +774,17 @@ module.exports = function (app) {
   // to seed silly season events in late Dec / early Jan; run via localhost
   app.get("/api/seedScheduleOther", async function (req, res) {
     await db.ScheduleOther.sync({ force: true });
-    await seedScheduleOther().then(function (data) {
-      res.json(data);
+    await seedScheduleOther();
+    await db.ScheduleOther.findAll({}).then(function (result) {
+      res.json(result);
     });
   });
 
   // seeds all results using ScheduleOther; run via localhost
   app.get("/api/seedResultsAll", async function (req, res) {
-    // await db.ResultAll.sync({ force: true });
-    await seedResultsAll().then(function (data) {
-      res.json(data);
+    await seedResultsAll();
+    await db.ResultAll.findAll({}).then(function (result) {
+      res.json(result);
     });
   });
 

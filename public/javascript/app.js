@@ -180,6 +180,14 @@ $(document).ready(function () {
     $("#eventData").removeClass("is-active");
     $("#commentsPage").removeClass("is-active");
 
+    await $.get("api/seedScheduleOther", function (result) {
+      eventDetails = result;
+      console.log(eventDetails);
+    });
+    await $.get("api/seedResultsAll", function (result) {
+      results = result;
+      console.log(results);
+    });
     await $.get("api/liveField", function (result) {
       field = result;
       console.log(field);
