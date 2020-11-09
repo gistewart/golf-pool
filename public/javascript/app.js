@@ -180,6 +180,7 @@ $(document).ready(function () {
     $("#eventData").removeClass("is-active");
     $("#commentsPage").removeClass("is-active");
 
+    // Uncomment this section to load results from fall season events (check notes first)
     // await $.get("api/seedScheduleOther", function (result) {
     //   eventDetails = result;
     //   console.log(eventDetails);

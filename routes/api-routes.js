@@ -790,16 +790,19 @@ module.exports = function (app) {
 
   // populates and returns liveField data
   app.get("/api/liveField", async function (req, res) {
-    // Prod start
+    // delete this block?
     // await db.liveFieldSchedule.sync({ force: true }).then(async function () {
     //   const temp = await seedLiveEventSchedule();
     //   return;
     // });
-    // await db.liveField.sync({ force: true }).then(async function () {
-    //   const temp = await runField();
-    //   return;
-    // });
+
+    // Prod start
+    await db.liveField.sync({ force: true }).then(async function () {
+      const temp = await runField();
+      return;
+    });
     // Prod end
+
     await db.liveField.findAll({}).then(function (result) {
       res.json(result);
     });

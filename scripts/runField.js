@@ -46,7 +46,7 @@ module.exports = function () {
                 const filtered = resultsArray.filter((el) =>
                   playerNames.includes(el.playerName)
                 );
-                console.log("filtered: ", filtered);
+                // console.log("filtered: ", filtered);
                 console.log(
                   `-----------finished runResults for tournament ${id}------------`
                 );
