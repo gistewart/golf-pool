@@ -294,7 +294,7 @@ table tbody .level1 .rankingChange {
 
 #onTheRange-container p.form {
   font-size: 0.6em;
-  /* overflow-wrap: break-word; */
+  overflow-wrap: break-word;
   white-space: normal;
   word-wrap: break-all;
 }
