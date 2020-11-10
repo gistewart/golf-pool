@@ -281,7 +281,11 @@ $(document).ready(function () {
               "</p></td>"
           );
           var tr2b = $("<td class='teeTime'>" + player.teeTime + "</td>");
-          var tr3b = $("<td class='form'>" + player.form + "</td>");
+          var tr3b = $(
+            "<td class='form' style='padding-left: 1em; padding-right: 1em'>" +
+              player.form +
+              "</td>"
+          );
         } else {
           var tr1b = $(
             "<td class='imageDiv'><img class='playerImage imageNP' src=" +
