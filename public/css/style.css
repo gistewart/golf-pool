@@ -219,6 +219,10 @@ table tbody .level1 .rankingChange {
 
 /* field */
 
+table#onTheRange-container {
+  table-layout: fixed;
+}
+
 #onTheRange-container th {
   font-size: 0.85em;
   padding: 0;
