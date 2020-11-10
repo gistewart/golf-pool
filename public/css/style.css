@@ -219,10 +219,6 @@ table tbody .level1 .rankingChange {
 
 /* field */
 
-table.onTheRange-container {
-  table-layout: fixed;
-}
-
 #onTheRange-container th {
   font-size: 0.85em;
   padding: 0;
@@ -318,7 +314,7 @@ table.onTheRange-container {
   text-align: center;
   /* overflow-wrap: break-word; */
   white-space: normal;
-  word-wrap: break-all;
+  /* word-wrap: break-all; */
 }
 
 .formLabel {
