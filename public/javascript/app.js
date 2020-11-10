@@ -272,8 +272,8 @@ $(document).ready(function () {
         if (player.teeTime != 0) {
           player.form = player.form
             .replace(
-              /\b(T?[1-5])\b/gm,
-              (el) => "<b class='yellow'>" + el + "</b>"
+              /\b(T?[1-5],?)\b/gm,
+              (el) => "<b class='yellow'>" + el + "</b>" + ","
             )
             .replace(/MC|WD/gm, (el) => el.fontcolor("red"));
           var tr1b = $(
