@@ -270,12 +270,12 @@ $(document).ready(function () {
       for (let j = 0; j < fieldData[i].Players.length; j++) {
         let player = fieldData[i].Players[j];
         if (player.teeTime != 0) {
-          player.form = player.form
-            .replace(
-              /\b(T?[1-5])\b/gm,
-              (el) => "<b class='yellow'>" + el + "</b>"
-            )
-            .replace(/MC|WD/gm, (el) => el.fontcolor("red"));
+          // player.form = player.form
+          //   .replace(
+          //     /\b(T?[1-5])\b/gm,
+          //     (el) => "<b class='yellow'>" + el + "</b>"
+          //   )
+          //   .replace(/MC|WD/gm, (el) => el.fontcolor("red"));
           var tr1b = $(
             "<td class='imageDiv'><img class='playerImage playing' src=" +
               player.image +
