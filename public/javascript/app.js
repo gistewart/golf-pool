@@ -254,11 +254,11 @@ $(document).ready(function () {
       );
       var tr2 = $(
         "<tr class='addRows'><td></td><td class='teeTimeLabel'>" +
-          "Rd 1 tee-time" +
+          "Tee-time" +
           "</td></tr>"
       );
       var tr3 = $(
-        "<tr class='addRows'><td></td><td class='formLabel'>" +
+        "<tr class='addRows lastRow'><td></td><td class='formLabel'>" +
           "Form" +
           "</td></tr>"
       );

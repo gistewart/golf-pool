@@ -309,12 +309,12 @@ table tbody .level1 .rankingChange {
   text-align: center;
 }
 
-.form {
+#onTheRange-container .form {
   font-size: 0.6em;
-  overflow-wrap: break-word;
+  text-align: center;
+  /* overflow-wrap: break-word; */
   white-space: normal;
-  word-wrap: break-all;
-  height: 100%;
+  /* word-wrap: break-all; */
 }
 
 .formLabel {
@@ -328,6 +328,10 @@ table tbody .level1 .rankingChange {
 
 .form .top5 {
   font-weight: bold;
+}
+
+#onTheRange-container tbody tr.lastRow {
+  border-bottom: 2.25px solid rgb(214, 212, 212);
 }
 
 /* end of field */
