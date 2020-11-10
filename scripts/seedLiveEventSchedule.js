@@ -83,7 +83,7 @@ module.exports = async function () {
 
     // add/remove ! for testing
     if (/^Tournament Field/i.test(hold.status)) {
-      db.liveFieldSchedule.bulkCreate(scheduleStage);
+      const temp = await db.liveFieldSchedule.bulkCreate(scheduleStage);
       console.log("seeding liveFieldSchedule db tbl");
       module.exports.liveSeedType = "field";
       return;
