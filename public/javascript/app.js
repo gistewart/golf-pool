@@ -170,6 +170,7 @@ $(document).ready(function () {
   let apiCall = "";
 
   async function onTheRange() {
+    $("#onTheRange .spinner").addClass("lds-hourglass");
     $("#onTheRange").addClass("is-active");
     $(".onTheRange-container").show();
 
@@ -232,7 +233,8 @@ $(document).ready(function () {
         let a = fieldData[i].Players[j];
         a.form = "";
         for (let k = 0; k < fieldData[i].Players[j].Results.length; k++) {
-          a.form += a.Results[k].pos + ",&#8203;";
+          // a.form += a.Results[k].pos + ",&#8203;";
+          a.form += a.Results[k].pos + ",";
         }
         a.form = a.form.split(",").slice(0, -1).join(",");
       }
@@ -281,11 +283,7 @@ $(document).ready(function () {
               "</p></td>"
           );
           var tr2b = $("<td class='teeTime'>" + player.teeTime + "</td>");
-          var tr3b = $(
-            "<td class='form' style='padding-left: 1em; padding-right: 1em'>" +
-              player.form +
-              "</td>"
-          );
+          var tr3b = $("<td class='form'>" + player.form + "</td>");
         } else {
           var tr1b = $(
             "<td class='imageDiv'><img class='playerImage imageNP' src=" +
@@ -303,6 +301,7 @@ $(document).ready(function () {
       }
       $(".onTheRange-container > tbody").append(tr1).append(tr2).append(tr3);
     }
+    $("#onTheRange .spinner").removeClass("lds-hourglass");
   }
 
   async function liveEvent() {
