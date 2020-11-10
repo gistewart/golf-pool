@@ -233,9 +233,9 @@ $(document).ready(function () {
         let a = fieldData[i].Players[j];
         a.form = "";
         for (let k = 0; k < fieldData[i].Players[j].Results.length; k++) {
-          a.form += a.Results[k].pos + "," + "<span class='hide'>&shy;</span>";
+          // a.form += a.Results[k].pos + "," + "<span class='hide'>&shy;</span>";
           // a.form += a.Results[k].pos + ",&#8203;";
-          // a.form += a.Results[k].pos + ",&thinsp;";
+          a.form += a.Results[k].pos + ",&thinsp;";
           // a.form += a.Results[k].pos + ",";
         }
         a.form = a.form.split(",").slice(0, -1).join(",");
