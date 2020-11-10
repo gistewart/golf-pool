@@ -313,8 +313,8 @@ table tbody .level1 .rankingChange {
   font-size: 0.6em;
   text-align: center;
   /* overflow-wrap: break-word; */
-  /* white-space: normal; */
-  /* word-wrap: break-all; */
+  white-space: normal;
+  word-wrap: break-all;
 }
 
 .formLabel {
