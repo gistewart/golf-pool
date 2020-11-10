@@ -305,7 +305,7 @@ table tbody .level1 .rankingChange {
 }
 
 #onTheRange-container .teeTime {
-  font-size: 0.7em;
+  font-size: 0.6em;
   text-align: center;
 }
 
@@ -319,7 +319,7 @@ table tbody .level1 .rankingChange {
 
 .formLabel {
   font-size: 0.65em;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .yellow {
