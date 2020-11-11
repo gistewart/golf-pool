@@ -309,17 +309,17 @@ table tbody .level1 .rankingChange {
   text-align: center;
 }
 
+.formLabel {
+  font-size: 0.65em;
+  font-weight: 400;
+}
+
 #onTheRange-container .form {
   font-size: 0.6em;
   text-align: center;
   /* overflow-wrap: break-word; */
   white-space: normal;
   /* word-wrap: break-all; */
-}
-
-.formLabel {
-  font-size: 0.65em;
-  font-weight: 400;
 }
 
 .yellow {
