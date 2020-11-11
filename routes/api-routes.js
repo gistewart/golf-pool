@@ -797,10 +797,10 @@ module.exports = function (app) {
     // });
 
     // Prod start
-    await db.liveField.sync({ force: true }).then(async function () {
-      const temp = await runField();
-      return;
-    });
+    // await db.liveField.sync({ force: true }).then(async function () {
+    //   const temp = await runField();
+    //   return;
+    // });
     // Prod end
 
     await db.liveField.findAll({}).then(function (result) {
