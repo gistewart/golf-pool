@@ -81,12 +81,14 @@ module.exports = async function () {
         $(".status").each(function (i, element) {
           hold.status = $(this).children("span:first-child").text();
           console.log("hold: ", hold);
+          hold.status = hold.status.replace(/first round/i, "Round 1");
+          console.log("hold: ", hold);
         });
       });
     scheduleStage[i].status = hold.status;
     console.log("line 75", scheduleStage);
 
-    // add/remove ! for testing
+    // add/remove ! for testing/production
     if (/^Tournament Field/i.test(hold.status)) {
       const temp = await db.liveFieldSchedule.bulkCreate(scheduleStage);
       console.log("seeding liveFieldSchedule db tbl");
