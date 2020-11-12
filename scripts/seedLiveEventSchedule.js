@@ -81,7 +81,19 @@ module.exports = async function () {
         $(".status").each(function (i, element) {
           hold.status = $(this).children("span:first-child").text();
           console.log("hold: ", hold);
-          hold.status = hold.status.replace(/first round/i, "Round 1");
+          hold.status = hold.status.replace(
+            /First Round|Second Round|Third Round|Fourth Round|Final Round/gi,
+            function ($0) {
+              var index = {
+                "First Round": "Round 1",
+                "Second Round": "Round 2",
+                "Third Round": "Round 3",
+                "Fourth Round": "Round 4",
+                "Final Round": "Round 4",
+              };
+              return index[$0] != undefined ? index[$0] : $0;
+            }
+          );
           console.log("hold: ", hold);
         });
       });
