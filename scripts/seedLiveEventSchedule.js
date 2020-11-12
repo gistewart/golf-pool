@@ -50,6 +50,11 @@ module.exports = async function () {
             .text()
             .replace(/[\$,]/g, "")
         );
+        // for purse correction
+        if (/2020 Masters Tournament/i.test(result.name)) {
+          result.purse = 11500000;
+        }
+
         // for Tour Championship
         if (result.purse === 0) {
           result.purse = 9500000;

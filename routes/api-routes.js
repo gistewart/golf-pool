@@ -447,6 +447,8 @@ module.exports = function (app) {
       .bulkCreate(req.body)
       .then(async function () {
         const temp = await runResults();
+        // to seed all unfiltered results set for the tournament
+        // seedResultsAll();
       })
       .then(function (data) {
         res.json(data);
