@@ -68,7 +68,7 @@ module.exports = async function () {
   console.log("line 57", scheduleStage);
   let day = 0;
 
-  // is the tournament in progress
+  // get status of tournament
   for (let i = 0; i < scheduleStage.length; i++) {
     const id = scheduleStage[i].tournamentId;
     console.log(id);
@@ -128,6 +128,7 @@ module.exports = async function () {
       scheduleStage.splice(i, 1);
       i--;
       console.log("deleting");
+      return;
     }
 
     // false Freeze test - if status === "Final" but it's round 1/2/3 (really day 1/2/3), change status to correct day and add asterisk at end

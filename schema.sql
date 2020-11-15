@@ -374,7 +374,11 @@ UPDATE `PoolsterPlayers` SET `endDate` = '2020-09-03', `effDate` = '2020-09-03',
 
 INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('14', '49', '2020-09-03', '2020-09-03', 'regular');
 
+-- 11/12 Sub
 
+UPDATE `PoolsterPlayers` SET `endDate` = '2020-11-11', `effDate` = '2020-11-11', `type` = 'regular' WHERE (`id` = '60');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('9', '20', '2020-11-11', '2020-11-11', 'regular');
 
 
 

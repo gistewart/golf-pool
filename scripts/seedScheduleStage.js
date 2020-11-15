@@ -117,12 +117,12 @@ module.exports = async function () {
         );
         // this is where the magic happens!
         // to exclude amateurs from the earnings check
-        if (/john pak/i.test(resultsArray[j].playerName)) {
+        if (/.*\(a\)$/i.test(resultsArray[j].playerName)) {
           continue;
         }
         // to delete tourney if any pros who made cut have earnings of 0
-        if (!isNaN(resultsArray[j].pos) && resultsArray[j].earnings == 0) {
-          console.log("breaking now");
+        if (resultsArray[j].pos && resultsArray[j].earnings == 0) {
+          console.log("breaking now because all earnings have not been posted");
           scheduleStage.splice(i, 1);
           i--;
           break;
