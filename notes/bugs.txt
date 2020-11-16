@@ -8,4 +8,4 @@
 
 5. For U.S. Open, need a purse adjustment factor of 3.7% if only 60 pros make it to the weekend (pro-rated) - DONE
 
-6. why is seedLiveEventSchedule.js run after when tournament has Final status?
+6. set Masters MC money to zero on runResults file
