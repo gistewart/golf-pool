@@ -8,6 +8,7 @@ const runResults = require("../scripts/runResults");
 const runTCHandicap = require("../scripts/runTCHandicap");
 const seedResultsAll = require("../scripts/seedResultsAll");
 const seedScheduleOther = require("../scripts/seedScheduleOther");
+const seedResultsPGA = require("../scripts/seedResultsPGA");
 const e = require("express");
 require("dotenv").config();
 const { QueryTypes } = require("sequelize");
@@ -759,7 +760,7 @@ module.exports = function (app) {
     });
   });
 
-  // for final TC results
+  // to grab final TC results
   app.get("/api/tcTable", function (req, res) {
     db.ResultTC.findAll({}).then((data) => {
       res.json(data);
@@ -788,6 +789,68 @@ module.exports = function (app) {
     await db.ResultAll.findAll({}).then(function (result) {
       res.json(result);
     });
+  });
+
+  // for seeding of full tournament results if not reported by ESPN; see comments in seedResultsPGA() first; run via localhost
+  app.get("/api/seedResultsPGA", async function (req, res) {
+    const temp = await seedResultsPGA().then(function (data) {
+      res.json(data);
+    });
+  });
+
+  // for next year's player categories
+  app.get("/api/playerCategories", async function (req, res) {
+    db.ResultAll.findAll({
+      attributes: [
+        "playerNameX",
+        "name",
+        "tournamentId",
+        "earnings",
+        // [sequelize.fn("sum", sequelize.col("earnings")), "totalEarnings"],
+      ],
+      where: {
+        tournamentID: {
+          [Op.notBetween]: [401219793, 401219800],
+          [Op.ne]: 401219480,
+        },
+      },
+    })
+      .then(async function (data) {
+        let result = [];
+        let match = false;
+        for (let i = 0; i < data.length; i++) {
+          let a = data[i].playerNameX;
+          match = false;
+          for (let j = 0; j < result.length; j++) {
+            if (a == result[j].name) {
+              result[j].earnings += data[i].earnings;
+              match = true;
+              break;
+            }
+          }
+          if (!match) {
+            result.push({
+              name: data[i].playerNameX,
+              earnings: data[i].earnings,
+            });
+          }
+        }
+
+        result = result.sort((a, b) =>
+          Number(a.earnings) < Number(b.earnings) ? 1 : -1
+        );
+
+        for (let i = 0; i < result.length; i++) {
+          result[i].rank = i + 1;
+        }
+        await db.playerCategory.sync({ force: true });
+        await db.playerCategory.bulkCreate(result);
+        return result;
+      })
+
+      .then((data) => {
+        res.json(data);
+      });
   });
 
   // populates and returns liveField data

@@ -1,0 +1,21 @@
+1. full tournament results need to be loaded into ResultAll db table (search for PGA for events such as Barracuda where pgatour.com is sole source of earnings).
+
+2. to see tournament level data on ResultAll db tbl, run this query:
+SELECT tournamentId, name, startDate FROM `golf-pool_db`.ResultAlls
+GROUP BY tournamentId, name, startDate;
+
+3. go to api/playerCategories in api-routes.js
+   edit where clause to include all tournaments from 2020/2021 season, but exclude 2020's US Open and Masters
+   uncomment bulkCreate to db table
+
+4. use export wizard to export .csv file, de-selecting id field
+
+5. In google drive, open sheets document, file, new, upload, text to columns, format, add category headings
+
+
+
+
+
+
+
+
