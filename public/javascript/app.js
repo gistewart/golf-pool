@@ -1,22 +1,4 @@
 $(document).ready(function () {
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function () {
-      navigator.serviceWorker.register("/javascript/sw.js").then(
-        function (registration) {
-          // Registration was successful
-          console.log(
-            "ServiceWorker registration successful with scope: ",
-            registration.scope
-          );
-        },
-        function (err) {
-          // registration failed :(
-          console.log("ServiceWorker registration failed: ", err);
-        }
-      );
-    });
-  }
-
   let mcPos = 99,
     round = 0,
     noCut = false,
