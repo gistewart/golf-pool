@@ -1,6 +1,7 @@
 {
   "background_color": "white",
   "description": "The Chief's Golf Pool",
+  "display": "minimal-ui",
   "icons": [
     {
       "src": "TW_192.png",
@@ -11,5 +12,5 @@
   "name": "The Chief's Golf Pool",
   "short_name": "Chief's Pool",
   "start_url": "./index.html",
-  "theme_color": "black"
+  "theme-color": "black"
 }
