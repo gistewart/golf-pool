@@ -5,11 +5,7 @@ $(document).ready(function () {
       navigator.serviceWorker.register("./sw.js");
     }
   };
-  if (window.matchMedia("(display-mode: standalone)").matches) {
-    document.cookie = "deviceMode=pwa";
-  } else {
-    document.cookie = "deviceMode=mobile";
-  }
+
   let mcPos = 99,
     round = 0,
     noCut = false,
