@@ -15,3 +15,19 @@ self.addEventListener("fetch", function (e) {
     })
   );
 });
+self.addEventListener("fetch", function (event) {
+  if (event.request.method !== "GET") return;
+  event.respondWith(
+    // Try the cache
+    caches
+      .match(event.request)
+      .then(function (response) {
+        console.log("[service worker] attempting to fetch file from cache...");
+        return response || fetch(event.request);
+      })
+      .catch(function () {
+        // If both fail, show a generic fallback:
+        return caches.match(offlineFallbackPage);
+      })
+  );
+});
