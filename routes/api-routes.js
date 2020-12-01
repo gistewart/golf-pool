@@ -17,13 +17,30 @@ var moment = require("moment");
 
 module.exports = function (app) {
   app.get("/api/poolsters", function (req, res) {
-    db.Poolster.findAll({}).then((data) => {
+    db.Poolster.findAll({
+      where: {
+        StartDate: {
+          [Op.lt]: new Date(),
+        },
+        EndDate: {
+          [Op.eq]: null,
+        },
+      },
+    }).then((data) => {
       res.json(data);
     });
   });
 
   app.get("/api/allEvents", async function (req, res) {
     await db.Poolster.findAll({
+      where: {
+        StartDate: {
+          [Op.lt]: new Date(),
+        },
+        EndDate: {
+          [Op.eq]: null,
+        },
+      },
       attributes: ["poolsterId", "name", "handle", "image"],
       include: [
         {
@@ -132,6 +149,8 @@ module.exports = function (app) {
   });
 
   app.get("/api/lastEvent", async function (req, res) {
+    let today = new Date();
+    let Year = today.getFullYear();
     const date = await db.Schedule.max("tStartDate", {
       where: {
         winner: {
@@ -144,6 +163,14 @@ module.exports = function (app) {
     })
       .then(function (date) {
         return db.Poolster.findAll({
+          where: {
+            StartDate: {
+              [Op.lt]: new Date(),
+            },
+            EndDate: {
+              [Op.eq]: null,
+            },
+          },
           attributes: ["poolsterId", "name", "handle", "image"],
           where: {
             "$PoolsterPlayers.Player.Results.earnings$": {
@@ -166,8 +193,18 @@ module.exports = function (app) {
                 {
                   model: db.Player,
                   as: "Player",
-                  attributes: ["playerName", "tier"],
+                  // attributes: ["playerName", "tier"],
+                  attributes: ["playerName"],
                   include: [
+                    {
+                      model: db.PlayerTier,
+                      attributes: ["tier"],
+                      where: {
+                        year: {
+                          [Op.eq]: Year,
+                        },
+                      },
+                    },
                     {
                       model: db.Result,
                       as: "Results",
@@ -230,7 +267,7 @@ module.exports = function (app) {
                 endDate: a[j].endDate,
                 reStartDate: a[j].reStartDate,
                 reEndDate: a[j].reEndDate,
-                tier: a[j].Player.tier,
+                tier: a[j].Player.PlayerTiers[0].tier,
                 Tournaments: [],
               });
 
@@ -277,6 +314,14 @@ module.exports = function (app) {
     })
       .then(function (date) {
         return db.Poolster.findAll({
+          where: {
+            StartDate: {
+              [Op.lt]: new Date(),
+            },
+            EndDate: {
+              [Op.eq]: null,
+            },
+          },
           attributes: ["poolsterId", "name", "handle"],
           include: [
             {
@@ -463,6 +508,23 @@ module.exports = function (app) {
     });
   });
 
+  // player tier testing route
+  app.get("/api/testDates", async function (req, res) {
+    let today = new Date();
+    let Year = today.getFullYear();
+    console.log(Year);
+
+    db.PlayerTier.findAll({
+      where: {
+        year: {
+          [Op.eq]: Year,
+        },
+      },
+    }).then((data) => {
+      res.json(data);
+    });
+  });
+
   // api to determine if Live Scoring tab should be shown (gets ESPN tournament id, date, name, purse, status)
   app.get("/api/liveTourneyStatus", async function (req, res) {
     let type = "";
@@ -587,6 +649,14 @@ module.exports = function (app) {
   // poolsters and all their players, in a formatted array
   app.get("/api/livePlayers", async function (req, res) {
     await db.Poolster.findAll({
+      where: {
+        StartDate: {
+          [Op.lt]: new Date(),
+        },
+        EndDate: {
+          [Op.eq]: null,
+        },
+      },
       attributes: ["poolsterId", "name", "handle", "image"],
       include: [
         {
@@ -646,6 +716,14 @@ module.exports = function (app) {
 
   app.get("/api/liveAllEvents", async function (req, res) {
     await db.Poolster.findAll({
+      where: {
+        StartDate: {
+          [Op.lt]: new Date(),
+        },
+        EndDate: {
+          [Op.eq]: null,
+        },
+      },
       attributes: ["poolsterId", "name", "handle"],
       include: [
         {
@@ -876,6 +954,14 @@ module.exports = function (app) {
   // for full Field data
   app.get("/api/fieldData", async function (req, res) {
     await db.Poolster.findAll({
+      where: {
+        StartDate: {
+          [Op.lt]: new Date(),
+        },
+        EndDate: {
+          [Op.eq]: null,
+        },
+      },
       attributes: ["poolsterId", "name", "handle"],
       include: [
         {
@@ -964,14 +1050,16 @@ module.exports = function (app) {
       });
   });
 
-  app.get("/api/poolsters", function (req, res) {
-    db.Poolster.findAll({}).then((data) => {
-      res.json(data);
-    });
-  });
-
   app.get("/api/playerRankings", async function (req, res) {
     await db.Poolster.findAll({
+      where: {
+        StartDate: {
+          [Op.lt]: new Date(),
+        },
+        EndDate: {
+          [Op.eq]: null,
+        },
+      },
       attributes: ["poolsterId", "name", "handle"],
       include: [
         {

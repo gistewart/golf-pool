@@ -42,6 +42,10 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: "playerNameX",
       sourceKey: "playerName",
     });
+    Player.hasMany(models.PlayerTier, {
+      foreignKey: "playerName",
+      sourceKey: "playerName",
+    });
   };
 
   return Player;
