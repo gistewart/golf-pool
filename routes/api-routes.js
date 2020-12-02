@@ -16,6 +16,9 @@ const runField = require("../scripts/runField");
 var moment = require("moment");
 
 module.exports = function (app) {
+  let today = new Date(2021, 10, 10);
+  let Year = today.getFullYear();
+
   app.get("/api/poolsters", function (req, res) {
     db.Poolster.findAll({
       where: {
@@ -58,8 +61,17 @@ module.exports = function (app) {
             {
               model: db.Player,
               as: "Player",
-              attributes: ["playerName", "tier"],
+              attributes: ["playerName"],
               include: [
+                {
+                  model: db.PlayerTier,
+                  attributes: ["tier"],
+                  where: {
+                    year: {
+                      [Op.eq]: Year,
+                    },
+                  },
+                },
                 {
                   model: db.Result,
                   as: "Results",
@@ -69,6 +81,10 @@ module.exports = function (app) {
                       model: db.Schedule,
                       as: "Schedule",
                       attributes: ["name", "tDate", "tStartDate", "tEndDate"],
+                      where: sequelize.where(
+                        sequelize.fn("YEAR", sequelize.col("tStartDate")),
+                        Year
+                      ),
                       include: [
                         {
                           model: db.ScheduleShortName,
@@ -105,7 +121,7 @@ module.exports = function (app) {
               reEndDate: a[j].reEndDate,
               effDate: a[j].effDate,
               type: a[j].type,
-              tier: a[j].Player.tier,
+              tier: a[j].Player.PlayerTiers[0].tier,
               Tournaments: [],
             });
 
@@ -149,8 +165,7 @@ module.exports = function (app) {
   });
 
   app.get("/api/lastEvent", async function (req, res) {
-    let today = new Date();
-    let Year = today.getFullYear();
+    // filter for max start date AND year of tStartDate = current year
     const date = await db.Schedule.max("tStartDate", {
       where: {
         winner: {
@@ -193,7 +208,6 @@ module.exports = function (app) {
                 {
                   model: db.Player,
                   as: "Player",
-                  // attributes: ["playerName", "tier"],
                   attributes: ["playerName"],
                   include: [
                     {
@@ -219,9 +233,20 @@ module.exports = function (app) {
                           model: db.Schedule,
                           as: "Schedule",
                           where: {
-                            tStartDate: {
-                              [Op.eq]: date,
-                            },
+                            [Op.and]: [
+                              sequelize.where(
+                                sequelize.fn(
+                                  "YEAR",
+                                  sequelize.col("tStartDate")
+                                ),
+                                Year
+                              ),
+                              {
+                                tStartDate: {
+                                  [Op.eq]: date,
+                                },
+                              },
+                            ],
                           },
                           attributes: ["name", "tDate", "tStartDate"],
                           include: [
@@ -302,7 +327,8 @@ module.exports = function (app) {
   });
 
   app.get("/api/allExclLastEvent", async function (req, res) {
-    const date = await db.Schedule.max("tStartDate", {
+    console.log("Year: ", Year);
+    let date = await db.Schedule.max("tStartDate", {
       where: {
         winner: {
           [Op.regexp]: "^[A-Z]",
@@ -313,6 +339,7 @@ module.exports = function (app) {
       },
     })
       .then(function (date) {
+        console.log("date: ", date);
         return db.Poolster.findAll({
           where: {
             StartDate: {
@@ -339,7 +366,7 @@ module.exports = function (app) {
                 {
                   model: db.Player,
                   as: "Player",
-                  attributes: ["playerName", "tier"],
+                  attributes: ["playerName"],
                   include: [
                     {
                       model: db.Result,
@@ -350,9 +377,20 @@ module.exports = function (app) {
                           model: db.Schedule,
                           as: "Schedule",
                           where: {
-                            tStartDate: {
-                              [Op.ne]: date,
-                            },
+                            [Op.and]: [
+                              sequelize.where(
+                                sequelize.fn(
+                                  "YEAR",
+                                  sequelize.col("tStartDate")
+                                ),
+                                Year
+                              ),
+                              {
+                                tStartDate: {
+                                  [Op.ne]: date,
+                                },
+                              },
+                            ],
                           },
                           attributes: ["name", "tDate", "tStartDate"],
                         },
@@ -384,7 +422,6 @@ module.exports = function (app) {
               reEndDate: a[j].reEndDate,
               effDate: a[j].effDate,
               type: a[j].type,
-              tier: a[j].Player.tier,
               Tournaments: [],
             });
             b = a[j].Player.Results;
@@ -674,7 +711,18 @@ module.exports = function (app) {
             {
               model: db.Player,
               as: "Player",
-              attributes: ["playerName", "tier"],
+              attributes: ["playerName"],
+              include: [
+                {
+                  model: db.PlayerTier,
+                  attributes: ["tier"],
+                  where: {
+                    year: {
+                      [Op.eq]: Year,
+                    },
+                  },
+                },
+              ],
             },
           ],
         },
@@ -702,7 +750,7 @@ module.exports = function (app) {
               reEndDate: a[j].reEndDate,
               effDate: a[j].effDate,
               type: a[j].type,
-              tier: a[j].Player.tier,
+              tier: a[j].Player.PlayerTiers[0].tier,
               Tournaments: [],
             });
           }
@@ -741,7 +789,7 @@ module.exports = function (app) {
             {
               model: db.Player,
               as: "Player",
-              attributes: ["playerName", "tier"],
+              attributes: ["playerName"],
               include: [
                 {
                   model: db.Result,
@@ -752,6 +800,10 @@ module.exports = function (app) {
                       model: db.Schedule,
                       as: "Schedule",
                       attributes: ["name", "tDate", "tStartDate", "tEndDate"],
+                      where: sequelize.where(
+                        sequelize.fn("YEAR", sequelize.col("tStartDate")),
+                        Year
+                      ),
                     },
                   ],
                 },
@@ -783,7 +835,6 @@ module.exports = function (app) {
               reEndDate: a[j].reEndDate,
               effDate: a[j].effDate,
               type: a[j].type,
-              tier: a[j].Player.tier,
               Tournaments: [],
             });
             b = a[j].Player.Results;
@@ -979,8 +1030,17 @@ module.exports = function (app) {
             {
               model: db.Player,
               as: "Player",
-              attributes: ["playerName", "tier"],
+              attributes: ["playerName"],
               include: [
+                {
+                  model: db.PlayerTier,
+                  attributes: ["tier"],
+                  where: {
+                    year: {
+                      [Op.eq]: Year,
+                    },
+                  },
+                },
                 {
                   model: db.liveField,
                   attributes: ["teeTime"],
@@ -1021,7 +1081,7 @@ module.exports = function (app) {
                 endDate: a[j].endDate,
                 reStartDate: a[j].reStartDate,
                 reEndDate: a[j].reEndDate,
-                tier: a[j].Player.tier,
+                tier: a[j].Player.PlayerTiers[0].tier,
                 image: a[j].Player.PlayerImage.playerImage,
                 Results: [],
               });
@@ -1077,8 +1137,17 @@ module.exports = function (app) {
             {
               model: db.Player,
               as: "Player",
-              attributes: ["playerName", "tier"],
+              attributes: ["playerName"],
               include: [
+                {
+                  model: db.PlayerTier,
+                  attributes: ["tier"],
+                  where: {
+                    year: {
+                      [Op.eq]: Year,
+                    },
+                  },
+                },
                 {
                   model: db.Result,
                   as: "Results",
@@ -1088,6 +1157,10 @@ module.exports = function (app) {
                       model: db.Schedule,
                       as: "Schedule",
                       attributes: ["name", "tDate", "tStartDate", "tEndDate"],
+                      where: sequelize.where(
+                        sequelize.fn("YEAR", sequelize.col("tStartDate")),
+                        Year
+                      ),
                     },
                   ],
                 },
@@ -1117,7 +1190,7 @@ module.exports = function (app) {
               reEndDate: a[j].reEndDate,
               effDate: a[j].effDate,
               type: a[j].type,
-              tier: a[j].Player.tier,
+              tier: a[j].Player.PlayerTiers[0].tier,
               Tournaments: [],
             });
             b = a[j].Player.Results;
@@ -1334,7 +1407,7 @@ module.exports = function (app) {
       include: [
         {
           model: db.Player,
-          attributes: ["playerName", "tier"],
+          attributes: ["playerName"],
           through: {
             where: {
               startDate: {
@@ -1375,7 +1448,7 @@ module.exports = function (app) {
         {
           model: db.Player,
           as: "Players",
-          attributes: ["playerName", "tier"],
+          attributes: ["playerName"],
           include: [
             {
               model: db.Result,
@@ -1412,7 +1485,7 @@ module.exports = function (app) {
         {
           model: db.Player,
           as: "Players",
-          attributes: ["playerName", "tier"],
+          attributes: ["playerName"],
           through: {
             where: {
               startDate: {

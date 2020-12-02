@@ -1,10 +1,10 @@
 $(document).ready(function () {
-  window.onload = () => {
-    "use strict";
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("./sw.js");
-    }
-  };
+  // window.onload = () => {
+  //   "use strict";
+  //   if ("serviceWorker" in navigator) {
+  //     navigator.serviceWorker.register("./sw.js");
+  //   }
+  // };
 
   let mcPos = 99,
     round = 0,
@@ -674,7 +674,7 @@ $(document).ready(function () {
       }
     }
 
-    //filter livePlayers for players who played in the tournament and add tournament performance data
+    //filter livePlayers for players who are playing in the tournament and add tournament performance data
     for (let i = 0; i < livePlayers.length; i++) {
       for (let j = 0; j < livePlayers[i].Players.length; j++) {
         let a = livePlayers[i].Players;
