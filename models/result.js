@@ -9,10 +9,10 @@ module.exports = function (sequelize, DataTypes) {
     playerName: {
       type: DataTypes.STRING,
       // check if reference necessary
-      references: {
-        model: db.Player,
-        key: "playerName",
-      },
+      // references: {
+      //   model: db.Player,
+      //   key: "playerName",
+      // },
     },
     toPar: DataTypes.STRING,
     earnings: {

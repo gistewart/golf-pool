@@ -380,6 +380,50 @@ UPDATE `PoolsterPlayers` SET `endDate` = '2020-11-11', `effDate` = '2020-11-11',
 
 INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `effDate`, `type`) VALUES ('9', '20', '2020-11-11', '2020-11-11', 'regular');
 
+-- 12/2 Testing
+
+INSERT INTO `Players` (`playerId`, `playerName`, `tier`, `createdAt`, `updatedAt`) VALUES ('50', 'Xander Schauffele', '1', '2020-12-02 20:00:00', '2020-12-02 20:00:00');
+
+INSERT INTO `Players` (`playerId`, `playerName`, `tier`, `createdAt`, `updatedAt`) VALUES ('51', 'Harris English', '2', '2020-12-02 20:00:00', '2020-12-02 20:00:00');
+
+INSERT INTO `Players` (`playerId`, `playerName`, `tier`, `createdAt`, `updatedAt`) VALUES ('53', 'Tony Finau', '2', '2020-12-02 20:00:00', '2020-12-02 20:00:00');
+
+INSERT INTO `Players` (`playerId`, `playerName`, `tier`, `createdAt`, `updatedAt`) VALUES ('81', 'Andrew Landry', '4', '2020-12-02 20:00:00', '2020-12-02 20:00:00');
+
+INSERT INTO `Players` (`playerId`, `playerName`, `tier`, `createdAt`, `updatedAt`) VALUES ('125', 'Graeme McDowell', '6', '2020-12-02 20:00:00', '2020-12-02 20:00:00');
+
+INSERT INTO `PoolsterPlayers` (`id`, `poolsterId`, `playerId`) VALUES ('138','3', '18');
+
+SHOW ENGINE INNODB STATUS
+SHOW INDEXES FROM PoolsterPlayers
+
+SET foreign_key_checks = 0;
+
+ALTER TABLE PoolsterPlayers
+DROP FOREIGN KEY poolsterplayers_ibfk_1
+
+ALTER TABLE PoolsterPlayers
+DROP FOREIGN KEY poolsterplayers_ibfk_2
+
+ALTER TABLE PoolsterPlayers
+DROP INDEX PoolsterPlayers_poolsterId_playerId_unique
+
+-- ALTER TABLE PoolsterPlayers
+CREATE INDEX PoolsterPlayers_poolsterId_playerId ON PoolsterPlayers(poolsterId, playerId)
+
+ALTER TABLE PoolsterPlayers
+ADD FOREIGN KEY poolsterplayers_ibfk_1(poolsterId) REFERENCES Poolsters(poolsterId)
+ON UPDATE Cascade
+
+ALTER TABLE PoolsterPlayers
+ADD FOREIGN KEY poolsterplayers_ibfk_2(playerId) REFERENCES Players(playerId)
+ON UPDATE Cascade
+
+SET foreign_key_checks = 1;
+
+
+
+
 
 
 

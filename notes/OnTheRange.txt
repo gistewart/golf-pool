@@ -2,14 +2,14 @@ Item 1:
 For full Results data to be available at beginning of our season, the results for the off-season (i.e. all events after Tour Championship for the remainder of the calendar year) need to be loaded into ResultsAll. These are the steps.
 
 Step 1: 
-go to seedScheduleOther file; scrape should pull completed tournaments for current season (which is correct);
-edit year dates on lines 33, 34 and 36;
-check if clause starting on line 42
+go to seedScheduleOther.js script file; scrape should pull completed tournaments for current season (which is correct);
+check date on if clause starting on line 42
 
 Step 2: 
 go to seedResultsAll file;
-this file grabs the results for all the tournaments in the ScheduleOther table;
+this file grabs the results for all the tournaments in the seedScheduleOther table;
 check to see if where clause on line 13 needs edits
+watch for loading of TC results
 
 Step 3: 
 this code will be run when the 'OnTheRange' tab is clicked

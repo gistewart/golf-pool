@@ -16,8 +16,10 @@ const runField = require("../scripts/runField");
 var moment = require("moment");
 
 module.exports = function (app) {
-  let today = new Date(2021, 10, 10);
-  let Year = today.getFullYear();
+  // let today = new Date(2021, 1, 1);
+  // let Year = today.getFullYear();
+  const today = moment("2021-01-14").format();
+  const Year = moment(today).year();
 
   app.get("/api/poolsters", function (req, res) {
     db.Poolster.findAll({
@@ -49,6 +51,10 @@ module.exports = function (app) {
         {
           model: db.PoolsterPlayers,
           as: "PoolsterPlayers",
+          where: sequelize.where(
+            sequelize.fn("YEAR", sequelize.col("PoolsterPlayers.startDate")),
+            Year
+          ),
           attributes: [
             "startDate",
             "endDate",
@@ -115,11 +121,11 @@ module.exports = function (app) {
           for (let j = 0; j < a.length; j++) {
             result[i].Players.push({
               name: a[j].Player.playerName,
-              startDate: a[j].startDate,
-              endDate: a[j].endDate,
-              reStartDate: a[j].reStartDate,
-              reEndDate: a[j].reEndDate,
-              effDate: a[j].effDate,
+              startDate: moment(a[j].startDate),
+              endDate: moment(a[j].endDate),
+              reStartDate: moment(a[j].reStartDate),
+              reEndDate: moment(a[j].reEndDate),
+              effDate: moment(a[j].effDate),
               type: a[j].type,
               tier: a[j].Player.PlayerTiers[0].tier,
               Tournaments: [],
@@ -130,12 +136,13 @@ module.exports = function (app) {
             let kAdj = 0;
             for (let k = 0; k < b.length; k++) {
               c = b[k].Schedule;
+              let tStart = moment(c.tStartDate);
               if (
                 !(
-                  (a[j].startDate < c.tStartDate &&
-                    a[j].endDate > c.tStartDate) ||
-                  (a[j].reStartDate < c.tStartDate &&
-                    a[j].reEndDate > c.tStartDate)
+                  (result[i].Players[j].startDate < tStart &&
+                    result[i].Players[j].endDate > tStart) ||
+                  (result[i].Players[j].reStartDate < tStart &&
+                    result[i].Players[j].reEndDate > tStart)
                 )
               )
                 kAdj++;
@@ -144,7 +151,7 @@ module.exports = function (app) {
                   name: c.name,
                   shortName: c.name,
                   date: c.tDate,
-                  start: c.tStartDate,
+                  start: moment(c.tStartDate),
                   position: b[k].pos,
                   toPar: b[k].toPar,
                   earnings: b[k].earnings,
@@ -196,6 +203,13 @@ module.exports = function (app) {
             {
               model: db.PoolsterPlayers,
               as: "PoolsterPlayers",
+              where: sequelize.where(
+                sequelize.fn(
+                  "YEAR",
+                  sequelize.col("PoolsterPlayers.startDate")
+                ),
+                Year
+              ),
               attributes: [
                 "startDate",
                 "endDate",
@@ -354,6 +368,13 @@ module.exports = function (app) {
             {
               model: db.PoolsterPlayers,
               as: "PoolsterPlayers",
+              where: sequelize.where(
+                sequelize.fn(
+                  "YEAR",
+                  sequelize.col("PoolsterPlayers.startDate")
+                ),
+                Year
+              ),
               attributes: [
                 "startDate",
                 "endDate",
@@ -482,6 +503,18 @@ module.exports = function (app) {
       });
   });
 
+  app.get("/api/thisYearsEvents", async function (req, res) {
+    db.Schedule.findAll({
+      attributes: ["name", "tDate", "tStartDate", "winner"],
+      where: sequelize.where(
+        sequelize.fn("YEAR", sequelize.col("tStartDate")),
+        Year
+      ),
+    }).then((result) => {
+      res.json(result);
+    });
+  });
+
   app.get("/api/appSchedule", async function (req, res) {
     db.Schedule.findAll({}).then((result) => {
       res.json(result);
@@ -566,13 +599,13 @@ module.exports = function (app) {
   app.get("/api/liveTourneyStatus", async function (req, res) {
     let type = "";
     // Production Start
-    await db.liveEventSchedule.sync({ force: true });
-    await db.liveFieldSchedule.sync({ force: true }).then(async function () {
-      const temp = await seedLiveEventSchedule();
-      type = seedLiveEventSchedule.liveSeedType;
-      console.log(type);
-      return;
-    });
+    // await db.liveEventSchedule.sync({ force: true });
+    // await db.liveFieldSchedule.sync({ force: true }).then(async function () {
+    //   const temp = await seedLiveEventSchedule();
+    //   type = seedLiveEventSchedule.liveSeedType;
+    //   console.log(type);
+    //   return;
+    // });
     // Production End
     if (type === "field") {
       await db.liveFieldSchedule.findAll({}).then((result) => {
@@ -588,16 +621,16 @@ module.exports = function (app) {
   // gets livePositions by first seeding liveEventSchedule, then running runLivePositions
   app.get("/api/livePositions", async function (req, res) {
     // Testing Start
-    // await db.livePosition
-    //   .findAll({})
-    // Test End
-    // Production Start
-    await db.livePosition.sync({ force: true });
-    const temp = await runLivePositions()
-      // })
-      .then(async function () {
-        return db.livePosition.findAll({});
-      })
+    await db.livePosition
+      .findAll({})
+      // Test End
+      // Production Start
+      // await db.livePosition.sync({ force: true });
+      // const temp = await runLivePositions()
+      //   // })
+      //   .then(async function () {
+      //     return db.livePosition.findAll({});
+      //   })
       // Production End
       .then((result) => {
         res.json(result);
@@ -683,7 +716,7 @@ module.exports = function (app) {
     });
   });
 
-  // poolsters and all their players, in a formatted array
+  // poolsters and all their player demographics, in a formatted array
   app.get("/api/livePlayers", async function (req, res) {
     await db.Poolster.findAll({
       where: {
@@ -699,6 +732,10 @@ module.exports = function (app) {
         {
           model: db.PoolsterPlayers,
           as: "PoolsterPlayers",
+          where: sequelize.where(
+            sequelize.fn("YEAR", sequelize.col("PoolsterPlayers.startDate")),
+            Year
+          ),
           attributes: [
             "startDate",
             "endDate",
@@ -762,6 +799,7 @@ module.exports = function (app) {
       });
   });
 
+  // to get total poolster earnings for ranking purposes, for both Field and Live views
   app.get("/api/liveAllEvents", async function (req, res) {
     await db.Poolster.findAll({
       where: {
@@ -777,6 +815,10 @@ module.exports = function (app) {
         {
           model: db.PoolsterPlayers,
           as: "PoolsterPlayers",
+          where: sequelize.where(
+            sequelize.fn("YEAR", sequelize.col("PoolsterPlayers.startDate")),
+            Year
+          ),
           attributes: [
             "startDate",
             "endDate",
@@ -912,7 +954,7 @@ module.exports = function (app) {
     });
   });
 
-  // seeds all results using ScheduleOther; run via localhost
+  // seeds all results using db.ScheduleOther table; run via localhost
   app.get("/api/seedResultsAll", async function (req, res) {
     await seedResultsAll();
     await db.ResultAll.findAll({}).then(function (result) {
@@ -982,7 +1024,7 @@ module.exports = function (app) {
       });
   });
 
-  // populates and returns liveField data
+  // populates and returns Field data (player, tee-time) for upcoming tournament
   app.get("/api/liveField", async function (req, res) {
     // delete this block?
     // await db.liveFieldSchedule.sync({ force: true }).then(async function () {
@@ -995,14 +1037,13 @@ module.exports = function (app) {
     //   const temp = await runField();
     //   return;
     // });
-    // Prod end
 
     await db.liveField.findAll({}).then(function (result) {
       res.json(result);
     });
   });
 
-  // for full Field data
+  // poolsters' active players, w/ tee time, tier, image, all results
   app.get("/api/fieldData", async function (req, res) {
     await db.Poolster.findAll({
       where: {
@@ -1018,6 +1059,10 @@ module.exports = function (app) {
         {
           model: db.PoolsterPlayers,
           as: "PoolsterPlayers",
+          where: sequelize.where(
+            sequelize.fn("YEAR", sequelize.col("PoolsterPlayers.startDate")),
+            Year
+          ),
           attributes: [
             "startDate",
             "endDate",
@@ -1068,7 +1113,7 @@ module.exports = function (app) {
           a = data[i].PoolsterPlayers;
           let jAdj = 0;
           for (let j = 0; j < a.length; j++) {
-            let today = new Date();
+            // let today = new Date();
             if (
               (moment(a[j].startDate).isBefore(today) &&
                 moment(a[j].endDate).isAfter(today)) ||
@@ -1110,7 +1155,7 @@ module.exports = function (app) {
       });
   });
 
-  app.get("/api/playerRankings", async function (req, res) {
+  app.get("/api/playerRatings", async function (req, res) {
     await db.Poolster.findAll({
       where: {
         StartDate: {
@@ -1125,6 +1170,10 @@ module.exports = function (app) {
         {
           model: db.PoolsterPlayers,
           as: "PoolsterPlayers",
+          where: sequelize.where(
+            sequelize.fn("YEAR", sequelize.col("PoolsterPlayers.startDate")),
+            Year
+          ),
           attributes: [
             "startDate",
             "endDate",
@@ -1295,7 +1344,9 @@ module.exports = function (app) {
           let grade = "";
           for (let j = 0; j < averages.length; j++) {
             let percent = arr[i].tier[j].sum / averages[j].avg;
-            if (percent < 0.5) {
+            if (arr[i].tier[j].sum == 0 && averages[j].avg == 0) {
+              grade = "C";
+            } else if (percent < 0.5) {
               grade = "E";
             } else if (percent < 0.75) {
               grade = "D";
@@ -1309,9 +1360,12 @@ module.exports = function (app) {
             arr[i].tier[j]["average"] = averages[j].avg;
             arr[i].tier[j]["grade"] = grade;
             arr[i].tier[j]["gradePercent"] = percent;
+
+            if (arr[i].tier[j].sum == 0 && averages[j].avg == 0) {
+              arr[i].tier[j]["gradePercent"] = 1;
+            }
           }
         }
-
         return arr;
       })
       .then((arr) => {
@@ -1357,7 +1411,7 @@ module.exports = function (app) {
     });
   });
 
-  //substitutions by poolster
+  //substitutions by poolster - not used
   app.get("/api/subs", function (req, res) {
     db.PoolsterPlayers.findAll({
       attributes: [

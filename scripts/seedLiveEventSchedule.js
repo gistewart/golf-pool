@@ -6,6 +6,9 @@ var moment = require("moment");
 module.exports = async function () {
   const scheduleStage = [];
   let liveSeedType = "";
+  const today = moment().format();
+  // const today = moment("2021-01-01").format();
+  const y = moment(today).year();
 
   // get details of current tournament
   await axios
@@ -31,14 +34,10 @@ module.exports = async function () {
           .text()
           .match(/[A-Z]{3} [0-9]{1,2}/gi)[0];
 
-        result.tStartDate =
-          result.tournamentId >= "401155413"
-            ? new Date(`2020 ${monthDay}`)
-            : new Date(`2019 ${monthDay}`);
-
-        let f = new Date(`2020 ${monthDay}`);
-        f.setDate(f.getDate() + 4);
-        result.tEndDate = f;
+        const dateString = y + ` ${monthDay}`;
+        tStartDate = moment(dateString, "YYYY MMM DD");
+        result.tStartDate = tStartDate;
+        result.tEndDate = moment(tStartDate).add(4, "d");
 
         result.name = $(this).find("p").text().replace(" - Play Suspended", "");
         result.name = $(this).find("p").text().replace(" - Suspended", "");

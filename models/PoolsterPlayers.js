@@ -12,25 +12,25 @@ module.exports = function (sequelize, DataTypes) {
       },
       poolsterId: {
         type: DataTypes.INTEGER,
-        references: {
-          model: db.Poolster,
-          key: "poolsterId",
-        },
+        // references: {
+        //   model: db.Poolster,
+        //   key: "poolsterId",
+        // },
       },
       playerId: {
         type: DataTypes.INTEGER,
-        references: {
-          model: db.Player,
-          key: "playerId",
-        },
+        // references: {
+        //   model: db.Player,
+        //   key: "playerId",
+        // },
       },
       startDate: {
         type: DataTypes.DATEONLY,
-        defaultValue: "2020-01-01",
+        defaultValue: "2021-01-01",
       },
       endDate: {
         type: DataTypes.DATEONLY,
-        defaultValue: "2020-12-31",
+        defaultValue: "2021-12-31",
       },
       reStartDate: {
         type: DataTypes.DATEONLY,

@@ -11,9 +11,6 @@ module.exports = function () {
     attributes: ["tournamentId", "tStartDate", "name"],
     raw: true,
     where: {
-      // tournamentId: {
-      //   [Op.gte]: 401155413,
-      // },
       winner: {
         [Op.regexp]: "^[A-Z]",
       },
@@ -227,7 +224,7 @@ module.exports = function () {
             const filtered = resultsArray.filter((el) => el.playerNameX);
             console.log("filtered: ", filtered);
             console.log(
-              `-----------finished runResults for tournament ${id}------------`
+              `-----------finished running results for tournament ${id}------------`
             );
             // Uncomment for Production
             return db.ResultAll.bulkCreate(filtered);

@@ -4,14 +4,13 @@ module.exports = function (sequelize, DataTypes) {
   var Player = sequelize.define("Player", {
     playerId: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
     },
     playerName: {
       type: DataTypes.STRING,
       unique: true,
     },
-    tier: DataTypes.INTEGER,
+    // tier: DataTypes.INTEGER,
   });
 
   Player.associate = function (models) {

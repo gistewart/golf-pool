@@ -1,11 +1,15 @@
 var db = require("../models");
 var axios = require("axios");
 var cheerio = require("cheerio");
+var moment = require("moment");
 
 module.exports = async function () {
   const scheduleStage = [];
   let maxDate = [];
   let maxDateArr = [];
+  const today = moment().format();
+  // const today = moment("2021-01-01").format();
+  const y = moment(today).year();
 
   // BEGINNING OF SECTION 1
   // get details of current tournament
@@ -27,23 +31,22 @@ module.exports = async function () {
           : "000000000";
 
         result.tDate = $(this).children("td:first-child").text();
+
         let monthDay = $(this)
           .children("td:first-child")
           .text()
           .match(/[A-Z]{3} [0-9]{1,2}/gi)[0];
-        result.tStartDate =
-          result.tournamentId >= "401155413"
-            ? new Date(`2020 ${monthDay}`)
-            : new Date(`2019 ${monthDay}`);
 
-        let f = new Date(`2020 ${monthDay}`);
-        f.setDate(f.getDate() + 4);
-        result.tEndDate = f;
+        const dateString = y + ` ${monthDay}`;
+        tStartDate = moment(dateString, "YYYY MMM DD");
+        result.tStartDate = tStartDate;
+        result.tEndDate = moment(tStartDate).add(4, "d");
+
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
 
         // to exclude the Barracuda while it is taking place
-        if (result.tournamentId !== "401155468") {
+        if (result.tournamentId !== "401243406") {
           scheduleStage.push(result);
         }
       });
@@ -129,7 +132,7 @@ module.exports = async function () {
         }
       }
     }
-    console.log("end of Section 2 array: ", scheduleStage);
+    // console.log("end of Section 2 array: ", scheduleStage);
   }
   // END OF SECTION 2
 
@@ -154,18 +157,17 @@ module.exports = async function () {
           : "000000000";
 
         result.tDate = $(this).children("td:first-child").text();
+
         let monthDay = $(this)
           .children("td:first-child")
           .text()
           .match(/[A-Z]{3} [0-9]{1,2}/gi)[0];
-        result.tStartDate =
-          result.tournamentId >= "401155413"
-            ? new Date(`2020 ${monthDay}`)
-            : new Date(`2019 ${monthDay}`);
 
-        let f = new Date(`2020 ${monthDay}`);
-        f.setDate(f.getDate() + 4);
-        result.tEndDate = f;
+        const dateString = y + ` ${monthDay}`;
+        tStartDate = moment(dateString, "YYYY MMM DD");
+        result.tStartDate = tStartDate;
+        result.tEndDate = moment(tStartDate).add(4, "d");
+
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
         scheduleStage.push(result);

@@ -13,7 +13,15 @@ $(document).ready(function () {
     liveExit = false,
     liveTC = false,
     lastEventCount = 0,
-    liveStatus = [];
+    liveStatus = [],
+    week0 = false,
+    week1 = false,
+    fieldName = "",
+    fieldDate = "";
+
+  const today = moment("2021-01-01").format();
+  // const today = moment().format();
+  const Year = moment(today).year();
 
   $("#liveScoring").hide();
   $("#onTheRange").hide();
@@ -21,7 +29,6 @@ $(document).ready(function () {
   $("#lastEventTitle").hide();
   $("#tcCalcTableLink").hide();
   $(".refreshContainer").hide();
-  $("#subIconLang").hide();
   $("#footnotes").hide();
   $("footer").hide();
   $(".comments-container").hide();
@@ -34,8 +41,9 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
-    setTimeout(function () {
+    await displayLiveTab();
+    setTimeout(async function () {
+      await thisYearsEvents();
       seasonData();
       // liveEvent();
     }, 1000);
@@ -45,6 +53,9 @@ $(document).ready(function () {
     console.log("running displayLiveTab");
     await $.get("api/liveTourneyStatus", function (result) {
       console.log(result);
+      fieldName = result[0].name;
+      fieldDate = result[0].tDate;
+      console.log(fieldName, fieldDate);
       if (result.length === 1) {
         if (result[0].status === "Tournament Field") {
           console.log("field check");
@@ -181,14 +192,18 @@ $(document).ready(function () {
     $("#onTheRange").addClass("is-active");
     $(".onTheRange-container").show();
 
-    $(".main-container").hide();
+    $(".main-container").show();
+    $(".leaderboard-container").hide();
+    $("#lastEventDetails").show();
+    $("#lastEventTitle").text(`${fieldDate} | ${fieldName}`);
+    $("#lastEventDetails").text("");
     $("#footnotes").hide();
     $(".comments-container").hide();
     $("#seasonData").removeClass("is-active");
     $("#eventData").removeClass("is-active");
     $("#commentsPage").removeClass("is-active");
 
-    // Uncomment this section to load results from fall season events (check notes first)
+    // Uncomment this section to load results to PRODUCTION from fall season events (check notes and test on local version first)
     // await $.get("api/seedScheduleOther", function (result) {
     //   eventDetails = result;
     //   console.log(eventDetails);
@@ -323,9 +338,9 @@ $(document).ready(function () {
       $("#liveScoring .spinner").addClass("lds-hourglass");
     }
     $(".main-container").show();
-    $(".tapToReveal").hide();
     $(".refreshContainer").show();
     $(".onTheRange-container").hide();
+    $("#footnotes").hide();
     $(".comments-container").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Current tournament details:");
@@ -702,11 +717,15 @@ $(document).ready(function () {
       }
     }
 
+    addRanking(partResult);
+
     // add priorRanking and priorEarnings to livePlayers array
     for (let i = 0; i < livePlayers.length; i++) {
       for (let j = 0; j < partResult.length; j++) {
         if (livePlayers[i].id === partResult[j].id) {
           livePlayers[i]["livePriorRanking"] = partResult[j].ranking;
+          livePlayers[i]["livePriorRankingDisplay"] =
+            partResult[j].rankingDisplay;
           livePlayers[i]["livePriorEarnings"] = partResult[j].poolsterEarnings;
           break;
         }
@@ -739,8 +758,49 @@ $(document).ready(function () {
     );
 
     // add liveNewRanking to livePlayers array
+    // for (let i = 0; i < livePlayers.length; i++) {
+    //   livePlayers[i].liveNewRanking = i + 1;
+    // }
+
+    // add ranking
+    livePlayers[0].liveNewRanking = 1;
+    let ties = 0;
+    for (let i = 1; i < livePlayers.length; i++) {
+      if (
+        livePlayers[i].liveNewEarnings !== livePlayers[i - 1].liveNewEarnings
+      ) {
+        livePlayers[i].liveNewRanking = i + 1;
+        ties = 0;
+      } else {
+        ties++;
+        livePlayers[i].liveNewRanking = i + 1 - ties;
+      }
+    }
+    // now add "T" for ties to liveNewRanking
     for (let i = 0; i < livePlayers.length; i++) {
-      livePlayers[i].liveNewRanking = i + 1;
+      if (
+        i === 0 &&
+        livePlayers[0].liveNewRanking === livePlayers[1].liveNewRanking
+      ) {
+        livePlayers[0].liveNewRankingDisplay =
+          "T" + livePlayers[i].liveNewRanking;
+      } else if (
+        i > 0 &&
+        i < livePlayers.length - 1 &&
+        (livePlayers[i].liveNewRanking === livePlayers[i - 1].liveNewRanking ||
+          livePlayers[i].liveNewRanking === livePlayers[i + 1].liveNewRanking)
+      ) {
+        livePlayers[i].liveNewRankingDisplay =
+          "T" + livePlayers[i].liveNewRanking;
+      } else if (
+        i === livePlayers.length - 1 &&
+        livePlayers[i].liveNewRanking === livePlayers[i - 1].liveNewRanking
+      ) {
+        livePlayers[i].liveNewRankingDisplay =
+          "T" + livePlayers[i].liveNewRanking;
+      } else {
+        livePlayers[i].liveNewRankingDisplay = livePlayers[i].liveNewRanking;
+      }
     }
 
     // add liveRankingChange (and related) to LivePlayers array
@@ -748,11 +808,7 @@ $(document).ready(function () {
       livePlayers[i].liveRankingChange =
         livePlayers[i].livePriorRanking - livePlayers[i].liveNewRanking;
       let l = livePlayers[i].liveRankingChange;
-      l > 0
-        ? (livePlayers[i].liveRankingMove = "up")
-        : l < 0
-        ? (livePlayers[i].liveRankingMove = "down")
-        : "nc";
+      livePlayers[i].liveRankingMove = l > 0 ? "up" : l < 0 ? "down" : "nc";
       livePlayers[i].liveRankingChangeAbs = Math.abs(l);
       livePlayers[i].liveZeroPlayersText = "";
       if (livePlayers[i].Players.length === 0) {
@@ -783,6 +839,19 @@ $(document).ready(function () {
 
     sortData(livePlayers);
     $("#seasonData .spinner").removeClass("lds-hourglass");
+  }
+
+  async function thisYearsEvents() {
+    await $.get("api/thisYearsEvents", function (result) {
+      console.log(result);
+      if (result.length == 0) {
+        week0 = true;
+      }
+      if (result.length == 0 || result.length == 1) {
+        week1 = true;
+      }
+      console.log(week0, week1);
+    });
   }
 
   //for the section at the top of the leaderboard
@@ -818,15 +887,25 @@ $(document).ready(function () {
     $(".comments-container").hide();
     $(".onTheRange-container").hide();
     $(".main-container").show();
+    $(".leaderboard-container").show();
     $("#footnotes").show(4000);
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
     $("#lastEventTitle").show();
-    $("#lastEventTitle").text(
-      "Results reflect all tournaments up to and including:"
-    );
-    lastEventDetails();
-    $(".tapToReveal").show();
+    if (week0) {
+      $("#eventData").hide();
+      $("#lastEventTitle").html("");
+      $("#lastEventDetails").html("");
+      $("#lastEventTitle").text(
+        `Welcome to the first event of the ${Year} Season!`
+      );
+    } else {
+      $("#lastEventTitle").text(
+        "Results reflect all tournaments up to and including:"
+      );
+      lastEventDetails();
+    }
+
     $(".refreshContainer").hide();
     apiCall = "Season";
     liveTC = false;
@@ -841,8 +920,8 @@ $(document).ready(function () {
       $.get("/api/allExclLastEvent", function (data2) {
         partData = data2;
       }).then(function () {
-        $.get("/api/playerRankings", function (data3) {
-          playerRankings = data3;
+        $.get("/api/playerRatings", function (data3) {
+          playerRatings = data3;
         }).then(function () {
           let a, b;
           let partResult = [];
@@ -873,7 +952,7 @@ $(document).ready(function () {
             sortedPartResult[i].ranking = i + 1;
           }
           console.log(sortedPartResult);
-          sumData(mainData, sortedPartResult, playerRankings);
+          sumData(mainData, sortedPartResult, playerRatings);
         });
       });
     });
@@ -884,13 +963,13 @@ $(document).ready(function () {
   function eventData() {
     $("#eventData .spinner").addClass("lds-hourglass");
     $(".main-container").show();
+    $(".leaderboard-container").show();
     $(".comments-container").hide();
     $(".onTheRange-container").hide();
     $("#footnotes").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Tournament details:");
     lastEventDetails();
-    $(".tapToReveal").show();
     $(".refreshContainer").hide();
     apiCall = "Event";
     liveTC = false;
@@ -905,7 +984,13 @@ $(document).ready(function () {
     });
   }
 
-  function sumData(data, sortedPartResult, playerRankings) {
+  const Jan01 = moment([Year, 0, 2]).format();
+  const Dec31 = moment([Year, 11, 30]).format();
+  // make subDay the day of the first round of the midway event
+  const subDay = moment([Year, 6, 5]).format();
+  // const subDay = moment([Year, 3, 29]).format();
+
+  function sumData(data, sortedPartResult, playerRatings) {
     //to sum earnings by player and poolster
     let a, b;
     let result = [];
@@ -940,11 +1025,18 @@ $(document).ready(function () {
             type: a[j].type,
             tournaments: [],
           });
-          if (a[j].endDate < "2020-12-31" && !a[j].reStartDate) {
+          // console.log(a[j].startDate, Jan01, a[j].endDate, Dec31);
+          if (a[j].endDate < Dec31 && !a[j].reStartDate) {
             result[i].Players[j].active = "no";
           }
-          if (a[j].effDate > "2020-07-05" && a[j].type == "regular") {
-            playerCount++;
+          if (today < subDay) {
+            if (a[j].effDate < subDay && a[j].type == "regular") {
+              playerCount++;
+            }
+          } else {
+            if (a[j].effDate > subDay && a[j].type == "regular") {
+              playerCount++;
+            }
           }
 
           b = a[j].Tournaments;
@@ -969,7 +1061,7 @@ $(document).ready(function () {
       }
     }
     console.log(result);
-    sortData(result, sortedPartResult, playerRankings);
+    sortData(result, sortedPartResult, playerRatings);
   }
 
   function addRanking(sorted) {
@@ -1007,7 +1099,7 @@ $(document).ready(function () {
     }
   }
 
-  function sortData(result, sortedPartResult, playerRankings) {
+  function sortData(result, sortedPartResult, playerRatings) {
     // to sort all the data passed to function
     const sorted = result.sort(
       (a, b) =>
@@ -1038,11 +1130,11 @@ $(document).ready(function () {
         }
       }
     }
-    console.log(sorted, playerRankings);
-    displayData(sorted, sortedPartResult, playerRankings);
+    console.log(sorted, playerRatings);
+    displayData(sorted, sortedPartResult, playerRatings);
   }
 
-  async function displayData(sorted, sortedPartResult, playerRankings) {
+  async function displayData(sorted, sortedPartResult, playerRatings) {
     //for hard-coding round and other variables
     // round = 2;
     // to display sorted results
@@ -1065,21 +1157,20 @@ $(document).ready(function () {
       }
       console.log("inserting new grade code here");
       for (let i = 0; i < sorted.length; i++) {
-        for (let j = 0; j < playerRankings.length; j++)
-          if (sorted[i].name == playerRankings[j].name) {
+        for (let j = 0; j < playerRatings.length; j++)
+          if (sorted[i].name == playerRatings[j].name) {
             for (let k = 0; k < sorted[i].Players.length; k++) {
               if (sorted[i].Players[k].active == "yes") {
-                for (let l = 0; l < playerRankings[j].tier.length; l++) {
+                for (let l = 0; l < playerRatings[j].tier.length; l++) {
                   if (
-                    sorted[i].Players[k].tier ==
-                    playerRankings[j].tier[l].number
+                    sorted[i].Players[k].tier == playerRatings[j].tier[l].number
                   ) {
                     sorted[i].Players[k]["grade"] =
-                      playerRankings[j].tier[l].grade;
+                      playerRatings[j].tier[l].grade;
                     sorted[i].Players[k]["poolAverage"] =
-                      playerRankings[j].tier[l].average;
+                      playerRatings[j].tier[l].average;
                     sorted[i].Players[k]["gradePercent"] =
-                      playerRankings[j].tier[l].gradePercent;
+                      playerRatings[j].tier[l].gradePercent;
                   }
                 }
               }
@@ -1097,7 +1188,7 @@ $(document).ready(function () {
           i +
           "' class='level1 clickabe'><td class='ranking'>" +
           sorted[i].rankingDisplay +
-          (apiCall == "Season"
+          (apiCall == "Season" && !week1
             ? "</td><td class='rankingChange'>" +
               (sorted[i].rankingMove == "up"
                 ? "<i class='fas fa-caret-up' style='color:green'></i>" +
@@ -1139,7 +1230,7 @@ $(document).ready(function () {
             maximumFractionDigits: 0,
           }) +
           // to add Start Proj table for Live version
-          (apiCall == "Live"
+          (apiCall == "Live" && !week0
             ? "<table class='liveProjTable'><tr><th>" +
               "Proj." +
               "</th><th>" +
@@ -1148,9 +1239,9 @@ $(document).ready(function () {
               "<i class='fas fa-long-arrow-alt-up'></i>" +
               "<i class='fas fa-long-arrow-alt-down'></i>" +
               "</th></tr><tr><td>" +
-              sorted[i].liveNewRanking +
+              sorted[i].liveNewRankingDisplay +
               "</td><td>" +
-              sorted[i].livePriorRanking +
+              sorted[i].livePriorRankingDisplay +
               "</td><td>" +
               (sorted[i].liveRankingMove == "up"
                 ? "<i class='fas fa-arrow-up' style='color:green;'></i>" +
@@ -1291,11 +1382,11 @@ $(document).ready(function () {
                   : "") +
                 "  " +
                 (sorted[i].Players[j].active == "yes" &&
-                (sorted[i].Players[j].startDate > "2020-01-01" ||
-                  sorted[i].Players[j].endDate < "2020-12-31")
+                (sorted[i].Players[j].startDate > Jan01 ||
+                  sorted[i].Players[j].endDate < Dec31)
                   ? " | "
                   : "") +
-                (sorted[i].Players[j].startDate > "2020-01-01"
+                (sorted[i].Players[j].startDate > Jan01
                   ? " " +
                     "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
                     "  " +
@@ -1306,7 +1397,7 @@ $(document).ready(function () {
                         day: "numeric",
                       }
                     )
-                  : sorted[i].Players[j].endDate < "2020-12-31"
+                  : sorted[i].Players[j].endDate < Dec31
                   ? "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
                     " " +
                     new Date(sorted[i].Players[j].endDate).toLocaleString(
@@ -1317,8 +1408,8 @@ $(document).ready(function () {
                       }
                     )
                   : "") +
-                (sorted[i].Players[j].startDate > "2020-01-01" &&
-                sorted[i].Players[j].endDate < "2020-12-31"
+                (sorted[i].Players[j].startDate > Jan01 &&
+                sorted[i].Players[j].endDate < Dec31
                   ? " | " +
                     "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
                     "  " +
@@ -1330,7 +1421,7 @@ $(document).ready(function () {
                       }
                     )
                   : "") +
-                (sorted[i].Players[j].reStartDate > "2020-01-01"
+                (sorted[i].Players[j].reStartDate > Jan01
                   ? " | " +
                     "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
                     "  " +
