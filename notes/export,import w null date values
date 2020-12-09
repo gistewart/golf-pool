@@ -1,0 +1,10 @@
+How to make a copy of an SQL table with null date values
+
+1. export original using wizard
+2. open file in the Mac's TextEdit app
+3. do a Find & Replace on 
+;""; 
+with 
+;null;
+4. save
+5. import this file into dup table
