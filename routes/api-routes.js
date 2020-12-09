@@ -477,10 +477,6 @@ module.exports = function (app) {
         winner: {
           [Op.regexp]: "^[A-Z]",
         },
-        tournamentID: {
-          [Op.gte]: "401155413",
-          // [Op.lte]: "401155425",
-        },
       },
     })
       .then(function (date) {

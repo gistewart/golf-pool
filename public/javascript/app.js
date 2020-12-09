@@ -17,10 +17,10 @@ $(document).ready(function () {
     week0 = false,
     week1 = false,
     fieldName = "",
-    fieldDate = "";
+    fieldDate = "",
+    lastEventName = "";
 
   const today = moment("2021-01-01").format();
-  // const today = moment().format();
   const Year = moment(today).year();
 
   $("#liveScoring").hide();
@@ -479,7 +479,7 @@ $(document).ready(function () {
       "10-shot rule: ",
       tenShotRule
     );
-    // for Masters 10-short rule
+    // for Masters 10-shot rule
     if (tenShotRule) {
       let within10shotsPos = 999;
       console.log("10 shotter rule applies this week");
@@ -509,6 +509,7 @@ $(document).ready(function () {
       }
       console.log("mcTop post 10-shot code: ", mcTop);
     }
+    // End of Masters 10-shot rule code
 
     // to determine if tournament has a cut or not
     if (livePositionsLen <= mcTop) {
@@ -578,6 +579,7 @@ $(document).ready(function () {
       usOpenPurseAdjFactor = 1 + ((80 - playersMakingCut) / 20) * 0.037;
       console.log("usOpenPurseAdjFactor: ", usOpenPurseAdjFactor);
     }
+    // End of US Open only
 
     //calculates purse values for each position in purseArr
     let amTotal = 0;
@@ -872,6 +874,7 @@ $(document).ready(function () {
             ")" +
             "</p>"
         );
+        lastEventName = result[i].name;
       }
     });
     console.log("exiting lastEventDetails function");
@@ -1139,6 +1142,12 @@ $(document).ready(function () {
     // round = 2;
     // to display sorted results
     // to add prior ranking data to main arr
+    if (apiCall === "Event" && lastEventName === "Tour Championship") {
+      $("#tcCalcTableLink").show();
+    } else {
+      $("#tcCalcTableLink").hide();
+    }
+
     if (apiCall == "Season") {
       for (let f = 0; f < sorted.length; f++) {
         for (let p = 0; p < sortedPartResult.length; p++) {
@@ -1494,12 +1503,6 @@ $(document).ready(function () {
       if (apiCall === "Live") {
         $("#liveScoring .spinner").removeClass("lds-hourglass");
       }
-    }
-
-    if (apiCall === "Event") {
-      $("#tcCalcTableLink").show();
-    } else {
-      $("#tcCalcTableLink").hide();
     }
 
     $(function () {
