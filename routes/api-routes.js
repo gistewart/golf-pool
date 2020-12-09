@@ -16,8 +16,6 @@ const runField = require("../scripts/runField");
 var moment = require("moment");
 
 module.exports = function (app) {
-  // let today = new Date(2021, 1, 1);
-  // let Year = today.getFullYear();
   const today = moment("2021-01-14").format();
   const Year = moment(today).year();
 
