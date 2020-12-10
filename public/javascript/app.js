@@ -20,7 +20,7 @@ $(document).ready(function () {
     fieldDate = "",
     lastEventName = "";
 
-  const today = moment("2021-01-01").format();
+  const today = moment().format();
   const Year = moment(today).year();
 
   $("#liveScoring").hide();
@@ -260,7 +260,7 @@ $(document).ready(function () {
           // a.form += a.Results[k].pos + ",&thinsp;";
           // a.form += a.Results[k].pos + ",";
         }
-        a.form = a.form.split(",").slice(0, -1).join(",");
+        a.form = a.form.slice(0, -1);
       }
     }
     await addRanking(fieldData);
@@ -387,7 +387,7 @@ $(document).ready(function () {
     }
 
     //list of amateurs playing in tournament; required if '(a)' not appended to name on ESPN leaderboard
-    let ams = ["Davis Thompson", "Chun An Yu"];
+    let ams = [];
 
     for (let i = 0; i < ams.length; i++) {
       for (let j = 0; j < livePositions.length; j++) {

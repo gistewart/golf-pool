@@ -16,7 +16,7 @@ const runField = require("../scripts/runField");
 var moment = require("moment");
 
 module.exports = function (app) {
-  const today = moment("2021-01-14").format();
+  const today = moment().format();
   const Year = moment(today).year();
 
   app.get("/api/poolsters", function (req, res) {
@@ -793,7 +793,7 @@ module.exports = function (app) {
       });
   });
 
-  // to get total poolster earnings for ranking purposes, for both Field and Live views
+  // provides poolsters total earnings for the year and base ranking (used for both Field and Live views)
   app.get("/api/liveAllEvents", async function (req, res) {
     await db.Poolster.findAll({
       where: {
@@ -1037,7 +1037,7 @@ module.exports = function (app) {
     });
   });
 
-  // poolsters' active players, w/ tee time, tier, image, all results
+  // poolsters, their active players, w/ tee time, tier, image, all finishes since Jan 2020 (Sep 2019 for local version)
   app.get("/api/fieldData", async function (req, res) {
     await db.Poolster.findAll({
       where: {
