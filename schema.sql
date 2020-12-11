@@ -423,6 +423,13 @@ SET foreign_key_checks = 1;
 
 
 
+ALTER TABLE PlayerTiers
+DROP FOREIGN KEY PlayerTiers_ibfk_1
+
+ALTER TABLE PlayerTiers
+ADD FOREIGN KEY PlayerTiers_ibfk_1(playerName) REFERENCES Players(playerName)
+ON UPDATE Cascade
+
 
 
 

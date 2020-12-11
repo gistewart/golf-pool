@@ -41,7 +41,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    await displayLiveTab();
+    // await displayLiveTab();
     setTimeout(async function () {
       await thisYearsEvents();
       seasonData();
@@ -53,10 +53,10 @@ $(document).ready(function () {
     console.log("running displayLiveTab");
     await $.get("api/liveTourneyStatus", function (result) {
       console.log(result);
-      fieldName = result[0].name;
-      fieldDate = result[0].tDate;
-      console.log(fieldName, fieldDate);
       if (result.length === 1) {
+        fieldName = result[0].name;
+        fieldDate = result[0].tDate;
+        console.log(fieldName, fieldDate);
         if (result[0].status === "Tournament Field") {
           console.log("field check");
           $("#onTheRange").show();
@@ -204,14 +204,14 @@ $(document).ready(function () {
     $("#commentsPage").removeClass("is-active");
 
     // Uncomment this section to load results to PRODUCTION from fall season events (check notes and test on local version first)
-    // await $.get("api/seedScheduleOther", function (result) {
-    //   eventDetails = result;
-    //   console.log(eventDetails);
-    // });
-    // await $.get("api/seedResultsAll", function (result) {
-    //   results = result;
-    //   console.log(results);
-    // });
+    await $.get("api/seedScheduleOther", function (result) {
+      eventDetails = result;
+      console.log(eventDetails);
+    });
+    await $.get("api/seedResultsAll", function (result) {
+      results = result;
+      console.log(results);
+    });
     await $.get("api/liveField", function (result) {
       field = result;
       console.log(field);
