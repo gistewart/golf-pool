@@ -41,7 +41,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(async function () {
       await thisYearsEvents();
       seasonData();
@@ -212,6 +212,8 @@ $(document).ready(function () {
       results = result;
       console.log(results);
     });
+    // Section end
+
     await $.get("api/liveField", function (result) {
       field = result;
       console.log(field);
