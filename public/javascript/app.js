@@ -41,7 +41,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    await displayLiveTab();
+    // await displayLiveTab();
     setTimeout(async function () {
       await thisYearsEvents();
       seasonData();
@@ -216,10 +216,10 @@ $(document).ready(function () {
     // End of block 1
 
     // Start of block 2
-    await $.get("api/seedResultsPGA", function (result) {
-      results = result;
-      console.log(results);
-    });
+    // await $.get("api/seedResultsPGA", function (result) {
+    //   results = result;
+    //   console.log(results);
+    // });
     // End of block 2
 
     await $.get("api/liveField", function (result) {
