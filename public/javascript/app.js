@@ -41,7 +41,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(async function () {
       await thisYearsEvents();
       seasonData();
@@ -204,15 +204,23 @@ $(document).ready(function () {
     $("#commentsPage").removeClass("is-active");
 
     // Uncomment this section to load results to PRODUCTION from fall season events (check notes and test on local version first)
-    await $.get("api/seedScheduleOther", function (result) {
-      eventDetails = result;
-      console.log(eventDetails);
-    });
-    await $.get("api/seedResultsAll", function (result) {
+    // Start of block 1
+    // await $.get("api/seedScheduleOther", function (result) {
+    //   eventDetails = result;
+    //   console.log(eventDetails);
+    // });
+    // await $.get("api/seedResultsAll", function (result) {
+    //   results = result;
+    //   console.log(results);
+    // });
+    // End of block 1
+
+    // Start of block 2
+    await $.get("api/seedResultsPGA", function (result) {
       results = result;
       console.log(results);
     });
-    // Section end
+    // End of block 2
 
     await $.get("api/liveField", function (result) {
       field = result;
