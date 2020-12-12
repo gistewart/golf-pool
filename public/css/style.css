@@ -22,8 +22,8 @@ body {
 
 .logo {
   position: relative;
-  height: 30px;
-  background: rgba(20, 44, 18, 0.808);
+  height: 2.5em;
+  background: rgba(38, 38, 39, 0.87);
   max-width: 620px;
 }
 
@@ -97,11 +97,15 @@ header .tabs li a .icon:first-child {
   }
 }
 
-.lastEventDetails {
+div.main-container {
   max-width: 620px;
   width: 95%;
+  margin: 0 auto;
+}
+
+.lastEventDetails {
   font-size: 0.9em;
-  border: 1px solid lightgrey;
+  border: 1px solid darkgray;
   margin: -0.5em auto 0.5em auto;
   background-color: linen;
   padding: 0 5px;
@@ -134,15 +138,14 @@ div.buttons.is-centered #lastUpdate {
   background-color: white;
 }
 
-.main-container {
-  max-width: 650px;
-  margin: 0 auto;
+div.container.lb-container {
+  padding-left: 0;
+  padding-right: 0;
 }
 
-.table {
+.table#leaderboard-container {
   table-layout: fixed;
-  width: 100%;
-  margin-bottom: 1em !important;
+  margin-bottom: 1em;
 }
 
 .level1 {
@@ -207,7 +210,13 @@ table tbody .level1 .rankingChange {
   font-size: 1.15em;
 }
 
-/* field */
+/* beginning of field */
+
+div.container.field-container {
+  width: 95%;
+  padding-left: 0;
+  padding-right: 0;
+}
 
 #onTheRange-container th {
   font-size: 0.85em;
@@ -435,7 +444,7 @@ table tbody .level1 .rankingChange {
 }
 
 .comments-container {
-  max-width: 650px !important;
+  max-width: 620px !important;
 }
 
 .tabs-container {
@@ -492,17 +501,9 @@ hr {
   body {
     font-size: 100%;
   }
-  .logo {
-    max-width: 650px;
+
+  .container,
+  .container-sm {
+    max-width: 620px;
   }
-  .Golf-Pool-text {
-    font-size: 0.75em;
-  }
-  .logo {
-    height: 60px !important;
-  }
-  /* .poolsterHandle,
-  .level1 .earnings {
-    font-size: 1.15em;
-  } */
 }

@@ -215,6 +215,7 @@ $(document).ready(function () {
     // });
     // End of block 1
 
+    // For any tournaments which ESPN don't record results, but PGA does
     // Start of block 2
     // await $.get("api/seedResultsPGA", function (result) {
     //   results = result;
@@ -270,7 +271,8 @@ $(document).ready(function () {
           // a.form += a.Results[k].pos + ",&thinsp;";
           // a.form += a.Results[k].pos + ",";
         }
-        a.form = a.form.slice(0, -1);
+        console.log(a.form);
+        a.form = a.form.split(",").slice(0, -1).join(",");
       }
     }
     await addRanking(fieldData);

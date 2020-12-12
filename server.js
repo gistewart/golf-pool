@@ -8,13 +8,13 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 
 // async function start() {
-//   // Trigger the download and installation of the core-agent
-//   await scout.install({
-//     allowShutdown: true, // allow shutting down spawned scout-agent processes from this program
-//     monitor: true, // enable monitoring
-//     name: "",
-//     key: "",
-//   });
+// Trigger the download and installation of the core-agent
+// await scout.install({
+//   allowShutdown: true, // allow shutting down spawned scout-agent processes from this program
+//   monitor: true, // enable monitoring
+//   name: "",
+//   key: "",
+// });
 
 // Sets up the Express App
 // =============================================================
@@ -31,8 +31,6 @@ app.use(logger("dev"));
 const db = require("./models");
 
 // Sets up the Express app to handle data parsing
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
 app.use(
   bodyParser.urlencoded({
     extended: false,
@@ -55,4 +53,9 @@ db.sequelize.sync().then(function () {
     console.log("App listening on PORT " + PORT);
   });
 });
+// }
+
+// If this script is executed directly, run the start function
+// if (require.main === module) {
+//   start();
 // }

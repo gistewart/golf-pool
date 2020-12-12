@@ -1,7 +1,7 @@
 1. full tournament results need to be loaded into ResultAll db table (search for PGA for events such as Barracuda where pgatour.com is sole source of earnings).
 
 2. to see tournament level data on ResultAll db tbl, run this query:
-SELECT tournamentId, name, startDate FROM `golf-pool_db`.ResultAlls
+SELECT tournamentId, name, startDate, count(*) FROM `golf-pool_db`.ResultAlls
 GROUP BY tournamentId, name, startDate;
 
 3. go to api/playerCategories in api-routes.js
