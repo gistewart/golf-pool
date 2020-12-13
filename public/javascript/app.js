@@ -21,6 +21,7 @@ $(document).ready(function () {
     lastEventName = "";
 
   const today = moment().format();
+  console.log("today: ", today);
   const Year = moment(today).year();
 
   $("#liveScoring").hide();
@@ -1004,6 +1005,9 @@ $(document).ready(function () {
   // make subDay the day of the first round of the midway event
   const subDay = moment([Year, 6, 5]).format();
   // const subDay = moment([Year, 3, 29]).format();
+  if (today > subDay) {
+    $(".subHalfLang").text((i, t) => t.replace(/First/, "Second"));
+  }
 
   function sumData(data, sortedPartResult, playerRatings) {
     //to sum earnings by player and poolster
