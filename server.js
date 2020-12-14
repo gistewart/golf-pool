@@ -8,13 +8,11 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 
 // async function start() {
-// Trigger the download and installation of the core-agent
-// await scout.install({
-//   allowShutdown: true, // allow shutting down spawned scout-agent processes from this program
-//   monitor: true, // enable monitoring
-//   name: "",
-//   key: "",
-// });
+//   // Trigger the download and installation of the core-agent
+//   await scout.install({
+//     allowShutdown: true, // allow shutting down spawned scout-agent processes from this program
+//     monitor: true, // enable monitoring
+//   });
 
 // Sets up the Express App
 // =============================================================

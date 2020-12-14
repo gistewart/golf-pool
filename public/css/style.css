@@ -1,12 +1,13 @@
 body {
-  /* background: rgba(128, 128, 128, 0.25); */
   font-size: 75%;
+  max-width: 620px;
+  margin: 0 auto;
 }
 
 html,
 body {
   height: 100%;
-  margin: 0;
+  margin: 0 auto;
 }
 
 .page-content {
@@ -20,21 +21,41 @@ body {
   display: block;
 }
 
-.logo {
+nav.navbar.navbar-dark {
   position: relative;
-  height: 2.5em;
-  background: rgba(38, 38, 39, 0.87);
-  max-width: 620px;
+  background: navy;
+  /* max-width: 620px;
+  margin: 0 auto; */
+  padding: 0;
+  min-height: 2.5em;
+}
+
+span.navbar-toggler-icon {
+  width: 1em;
+  height: 1em;
+}
+
+ul.navbar-nav {
+  padding-left: 1em;
+  font-weight: 800;
+  padding: 0;
+}
+
+/* to center align text */
+.d-md-flex.d-block.flex-row.mx-md-auto.mx-0 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .chief {
-  width: 75%;
   margin: 0 auto !important;
   font-size: 1.5em;
   color: white;
   font-weight: 800;
   font-family: "Sofia";
   text-align: center;
+  min-height: 0;
 }
 
 header .tabs li a {
@@ -208,6 +229,10 @@ table tbody .level1 .rankingChange {
 
 .level1 .earnings {
   font-size: 1.15em;
+}
+
+.podiumBreak {
+  border-top: 2px double green;
 }
 
 /* beginning of field */

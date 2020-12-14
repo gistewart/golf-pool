@@ -1279,6 +1279,9 @@ $(document).ready(function () {
             : "") +
           "</td></tr>"
       );
+      if (apiCall === "Season" && !week0) {
+        $("table > tbody > tr[data-target='#demo5']").addClass("podiumBreak");
+      }
 
       for (let j = 0; j < sorted[i].Players.length; j++) {
         // if (apiCall === "Live") {
