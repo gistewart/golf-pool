@@ -963,7 +963,7 @@ module.exports = function (app) {
     });
   });
 
-  // for next year's player categories
+  // to populate db with data for next year's player categories
   app.get("/api/playerCategories", async function (req, res) {
     db.ResultAll.findAll({
       attributes: [
@@ -1013,6 +1013,21 @@ module.exports = function (app) {
         return result;
       })
 
+      .then((data) => {
+        res.json(data);
+      });
+  });
+
+  // to grab db with data for next year's player categories
+  app.get("/api/grabPlayerCategories", async function (req, res) {
+    db.playerCategory
+      .findAll({
+        where: {
+          rank: {
+            [Op.lte]: 100,
+          },
+        },
+      })
       .then((data) => {
         res.json(data);
       });
