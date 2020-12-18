@@ -963,7 +963,7 @@ module.exports = function (app) {
     });
   });
 
-  // to populate db with data for next year's player categories
+  // to populate db with data for next year's player categories (local host run)
   app.get("/api/playerCategories", async function (req, res) {
     db.ResultAll.findAll({
       attributes: [
@@ -1008,8 +1008,8 @@ module.exports = function (app) {
         for (let i = 0; i < result.length; i++) {
           result[i].rank = i + 1;
         }
-        await db.playerCategory.sync({ force: true });
-        await db.playerCategory.bulkCreate(result);
+        // await db.playerCategory.sync({ force: true });
+        // await db.playerCategory.bulkCreate(result);
         return result;
       })
 

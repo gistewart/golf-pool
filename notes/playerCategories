@@ -12,6 +12,8 @@ GROUP BY tournamentId, name, startDate;
 
 5. In google drive, open sheets document, file, new, upload, text to columns, format, add category headings
 
+6. import .csv file into Production db
+
 
 
 

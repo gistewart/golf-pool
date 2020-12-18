@@ -1,6 +1,7 @@
 // *** Dependencies
 // =============================================================
 const scout = require("@scout_apm/scout-apm");
+// var env = process.env.NODE_ENV || "development";
 require("dotenv").config();
 const express = require("express");
 // const ejs = require("ejs");
@@ -15,6 +16,8 @@ async function start() {
         allowShutdown: true, // allow shutting down spawned scout-agent processes from this program
         monitor: true, // enable monitoring
         // logLevel: "debug",
+        name: "chiefs-golf-pool",
+        key: "iOsQewUUr2cf8JRFvEsA",
       },
       // Additional scout options
       {
