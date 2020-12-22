@@ -1,12 +1,13 @@
 {
   "name": "golf-pool",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Project Description and Functionality This is a full-stack Node.js app that provides a programmatic solution for a group of friends to track their progress, at a detailed level, in a fantasy golf league. There are 18 participants (aka poolsters) in the league and each participant's team comprises 6 non-exclusive picks: 1 golfer from each of 6 different tiers (the tiers are based on a golfer's earnings in the prior season). Selections are made in December each year, and the pool's 'season' typically includes all PGA Tour events from January through the end of the tour's season in September. Total earnings across the participants' selections is the measure of success used. The key functionality includes:",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node scripts/seed.js",
-    "start:dev": "nodemon server.js"
+    "start:dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,8 @@
   "dependencies": {
     "@scout_apm/scout-apm": "^0.2.1-rc.1",
     "axios": "^0.19.2",
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
     "body-parser": "^1.19.0",
     "bootstrap-icons": "^1.0.0-alpha4",
     "cheerio": "^1.0.0-rc.3",

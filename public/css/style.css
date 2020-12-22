@@ -62,7 +62,7 @@ ul.navbar-nav {
 }
 
 #edition {
-  color: white;
+  color: black;
   border: 3px solid white;
   border-radius: 50%;
   min-height: 2em;
@@ -71,6 +71,7 @@ ul.navbar-nav {
   font-weight: 800;
   line-height: 2em;
   margin-right: 1em !important;
+  background: rgb(165, 157, 157);
 }
 
 header .tabs li a {
@@ -615,4 +616,12 @@ a[target="_blank"]::after {
 li.nav-item a.nav-link {
   color: white;
   padding: 0.25em 1em;
+}
+
+div#rulesAccordion.accordion .card-header {
+  padding: 0.3em 1.5em;
+}
+
+#playerCat-container .card-header th button.btn.btn-link {
+  padding-left: 1.5em;
 }

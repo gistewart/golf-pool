@@ -36,14 +36,14 @@ $(document).ready(function () {
               "</button></th><th></th></tr>" +
               "<tr id='cat" +
               result[i].cat +
-              "' class='collapse' data-parent='#accordionExample' ><td style='padding-left:1em'>" +
+              "' class='collapse' data-parent='#playersAccordion' ><td style='padding-left:2.5em;'>" +
               result[i].rank +
               "</td><td>" +
               result[i].name +
               "</td><tr>"
           : "<tr id='cat" +
               result[i].cat +
-              "' class='collapse'  data-parent='#accordionExample'><td style='padding-left:1em'>" +
+              "' class='collapse'  data-parent='#playersAccordion'><td style='padding-left:2.5em'>" +
               result[i].rank +
               "</td><td>" +
               result[i].name +
