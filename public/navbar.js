@@ -14,25 +14,13 @@ function NavBar() {
         "a",
         {
           className: "navbar-toggler collapsed border-0 mr-md-auto",
-          type: "button",
+
           "data-toggle": "collapse",
-          "data-target": "#collapsingNavbar"
+          "data-target": "#collapsingNavbar",
         },
-        React.createElement(
-          "span",
-          null,
-          " "
-        ),
-        React.createElement(
-          "span",
-          null,
-          " "
-        ),
-        React.createElement(
-          "span",
-          null,
-          " "
-        )
+        React.createElement("span", null, " "),
+        React.createElement("span", null, " "),
+        React.createElement("span", null, " ")
       ),
       React.createElement(
         "div",
@@ -46,8 +34,9 @@ function NavBar() {
       React.createElement(
         "div",
         {
-          className: "d-md-flex d-block flex-row ml-md-auto mx-0 justify-content-center",
-          id: "edition"
+          className:
+            "d-md-flex d-block flex-row ml-md-auto mx-0 justify-content-center",
+          id: "edition",
         },
         "#",
         year - 2004
@@ -90,7 +79,11 @@ function NavBar() {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "//espn.com/golf", target: "_blank" },
+              {
+                className: "nav-link",
+                href: "//espn.com/golf",
+                target: "_blank",
+              },
               "espn.com/golf"
             )
           ),
@@ -99,7 +92,11 @@ function NavBar() {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "//pgatour.com", target: "_blank" },
+              {
+                className: "nav-link",
+                href: "//pgatour.com",
+                target: "_blank",
+              },
               "pgatour.com"
             )
           )

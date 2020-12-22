@@ -54,9 +54,9 @@ ul.navbar-nav {
   transform-origin: center left;
 }
 
-/* .navbar-toggler:hover span {
+.navbar-toggler:hover span {
   background-color: white;
-} */
+}
 
 /* top line needs a little padding */
 .navbar-toggler span:nth-child(1) {
@@ -100,6 +100,12 @@ ul.navbar-nav {
 li.nav-item a.nav-link {
   color: white;
   padding: 0.25em 1em;
+}
+
+a[target="_blank"]::after {
+  content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
+  margin: 0 3px 0 5px;
+  filter: invert(1);
 }
 
 /* to center align text */
@@ -599,12 +605,6 @@ hr {
 .footer,
 .page-content::after {
   height: 25px;
-}
-
-a[target="_blank"]::after {
-  content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
-  margin: 0 3px 0 5px;
-  filter: invert(1);
 }
 
 @media only screen and (min-width: 576px) {

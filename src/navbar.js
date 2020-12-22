@@ -9,7 +9,6 @@ function NavBar() {
       <nav className="navbar bg-dark">
         <a
           className="navbar-toggler collapsed border-0 mr-md-auto"
-          type="button"
           data-toggle="collapse"
           data-target="#collapsingNavbar"
         >
