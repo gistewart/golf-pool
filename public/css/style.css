@@ -36,7 +36,11 @@ nav.navbar.bg-dark {
 } */
 
 ul.navbar-nav {
-  font-weight: 800;
+  font-weight: 600;
+}
+
+.navbar-toggler {
+  cursor: pointer;
 }
 
 /* Define the shape and color of the hamburger lines */
@@ -108,12 +112,31 @@ a[target="_blank"]::after {
   filter: invert(1);
 }
 
+a.navlink i.fas {
+  filter: invert(1);
+}
+
+.fa-fw {
+  width: 1.5em;
+}
+
+i.fas.fa-home.fa-fw::before,
+i.fas.fa-file-alt::before,
+i.fas.fa-user-friends::before,
+i.fas.fa-comment-dots::before {
+  margin-right: 3.65em;
+}
+
+i.fas.fa-file-alt.fa-fw {
+  padding-inline-start: 0.15em;
+}
+
 /* to center align text */
-.d-md-flex.d-block.flex-row.mx-md-auto.mx-0 {
+/* .d-md-flex.d-block.flex-row.mx-md-auto.mx-0 {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-}
+} */
 
 .chief {
   margin: 0 auto !important;
@@ -203,8 +226,9 @@ header .tabs li a .icon:first-child {
   }
 }
 
-div.main-container {
-  max-width: 620px;
+div.main-container,
+div.rules-container,
+div.playerCategory-container {
   width: 95%;
   margin: 0 auto;
 }
@@ -555,6 +579,7 @@ div.container.field-container {
 
 .comments-container {
   max-width: 620px !important;
+  margin-top: 0.5em;
 }
 
 .tabs-container {

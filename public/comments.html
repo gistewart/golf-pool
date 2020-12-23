@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>The Chief's Golf Pool</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascript/jquery.actual.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/0afeff4a0f.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+    <!-- for browser tab logo -->
+    <link rel="shortcut icon" type="image/x-icon" href="TW_192.png" />
+    <!-- for shortcut on iOS home screen -->
+    <link rel="apple-touch-icon" href="TW_192.png">
+    <link rel="manifest" href="manifest.json">
+    <!-- External stylesheet link-->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="page-content">
+        <div id="navbar-container"></div>
+        <main>
+            <div class="container comments-container">
+                <div class="row">
+                    <div class="container tabs-container">
+                        <div class="tabs is-centered is-boxed is-small" style="padding: 0 1em;">
+                            <ul>
+                                <li id="submitComments"><a style="padding: 0 1em;"><span class="icon"><i
+                                                class="fas fa-pen"></i></span><span>Submit</span></a>
+                                </li>
+                                <li id="displayComments"><a style="padding: 0 1em;"><span class="icon"><i
+                                                class="fas fa-list"></i></span><span>Display</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="container submit-comments-container" id="submit-comments-container">
+                        <div class="">
+                            <form id="cms">
+                                <div class="form-group">
+                                    <select class="custom-select" style="font-size: 1em;" id="poolster">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select class="custom-select" style="font-size: 1em;" id="category">
+                                        <option value="" disabled selected>Select Category</option>
+                                        <option value="Data error">Data error</option>
+                                        <option value="Suggestion">Suggestion</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <textarea style="font-size: 1em;"
+                                        placeholder="Details - please note that submitted comments appear immediately in the Display section"
+                                        class="form-control" rows="5" id="body"></textarea>
+                                </div>
+
+                                <br />
+                                <button type="submit" class="btn btn-sm btn-success submit"
+                                    id="commentSubmitButton">Submit</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container display-comments-container" id="display-comments-container">
+                    <div class="row blog-title">
+                        Previously submitted comments
+                    </div>
+                    <div class="blog-container">
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer text-center">
+        <div>
+            <a class="text-light" target="_blank" href="https://gistewart.github.io/Portfolio">
+                ©
+                <script type="text/JavaScript">
+                    document.write(new Date().getFullYear());
+                </script>
+                Graeme Stewart
+            </a>
+        </div>
+    </footer>
+
+    <!-- jQuery Library -->
+    <!-- <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"> -->
+    </script>
+
+    <!-- External javascript link-->
+    <script type="text/javascript" src="javascript/comments.js "></script>
+
+    <!-- Moment.js Link -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+    <!-- Load React. -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <!-- <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script> -->
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script> -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+
+    <!-- Load our React component. -->
+    <script src="../navbar.js"></script>
+
+</body>
+
+</html>
