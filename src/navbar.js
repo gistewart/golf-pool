@@ -54,6 +54,7 @@ function NavBar() {
                 Comments
               </a>
             </li>
+            <hr></hr>
             <li className="nav-item">
               <a className="nav-link" href="//espn.com/golf" target="_blank">
                 espn.com/golf
@@ -73,3 +74,24 @@ function NavBar() {
 
 let domContainer = document.querySelector("#navbar-container");
 ReactDOM.render(<NavBar />, domContainer);
+
+function Footer() {
+  return (
+    <div>
+      <footer className="footer text-center">
+        <div>
+          <a
+            className="text-light"
+            target="_blank"
+            href="https://gistewart.github.io/Portfolio"
+          >
+            © {year} Graeme Stewart
+          </a>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+let footerContainer = document.querySelector("#footer");
+ReactDOM.render(<Footer />, footerContainer);

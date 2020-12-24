@@ -131,6 +131,12 @@ i.fas.fa-file-alt.fa-fw {
   padding-inline-start: 0.15em;
 }
 
+.nav hr {
+  border: 0.5px solid rgb(168, 166, 166);
+  width: 95%;
+  margin: 0.5em 0 0.5em 1em;
+}
+
 /* to center align text */
 /* .d-md-flex.d-block.flex-row.mx-md-auto.mx-0 {
   position: absolute;
@@ -616,7 +622,7 @@ div.container.field-container {
   text-decoration: underline;
 }
 
-hr {
+#footnotes hr {
   border: 1px solid rgb(168, 166, 166);
   margin: 5px 0px;
 }

@@ -97,6 +97,7 @@ function NavBar() {
               "Comments"
             )
           ),
+          React.createElement("hr", null),
           React.createElement(
             "li",
             { className: "nav-item" },
@@ -123,3 +124,32 @@ function NavBar() {
 
 var domContainer = document.querySelector("#navbar-container");
 ReactDOM.render(React.createElement(NavBar, null), domContainer);
+
+function Footer() {
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "footer",
+      { className: "footer text-center" },
+      React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "a",
+          {
+            className: "text-light",
+            target: "_blank",
+            href: "https://gistewart.github.io/Portfolio"
+          },
+          "\xA9 ",
+          year,
+          " Graeme Stewart"
+        )
+      )
+    )
+  );
+}
+
+var footerContainer = document.querySelector("#footer");
+ReactDOM.render(React.createElement(Footer, null), footerContainer);
