@@ -20,11 +20,11 @@ $(document).ready(function () {
     fieldDate = "",
     lastEventName = "";
 
-  // const today = moment().format();
-  // console.log("today: ", today);
-  // const Year = moment(today).year();
-  const today = moment("2021-01-02");
-  const Year = 2021;
+  const today = moment().format();
+  console.log("today: ", today);
+  const Year = moment(today).year();
+  // const today = moment("2021-01-02");
+  // const Year = 2021;
 
   $("#liveScoring").hide();
   $("#onTheRange").hide();
@@ -42,7 +42,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    await displayLiveTab();
+    // await displayLiveTab();
     setTimeout(async function () {
       await thisYearsEvents();
       seasonData();
