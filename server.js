@@ -16,8 +16,6 @@ const bodyParser = require("body-parser");
 //         allowShutdown: true, // allow shutting down spawned scout-agent processes from this program
 //         monitor: true, // enable monitoring
 //         // logLevel: "debug",
-//         name: "chiefs-golf-pool",
-//         key: "iOsQewUUr2cf8JRFvEsA",
 //       },
 //       // Additional scout options
 //       {

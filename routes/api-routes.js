@@ -16,17 +16,22 @@ const runField = require("../scripts/runField");
 var moment = require("moment");
 
 module.exports = function (app) {
-  const today = moment().format();
-  const Year = moment(today).year();
+  // const today = moment().format();
+  // const Year = moment(today).year();
+  const today = moment("2021-01-02");
+  const Year = 2021;
 
   app.get("/api/poolsters", function (req, res) {
     db.Poolster.findAll({
       where: {
         StartDate: {
-          [Op.lt]: new Date(),
+          [Op.lte]: today,
         },
         EndDate: {
-          [Op.eq]: null,
+          [Op.or]: {
+            [Op.eq]: null,
+            [Op.gt]: today,
+          },
         },
       },
     }).then((data) => {
@@ -38,10 +43,13 @@ module.exports = function (app) {
     await db.Poolster.findAll({
       where: {
         StartDate: {
-          [Op.lt]: new Date(),
+          [Op.lte]: today,
         },
         EndDate: {
-          [Op.eq]: null,
+          [Op.or]: {
+            [Op.eq]: null,
+            [Op.gt]: today,
+          },
         },
       },
       attributes: ["poolsterId", "name", "handle", "image"],
@@ -185,10 +193,13 @@ module.exports = function (app) {
         return db.Poolster.findAll({
           where: {
             StartDate: {
-              [Op.lt]: new Date(),
+              [Op.lte]: today,
             },
             EndDate: {
-              [Op.eq]: null,
+              [Op.or]: {
+                [Op.eq]: null,
+                [Op.gt]: today,
+              },
             },
           },
           attributes: ["poolsterId", "name", "handle", "image"],
@@ -245,21 +256,21 @@ module.exports = function (app) {
                           model: db.Schedule,
                           as: "Schedule",
                           where: {
-                            [Op.and]: [
-                              sequelize.where(
-                                sequelize.fn(
-                                  "YEAR",
-                                  sequelize.col("tStartDate")
-                                ),
-                                Year
-                              ),
-                              {
-                                tStartDate: {
-                                  [Op.eq]: date,
-                                },
-                              },
-                            ],
+                            // [Op.and]: [
+                            //   sequelize.where(
+                            //     sequelize.fn(
+                            //       "YEAR",
+                            //       sequelize.col("tStartDate")
+                            //     ),
+                            //     Year
+                            //   ),
+                            //   {
+                            tStartDate: {
+                              [Op.eq]: date,
+                            },
                           },
+                          //   ],
+                          // },
                           attributes: ["name", "tDate", "tStartDate"],
                           include: [
                             {
@@ -338,6 +349,7 @@ module.exports = function (app) {
       });
   });
 
+  // filter for max start date AND current year's events
   app.get("/api/allExclLastEvent", async function (req, res) {
     console.log("Year: ", Year);
     let date = await db.Schedule.max("tStartDate", {
@@ -355,10 +367,13 @@ module.exports = function (app) {
         return db.Poolster.findAll({
           where: {
             StartDate: {
-              [Op.lt]: new Date(),
+              [Op.lte]: today,
             },
             EndDate: {
-              [Op.eq]: null,
+              [Op.or]: {
+                [Op.eq]: null,
+                [Op.gt]: today,
+              },
             },
           },
           attributes: ["poolsterId", "name", "handle"],
@@ -637,11 +652,13 @@ module.exports = function (app) {
     });
   });
 
+  // filters liveEventSchedule for event with largest purse
   app.get("/api/livePurseSplit", async function (req, res) {
     // get name of tournament from liveEventSchedule
     await db.liveEventSchedule
       .findAll({
-        attributes: ["name"],
+        attributes: ["name", "purse"],
+        order: [["purse", "desc"]],
       })
 
       // get tType of tournament identified above
@@ -681,6 +698,7 @@ module.exports = function (app) {
     await db.liveEventSchedule
       .findAll({
         attributes: ["name"],
+        order: [["purse", "desc"]],
       })
 
       // get MCLine of tournament identified above
@@ -705,9 +723,13 @@ module.exports = function (app) {
   });
 
   app.get("/api/liveSchedule", async function (req, res) {
-    await db.liveEventSchedule.findAll({}).then(function (result) {
-      res.json(result);
-    });
+    await db.liveEventSchedule
+      .findAll({
+        order: [["purse", "desc"]],
+      })
+      .then(function (result) {
+        res.json(result);
+      });
   });
 
   // poolsters and all their player demographics, in a formatted array
@@ -715,10 +737,13 @@ module.exports = function (app) {
     await db.Poolster.findAll({
       where: {
         StartDate: {
-          [Op.lt]: new Date(),
+          [Op.lte]: today,
         },
         EndDate: {
-          [Op.eq]: null,
+          [Op.or]: {
+            [Op.eq]: null,
+            [Op.gt]: today,
+          },
         },
       },
       attributes: ["poolsterId", "name", "handle", "image"],
@@ -798,10 +823,13 @@ module.exports = function (app) {
     await db.Poolster.findAll({
       where: {
         StartDate: {
-          [Op.lt]: new Date(),
+          [Op.lte]: today,
         },
         EndDate: {
-          [Op.eq]: null,
+          [Op.or]: {
+            [Op.eq]: null,
+            [Op.gt]: today,
+          },
         },
       },
       attributes: ["poolsterId", "name", "handle"],
@@ -1057,10 +1085,13 @@ module.exports = function (app) {
     await db.Poolster.findAll({
       where: {
         StartDate: {
-          [Op.lt]: new Date(),
+          [Op.lte]: today,
         },
         EndDate: {
-          [Op.eq]: null,
+          [Op.or]: {
+            [Op.eq]: null,
+            [Op.gt]: today,
+          },
         },
       },
       attributes: ["poolsterId", "name", "handle"],
@@ -1122,6 +1153,13 @@ module.exports = function (app) {
           a = data[i].PoolsterPlayers;
           let jAdj = 0;
           for (let j = 0; j < a.length; j++) {
+            if (!a[j].Player.PlayerImage) {
+              console.log("--------no image-------");
+              a[j].Player.PlayerImage = {
+                playerImage:
+                  "https://res.cloudinary.com/pga-tour/image/upload/c_fill,g_face:center,h_294,q_auto,w_220/headshots_default.png",
+              };
+            }
             // let today = new Date();
             if (
               (moment(a[j].startDate).isBefore(today) &&
@@ -1168,10 +1206,13 @@ module.exports = function (app) {
     await db.Poolster.findAll({
       where: {
         StartDate: {
-          [Op.lt]: new Date(),
+          [Op.lte]: today,
         },
         EndDate: {
-          [Op.eq]: null,
+          [Op.or]: {
+            [Op.eq]: null,
+            [Op.gt]: today,
+          },
         },
       },
       attributes: ["poolsterId", "name", "handle"],

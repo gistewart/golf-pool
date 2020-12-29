@@ -95,3 +95,21 @@ function Footer() {
 
 let footerContainer = document.querySelector("#footer");
 ReactDOM.render(<Footer />, footerContainer);
+
+const element = React.createElement;
+
+function PageTitle(props) {
+  const param = document.querySelector("#page-title").getAttribute("param");
+  console.log("param:", param);
+
+  return (
+    <div className="card">
+      <div className="card-body">
+        <h5>{param}</h5>
+      </div>
+    </div>
+  );
+}
+
+let pageTitle = document.querySelector("#page-title");
+ReactDOM.render(element(PageTitle), pageTitle);

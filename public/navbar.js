@@ -153,3 +153,27 @@ function Footer() {
 
 var footerContainer = document.querySelector("#footer");
 ReactDOM.render(React.createElement(Footer, null), footerContainer);
+
+var element = React.createElement;
+
+function PageTitle(props) {
+  var param = document.querySelector("#page-title").getAttribute("param");
+  console.log("param:", param);
+
+  return React.createElement(
+    "div",
+    { className: "card" },
+    React.createElement(
+      "div",
+      { className: "card-body" },
+      React.createElement(
+        "h5",
+        null,
+        param
+      )
+    )
+  );
+}
+
+var pageTitle = document.querySelector("#page-title");
+ReactDOM.render(element(PageTitle), pageTitle);

@@ -656,3 +656,22 @@ div#rulesAccordion.accordion .card-header {
 #playerCat-container .card-header th button.btn.btn-link {
   padding-left: 1.5em;
 }
+
+#page-title .card {
+  margin: 1.5em 0;
+}
+
+#page-title .card .card-body {
+  padding: 0.25em 2em;
+}
+
+#page-title .card .card-body h5 {
+  font-size: 1.25em;
+  margin: 0;
+  text-align: center;
+  color: black;
+}
+
+#playersAccordion table {
+  margin-bottom: 0;
+}

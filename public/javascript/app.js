@@ -20,9 +20,11 @@ $(document).ready(function () {
     fieldDate = "",
     lastEventName = "";
 
-  const today = moment().format();
-  console.log("today: ", today);
-  const Year = moment(today).year();
+  // const today = moment().format();
+  // console.log("today: ", today);
+  // const Year = moment(today).year();
+  const today = moment("2021-01-02");
+  const Year = 2021;
 
   $("#liveScoring").hide();
   $("#onTheRange").hide();
@@ -32,8 +34,6 @@ $(document).ready(function () {
   $(".refreshContainer").hide();
   $("#footnotes").hide();
   $("footer").hide();
-  $(".comments-container").hide();
-
   $("#seasonData .spinner").addClass("lds-hourglass");
 
   pageLoad();
@@ -42,7 +42,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(async function () {
       await thisYearsEvents();
       seasonData();
@@ -192,17 +192,14 @@ $(document).ready(function () {
     $("#onTheRange .spinner").addClass("lds-hourglass");
     $("#onTheRange").addClass("is-active");
     $(".onTheRange-container").show();
-
     $(".main-container").show();
     $(".leaderboard-container").hide();
     $("#lastEventDetails").show();
     $("#lastEventTitle").text(`${fieldDate} | ${fieldName}`);
     $("#lastEventDetails").text("");
     $("#footnotes").hide();
-    $(".comments-container").hide();
     $("#seasonData").removeClass("is-active");
     $("#eventData").removeClass("is-active");
-    $("#commentsPage").removeClass("is-active");
 
     // Uncomment this section to load results to PRODUCTION from fall season events (check notes and test on local version first)
     // Start of block 1
@@ -272,7 +269,7 @@ $(document).ready(function () {
           // a.form += a.Results[k].pos + ",&thinsp;";
           // a.form += a.Results[k].pos + ",";
         }
-        console.log(a.form);
+        // console.log(a.form);
         a.form = a.form.split(",").slice(0, -1).join(",");
       }
     }
@@ -354,7 +351,6 @@ $(document).ready(function () {
     $(".refreshContainer").show();
     $(".onTheRange-container").hide();
     $("#footnotes").hide();
-    $(".comments-container").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Current tournament details:");
     apiCall = "Live";
@@ -363,7 +359,6 @@ $(document).ready(function () {
     $("#eventData").removeClass("is-active");
     $("#seasonData").removeClass("is-active");
     $("#onTheRange").removeClass("is-active");
-    $("#commentsPage").removeClass("is-active");
 
     console.log("liveEvent function");
 
@@ -850,6 +845,8 @@ $(document).ready(function () {
 
     $("#lastUpdate").html("");
     let now = moment().format("LT");
+    // for local time
+    // let now = moment.utc(obj.created_on).local().format("LT")
     $("#lastUpdate").append("last update: " + now);
 
     sortData(livePlayers);
@@ -900,7 +897,6 @@ $(document).ready(function () {
 
   function seasonData() {
     $("#seasonData .spinner").addClass("lds-hourglass");
-    $(".comments-container").hide();
     $(".onTheRange-container").hide();
     $(".main-container").show();
     $(".leaderboard-container").show();
@@ -928,7 +924,6 @@ $(document).ready(function () {
     $("#eventData").removeClass("is-active");
     $("#liveScoring").removeClass("is-active");
     $("#onTheRange").removeClass("is-active");
-    $("#commentsPage").removeClass("is-active");
     $("#seasonData").addClass("is-active");
     $.get("/api/allEvents", function (data) {
       mainData = data;
@@ -980,7 +975,6 @@ $(document).ready(function () {
     $("#eventData .spinner").addClass("lds-hourglass");
     $(".main-container").show();
     $(".leaderboard-container").show();
-    $(".comments-container").hide();
     $(".onTheRange-container").hide();
     $("#footnotes").hide();
     $("#lastEventTitle").show();
@@ -996,7 +990,6 @@ $(document).ready(function () {
       $("#seasonData").removeClass("is-active");
       $("#liveScoring").removeClass("is-active");
       $("#onTheRange").removeClass("is-active");
-      $("#commentsPage").removeClass("is-active");
     });
   }
 
