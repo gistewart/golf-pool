@@ -52,8 +52,12 @@ module.exports = function (app) {
           },
         },
       },
-      attributes: ["poolsterId", "name", "handle", "image"],
+      attributes: ["poolsterId", "name", "handle"],
       include: [
+        {
+          model: db.PoolsterImage,
+          attributes: ["image"],
+        },
         {
           model: db.PoolsterPlayers,
           as: "PoolsterPlayers",
@@ -119,7 +123,7 @@ module.exports = function (app) {
           result.push({
             name: data[i].name,
             handle: data[i].handle,
-            image: data[i].image,
+            image: data[i].PoolsterImage.image,
             Players: [],
           });
 
@@ -202,13 +206,17 @@ module.exports = function (app) {
               },
             },
           },
-          attributes: ["poolsterId", "name", "handle", "image"],
+          attributes: ["poolsterId", "name", "handle"],
           where: {
             "$PoolsterPlayers.Player.Results.earnings$": {
               [Op.gte]: 0,
             },
           },
           include: [
+            {
+              model: db.PoolsterImage,
+              attributes: ["image"],
+            },
             {
               model: db.PoolsterPlayers,
               as: "PoolsterPlayers",
@@ -295,7 +303,7 @@ module.exports = function (app) {
           result.push({
             name: data[i].name,
             handle: data[i].handle,
-            image: data[i].image,
+            image: data[i].PoolsterImage.image,
             Players: [],
           });
 
@@ -746,8 +754,12 @@ module.exports = function (app) {
           },
         },
       },
-      attributes: ["poolsterId", "name", "handle", "image"],
+      attributes: ["poolsterId", "name", "handle"],
       include: [
+        {
+          model: db.PoolsterImage,
+          attributes: ["image"],
+        },
         {
           model: db.PoolsterPlayers,
           as: "PoolsterPlayers",
@@ -792,7 +804,7 @@ module.exports = function (app) {
             id: data[i].poolsterId,
             name: data[i].name,
             poolster: data[i].handle,
-            image: data[i].image,
+            image: data[i].PoolsterImage.image,
             Players: [],
           });
           a = data[i].PoolsterPlayers;
@@ -1195,6 +1207,107 @@ module.exports = function (app) {
             }
           }
         }
+        return result;
+      })
+      .then((result) => {
+        res.json(result);
+      });
+  });
+
+  //poolsterProfileImage - run via localhost
+  app.get("/api/poolsterProfileImage", async function (req, res) {
+    await db.Poolster.findAll({
+      where: {
+        StartDate: {
+          [Op.lte]: today,
+        },
+        EndDate: {
+          [Op.or]: {
+            [Op.eq]: null,
+            [Op.gt]: today,
+          },
+        },
+      },
+      attributes: ["poolsterId", "handle"],
+      include: [
+        {
+          model: db.PoolsterPlayers,
+          as: "PoolsterPlayers",
+          where: sequelize.where(
+            sequelize.fn("YEAR", sequelize.col("PoolsterPlayers.startDate")),
+            Year
+          ),
+          attributes: ["startDate", "endDate", "reStartDate", "reEndDate"],
+          include: [
+            {
+              model: db.Player,
+              as: "Player",
+              attributes: ["playerName"],
+              include: [
+                {
+                  model: db.PlayerTier,
+                  attributes: ["tier"],
+                  where: {
+                    year: {
+                      [Op.eq]: Year,
+                    },
+                  },
+                },
+                { model: db.PlayerImage, attributes: ["playerImage"] },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+      .then(async function (data) {
+        let a;
+        let personalHeadshot = [
+          {
+            id: "1",
+            image:
+              "https://cache.legacy.net/legacy/images/cobrands/SFGate/photos/S0165580_1_20200717.jpgx?w=712&h=600&option=1",
+          },
+          { id: "6", image: "/images/Braveheart.jpeg" },
+        ];
+
+        let result = [];
+        for (let i = 0; i < data.length; i++) {
+          result.push({
+            id: data[i].poolsterId,
+            handle: data[i].handle,
+          });
+          a = data[i].PoolsterPlayers;
+          for (let j = 0; j < a.length; j++) {
+            if (!a[j].Player.PlayerImage) {
+              console.log("--------no image-------");
+              a[j].Player.PlayerImage = {
+                playerImage:
+                  "https://res.cloudinary.com/pga-tour/image/upload/c_fill,g_face:center,h_294,q_auto,w_220/headshots_default.png",
+              };
+            }
+            if (
+              a[j].Player.PlayerTiers[0].tier === 1 &&
+              ((moment(a[j].startDate).isBefore(today) &&
+                moment(a[j].endDate).isAfter(today)) ||
+                (moment(a[j].reStartDate).isBefore(today) &&
+                  moment(a[j].reEndDate).isAfter(today)))
+            ) {
+              result[i].name = a[j].Player.playerName;
+              result[i].image = a[j].Player.PlayerImage.playerImage;
+            }
+          }
+        }
+        for (let i = 0; i < result.length; i++) {
+          for (let j = 0; j < personalHeadshot.length; j++) {
+            if (result[i].id == personalHeadshot[j].id) {
+              result[i].image = personalHeadshot[j].image;
+              break;
+            }
+          }
+        }
+        await db.PoolsterImage.sync({ force: true });
+        await db.PoolsterImage.bulkCreate(result);
         return result;
       })
       .then((result) => {

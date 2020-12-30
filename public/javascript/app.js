@@ -43,11 +43,19 @@ $(document).ready(function () {
     await missingResults();
     lastEventDetails();
     // await displayLiveTab();
+    poolsterProfileImage();
     setTimeout(async function () {
       await thisYearsEvents();
       seasonData();
       // liveEvent();
     }, 1000);
+  }
+
+  async function poolsterProfileImage() {
+    await $.get("api/poolsterProfileImage", function (result) {
+      let poolsterImage = result;
+      console.log(poolsterImage);
+    });
   }
 
   async function displayLiveTab() {
@@ -257,9 +265,10 @@ $(document).ready(function () {
           0,
           5
         );
-        fieldData[i].Players[j].name = fieldData[i].Players[j].name.split(
-          " "
-        )[1];
+        fieldData[i].Players[j].name = fieldData[i].Players[j].name
+          .replace(" III", "")
+          .split(" ")
+          .pop();
 
         let a = fieldData[i].Players[j];
         a.form = "";

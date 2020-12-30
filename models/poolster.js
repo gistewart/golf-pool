@@ -40,6 +40,10 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: "poolsterId",
       sourceKey: "poolsterId",
     });
+    Poolster.hasOne(models.PoolsterImage, {
+      foreignKey: "id",
+      sourceKey: "poolsterId",
+    });
   };
 
   return Poolster;
