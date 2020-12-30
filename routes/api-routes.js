@@ -16,10 +16,10 @@ const runField = require("../scripts/runField");
 var moment = require("moment");
 
 module.exports = function (app) {
-  const today = moment().format();
-  const Year = moment(today).year();
-  // const today = moment("2021-01-02");
-  // const Year = 2021;
+  // const today = moment().format();
+  // const Year = moment(today).year();
+  const today = moment("2021-01-02");
+  const Year = 2021;
 
   app.get("/api/poolsters", function (req, res) {
     db.Poolster.findAll({
