@@ -340,7 +340,9 @@ table tbody .level1 .rankingChange {
   padding: 0 0.15em;
   background-color: green;
   color: white;
-  font-size: 0.95em;
+  font-size: 0.75em;
+  position: relative;
+  bottom: 0.1em;
 }
 
 #leaderboard-container .earnings {
