@@ -23,7 +23,7 @@ $(document).ready(function () {
   const today = moment().format();
   console.log("today: ", today);
   const Year = moment(today).year();
-  // const today = moment("2021-01-02");
+  // const today = moment("2021-01-01");
   // const Year = 2021;
 
   $("#liveScoring").hide();
@@ -1230,22 +1230,16 @@ $(document).ready(function () {
           "></td><td class='poolsterHandle'>" +
           "<span>" +
           (sorted[i].poolster === "The Trader"
-            ? "<i class='fas fa-ribbon'></i>" + " "
-            : "") +
-          sorted[i].poolster +
+            ? "<i class='fas fa-ribbon'></i>" +
+              " " +
+              sorted[i].poolster +
+              "<i class='fas fa-ribbon'></i>" +
+              " "
+            : sorted[i].poolster) +
           (apiCall == "Live"
             ? "<small>" + sorted[i].liveZeroPlayersText + "</small>"
             : "") +
           " " +
-          (sorted[i].poolster === "The Trader"
-            ? "<i class='fas fa-ribbon'></i>"
-            : sorted[i].poolster === "The Snake" && apiCall == "Season"
-            ? "<span style='background-color:green;color:white;font-size:0.75em'>" +
-              "2020 " +
-              "<i class='fas fa-trophy fa-sm'></i>" +
-              "</span>" +
-              " "
-            : "") +
           (sorted[i].playerCount > 0 &&
           apiCall == "Season" &&
           sorted[i].poolster !== "The Trader"
@@ -1258,7 +1252,14 @@ $(document).ready(function () {
           "</span>" +
           "<p class='poolsterName'>" +
           sorted[i].name +
-          "</p></td><td class='earnings'>" +
+          (sorted[i].poolster === "The Snake" && apiCall == "Season"
+            ? " " +
+              "<span id='winnerTrophy'>" +
+              "2020 " +
+              "<i class='fas fa-trophy fa-sm'></i>" +
+              "</span>"
+            : "") +
+          "</td><td class='earnings'>" +
           sorted[i].poolsterEarnings.toLocaleString("us-US", {
             style: "currency",
             currency: "USD",

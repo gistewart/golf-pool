@@ -18,7 +18,7 @@ var moment = require("moment");
 module.exports = function (app) {
   const today = moment().format();
   const Year = moment(today).year();
-  // const today = moment("2021-01-02");
+  // const today = moment("2021-01-01");
   // const Year = 2021;
 
   app.get("/api/poolsters", function (req, res) {
@@ -1174,9 +1174,9 @@ module.exports = function (app) {
             }
             // let today = new Date();
             if (
-              (moment(a[j].startDate).isBefore(today) &&
+              (moment(a[j].startDate).isSameOrBefore(today) &&
                 moment(a[j].endDate).isAfter(today)) ||
-              (moment(a[j].reStartDate).isBefore(today) &&
+              (moment(a[j].reStartDate).isSameOrBefore(today) &&
                 moment(a[j].reEndDate).isAfter(today))
             ) {
               result[i].Players.push({
@@ -1214,7 +1214,7 @@ module.exports = function (app) {
       });
   });
 
-  //poolsterProfileImage - run via localhost
+  //poolsterProfileImage - run on pageLoad
   app.get("/api/poolsterProfileImage", async function (req, res) {
     await db.Poolster.findAll({
       where: {
@@ -1269,6 +1269,7 @@ module.exports = function (app) {
               "https://cache.legacy.net/legacy/images/cobrands/SFGate/photos/S0165580_1_20200717.jpgx?w=712&h=600&option=1",
           },
           { id: "6", image: "/images/Braveheart.jpeg" },
+          { id: "17", image: "/images/jayhawk.jpeg" },
         ];
 
         let result = [];
@@ -1288,10 +1289,10 @@ module.exports = function (app) {
             }
             if (
               a[j].Player.PlayerTiers[0].tier === 1 &&
-              ((moment(a[j].startDate).isBefore(today) &&
-                moment(a[j].endDate).isAfter(today)) ||
-                (moment(a[j].reStartDate).isBefore(today) &&
-                  moment(a[j].reEndDate).isAfter(today)))
+              ((moment(a[j].startDate).isSameOrBefore(today) &&
+                moment(a[j].endDate).isSameOrAfter(today)) ||
+                (moment(a[j].reStartDate).isSameOrBefore(today) &&
+                  moment(a[j].reEndDate).isSameOrAfter(today)))
             ) {
               result[i].name = a[j].Player.playerName;
               result[i].image = a[j].Player.PlayerImage.playerImage;

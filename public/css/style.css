@@ -333,7 +333,14 @@ table tbody .level1 .rankingChange {
 .poolsterName {
   font-size: 0.8em;
   color: rgb(63, 62, 62);
-  margin-bottom: 0.5em !important;
+  /* margin-bottom: 0.5em !important; */
+}
+
+#winnerTrophy {
+  padding: 0 0.15em;
+  background-color: green;
+  color: white;
+  font-size: 0.95em;
 }
 
 #leaderboard-container .earnings {
