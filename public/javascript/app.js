@@ -1239,11 +1239,20 @@ $(document).ready(function () {
           " " +
           (sorted[i].poolster === "The Trader"
             ? "<i class='fas fa-ribbon'></i>"
-            : sorted[i].playerCount > 0 &&
+            : sorted[i].poolster === "The Snake" && apiCall == "Season"
+            ? "<span style='background-color:green;color:white;font-size:0.75em'>" +
+              "2020 " +
+              "<i class='fas fa-trophy fa-sm'></i>" +
+              "</span>" +
+              " "
+            : "") +
+          (sorted[i].playerCount > 0 &&
+          apiCall == "Season" &&
+          sorted[i].poolster !== "The Trader"
+            ? "<i class='subIcon2 material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
+            : sorted[i].playerCount == 0 &&
               apiCall == "Season" &&
               sorted[i].poolster !== "The Trader"
-            ? "<i class='subIcon2 material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
-            : sorted[i].playerCount == 0 && apiCall == "Season"
             ? "<i class='subIcon1 material-icons md-15'>swap_horizontal_circle</i>"
             : "") +
           "</span>" +
