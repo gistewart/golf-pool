@@ -39,11 +39,11 @@ $(document).ready(function () {
   pageLoad();
 
   async function pageLoad() {
+    await poolsterProfileImage();
     await eventCheck();
     await missingResults();
     lastEventDetails();
     // await displayLiveTab();
-    await poolsterProfileImage();
     setTimeout(async function () {
       await thisYearsEvents();
       seasonData();
