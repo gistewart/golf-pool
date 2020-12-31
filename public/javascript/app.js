@@ -39,7 +39,7 @@ $(document).ready(function () {
   pageLoad();
 
   async function pageLoad() {
-    await poolsterProfileImage();
+    // await poolsterProfileImage();
     await eventCheck();
     await missingResults();
     lastEventDetails();
