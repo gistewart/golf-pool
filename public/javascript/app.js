@@ -43,7 +43,7 @@ $(document).ready(function () {
     await missingResults();
     lastEventDetails();
     // await displayLiveTab();
-    poolsterProfileImage();
+    await poolsterProfileImage();
     setTimeout(async function () {
       await thisYearsEvents();
       seasonData();
