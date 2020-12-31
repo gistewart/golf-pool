@@ -1549,6 +1549,22 @@ module.exports = function (app) {
     });
   });
 
+  // to grab db with data for next year's player categories
+  app.get("/html/api/grabTCPurseSplit", async function (req, res) {
+    db.livePurseSplit
+      .findAll({
+        where: {
+          class: {
+            [Op.eq]: "tc",
+          },
+        },
+        attributes: ["pos", "percent"],
+      })
+      .then((data) => {
+        res.json(data);
+      });
+  });
+
   //earnings by poolster by player
   app.get("/api/temp2", function (req, res) {
     db.Poolster.findAll({

@@ -1233,6 +1233,7 @@ $(document).ready(function () {
             ? "<i class='fas fa-ribbon'></i>" +
               " " +
               sorted[i].poolster +
+              " " +
               "<i class='fas fa-ribbon'></i>" +
               " "
             : sorted[i].poolster) +

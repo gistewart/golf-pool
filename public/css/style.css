@@ -340,7 +340,7 @@ table tbody .level1 .rankingChange {
   padding: 0 0.15em;
   background-color: green;
   color: white;
-  font-size: 0.75em;
+  font-size: 0.85em;
   position: relative;
   bottom: 0.1em;
 }
@@ -647,17 +647,6 @@ div.container.field-container {
   height: 25px;
 }
 
-@media only screen and (min-width: 576px) {
-  body {
-    font-size: 100%;
-  }
-
-  .container,
-  .container-sm {
-    max-width: 620px;
-  }
-}
-
 div#rulesAccordion.accordion .card-header {
   padding: 0.3em 1.5em;
 }
@@ -683,4 +672,24 @@ div#rulesAccordion.accordion .card-header {
 
 #playersAccordion table {
   margin-bottom: 0;
+}
+
+.tcPurseSplit {
+  margin: 0 auto;
+  margin-bottom: 1em;
+}
+
+#tcPurseSplitRow {
+  font-size: 0.85em;
+}
+
+@media only screen and (min-width: 576px) {
+  body {
+    font-size: 100%;
+  }
+
+  .container,
+  .container-sm {
+    max-width: 620px;
+  }
 }

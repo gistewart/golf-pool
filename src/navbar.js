@@ -31,25 +31,25 @@ function NavBar() {
         <div className="collapse navbar-collapse" id="collapsingNavbar">
           <ul className="nav navbar-nav">
             <li className="nav-item">
-              <a className="nav-link" href="index.html">
+              <a className="nav-link" href="../index.html">
                 <i className="fas fa-home fa-fw"></i>
                 Home
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="rules.html">
+              <a className="nav-link" href="../rules.html">
                 <i className="fas fa-file-alt fa-fw"></i>
                 Rules
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="players.html">
+              <a className="nav-link" href="../players.html">
                 <i className="fas fa-user-friends fa-fw"></i>
                 Player Categories
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="comments.html">
+              <a className="nav-link" href="../comments.html">
                 <i className="fas fa-comment-dots fa-fw"></i>
                 Comments
               </a>

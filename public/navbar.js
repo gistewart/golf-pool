@@ -62,7 +62,7 @@ function NavBar() {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "index.html" },
+              { className: "nav-link", href: "../index.html" },
               React.createElement("i", { className: "fas fa-home fa-fw" }),
               "Home"
             )
@@ -72,7 +72,7 @@ function NavBar() {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "rules.html" },
+              { className: "nav-link", href: "../rules.html" },
               React.createElement("i", { className: "fas fa-file-alt fa-fw" }),
               "Rules"
             )
@@ -82,7 +82,7 @@ function NavBar() {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "players.html" },
+              { className: "nav-link", href: "../players.html" },
               React.createElement("i", { className: "fas fa-user-friends fa-fw" }),
               "Player Categories"
             )
@@ -92,7 +92,7 @@ function NavBar() {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "comments.html" },
+              { className: "nav-link", href: "../comments.html" },
               React.createElement("i", { className: "fas fa-comment-dots fa-fw" }),
               "Comments"
             )
