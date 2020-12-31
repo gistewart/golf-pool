@@ -20,6 +20,16 @@ $(document).ready(function () {
     fieldDate = "",
     lastEventName = "";
 
+  // function promises() {
+  //   const promise1 = $.get("api/allEvents");
+  //   const promise2 = $.get("api/playerRatings");
+  //   Promise.all([promise1, promise2]).then(function (values) {
+  //     console.log(values);
+  //   });
+  // }
+
+  // promises();
+
   const today = moment().format();
   console.log("today: ", today);
   const Year = moment(today).year();
@@ -934,48 +944,51 @@ $(document).ready(function () {
     $("#liveScoring").removeClass("is-active");
     $("#onTheRange").removeClass("is-active");
     $("#seasonData").addClass("is-active");
-    $.get("/api/allEvents", function (data) {
-      mainData = data;
-    }).then(function () {
-      $.get("/api/allExclLastEvent", function (data2) {
-        partData = data2;
-      }).then(function () {
-        $.get("/api/playerRatings", function (data3) {
-          playerRatings = data3;
-        }).then(function () {
-          let a, b;
-          let partResult = [];
-          for (let i = 0; i < partData.length; i++) {
-            let poolsterSum = 0;
-            partResult.push({
-              poolster: partData[i].handle,
-              Players: [],
-            });
-            a = partData[i].Players;
-            for (let j = 0; j < a.length; j++) {
-              partResult[i].Players.push({
-                player: a[j].name,
-                tournaments: [],
-              });
-              b = a[j].Tournaments;
-              for (let k = 0; k < b.length; k++) {
-                poolsterSum += b[k].earnings;
-              }
-              partResult[i]["poolsterEarnings"] = poolsterSum;
-            }
-          }
-          const sortedPartResult = partResult.sort(
-            (a, b) => b.poolsterEarnings - a.poolsterEarnings
-          );
 
-          for (let i = 0; i < sortedPartResult.length; i++) {
-            sortedPartResult[i].ranking = i + 1;
-          }
-          console.log(sortedPartResult);
-          sumData(mainData, sortedPartResult, playerRatings);
-        });
-      });
+    const promise1 = $.get("api/allEvents");
+    const promise2 = $.get("/api/allExclLastEvent");
+    const promise3 = $.get("api/playerRatings");
+
+    Promise.all([promise1, promise2, promise3]).then(function (values) {
+      console.log(values);
+      const mainData = values[0];
+      const partData = values[1];
+      const playerRatings = values[2];
+      restofSeason(mainData, partData, playerRatings);
     });
+  }
+
+  function restofSeason(mainData, partData, playerRatings) {
+    let a, b;
+    let partResult = [];
+    for (let i = 0; i < partData.length; i++) {
+      let poolsterSum = 0;
+      partResult.push({
+        poolster: partData[i].handle,
+        Players: [],
+      });
+      a = partData[i].Players;
+      for (let j = 0; j < a.length; j++) {
+        partResult[i].Players.push({
+          player: a[j].name,
+          tournaments: [],
+        });
+        b = a[j].Tournaments;
+        for (let k = 0; k < b.length; k++) {
+          poolsterSum += b[k].earnings;
+        }
+        partResult[i]["poolsterEarnings"] = poolsterSum;
+      }
+    }
+    const sortedPartResult = partResult.sort(
+      (a, b) => b.poolsterEarnings - a.poolsterEarnings
+    );
+
+    for (let i = 0; i < sortedPartResult.length; i++) {
+      sortedPartResult[i].ranking = i + 1;
+    }
+    console.log(sortedPartResult);
+    sumData(mainData, sortedPartResult, playerRatings);
   }
 
   $(document).on("click", "#eventData", eventData);

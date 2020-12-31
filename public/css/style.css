@@ -338,11 +338,12 @@ table tbody .level1 .rankingChange {
 
 #winnerTrophy {
   padding: 0 0.15em;
-  background-color: green;
-  color: white;
-  font-size: 0.85em;
+  background-color: gold;
+  color: black;
+  font-size: 0.9em;
   position: relative;
   bottom: 0.1em;
+  border: 1px solid grey;
 }
 
 #leaderboard-container .earnings {
