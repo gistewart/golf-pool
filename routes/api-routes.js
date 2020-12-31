@@ -1287,12 +1287,15 @@ module.exports = function (app) {
                   "https://res.cloudinary.com/pga-tour/image/upload/c_fill,g_face:center,h_294,q_auto,w_220/headshots_default.png",
               };
             }
+
             if (
               a[j].Player.PlayerTiers[0].tier === 1 &&
               ((moment(a[j].startDate).isSameOrBefore(today) &&
-                moment(a[j].endDate).isSameOrAfter(today)) ||
+                moment(a[j].endDate).isSameOrAfter(moment().startOf("day"))) ||
                 (moment(a[j].reStartDate).isSameOrBefore(today) &&
-                  moment(a[j].reEndDate).isSameOrAfter(today)))
+                  moment(a[j].reEndDate).isSameOrAfter(
+                    moment().startOf("day")
+                  )))
             ) {
               result[i].name = a[j].Player.playerName;
               result[i].image = a[j].Player.PlayerImage.playerImage;
