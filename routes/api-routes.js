@@ -30,7 +30,7 @@ module.exports = function (app) {
         EndDate: {
           [Op.or]: {
             [Op.eq]: null,
-            [Op.gt]: today,
+            [Op.gte]: today,
           },
         },
       },
@@ -48,7 +48,7 @@ module.exports = function (app) {
         EndDate: {
           [Op.or]: {
             [Op.eq]: null,
-            [Op.gt]: today,
+            [Op.gte]: today,
           },
         },
       },
@@ -202,7 +202,7 @@ module.exports = function (app) {
             EndDate: {
               [Op.or]: {
                 [Op.eq]: null,
-                [Op.gt]: today,
+                [Op.gte]: today,
               },
             },
           },
@@ -380,7 +380,7 @@ module.exports = function (app) {
             EndDate: {
               [Op.or]: {
                 [Op.eq]: null,
-                [Op.gt]: today,
+                [Op.gte]: today,
               },
             },
           },
@@ -750,7 +750,7 @@ module.exports = function (app) {
         EndDate: {
           [Op.or]: {
             [Op.eq]: null,
-            [Op.gt]: today,
+            [Op.gte]: today,
           },
         },
       },
@@ -840,7 +840,7 @@ module.exports = function (app) {
         EndDate: {
           [Op.or]: {
             [Op.eq]: null,
-            [Op.gt]: today,
+            [Op.gte]: today,
           },
         },
       },
@@ -1102,7 +1102,7 @@ module.exports = function (app) {
         EndDate: {
           [Op.or]: {
             [Op.eq]: null,
-            [Op.gt]: today,
+            [Op.gte]: today,
           },
         },
       },
@@ -1224,7 +1224,7 @@ module.exports = function (app) {
         EndDate: {
           [Op.or]: {
             [Op.eq]: null,
-            [Op.gt]: today,
+            [Op.gte]: today,
           },
         },
       },
@@ -1325,7 +1325,7 @@ module.exports = function (app) {
         EndDate: {
           [Op.or]: {
             [Op.eq]: null,
-            [Op.gt]: today,
+            [Op.gte]: today,
           },
         },
       },
