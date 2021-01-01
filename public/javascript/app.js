@@ -918,7 +918,7 @@ $(document).ready(function () {
       $("#lastEventTitle").html("");
       $("#lastEventDetails").html("");
       $("#lastEventTitle").text(
-        `Welcome to the first event of the ${Year} Season!`
+        `Welcome to the beginning of the ${Year} Season!`
       );
     } else {
       $("#lastEventTitle").text(
@@ -1126,11 +1126,12 @@ $(document).ready(function () {
 
   function sortData(result, sortedPartResult, playerRatings) {
     // to sort all the data passed to function
-    const sorted = result.sort(
-      (a, b) =>
-        b.poolsterEarnings - a.poolsterEarnings ||
-        b.Players.length - a.Players.length
-    );
+    const sorted = result.sort((a, b) => {
+      if (a.poolsterEarnings > b.poolsterEarnings) return -1;
+      if (a.poolsterEarnings < b.poolsterEarnings) return 1;
+      if (a.poolster > b.poolster) return 1;
+      if (a.poolster < b.poolster) return -1;
+    });
 
     addRanking(sorted);
 
