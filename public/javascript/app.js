@@ -36,6 +36,7 @@ $(document).ready(function () {
   $("footer").hide();
   $("#seasonData .spinner").addClass("lds-hourglass");
 
+  thisYearsEvents();
   pageLoad();
 
   async function pageLoad() {
@@ -45,12 +46,12 @@ $(document).ready(function () {
     lastEventDetails();
     // await displayLiveTab();
     setTimeout(async function () {
-      await thisYearsEvents();
       seasonData();
       // liveEvent();
     }, 1000);
   }
 
+  // function to seed current images in db table
   async function poolsterProfileImage() {
     await $.get("api/poolsterProfileImage", function (result) {
       let poolsterImage = result;
@@ -872,6 +873,14 @@ $(document).ready(function () {
         week1 = true;
       }
       console.log(week0, week1);
+      if (week0) {
+        $("#eventData").hide();
+        $("#lastEventTitle").html("");
+        $("#lastEventDetails").html("");
+        $("#lastEventTitle").text(
+          `Welcome to the beginning of the ${Year} Season!`
+        );
+      }
     });
   }
 
@@ -1007,7 +1016,7 @@ $(document).ready(function () {
 
   const Jan01 = moment([Year, 0, 2]).format();
   const Dec31 = moment([Year, 11, 30]).format();
-  console.log(Jan01, Dec31);
+  // console.log(Jan01, Dec31);
   // make subDay the day of the first round of the midway event
   const subDay = moment([Year, 6, 5]).format();
   // const subDay = moment([Year, 3, 29]).format();

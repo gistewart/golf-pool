@@ -24,7 +24,6 @@ $(document).ready(function () {
   grabPlayerCategories();
 
   function display(result) {
-    console.log(result);
     $(".playerCat-container > tbody").html("");
     for (let i = 0; i < result.length; i++) {
       $(".playerCat-container > tbody").append(
