@@ -158,8 +158,7 @@ $(document).ready(function () {
 
     var newPostTitle = $("<p>");
 
-    var formattedDate = new Date(post.createdAt);
-    formattedDate = moment(formattedDate).format("MMM DD, YYYY");
+    var formattedDate = moment(post.createdAt).format("MMM DD, YYYY");
     var newPostDate = $("<span>");
     newPostDate.text(formattedDate);
 

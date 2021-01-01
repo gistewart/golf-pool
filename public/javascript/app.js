@@ -20,16 +20,6 @@ $(document).ready(function () {
     fieldDate = "",
     lastEventName = "";
 
-  // function promises() {
-  //   const promise1 = $.get("api/allEvents");
-  //   const promise2 = $.get("api/playerRatings");
-  //   Promise.all([promise1, promise2]).then(function (values) {
-  //     console.log(values);
-  //   });
-  // }
-
-  // promises();
-
   const today = moment().format();
   console.log("today: ", today);
   const Year = moment(today).year();
@@ -1017,6 +1007,7 @@ $(document).ready(function () {
 
   const Jan01 = moment([Year, 0, 2]).format();
   const Dec31 = moment([Year, 11, 30]).format();
+  console.log(Jan01, Dec31);
   // make subDay the day of the first round of the midway event
   const subDay = moment([Year, 6, 5]).format();
   // const subDay = moment([Year, 3, 29]).format();
@@ -1059,7 +1050,7 @@ $(document).ready(function () {
             type: a[j].type,
             tournaments: [],
           });
-          // console.log(a[j].startDate, Jan01, a[j].endDate, Dec31);
+          console.log(a[j].startDate, Jan01, a[j].endDate, Dec31);
           if (a[j].endDate < Dec31 && !a[j].reStartDate) {
             result[i].Players[j].active = "no";
           }
@@ -1444,48 +1435,24 @@ $(document).ready(function () {
                   ? " " +
                     "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
                     "  " +
-                    new Date(sorted[i].Players[j].startDate).toLocaleString(
-                      "default",
-                      {
-                        month: "short",
-                        day: "numeric",
-                      }
-                    )
+                    moment(sorted[i].Players[j].startDate).format("MMM DD")
                   : sorted[i].Players[j].endDate < Dec31
                   ? "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
                     " " +
-                    new Date(sorted[i].Players[j].endDate).toLocaleString(
-                      "default",
-                      {
-                        month: "short",
-                        day: "numeric",
-                      }
-                    )
+                    moment(sorted[i].Players[j].endDate).format("MMM DD")
                   : "") +
                 (sorted[i].Players[j].startDate > Jan01 &&
                 sorted[i].Players[j].endDate < Dec31
                   ? " | " +
                     "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
                     "  " +
-                    new Date(sorted[i].Players[j].endDate).toLocaleString(
-                      "default",
-                      {
-                        month: "short",
-                        day: "numeric",
-                      }
-                    )
+                    moment(sorted[i].Players[j].endDate).format("MMM DD")
                   : "") +
                 (sorted[i].Players[j].reStartDate > Jan01
                   ? " | " +
                     "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
                     "  " +
-                    new Date(sorted[i].Players[j].reStartDate).toLocaleString(
-                      "default",
-                      {
-                        month: "short",
-                        day: "numeric",
-                      }
-                    )
+                    moment(sorted[i].Players[j].reStartDate).format("MMM DD")
                   : "")
               : "") +
             (apiCall === "Event" && lastEventCount > 1

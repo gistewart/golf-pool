@@ -145,6 +145,7 @@ module.exports = async function () {
 
     console.log("seeding liveEventSchedule db tbl");
     module.exports.liveSeedType = "event";
+    // uncomment for Prod
     const temp = await db.liveEventSchedule.bulkCreate(finishedEventsArr);
 
     console.log("-----finished seeding liveEventSchedule table-----");

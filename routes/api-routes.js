@@ -597,10 +597,6 @@ module.exports = function (app) {
 
   // player tier testing route
   app.get("/api/testDates", async function (req, res) {
-    let today = new Date();
-    let Year = today.getFullYear();
-    console.log(Year);
-
     db.PlayerTier.findAll({
       where: {
         year: {
@@ -1172,7 +1168,7 @@ module.exports = function (app) {
                   "https://res.cloudinary.com/pga-tour/image/upload/c_fill,g_face:center,h_294,q_auto,w_220/headshots_default.png",
               };
             }
-            // let today = new Date();
+
             if (
               (moment(a[j].startDate).isSameOrBefore(today) &&
                 moment(a[j].endDate).isAfter(today)) ||
