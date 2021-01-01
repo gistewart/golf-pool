@@ -1,7 +1,7 @@
 "use strict";
 
-var today = moment().format();
-var year = moment(today).year();
+var today = new Date();
+var year = today.getFullYear();
 
 function NavBar() {
   return React.createElement(

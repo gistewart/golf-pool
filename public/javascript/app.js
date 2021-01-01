@@ -1050,7 +1050,7 @@ $(document).ready(function () {
             type: a[j].type,
             tournaments: [],
           });
-          console.log(a[j].startDate, Jan01, a[j].endDate, Dec31);
+          // console.log(a[j].startDate, Jan01, a[j].endDate, Dec31);
           if (a[j].endDate < Dec31 && !a[j].reStartDate) {
             result[i].Players[j].active = "no";
           }

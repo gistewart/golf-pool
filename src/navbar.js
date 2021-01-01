@@ -1,7 +1,7 @@
 "use strict";
 
-const today = moment().format();
-const year = moment(today).year();
+var today = new Date();
+var year = today.getFullYear();
 
 function NavBar() {
   return (
