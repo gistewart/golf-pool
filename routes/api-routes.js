@@ -612,13 +612,13 @@ module.exports = function (app) {
   app.get("/api/liveTourneyStatus", async function (req, res) {
     let type = "";
     // Production Start
-    // await db.liveEventSchedule.sync({ force: true });
-    // await db.liveFieldSchedule.sync({ force: true }).then(async function () {
-    //   const temp = await seedLiveEventSchedule();
-    //   type = seedLiveEventSchedule.liveSeedType;
-    //   console.log(type);
-    //   return;
-    // });
+    await db.liveEventSchedule.sync({ force: true });
+    await db.liveFieldSchedule.sync({ force: true }).then(async function () {
+      const temp = await seedLiveEventSchedule();
+      type = seedLiveEventSchedule.liveSeedType;
+      console.log(type);
+      return;
+    });
     // Production End
     if (type === "field") {
       await db.liveFieldSchedule.findAll({}).then((result) => {
@@ -1078,10 +1078,10 @@ module.exports = function (app) {
     // });
 
     // Prod start
-    // await db.liveField.sync({ force: true }).then(async function () {
-    //   const temp = await runField();
-    //   return;
-    // });
+    await db.liveField.sync({ force: true }).then(async function () {
+      const temp = await runField();
+      return;
+    });
 
     await db.liveField.findAll({}).then(function (result) {
       res.json(result);
