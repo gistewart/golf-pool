@@ -1266,6 +1266,7 @@ module.exports = function (app) {
               "https://cache.legacy.net/legacy/images/cobrands/SFGate/photos/S0165580_1_20200717.jpgx?w=712&h=600&option=1",
           },
           { id: "6", image: "/images/Braveheart.jpeg" },
+          { id: "12", image: "/images/banger.jpeg" },
           { id: "17", image: "/images/jayhawk.jpeg" },
         ];
 
