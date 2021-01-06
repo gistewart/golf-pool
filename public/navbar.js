@@ -72,7 +72,7 @@ function NavBar() {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "../rules.html" },
+              { className: "nav-link", href: "../html/rules.html" },
               React.createElement("i", { className: "fas fa-file-alt fa-fw" }),
               "Rules"
             )

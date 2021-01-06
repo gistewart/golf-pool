@@ -37,7 +37,7 @@ function NavBar() {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="../rules.html">
+              <a className="nav-link" href="../html/rules.html">
                 <i className="fas fa-file-alt fa-fw"></i>
                 Rules
               </a>

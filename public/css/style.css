@@ -368,6 +368,18 @@ div.container.field-container {
   padding-right: 0;
 }
 
+table#onTheRange-container td:first-child {
+  max-width: 0.8em;
+}
+
+/* table#onTheRange-container td:first-child {
+  max-width: 0.8em;
+} */
+
+table#onTheRange-container td:nth-child(n + 3) {
+  max-width: 2em;
+}
+
 #onTheRange-container th {
   font-size: 0.85em;
   padding: 0;
@@ -675,6 +687,10 @@ div#rulesAccordion.accordion .card-header {
   margin-bottom: 0;
 }
 
+.paraBreak {
+  margin-top: 0.35em;
+}
+
 .tcPurseSplit {
   margin: 0 auto;
   margin-bottom: 1em;
@@ -693,16 +709,4 @@ div#rulesAccordion.accordion .card-header {
   .container-sm {
     max-width: 620px;
   }
-}
-
-table#onTheRange-container td:first-child {
-  max-width: 0.8em;
-}
-
-/* table#onTheRange-container td:first-child {
-  max-width: 0.8em;
-} */
-
-table#onTheRange-container td:nth-child(n + 3) {
-  max-width: 2em;
 }
