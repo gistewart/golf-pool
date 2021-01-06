@@ -694,3 +694,11 @@ div#rulesAccordion.accordion .card-header {
     max-width: 620px;
   }
 }
+
+table#onTheRange-container td:first-child {
+  max-width: 0.65em;
+}
+
+table#onTheRange-container td:nth-child(n + 3) {
+  max-width: 1.65em;
+}

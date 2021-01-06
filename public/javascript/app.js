@@ -44,7 +44,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(async function () {
       seasonData();
       // liveEvent();
@@ -252,9 +252,12 @@ $(document).ready(function () {
       }
     }
 
-    fieldData = fieldData.sort(
-      (a, b) => b.poolsterEarnings - a.poolsterEarnings
-    );
+    fieldData = fieldData.sort((a, b) => {
+      if (a.poolsterEarnings > b.poolsterEarnings) return -1;
+      if (a.poolsterEarnings < b.poolsterEarnings) return 1;
+      if (a.handle > b.handle) return 1;
+      if (a.handle < b.handle) return -1;
+    });
     for (let i = 0; i < fieldData.length; i++) {
       fieldData[i].Players.sort((a, b) => a.tier - b.tier);
       for (let j = 0; j < fieldData[i].Players.length; j++) {
@@ -292,7 +295,7 @@ $(document).ready(function () {
       var tr1 = $(
         "<tr><td class='rankingField'>" +
           fieldData[i].rankingDisplay +
-          "</td><td class = 'poolsterHandleField'>" +
+          "</td><td style='max-width:4em' class = 'poolsterHandleField'>" +
           fieldData[i].handle +
           "<p class='poolsterNameField'>" +
           fieldData[i].name +
@@ -878,7 +881,7 @@ $(document).ready(function () {
         $("#lastEventTitle").html("");
         $("#lastEventDetails").html("");
         $("#lastEventTitle").text(
-          `Welcome to the beginning of the ${Year} Season!`
+          `Welcome to the first event of the ${Year} Season!`
         );
       }
     });
@@ -927,7 +930,7 @@ $(document).ready(function () {
       $("#lastEventTitle").html("");
       $("#lastEventDetails").html("");
       $("#lastEventTitle").text(
-        `Welcome to the beginning of the ${Year} Season!`
+        `Welcome to the first event of the ${Year} Season!`
       );
     } else {
       $("#lastEventTitle").text(
