@@ -1021,8 +1021,8 @@ $(document).ready(function () {
   const Dec31 = moment([Year, 11, 30]).format();
   // console.log(Jan01, Dec31);
   // make subDay the day of the first round of the midway event
-  const subDay = moment([Year, 6, 5]).format();
-  // const subDay = moment([Year, 3, 29]).format();
+  // const subDay = moment([Year, 6, 5]).format();
+  const subDay = moment([Year, 3, 29]).format();
   if (today > subDay) {
     $(".subHalfLang").text((i, t) => t.replace(/First/, "Second"));
   }

@@ -634,16 +634,16 @@ module.exports = function (app) {
   // gets livePositions by first seeding liveEventSchedule, then running runLivePositions
   app.get("/api/livePositions", async function (req, res) {
     // Testing Start
-    await db.livePosition
-      .findAll({})
-      // Test End
-      // Production Start
-      // await db.livePosition.sync({ force: true });
-      // const temp = await runLivePositions()
-      //   // })
-      //   .then(async function () {
-      //     return db.livePosition.findAll({});
-      //   })
+    // await db.livePosition
+    //   .findAll({})
+    // Test End
+    // Production Start
+    await db.livePosition.sync({ force: true });
+    const temp = await runLivePositions()
+      // })
+      .then(async function () {
+        return db.livePosition.findAll({});
+      })
       // Production End
       .then((result) => {
         res.json(result);
