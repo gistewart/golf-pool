@@ -1259,7 +1259,6 @@ module.exports = function (app) {
     })
       .then(async function (data) {
         let a;
-        // delete
         let personalHeadshot = [
           {
             id: "1",
@@ -1267,7 +1266,7 @@ module.exports = function (app) {
               "https://cache.legacy.net/legacy/images/cobrands/SFGate/photos/S0165580_1_20200717.jpgx?w=712&h=600&option=1",
           },
           { id: "5", image: "/images/chief.jpeg" },
-          { id: "6", image: "/images//braveheart.jpeg" },
+          { id: "6", image: "/images/braveheart.jpeg" },
           { id: "12", image: "/images/banger.jpeg" },
           { id: "17", image: "/images/jayhawk.jpeg" },
         ];
