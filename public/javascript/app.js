@@ -44,7 +44,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    await displayLiveTab();
+    // await displayLiveTab();
     setTimeout(async function () {
       seasonData();
       // liveEvent();
@@ -212,14 +212,14 @@ $(document).ready(function () {
 
     // Uncomment this section to load results to PRODUCTION from fall season events (check notes and test on local version first)
     // Start of block 1
-    await $.get("api/seedScheduleOther", function (result) {
-      eventDetails = result;
-      console.log(eventDetails);
-    });
-    await $.get("api/seedResultsAll", function (result) {
-      results = result;
-      console.log(results);
-    });
+    // await $.get("api/seedScheduleOther", function (result) {
+    //   eventDetails = result;
+    //   console.log(eventDetails);
+    // });
+    // await $.get("api/seedResultsAll", function (result) {
+    //   results = result;
+    //   console.log(results);
+    // });
     // End of block 1
 
     // For any tournaments which ESPN don't record results, but PGA does
