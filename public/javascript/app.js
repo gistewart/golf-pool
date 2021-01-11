@@ -987,7 +987,18 @@ $(document).ready(function () {
     );
 
     for (let i = 0; i < sortedPartResult.length; i++) {
-      sortedPartResult[i].ranking = i + 1;
+      if (i === 0) {
+        sortedPartResult[i].ranking = 1;
+      } else {
+        if (
+          sortedPartResult[i].poolsterEarnings ===
+          sortedPartResult[i - 1].poolsterEarnings
+        ) {
+          sortedPartResult[i].ranking = sortedPartResult[i - 1].ranking;
+        } else {
+          sortedPartResult[i].ranking = sortedPartResult[i - 1].ranking + 1;
+        }
+      }
     }
     console.log(sortedPartResult);
     sumData(mainData, sortedPartResult, playerRatings);
@@ -1231,6 +1242,7 @@ $(document).ready(function () {
         "<tr data-toggle='collapse' data-target='#demo" +
           i +
           "' class='level1 clickabe'><td class='ranking'>" +
+          "<span>" +
           sorted[i].rankingDisplay +
           (apiCall == "Season" && !week1
             ? "</td><td class='rankingChange'>" +
@@ -1548,6 +1560,31 @@ $(document).ready(function () {
               spanWidth = parseInt($(this).width());
               c++;
               if (c > 10) {
+                $div.css("background", "red");
+                break;
+              }
+            }
+          });
+      });
+    });
+    $(function () {
+      $(".ranking").each(function () {
+        var fitWidth = $(".ranking").innerWidth();
+        var $div = $(this);
+        $(this)
+          .find("span")
+          .each(function () {
+            var c = 0;
+            var spanWidth = parseInt($(this).width());
+            while (fitWidth < spanWidth) {
+              $div.find("span").each(function () {
+                var fontSize = parseFloat($(this).css("font-size"));
+                fontSize = fontSize - 0.5 + "px";
+                $(this).css("font-size", fontSize);
+              });
+              spanWidth = parseInt($(this).width());
+              c++;
+              if (c > 20) {
                 $div.css("background", "red");
                 break;
               }
