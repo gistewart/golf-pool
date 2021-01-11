@@ -9,7 +9,7 @@ module.exports = function () {
 
   return db.missingTournament
     .findAll({
-      attributes: ["tournamentId", "name"],
+      attributes: ["tournamentId", "name", "tStartDate"],
       raw: true,
     })
 
@@ -18,22 +18,28 @@ module.exports = function () {
       for (let i = 0; i < tourney.length; i++) {
         const id = tourney[i].tournamentId;
         const name = tourney[i].name;
+        const startDate = tourney[i].tStartDate;
         await axios
           .get(`https://www.espn.com/golf/leaderboard?tournamentId=${id}`)
           .then(async function (response) {
             var $ = cheerio.load(response.data);
             resultsArray = [];
 
-            $("tbody tr").each(function (i, element) {
+            $(
+              ".ResponsiveTable:not(.leaderboard__playoff--table) tbody tr"
+            ).each(function (i, element) {
               var result = {};
 
               result.tournamentId = `${id}`;
+              result.name = `${name}`;
+              result.startDate = `${startDate}`;
               result.pos = $(this).children("td:first-child").text();
-              result.playerName = $(this)
+              result.playerNameX = $(this)
                 .children("td:nth-child(2)")
                 .children("a")
                 .text();
               result.toPar = $(this).children("td:nth-child(3)").text();
+
               if (result.pos == "-") {
                 result.pos = result.toPar;
               }
@@ -198,6 +204,7 @@ module.exports = function () {
                   .replace(/E/, 0);
                 resultsArray[i].handicap =
                   resultsArray[i].toParAdj - resultsArray[i].toParTC;
+                resultsArray[i].playerName = resultsArray[i].playerNameX;
               }
               console.log("for db.ResultTC: ", resultsArray);
 
@@ -214,6 +221,16 @@ module.exports = function () {
             const secondFunction = async () => {
               if (/tour championship/i.test(name)) {
                 const first = await purseCalc();
+              } else {
+                console.log("resultsArray for db.ResultAll: ", resultsArray);
+                db.ResultAll.bulkCreate(resultsArray);
+              }
+
+              for (let i in resultsArray) {
+                resultsArray[i].playerName = resultsArray[i].playerNameX;
+                delete resultsArray[i].playerNameX;
+                delete resultsArray[i].name;
+                delete resultsArray[i].startDate;
               }
 
               return db.Player.findAll({
@@ -228,7 +245,7 @@ module.exports = function () {
                   const filtered = resultsArray.filter((el) =>
                     playerNames.includes(el.playerName)
                   );
-                  // console.log("filtered: ", filtered);
+                  console.log("filtered: ", filtered);
                   console.log(
                     `-----------finished runResults for tournament ${id}------------`
                   );

@@ -1,5 +1,5 @@
 Item 1:
-For full Results data to be available at beginning of our season, the results for the off-season (i.e. all events after Tour Championship for the remainder of the calendar year) need to be loaded into ResultsAll. These are the steps.
+For full Results data to be available at beginning of our season, the results for the off-season, including the Tour Championship need to be loaded into ResultsAll. These are the steps.
 
 Step 1: 
 go to seedScheduleOther.js script file; scrape should pull completed tournaments for current season (which is correct);

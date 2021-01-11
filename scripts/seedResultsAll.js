@@ -227,7 +227,7 @@ module.exports = function () {
               `-----------finished running results for tournament ${id}------------`
             );
             // Uncomment for Production
-            return db.ResultAll.bulkCreate(filtered);
+            // return db.ResultAll.bulkCreate(filtered);
           };
           secondFunction();
         });
