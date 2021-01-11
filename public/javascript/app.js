@@ -159,7 +159,7 @@ $(document).ready(function () {
     console.log("diffResultsArr: ", diffResultsArr);
     if (diffResultsArr.length) {
       // Production start
-      // getMissingResults(diffResultsArr);
+      getMissingResults(diffResultsArr);
       // Production end
     } else {
       console.log("skipping getMissingResults function");
@@ -1372,7 +1372,7 @@ $(document).ready(function () {
                     sorted[i].Players[j].Tournaments[0].thru +
                     ")" +
                     "</span>"
-                  : /F/i.test(sorted[i].Players[j].Tournaments[0].thru)
+                  : /^F$/i.test(sorted[i].Players[j].Tournaments[0].thru)
                   ? " | To Par " +
                     sorted[i].Players[j].Tournaments[0].toPar +
                     "<span class='todaysScore'>" +

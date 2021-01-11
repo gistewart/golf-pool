@@ -6,6 +6,7 @@ const { Op } = require("sequelize");
 
 module.exports = function () {
   let resultsArray = [];
+  // let tournamentId = 401242996;
 
   return (
     db.liveEventSchedule
@@ -36,7 +37,9 @@ module.exports = function () {
               var $ = cheerio.load(response.data);
               resultsArray = [];
 
-              $("tbody tr").each(function (i, element) {
+              $(
+                ".ResponsiveTable:not(.leaderboard__playoff--table) tbody tr"
+              ).each(function (i, element) {
                 var result = {};
 
                 result.tournamentId = `${id}`;

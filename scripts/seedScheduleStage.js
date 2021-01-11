@@ -111,13 +111,13 @@ module.exports = async function () {
             resultsArray.push(result);
           });
         });
-      // console.log("earnings posted check: ", resultsArray);
-      for (let j = 0; j < resultsArray.length; j++) {
-        console.log(
-          resultsArray[j].pos,
-          resultsArray[j].playerName,
-          resultsArray[j].earnings
-        );
+      console.log("earnings posted check: ", resultsArray);
+      for (let j = 2; j < resultsArray.length; j++) {
+        // console.log(
+        //   resultsArray[j].pos,
+        //   resultsArray[j].playerName,
+        //   resultsArray[j].earnings
+        // );
         // this is where the magic happens!
         // to exclude amateurs from the earnings check
         if (/.*\(a\)$/i.test(resultsArray[j].playerName)) {
@@ -175,10 +175,7 @@ module.exports = async function () {
 
       //filter for this year's events then for presence of a winner
       finishedEventsArr = scheduleStage
-        .filter(
-          (el) =>
-            el.tournamentId == "401219333" || el.tournamentId == "401219478"
-        )
+        .filter((el) => el.tournamentId == "401242996")
         .filter((el) => el.winner);
       return;
     })
