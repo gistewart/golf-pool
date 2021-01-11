@@ -38,7 +38,9 @@ module.exports = async function () {
 
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
-        if (result.tStartDate > moment([2020, 10, 8]) && result.winner) {
+        // if (result.tStartDate > moment([2020, 10, 8]) && result.winner) {
+        //   schedule.push(result);
+        if (result.tournamentId === "401242996" && result.winner) {
           schedule.push(result);
         }
       });

@@ -2,6 +2,7 @@ var db = require("../models");
 var axios = require("axios");
 var cheerio = require("cheerio");
 var moment = require("moment");
+const e = require("express");
 
 module.exports = async function () {
   const scheduleStage = [];
@@ -85,34 +86,36 @@ module.exports = async function () {
           var $ = cheerio.load(response.data);
           resultsArray = [];
 
-          $("tbody tr").each(function (i, element) {
-            var result = {};
+          $(".ResponsiveTable:not(.leaderboard__playoff--table) tbody tr").each(
+            function (i, element) {
+              var result = {};
 
-            result.tournamentId = `${id}`;
-            result.pos = $(this)
-              .children("td:first-child")
-              .text()
-              .replace(/^T/, "");
-            result.playerName = $(this)
-              .children("td:nth-child(2)")
-              .children("a")
-              .text();
-            result.toPar = $(this).children("td:nth-child(3)").text();
-            if (result.pos == "-") {
-              result.pos = result.toPar;
-            }
-            result.earnings = Number(
-              $(this)
-                .children("td:nth-child(9)")
+              result.tournamentId = `${id}`;
+              result.pos = $(this)
+                .children("td:first-child")
                 .text()
-                .replace(/[\$,]/g, "")
-                .replace(/--/, 0)
-            );
-            resultsArray.push(result);
-          });
+                .replace(/^T/, "");
+              result.playerName = $(this)
+                .children("td:nth-child(2)")
+                .children("a")
+                .text();
+              result.toPar = $(this).children("td:nth-child(3)").text();
+              if (result.pos == "-") {
+                result.pos = result.toPar;
+              }
+              result.earnings = Number(
+                $(this)
+                  .children("td:nth-child(9)")
+                  .text()
+                  .replace(/[\$,]/g, "")
+                  .replace(/--/, 0)
+              );
+              resultsArray.push(result);
+            }
+          );
         });
       console.log("earnings posted check: ", resultsArray);
-      for (let j = 2; j < resultsArray.length; j++) {
+      for (let j = 0; j < resultsArray.length; j++) {
         // console.log(
         //   resultsArray[j].pos,
         //   resultsArray[j].playerName,
@@ -175,7 +178,8 @@ module.exports = async function () {
 
       //filter for this year's events then for presence of a winner
       finishedEventsArr = scheduleStage
-        .filter((el) => el.tournamentId == "401242996")
+        .filter((el) => el.tournamentId >= "401242996")
+        .filter((el) => moment(el.tStartDate).year() == y)
         .filter((el) => el.winner);
       return;
     })
