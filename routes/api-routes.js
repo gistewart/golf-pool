@@ -264,21 +264,10 @@ module.exports = function (app) {
                           model: db.Schedule,
                           as: "Schedule",
                           where: {
-                            // [Op.and]: [
-                            //   sequelize.where(
-                            //     sequelize.fn(
-                            //       "YEAR",
-                            //       sequelize.col("tStartDate")
-                            //     ),
-                            //     Year
-                            //   ),
-                            //   {
                             tStartDate: {
                               [Op.eq]: date,
                             },
                           },
-                          //   ],
-                          // },
                           attributes: ["name", "tDate", "tStartDate"],
                           include: [
                             {

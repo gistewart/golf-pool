@@ -27,45 +27,47 @@ module.exports = function () {
           var $ = cheerio.load(response.data);
           resultsArray = [];
 
-          $("tbody tr").each(function (i, element) {
-            var result = {};
+          $(".ResponsiveTable:not(.leaderboard__playoff--table) tbody tr").each(
+            function (i, element) {
+              var result = {};
 
-            result.tournamentId = `${id}`;
-            result.name = `${name}`;
-            result.startDate = `${startDate}`;
-            result.pos = $(this).children("td:first-child").text();
-            result.playerNameX = $(this)
-              .children("td:nth-child(2)")
-              .children("a")
-              .text();
-            result.toPar = $(this).children("td:nth-child(3)").text();
-            if (result.pos == "-") {
-              result.pos = result.toPar;
-            }
-            if (result.pos == "CUT") {
-              result.pos = "MC";
-            }
-            // Tour Championship if else statement
-            if (/tour championship/i.test(name)) {
-              result.tot = Number(
-                $(this)
-                  .children("td:nth-child(8)")
-                  .text()
-                  .replace(/[\$,]/g, "")
-                  .replace(/--/, 0)
-              );
-            } else {
-              result.earnings = Number(
-                $(this)
-                  .children("td:nth-child(9)")
-                  .text()
-                  .replace(/[\$,]/g, "")
-                  .replace(/--/, 0)
-              );
-            }
+              result.tournamentId = `${id}`;
+              result.name = `${name}`;
+              result.startDate = `${startDate}`;
+              result.pos = $(this).children("td:first-child").text();
+              result.playerNameX = $(this)
+                .children("td:nth-child(2)")
+                .children("a")
+                .text();
+              result.toPar = $(this).children("td:nth-child(3)").text();
+              if (result.pos == "-") {
+                result.pos = result.toPar;
+              }
+              if (result.pos == "CUT") {
+                result.pos = "MC";
+              }
+              // Tour Championship if else statement
+              if (/tour championship/i.test(name)) {
+                result.tot = Number(
+                  $(this)
+                    .children("td:nth-child(8)")
+                    .text()
+                    .replace(/[\$,]/g, "")
+                    .replace(/--/, 0)
+                );
+              } else {
+                result.earnings = Number(
+                  $(this)
+                    .children("td:nth-child(9)")
+                    .text()
+                    .replace(/[\$,]/g, "")
+                    .replace(/--/, 0)
+                );
+              }
 
-            resultsArray.push(result);
-          });
+              resultsArray.push(result);
+            }
+          );
 
           // TC purse calc function
           async function purseCalc() {
@@ -205,10 +207,6 @@ module.exports = function () {
                 resultsArray[i].toParAdj - resultsArray[i].toParTC;
             }
             console.log("for db.ResultTC: ", resultsArray);
-
-            // Uncomment for Production
-            // await db.ResultTC.sync({ force: true });
-            // await db.ResultTC.bulkCreate(resultsArray);
 
             for (let i in resultsArray) {
               resultsArray[i].pos = resultsArray[i].posTCDisplay;

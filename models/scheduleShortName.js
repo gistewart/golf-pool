@@ -2,10 +2,7 @@ module.exports = function (sequelize, DataTypes) {
   var ScheduleShortName = sequelize.define(
     "ScheduleShortName",
     {
-      tournamentId: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-      },
+      name: DataTypes.STRING,
       shortName: DataTypes.STRING,
     },
     {
