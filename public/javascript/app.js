@@ -1541,7 +1541,7 @@ $(document).ready(function () {
         $("#liveScoring .spinner").removeClass("lds-hourglass");
       }
     }
-
+    // to resize poolsterHandle
     $(function () {
       $(".poolsterHandle").each(function () {
         var fitWidth = $(".poolsterHandle").innerWidth();
@@ -1567,6 +1567,7 @@ $(document).ready(function () {
           });
       });
     });
+    // to resize ranking
     $(function () {
       $(".ranking").each(function () {
         var fitWidth = $(".ranking").innerWidth();
