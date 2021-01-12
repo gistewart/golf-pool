@@ -101,12 +101,12 @@ module.exports = function (app) {
                         sequelize.fn("YEAR", sequelize.col("tStartDate")),
                         Year
                       ),
-                      // include: [
-                      //   {
-                      //     model: db.ScheduleShortName,
-                      //     attributes: ["shortName"],
-                      //   },
-                      // ],
+                      include: [
+                        {
+                          model: db.ScheduleShortName,
+                          attributes: ["shortName"],
+                        },
+                      ],
                     },
                   ],
                 },
@@ -159,17 +159,17 @@ module.exports = function (app) {
               else {
                 result[i].Players[j].Tournaments.push({
                   name: c.name,
-                  // shortName: c.name,
+                  shortName: c.name,
                   date: c.tDate,
                   start: moment(c.tStartDate),
                   position: b[k].pos,
                   toPar: b[k].toPar,
                   earnings: b[k].earnings,
                 });
-                // if (c.ScheduleShortName) {
-                //   result[i].Players[j].Tournaments[k - kAdj].shortName =
-                //     c.ScheduleShortName.shortName;
-                // }
+                if (c.ScheduleShortName) {
+                  result[i].Players[j].Tournaments[k - kAdj].shortName =
+                    c.ScheduleShortName.shortName;
+                }
               }
             }
           }
@@ -269,12 +269,12 @@ module.exports = function (app) {
                             },
                           },
                           attributes: ["name", "tDate", "tStartDate"],
-                          // include: [
-                          //   {
-                          //     model: db.ScheduleShortName,
-                          //     attributes: ["shortName"],
-                          //   },
-                          // ],
+                          include: [
+                            {
+                              model: db.ScheduleShortName,
+                              attributes: ["shortName"],
+                            },
+                          ],
                         },
                       ],
                     },
@@ -321,7 +321,7 @@ module.exports = function (app) {
                 c = b[k].Schedule;
                 result[i].Players[j + jAdj].Tournaments.push({
                   name: c.name,
-                  // shortName: c.name,
+                  shortName: c.name,
                   date: c.tDate,
                   start: c.tStartDate,
                   position: b[k].pos,
@@ -329,10 +329,10 @@ module.exports = function (app) {
                   earnings: b[k].earnings,
                 });
 
-                // if (result[i].Players && c.ScheduleShortName) {
-                //   result[i].Players[j + jAdj].Tournaments[k].shortName =
-                //     c.ScheduleShortName.shortName;
-                // }
+                if (result[i].Players && c.ScheduleShortName) {
+                  result[i].Players[j + jAdj].Tournaments[k].shortName =
+                    c.ScheduleShortName.shortName;
+                }
               }
             } else {
               jAdj += -1;
