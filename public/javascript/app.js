@@ -44,7 +44,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(async function () {
       seasonData();
       // liveEvent();
@@ -293,9 +293,9 @@ $(document).ready(function () {
     $(".onTheRange-container > tbody").html("");
     for (let i = 0; i < fieldData.length; i++) {
       var tr1 = $(
-        "<tr><td class='rankingField'>" +
+        "<tr><td style='max-width:1.25em' class='rankingField'>" +
           fieldData[i].rankingDisplay +
-          "</td><td style='max-width:4em' class = 'poolsterHandleField'>" +
+          "</td><td style='max-width:3.75em' class = 'poolsterHandleField'>" +
           fieldData[i].handle +
           "<p class='poolsterNameField'>" +
           fieldData[i].name +
@@ -986,18 +986,14 @@ $(document).ready(function () {
       (a, b) => b.poolsterEarnings - a.poolsterEarnings
     );
 
-    for (let i = 0; i < sortedPartResult.length; i++) {
-      if (i === 0) {
-        sortedPartResult[i].ranking = 1;
+    sortedPartResult[0].ranking = 1;
+    for (let i = 1; i < sortedPartResult.length; i++) {
+      let a = sortedPartResult[i - 1];
+      let b = sortedPartResult[i];
+      if (a.poolsterEarnings !== b.poolsterEarnings) {
+        b.ranking = i + 1;
       } else {
-        if (
-          sortedPartResult[i].poolsterEarnings ===
-          sortedPartResult[i - 1].poolsterEarnings
-        ) {
-          sortedPartResult[i].ranking = sortedPartResult[i - 1].ranking;
-        } else {
-          sortedPartResult[i].ranking = sortedPartResult[i - 1].ranking + 1;
-        }
+        b.ranking = a.ranking;
       }
     }
     console.log(sortedPartResult);
