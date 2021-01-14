@@ -346,6 +346,11 @@ table tbody .level1 .rankingChange {
   border: 1px solid grey;
 }
 
+p.liveZeroPlayersText {
+  margin-top: -0.6em;
+  color: rgb(63, 62, 62);
+}
+
 #leaderboard-container .earnings {
   text-align: right;
   padding-right: 0.25em;

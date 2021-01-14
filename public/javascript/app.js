@@ -1262,9 +1262,7 @@ $(document).ready(function () {
               "<i class='fas fa-ribbon'></i>" +
               " "
             : sorted[i].poolster) +
-          (apiCall == "Live"
-            ? "<small>" + sorted[i].liveZeroPlayersText + "</small>"
-            : "") +
+          // (apiCall == "Live" ? "<small></small>" : "") +
           " " +
           (sorted[i].playerCount > 0 &&
           apiCall == "Season" &&
@@ -1284,6 +1282,11 @@ $(document).ready(function () {
               "2020 " +
               "<i class='fas fa-trophy fa-sm'></i>" +
               "</span>"
+            : "") +
+          (apiCall == "Live"
+            ? "<p class='liveZeroPlayersText'><small>" +
+              sorted[i].liveZeroPlayersText +
+              "</small></p>"
             : "") +
           "</td><td class='earnings'>" +
           sorted[i].poolsterEarnings.toLocaleString("us-US", {
