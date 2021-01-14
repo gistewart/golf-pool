@@ -464,7 +464,7 @@ $(document).ready(function () {
       console.log(hCapTbl);
       console.log(livePositions);
     }
-    // END OF IF STATEMENT FOR LIVE TC
+    // END OF 'IF STATEMENT' FOR LIVE TC
 
     await $.get("api/livePlayers", function (result) {
       livePlayers = result;
