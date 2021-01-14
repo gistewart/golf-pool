@@ -835,7 +835,7 @@ $(document).ready(function () {
       livePlayers[i].liveRankingChangeAbs = Math.abs(l);
       livePlayers[i].liveZeroPlayersText = "";
       if (livePlayers[i].Players.length === 0) {
-        livePlayers[i]["liveZeroPlayersText"] = " (0 players)";
+        livePlayers[i]["liveZeroPlayersText"] = "(0 players)";
       }
     }
 
@@ -1145,12 +1145,23 @@ $(document).ready(function () {
 
   function sortData(result, sortedPartResult, playerRatings) {
     // to sort all the data passed to function
-    const sorted = result.sort((a, b) => {
-      if (a.poolsterEarnings > b.poolsterEarnings) return -1;
-      if (a.poolsterEarnings < b.poolsterEarnings) return 1;
-      if (a.poolster > b.poolster) return 1;
-      if (a.poolster < b.poolster) return -1;
-    });
+    if (apiCall != "Live") {
+      sorted = result.sort((a, b) => {
+        if (a.poolsterEarnings > b.poolsterEarnings) return -1;
+        if (a.poolsterEarnings < b.poolsterEarnings) return 1;
+        if (a.poolster > b.poolster) return 1;
+        if (a.poolster < b.poolster) return -1;
+      });
+    } else {
+      sorted = result.sort((a, b) => {
+        if (a.poolsterEarnings > b.poolsterEarnings) return -1;
+        if (a.poolsterEarnings < b.poolsterEarnings) return 1;
+        if (a.Players.length < b.Players.length) return 1;
+        if (a.Players.length > b.Players.length) return -1;
+        if (a.poolster > b.poolster) return 1;
+        if (a.poolster < b.poolster) return -1;
+      });
+    }
 
     addRanking(sorted);
 
