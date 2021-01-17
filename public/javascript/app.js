@@ -18,7 +18,8 @@ $(document).ready(function () {
     week1 = false,
     fieldName = "",
     fieldDate = "",
-    lastEventName = "";
+    lastEventName = "",
+    roundStatus = "";
 
   const today = moment().format();
   console.log("today: ", today);
@@ -380,6 +381,7 @@ $(document).ready(function () {
     //new code for liveFreeze/liveExit functionality
     await $.get("api/liveTourneyStatus", function (result) {
       liveStatus = result;
+      console.log(liveStatus);
     });
 
     // test for Final -> exit
@@ -487,7 +489,9 @@ $(document).ready(function () {
       tenShotRule = Number(result[0].tTenShotRule);
     });
 
-    let roundStatus = liveSchedule[0].status;
+    roundStatus = liveSchedule[0].status;
+    console.log(/Round [1-3] - Play Complete/i.test(roundStatus));
+    console.log(roundStatus);
     round = roundStatus.match(/\d/)[0];
     console.log("round: ", round);
 
@@ -1273,7 +1277,6 @@ $(document).ready(function () {
               "<i class='fas fa-ribbon'></i>" +
               " "
             : sorted[i].poolster) +
-          // (apiCall == "Live" ? "<small></small>" : "") +
           " " +
           (sorted[i].playerCount > 0 &&
           apiCall == "Season" &&
@@ -1359,7 +1362,7 @@ $(document).ready(function () {
             // to add Live data to this layer
             (liveTC ? "<p class = 'poolVersion'>" + "Pool: " : "") +
             (apiCall === "Live" &&
-            round == 1 &&
+            /^Round 1 - [^Play Complete]/i.test(roundStatus) &&
             /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
               ? " | To Par " +
                 sorted[i].Players[j].Tournaments[0].toPar +
@@ -1367,10 +1370,26 @@ $(document).ready(function () {
                 sorted[i].Players[j].Tournaments[0].thru
               : "") +
             (apiCall === "Live" &&
+            /Round [1-3] - Play Complete/i.test(roundStatus)
+              ? " | " +
+                "<span class='posHighlite'>" +
+                "Pos " +
+                sorted[i].Players[j].Tournaments[0].position +
+                "</span>" +
+                " | To Par " +
+                sorted[i].Players[j].Tournaments[0].toPar +
+                "<span class='todaysScore'>" +
+                " (" +
+                sorted[i].Players[j].Tournaments[0].thru +
+                ")" +
+                "</span"
+              : "") +
+            (apiCall === "Live" &&
             !(
               round == 1 &&
               /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
-            )
+            ) &&
+            /^Round [1-4] - [^Play Complete]/i.test(roundStatus)
               ? " | " +
                 "<span class='posHighlite'>" +
                 "Pos " +
@@ -1539,6 +1558,7 @@ $(document).ready(function () {
                 "</td></tr>"
             );
           }
+          resizeRanking();
         }
       }
       if (apiCall === "Season") {
@@ -1577,8 +1597,8 @@ $(document).ready(function () {
           });
       });
     });
-    // to resize ranking
-    $(function () {
+
+    function resizeRanking() {
       $(".ranking").each(function () {
         var fitWidth = $(".ranking").innerWidth();
         var $div = $(this);
@@ -1602,45 +1622,7 @@ $(document).ready(function () {
             }
           });
       });
-    });
-    // $(function () {
-    //   $(".level2").each(function () {
-    //     // var fitWidth = $(".level2").innerWidth() - $(".earnings").innerWidth();
-    //     var fitWidth = $(".level2A").actual("width");
-    //     console.log("fitWidth ", fitWidth);
-    //     var $div = $(this);
-    //     $(this)
-    //       .find("td:first-child")
-    //       .each(function () {
-    //         var c = 0;
-    //         var spanWidth = parseInt($(this).width());
-    //         console.log(
-    //           "spanWidth prior to while loop ",
-    //           (spanWidth * 1.1).toFixed(1)
-    //         );
-    //         while (fitWidth < 1.2 * spanWidth) {
-    //           $div.find("span").each(function () {
-    //             var fontSize = parseFloat($(this).css("font-size"));
-    //             console.log("fontSize 1", fontSize);
-    //             fontSize = fontSize - 0.5 + "px";
-    //             console.log("fontSize 2 ", fontSize);
-    //             $(this).css("font-size", fontSize);
-    //           });
-    //           spanWidth = parseInt($(this).width());
-    //           console.log("spanWidth ", (spanWidth * 1.1).toFixed(1));
-    //           c++;
-    //           console.log("c ", c);
-    //           if (c > 3) {
-    //             $div.css("background", "red");
-    //             break;
-    //           }
-    //         }
-    //       });
-    //   });
-    // });
-
-    // var temp = $(".logo").actual("width");
-    // console.log(temp);
+    }
 
     $("footer").show(4000);
 
