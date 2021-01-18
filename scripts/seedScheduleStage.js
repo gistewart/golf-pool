@@ -116,7 +116,7 @@ module.exports = async function () {
         });
       // console.log("earnings posted check: ", resultsArray);
       // HARD CODE
-      for (let j = 0; j < 73; j++) {
+      for (let j = 0; j < resultsArray.length; j++) {
         console.log(
           resultsArray[j].pos,
           resultsArray[j].playerName,
@@ -128,7 +128,10 @@ module.exports = async function () {
           continue;
         }
         // to delete tourney if any pros who made cut have earnings of 0
-        if (resultsArray[j].pos && resultsArray[j].earnings == 0) {
+        if (
+          Number.isInteger(resultsArray[j].pos) &&
+          resultsArray[j].earnings == 0
+        ) {
           console.log("breaking now because all earnings have not been posted");
           scheduleStage.splice(i, 1);
           i--;
