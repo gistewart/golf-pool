@@ -64,7 +64,7 @@ module.exports = async function () {
       return;
     });
 
-  console.log("line 57", scheduleStage);
+  console.log("line 67", scheduleStage);
   let day = 0;
 
   // get status of tournament
@@ -93,11 +93,11 @@ module.exports = async function () {
               return index[$0] != undefined ? index[$0] : $0;
             }
           );
-          console.log("hold: ", hold);
+          console.log("line 96 hold: ", hold);
         });
       });
     scheduleStage[i].status = hold.status;
-    console.log("line 75", scheduleStage);
+    console.log("line 100", scheduleStage);
 
     // add/remove ! for testing/production
     if (/^Tournament Field/i.test(hold.status)) {
@@ -126,7 +126,7 @@ module.exports = async function () {
     ) {
       scheduleStage.splice(i, 1);
       i--;
-      console.log("deleting");
+      console.log("line 129 deleting");
       return;
     }
 

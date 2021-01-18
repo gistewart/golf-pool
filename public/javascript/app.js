@@ -160,7 +160,7 @@ $(document).ready(function () {
     console.log("diffResultsArr: ", diffResultsArr);
     if (diffResultsArr.length) {
       // Production start
-      // getMissingResults(diffResultsArr);
+      getMissingResults(diffResultsArr);
       // Production end
     } else {
       console.log("skipping getMissingResults function");
@@ -1370,7 +1370,7 @@ $(document).ready(function () {
                 sorted[i].Players[j].Tournaments[0].thru
               : "") +
             (apiCall === "Live" &&
-            /Round [1-3] - Play Complete/i.test(roundStatus)
+            /Round [1-4] - Play Complete/i.test(roundStatus)
               ? " | " +
                 "<span class='posHighlite'>" +
                 "Pos " +
