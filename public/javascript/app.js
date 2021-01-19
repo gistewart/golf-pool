@@ -45,7 +45,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(async function () {
       seasonData();
       // liveEvent();
@@ -1561,6 +1561,7 @@ $(document).ready(function () {
           resizeRanking();
         }
       }
+
       if (apiCall === "Season") {
         $("#seasonData .spinner").removeClass("lds-hourglass");
       }
@@ -1570,6 +1571,31 @@ $(document).ready(function () {
       if (apiCall === "Live") {
         $("#liveScoring .spinner").removeClass("lds-hourglass");
       }
+    }
+    // to add inactive team note
+    if (apiCall === "Event") {
+      let inactiveTeams = [];
+      $.get("api/poolsters", function (result) {
+        inactiveTeams = result.filter(
+          ({ handle: id1 }) => !sorted.some(({ poolster: id2 }) => id2 === id1)
+        );
+        inactiveTeams = inactiveTeams.sort((a, b) => {
+          if (a.handle < b.handle) return -1;
+          else return 1;
+        });
+
+        let row = "";
+        for (let i = 0; i < inactiveTeams.length; i++) {
+          row += inactiveTeams[i].handle + ", ";
+        }
+        row = row.slice(0, -2);
+        $(".leaderboard-container > tbody").append(
+          "<tr><td colspan='5' scope='col' class='inactiveRow'>" +
+            "All 6 players on the following teams were inactive this week: " +
+            row +
+            "</td></tr>"
+        );
+      });
     }
     // to resize poolsterHandle
     $(function () {

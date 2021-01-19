@@ -115,7 +115,6 @@ module.exports = async function () {
           );
         });
       // console.log("earnings posted check: ", resultsArray);
-      // HARD CODE
       for (let j = 0; j < resultsArray.length; j++) {
         console.log(
           resultsArray[j].pos,

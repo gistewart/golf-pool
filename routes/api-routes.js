@@ -605,7 +605,7 @@ module.exports = function (app) {
     await db.liveFieldSchedule.sync({ force: true }).then(async function () {
       const temp = await seedLiveEventSchedule();
       type = seedLiveEventSchedule.liveSeedType;
-      console.log(type);
+      console.log("------type------", type);
       return;
     });
     // Production End

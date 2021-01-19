@@ -365,6 +365,11 @@ p.liveZeroPlayersText {
   border-top: 2px solid green;
 }
 
+.inactiveRow {
+  color: rgb(53, 48, 48);
+  font-size: 0.85em;
+}
+
 /* beginning of field */
 
 div.container.field-container {
