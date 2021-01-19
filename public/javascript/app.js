@@ -1606,7 +1606,7 @@ $(document).ready(function () {
               (inactiveTeams.length > 1
                 ? `${inactiveTeams.length} teams`
                 : `team`) +
-              ` were inactive this week: ` +
+              ` were idle this week: ` +
               row +
               "</td></tr>"
           );
