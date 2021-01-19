@@ -1586,7 +1586,7 @@ $(document).ready(function () {
         // inactiveTeams.length = 5;
 
         let row = "";
-        $(".leaderboard-container > tbody > tr:last").html("");
+        // $(".leaderboard-container > tbody > tr:last").html("");
         if (inactiveTeams.length) {
           for (let i = 0; i < inactiveTeams.length; i++) {
             row += inactiveTeams[i].handle + ", ";
