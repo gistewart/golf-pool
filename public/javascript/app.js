@@ -1583,18 +1583,34 @@ $(document).ready(function () {
           if (a.handle < b.handle) return -1;
           else return 1;
         });
+        // inactiveTeams.length = 5;
 
         let row = "";
-        for (let i = 0; i < inactiveTeams.length; i++) {
-          row += inactiveTeams[i].handle + ", ";
+        $(".leaderboard-container > tbody > tr:last").html("");
+        if (inactiveTeams.length) {
+          for (let i = 0; i < inactiveTeams.length; i++) {
+            row += inactiveTeams[i].handle + ", ";
+          }
+          row = row.replace(/, $/, ".");
+          if (inactiveTeams.length > 1) {
+            console.log(row);
+            let idx = row.lastIndexOf(",");
+            row = row.split("");
+            row.splice(idx, 1, " and");
+            row = row.join("");
+          }
+
+          $(".leaderboard-container > tbody").append(
+            "<tr><td colspan='5' scope='col' class='inactiveRow'>" +
+              `All 6 players on the following ` +
+              (inactiveTeams.length > 1
+                ? `${inactiveTeams.length} teams`
+                : `team`) +
+              ` were inactive this week: ` +
+              row +
+              "</td></tr>"
+          );
         }
-        row = row.slice(0, -2);
-        $(".leaderboard-container > tbody").append(
-          "<tr><td colspan='5' scope='col' class='inactiveRow'>" +
-            "All 6 players on the following teams were inactive this week: " +
-            row +
-            "</td></tr>"
-        );
       });
     }
     // to resize poolsterHandle
