@@ -98,27 +98,24 @@ module.exports = async function () {
         });
         $("div.leaderboard_no_data").each(function (i, element) {
           dataAvailable.status = $(this).children("div:first-child").text();
-          console.log("dataAvailable: ", dataAvailable);
         });
+        console.log("dataAvailable: ", dataAvailable);
       });
 
     scheduleStage[i].status = hold.status;
     console.log("line 106", scheduleStage);
 
-    // add/remove ! for testing/production
-    if (
-      hold.status.includes("Tournament Field") &&
-      !dataAvailable.status.includes("No Tournament Data Available")
-    ) {
+    // if dataAvailable field not empty (i.e. there is no data yet), then delete)
+    if (Object.keys(dataAvailable).length) {
+      scheduleStage.splice(i, 1);
+      i--;
+      console.log("line 112 deleting");
+      return;
+    } else if (hold.status.includes("Tournament Field")) {
       console.log("condition passed");
       const temp = await db.liveFieldSchedule.bulkCreate(scheduleStage);
       console.log("seeding liveFieldSchedule db tbl");
       module.exports.liveSeedType = "field";
-      return;
-    } else if (dataAvailable.status.includes("No Tournament Data Available")) {
-      scheduleStage.splice(i, 1);
-      i--;
-      console.log("line 121 deleting");
       return;
     }
 
