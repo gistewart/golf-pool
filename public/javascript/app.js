@@ -1157,14 +1157,34 @@ $(document).ready(function () {
         if (a.poolster < b.poolster) return -1;
       });
     } else {
-      sorted = result.sort((a, b) => {
+      // for Live only
+      // sort by Players.length, DESC
+      sorted = result.sort((a, b) => b.Players.length - a.Players.length);
+      let idx = sorted.length;
+
+      // find index of first player with Players.length = 0
+      for (let i = 0; i < sorted.length; i++) {
+        if (sorted[i].Players.length === 0) {
+          idx = i;
+          break;
+        }
+      }
+      console.log(idx);
+
+      // sort top half by poolsterEarnings, by poolster
+      const top = sorted.slice(0, idx).sort((a, b) => {
         if (a.poolsterEarnings > b.poolsterEarnings) return -1;
         if (a.poolsterEarnings < b.poolsterEarnings) return 1;
-        if (a.Players.length < b.Players.length) return 1;
-        if (a.Players.length > b.Players.length) return -1;
         if (a.poolster > b.poolster) return 1;
         if (a.poolster < b.poolster) return -1;
       });
+      // sort bottom half by poolster
+      const bottom = sorted.slice(idx, sorted.length).sort((a, b) => {
+        if (a.poolster < b.poolster) return -1;
+        if (a.poolster > b.poolster) return 1;
+      });
+      // rejoin array
+      sorted = top.concat(bottom);
     }
 
     addRanking(sorted);
@@ -1606,7 +1626,7 @@ $(document).ready(function () {
               (inactiveTeams.length > 1
                 ? `${inactiveTeams.length} teams`
                 : `team`) +
-              ` were idle this week: ` +
+              ` were idle: ` +
               row +
               "</td></tr>"
           );
