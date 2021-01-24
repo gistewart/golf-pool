@@ -24,8 +24,8 @@ $(document).ready(function () {
   const today = moment().format();
   console.log("today: ", today);
   const Year = moment(today).year();
-  // const today = moment("2021-01-01");
-  // const Year = 2021;
+  // const today = moment("2020-02-28");
+  // const Year = 2020;
 
   $("#liveScoring").hide();
   $("#onTheRange").hide();
@@ -1032,18 +1032,24 @@ $(document).ready(function () {
   const Dec31 = moment([Year, 11, 30]).format();
   // console.log(Jan01, Dec31);
   // make subDay the day of the first round of the midway event
-  // const subDay = moment([Year, 6, 5]).format();
-  const subDay = moment([Year, 3, 29]).format();
+  const subDay = moment([Year, 6, 5]).format();
+  // const subDay = moment([Year, 3, 29]).format();
   if (today > subDay) {
     $(".subHalfLang").text((i, t) => t.replace(/First/, "Second"));
   }
 
   function sumData(data, sortedPartResult, playerRatings) {
+    console.log(data);
     //to sum earnings by player and poolster
-    let a, b;
+    let a, b, c;
     let result = [];
+    let subPeriod = today < subDay ? "H1" : "H2";
+    //temp
+    subPeriod = "H1";
+    console.log(subPeriod, subDay);
     // iAdj below accounts for inactive players being the ONLY players on a poolster's team (it handles an empty array issue)
     let iAdj = 0;
+    let jAdj = 0;
     console.log(data);
     for (let i = 0; i < data.length; i++) {
       if (!(data[i].Players && data[i].Players.length)) {
@@ -1058,9 +1064,27 @@ $(document).ready(function () {
           Players: [],
         });
         a = data[i].Players;
+
+        jAdj = 0;
         for (let j = 0; j < a.length; j++) {
           let playerSum = 0;
+          // apiCall = "Sub";
 
+          if (apiCall === "Sub") {
+            console.log(subPeriod, a[j].startDate, Jan01, subDay);
+            if (
+              !(
+                (subPeriod === "H1" &&
+                  a[j].startDate > Jan01 &&
+                  a[j].startDate < subDay) ||
+                (subPeriod === "H2" && a[j].startDate > subDay)
+              )
+            ) {
+              jAdj++;
+              continue;
+            }
+          }
+          console.log("got here", i, result[i - iAdj].poolster, a[j].name);
           result[i - iAdj].Players.push({
             player: a[j].name,
             tier: a[j].tier,
@@ -1071,18 +1095,20 @@ $(document).ready(function () {
             reEndDate: a[j].reEndDate,
             effDate: a[j].effDate,
             type: a[j].type,
+            // subPoolEligible: "no",
             tournaments: [],
           });
+
           // console.log(a[j].startDate, Jan01, a[j].endDate, Dec31);
-          if (a[j].endDate < Dec31 && !a[j].reStartDate) {
-            result[i].Players[j].active = "no";
+          if (a[j - jAdj].endDate < Dec31 && !a[j - jAdj].reStartDate) {
+            result[i - iAdj].Players[j - jAdj].active = "no";
           }
           if (today < subDay) {
-            if (a[j].effDate < subDay && a[j].type == "regular") {
+            if (a[j].effDate < subDay && a[j].type !== "no-cost") {
               playerCount++;
             }
           } else {
-            if (a[j].effDate > subDay && a[j].type == "regular") {
+            if (a[j].effDate > subDay && a[j].type !== "no-cost") {
               playerCount++;
             }
           }
@@ -1090,8 +1116,11 @@ $(document).ready(function () {
           b = a[j].Tournaments;
           for (let k = 0; k < b.length; k++) {
             playerSum += b[k].earnings;
-            poolsterSum += b[k].earnings;
-            result[i - iAdj].Players[j].tournaments.push({
+            // poolsterSum += b[k].earnings;
+            console.log(i, iAdj, i - iAdj, j, jAdj, j - jAdj);
+            // new code:
+            // if apiCall = "Sub" and subPeriod = "H1" and tourney start date >  subDay...continue
+            result[i - iAdj].Players[j - jAdj].tournaments.push({
               name: b[k].name,
               shortName: b[k].shortName,
               date: b[k].date,
@@ -1100,14 +1129,18 @@ $(document).ready(function () {
               earnings: b[k].earnings,
               toPar: b[k].toPar,
               thru: b[k].thru,
+              subPoolTourneyEligible: "no",
             });
           }
-          result[i - iAdj].Players[j]["playerEarnings"] = playerSum;
+          poolsterSum += playerSum;
+
+          result[i - iAdj].Players[j - jAdj]["playerEarnings"] = playerSum;
           result[i - iAdj]["poolsterEarnings"] = poolsterSum;
           result[i - iAdj]["playerCount"] = playerCount;
         }
       }
     }
+
     console.log(result);
     sortData(result, sortedPartResult, playerRatings);
   }
@@ -1158,11 +1191,11 @@ $(document).ready(function () {
       });
     } else {
       // for Live only
-      // sort by Players.length, DESC
+      // first, sort by Players.length, DESC
       sorted = result.sort((a, b) => b.Players.length - a.Players.length);
       let idx = sorted.length;
 
-      // find index of first player with Players.length = 0
+      // then, find index of first player with Players.length === 0
       for (let i = 0; i < sorted.length; i++) {
         if (sorted[i].Players.length === 0) {
           idx = i;
@@ -1389,27 +1422,27 @@ $(document).ready(function () {
                 " | " +
                 sorted[i].Players[j].Tournaments[0].thru
               : "") +
-            (apiCall === "Live" &&
-            /Round [1-4] - Play Complete/i.test(roundStatus)
-              ? " | " +
-                "<span class='posHighlite'>" +
-                "Pos " +
-                sorted[i].Players[j].Tournaments[0].position +
-                "</span>" +
-                " | To Par " +
-                sorted[i].Players[j].Tournaments[0].toPar +
-                "<span class='todaysScore'>" +
-                " (" +
-                sorted[i].Players[j].Tournaments[0].thru +
-                ")" +
-                "</span"
-              : "") +
+            // (apiCall === "Live" &&
+            // /Round [1-4] - Play Complete/i.test(roundStatus)
+            //   ? " | " +
+            //     "<span class='posHighlite'>" +
+            //     "Pos " +
+            //     sorted[i].Players[j].Tournaments[0].position +
+            //     "</span>" +
+            //     " | To Par " +
+            //     sorted[i].Players[j].Tournaments[0].toPar +
+            //     "<span class='todaysScore'>" +
+            //     " (" +
+            //     sorted[i].Players[j].Tournaments[0].thru +
+            //     ")" +
+            //     "</span"
+            //   : "") +
             (apiCall === "Live" &&
             !(
               round == 1 &&
               /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
             ) &&
-            /^Round [1-4] - [^Play Complete]/i.test(roundStatus)
+            /^Round [1-4] - /i.test(roundStatus)
               ? " | " +
                 "<span class='posHighlite'>" +
                 "Pos " +
