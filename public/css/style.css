@@ -659,9 +659,20 @@ table#onTheRange-container td:nth-child(n + 3) {
   cursor: not-allowed;
 }
 
-#playerRatingLang > a:link {
-  text-decoration: underline;
+#subH1Pool .btn-group-xs > .btn,
+.btn-xs {
+  padding: 0.25rem 0.3rem;
+  font-size: 0.65rem;
+  line-height: 0.5;
+  border-radius: 0.2rem;
+  color: white !important;
+  /* color: rgb(207, 204, 204) !important; */
+  /* font-weight: 800; */
 }
+
+/* #playerRatingLang > a:link {
+  text-decoration: underline;
+} */
 
 #footnotes hr {
   border: 1px solid rgb(168, 166, 166);
