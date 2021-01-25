@@ -45,7 +45,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    await displayLiveTab();
+    // await displayLiveTab();
     setTimeout(async function () {
       seasonData();
       // liveEvent();
@@ -1045,8 +1045,8 @@ $(document).ready(function () {
     let result = [];
     let subPeriod = today < subDay ? "H1" : "H2";
     //temp
-    subPeriod = "H1";
-    console.log(subPeriod, subDay);
+    // subPeriod = "H2";
+    // console.log(subPeriod, subDay);
     // iAdj below accounts for inactive players being the ONLY players on a poolster's team (it handles an empty array issue)
     let iAdj = 0;
     let jAdj = 0;
@@ -1071,7 +1071,7 @@ $(document).ready(function () {
           // apiCall = "Sub";
 
           if (apiCall === "Sub") {
-            console.log(subPeriod, a[j].startDate, Jan01, subDay);
+            // console.log(subPeriod, a[j].startDate, Jan01, subDay);
             if (
               !(
                 (subPeriod === "H1" &&
@@ -1084,7 +1084,7 @@ $(document).ready(function () {
               continue;
             }
           }
-          console.log("got here", i, result[i - iAdj].poolster, a[j].name);
+          // console.log("Subs: ", result[i - iAdj].poolster, a[j].name);
           result[i - iAdj].Players.push({
             player: a[j].name,
             tier: a[j].tier,
@@ -1104,22 +1104,37 @@ $(document).ready(function () {
             result[i - iAdj].Players[j - jAdj].active = "no";
           }
           if (today < subDay) {
-            if (a[j].effDate < subDay && a[j].type !== "no-cost") {
+            if (
+              a[j - jAdj].effDate < subDay &&
+              a[j - jAdj].type !== "no-cost"
+            ) {
               playerCount++;
             }
           } else {
-            if (a[j].effDate > subDay && a[j].type !== "no-cost") {
+            if (
+              a[j - jAdj].effDate > subDay &&
+              a[j - jAdj].type !== "no-cost"
+            ) {
               playerCount++;
             }
           }
 
           b = a[j].Tournaments;
           for (let k = 0; k < b.length; k++) {
+            if (apiCall === "Sub") {
+              if (
+                !(
+                  (subPeriod === "H1" && b[k].start < subDay) ||
+                  (subPeriod === "H2" && b[k].start > subDay)
+                )
+              ) {
+                continue;
+              }
+            }
+
             playerSum += b[k].earnings;
             // poolsterSum += b[k].earnings;
-            console.log(i, iAdj, i - iAdj, j, jAdj, j - jAdj);
-            // new code:
-            // if apiCall = "Sub" and subPeriod = "H1" and tourney start date >  subDay...continue
+
             result[i - iAdj].Players[j - jAdj].tournaments.push({
               name: b[k].name,
               shortName: b[k].shortName,
@@ -1139,6 +1154,10 @@ $(document).ready(function () {
           result[i - iAdj]["playerCount"] = playerCount;
         }
       }
+    }
+
+    if (apiCall === "Sub") {
+      result = result.filter((el) => el.Players.length > 0);
     }
 
     console.log(result);
@@ -1578,14 +1597,14 @@ $(document).ready(function () {
             "</td></tr>"
         );
 
-        if (apiCall === "Season") {
+        if (apiCall === "Season" || apiCall === "Sub") {
           $(".level2").addClass("pointer");
         } else {
           $(".level2").removeClass("pointer");
         }
 
         //to include this layer only if apiCall === "Season"
-        if (apiCall === "Season") {
+        if (apiCall === "Season" || apiCall === "Sub") {
           for (let k = 0; k < sorted[i].Players[j].tournaments.length; k++) {
             $(".leaderboard-container").append(
               "<tr class='level3 hiddenRow collapse' id='demo-" +
