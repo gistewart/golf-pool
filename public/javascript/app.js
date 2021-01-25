@@ -45,7 +45,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    await displayLiveTab();
+    // await displayLiveTab();
     setTimeout(async function () {
       seasonData();
       // liveEvent();
@@ -926,6 +926,7 @@ $(document).ready(function () {
     $(".main-container").show();
     $(".leaderboard-container").show();
     $("#footnotes").show(4000);
+    $("#playerRatingLang").show();
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
     $("#lastEventTitle").show();
@@ -937,9 +938,7 @@ $(document).ready(function () {
         `Welcome to the first event of the ${Year} Season!`
       );
     } else {
-      $("#lastEventTitle").text(
-        "Results reflect all tournaments up to and including:"
-      );
+      $("#lastEventTitle").text("Results reflect all tournaments through:");
       lastEventDetails();
     }
 
@@ -1028,6 +1027,27 @@ $(document).ready(function () {
     });
   }
 
+  // $(document).on("click", "#subH1Pool", subData);
+
+  function subData() {
+    $("#playerRatingLang").hide();
+    $("#lastEventTitle").show();
+    $("#lastEventTitle").text(
+      "First Half Substitution Mini-Pool - results through:"
+    );
+    apiCall = "Sub";
+    liveTC = false;
+    $.get("/api/allEvents", function (data) {
+      sumData(data);
+      $("#seasonData").removeClass("is-active");
+      $(".leaderboard-container tbody tr.level1").removeAttr("data-toggle");
+      $(
+        ".leaderboard-container tbody tr.level1 .poolsterImage,.poolsterHandle,.poolsterName"
+      ).addClass("noPointer");
+      $(".leaderboard-container tbody tr.level2").removeClass("collapse");
+    });
+  }
+
   const Jan01 = moment([Year, 0, 2]).format();
   const Dec31 = moment([Year, 11, 30]).format();
   // console.log(Jan01, Dec31);
@@ -1068,7 +1088,6 @@ $(document).ready(function () {
         jAdj = 0;
         for (let j = 0; j < a.length; j++) {
           let playerSum = 0;
-          // apiCall = "Sub";
 
           if (apiCall === "Sub") {
             // console.log(subPeriod, a[j].startDate, Jan01, subDay);
@@ -1168,34 +1187,40 @@ $(document).ready(function () {
     // add ranking
     sorted[0].ranking = 1;
     let ties = 0;
-    for (let i = 1; i < sorted.length; i++) {
-      if (sorted[i].poolsterEarnings !== sorted[i - 1].poolsterEarnings) {
-        sorted[i].ranking = i + 1;
-        ties = 0;
-      } else {
-        ties++;
-        sorted[i].ranking = i + 1 - ties;
+    console.log(sorted);
+    if (sorted.length > 1) {
+      for (let i = 1; i < sorted.length; i++) {
+        if (sorted[i].poolsterEarnings !== sorted[i - 1].poolsterEarnings) {
+          sorted[i].ranking = i + 1;
+          ties = 0;
+        } else {
+          ties++;
+          sorted[i].ranking = i + 1 - ties;
+        }
       }
-    }
-    // now add "T" for ties to ranking
-    for (let i = 0; i < sorted.length; i++) {
-      if (i === 0 && sorted[0].ranking === sorted[1].ranking) {
-        sorted[0].rankingDisplay = "T" + sorted[i].ranking;
-      } else if (
-        i > 0 &&
-        i < sorted.length - 1 &&
-        (sorted[i].ranking === sorted[i - 1].ranking ||
-          sorted[i].ranking === sorted[i + 1].ranking)
-      ) {
-        sorted[i].rankingDisplay = "T" + sorted[i].ranking;
-      } else if (
-        i === sorted.length - 1 &&
-        sorted[i].ranking === sorted[i - 1].ranking
-      ) {
-        sorted[i].rankingDisplay = "T" + sorted[i].ranking;
-      } else {
-        sorted[i].rankingDisplay = sorted[i].ranking;
+      // now add "T" for ties to ranking
+
+      for (let i = 0; i < sorted.length; i++) {
+        if (i === 0 && sorted[0].ranking === sorted[1].ranking) {
+          sorted[0].rankingDisplay = "T" + sorted[i].ranking;
+        } else if (
+          i > 0 &&
+          i < sorted.length - 1 &&
+          (sorted[i].ranking === sorted[i - 1].ranking ||
+            sorted[i].ranking === sorted[i + 1].ranking)
+        ) {
+          sorted[i].rankingDisplay = "T" + sorted[i].ranking;
+        } else if (
+          i === sorted.length - 1 &&
+          sorted[i].ranking === sorted[i - 1].ranking
+        ) {
+          sorted[i].rankingDisplay = "T" + sorted[i].ranking;
+        } else {
+          sorted[i].rankingDisplay = sorted[i].ranking;
+        }
       }
+    } else {
+      sorted[0].rankingDisplay = "1";
     }
   }
 
@@ -1324,7 +1349,7 @@ $(document).ready(function () {
       $(".leaderboard-container > tbody").append(
         "<tr data-toggle='collapse' data-target='#demo" +
           i +
-          "' class='level1 clickabe'><td class='ranking'>" +
+          "' class='level1'><td class='ranking'>" +
           "<span>" +
           sorted[i].rankingDisplay +
           (apiCall == "Season" && !week1
@@ -1420,7 +1445,7 @@ $(document).ready(function () {
         //   );
         // }
         $(".leaderboard-container").append(
-          "<tr class='level2 hiddenRow collapse' id='demo" +
+          "<tr class='level2 collapse' id='demo" +
             i +
             "' data-toggle='collapse' data-target='#demo-" +
             i +
@@ -1551,8 +1576,10 @@ $(document).ready(function () {
                   : sorted[i].Players[j].grade == "E"
                   ? "class='gradeIcon fas fa-angle-double-down fa-s'></i>"
                   : "") +
-                "  " +
-                (sorted[i].Players[j].active == "yes" &&
+                "  "
+              : "") +
+            (apiCall === "Season" || apiCall === "Sub"
+              ? (sorted[i].Players[j].active == "yes" &&
                 (sorted[i].Players[j].startDate > Jan01 ||
                   sorted[i].Players[j].endDate < Dec31)
                   ? " | "
@@ -1588,12 +1615,14 @@ $(document).ready(function () {
               ? " | " + sorted[i].Players[j].tournaments[0].position
               : "") +
             "</td><td class='earnings'>" +
-            sorted[i].Players[j].playerEarnings.toLocaleString("us-US", {
-              style: "currency",
-              currency: "USD",
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            }) +
+            (apiCall !== "Sub"
+              ? sorted[i].Players[j].playerEarnings.toLocaleString("us-US", {
+                  style: "currency",
+                  currency: "USD",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                })
+              : "") +
             "</td></tr>"
         );
 
@@ -1607,7 +1636,7 @@ $(document).ready(function () {
         if (apiCall === "Season" || apiCall === "Sub") {
           for (let k = 0; k < sorted[i].Players[j].tournaments.length; k++) {
             $(".leaderboard-container").append(
-              "<tr class='level3 hiddenRow collapse' id='demo-" +
+              "<tr class='level3 collapse' id='demo-" +
                 i +
                 "-" +
                 j +

@@ -298,6 +298,10 @@ div.container.lb-container {
   cursor: pointer;
 }
 
+.noPointer {
+  cursor: default;
+}
+
 .ranking {
   color: black;
   font-size: 1.5em;
@@ -649,6 +653,10 @@ table#onTheRange-container td:nth-child(n + 3) {
 
 #footnotes {
   margin-bottom: 20px;
+}
+
+#subH1Pool {
+  cursor: not-allowed;
 }
 
 #playerRatingLang > a:link {
