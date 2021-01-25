@@ -134,9 +134,8 @@ module.exports = async function () {
     // event not considered Live if status starts with 'Tournament' or status === "Final" AND it's round 4 (really day 4 or 5)
     // add/remove ! for test/production version
     if (
-      /^Tournament/gi.test(hold.status) &&
-      hold.status === "Final" &&
-      /[45]/.test(round)
+      /^Tournament/gi.test(hold.status) ||
+      (hold.status === "Final" && /[45]/.test(round))
     ) {
       scheduleStage.splice(i, 1);
       i--;
