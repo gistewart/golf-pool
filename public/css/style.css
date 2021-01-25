@@ -666,6 +666,7 @@ table#onTheRange-container td:nth-child(n + 3) {
   line-height: 0.5;
   border-radius: 0.2rem;
   color: white !important;
+  margin-bottom: 5px;
   /* color: rgb(207, 204, 204) !important; */
   /* font-weight: 800; */
 }
