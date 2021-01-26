@@ -611,15 +611,6 @@ table#onTheRange-container td:nth-child(n + 3) {
   vertical-align: middle;
 }
 
-.subIconLangHide {
-  visibility: hidden;
-}
-
-.subIconLangShow {
-  visibility: visible;
-  margin-top: -1.5em;
-}
-
 .comments-container {
   max-width: 620px !important;
   margin-top: 0.5em;
@@ -655,29 +646,48 @@ table#onTheRange-container td:nth-child(n + 3) {
   margin-bottom: 20px;
 }
 
+#subIconLang {
+  visibility: hidden;
+  margin-bottom: -1em;
+}
+
+.subIconLangHide {
+  visibility: hidden;
+}
+
+.subIconLangShow {
+  visibility: visible;
+  margin-top: -1.5em;
+}
+
+.subLBTitle,
+#subH1Pool,
+.playerRatingsTitle,
+#playerRatingsHref {
+  font-size: 0.85em !important;
+  font-weight: 800;
+}
+
+#subLB .subLBTitle,
+#playerRatingsLang .playerRatingsTitle {
+  font-variant: small-caps;
+  background-color: white;
+}
+
 #subH1Pool {
   cursor: not-allowed;
 }
 
-#subH1Pool .btn-group-xs > .btn,
-.btn-xs {
-  padding: 0.25rem 0.3rem;
-  font-size: 0.65rem;
-  line-height: 0.5;
-  border-radius: 0.2rem;
-  color: white !important;
-  margin-bottom: 5px;
-  /* color: rgb(207, 204, 204) !important; */
-  /* font-weight: 800; */
+.subHalfLang {
+  font-size: 0.85em;
 }
 
-/* #playerRatingLang > a:link {
-  text-decoration: underline;
-} */
+#playerRatingsHref:hover {
+  text-decoration: none;
+}
 
-#footnotes hr {
-  border: 1px solid rgb(168, 166, 166);
-  margin: 5px 0px;
+#playerRatingsCollapse {
+  font-size: 0.85em;
 }
 
 .footer {

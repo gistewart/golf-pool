@@ -89,24 +89,33 @@
                 <div>
                     <div class="footnotes-container">
                         <div id="footnotes">
-                            <div id="subIconLang" style="font-size: 0.8em;"><strong>SUBSTITUTIONS: </strong> <a
-                                    id="subH1Pool" class="btn btn-secondary btn-xs" disabled>First Half Mini-Pool
-                                    (pending)</a> <br><i
-                                    class="subIcon1 material-icons md-15">swap_horizontal_circle</i>
-                                <span class="subHalfLang"> Sub
+
+                            <div id="subIconLang"><i class="subIcon1 material-icons md-15">swap_horizontal_circle</i>
+                                <span class="subHalfLang"> First half sub
                                     available | </span>
                                 <i
                                     class="subIcon2 material-icons md-dark md-inactive md-15">swap_horizontal_circle</i><span
                                     class="subHalfLang">
-                                    Sub already used</span>
+                                    First half sub already used</span>
                             </div>
-                            <hr>
-                            <div id="playerRatingLang" style="font-size: 0.85em;">
-                                <a data-toggle="collapse" id="playerRatingHref" class="btn btn-success btn-xs"
-                                    href="#playerRatingCollapse">Player
-                                    Rating
-                                    information</a>
-                                <div class="collapse" id="playerRatingCollapse">
+
+                            <div class="buttons has-addons is-centered" id="subLB">
+                                <button
+                                    class="subLBTitle button is-small is-outlined is-static is-info">Substitutions</button>
+                                <button id="subH1Pool" class="button is-small is-info">First
+                                    Half Mini-Pool (pending)</button>
+                            </div>
+
+                            <div class="buttons has-addons is-centered" id="playerRatingsLang">
+                                <button
+                                    class="playerRatingsTitle button is-small is-outlined is-static is-success">Player
+                                    Ratings</button>
+                                <a id="playerRatingsHref" data-toggle="collapse" href="#playerRatingsCollapse"
+                                    class="button is-small is-success">More/Less Info</a>
+                            </div>
+
+                            <div id="playerRatingsLang">
+                                <div class="collapse" id="playerRatingsCollapse">
                                     <div>Each active player has a rating which indicates their earnings relative to
                                         the
                                         average earnings of all players picked in the same category (earnings totals
@@ -123,6 +132,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

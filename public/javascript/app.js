@@ -926,7 +926,7 @@ $(document).ready(function () {
     $(".main-container").show();
     $(".leaderboard-container").show();
     $("#footnotes").show(4000);
-    $("#playerRatingLang").show();
+    // $("#playerRatingsLang").show();
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
     $("#lastEventTitle").show();
@@ -1030,7 +1030,7 @@ $(document).ready(function () {
   // $(document).on("click", "#subH1Pool", subData);
 
   function subData() {
-    $("#playerRatingLang").hide();
+    $("#footnotes").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text(
       "First Half Substitution Mini-Pool - results through:"
@@ -1767,7 +1767,7 @@ $(document).ready(function () {
       });
     }
 
-    $("footer").show(4000);
+    $("footer").show(2000);
 
     console.log(sorted);
   }
