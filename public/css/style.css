@@ -685,16 +685,16 @@ table#onTheRange-container td:nth-child(n + 3) {
 }
 
 /* pending state */
-.is-info.is-outlined {
-  color: grey !important;
-  border-color: grey !important;
+#subLB .is-info.is-outlined {
+  color: grey;
+  border-color: grey;
 }
 
 /* pending state */
-.is-info:not(.is-outlined) {
-  color: white !important;
-  border-color: grey !important;
-  background-color: grey !important;
+#subLB .is-info:not(.is-outlined) {
+  color: white;
+  border-color: grey;
+  background-color: grey;
 }
 
 #subH1Pool {
