@@ -701,6 +701,10 @@ table#onTheRange-container td:nth-child(n + 3) {
   cursor: not-allowed;
 }
 
+.far.fa-clock {
+  padding-left: 0.3em;
+}
+
 .subHalfLang {
   font-size: 0.85em;
 }

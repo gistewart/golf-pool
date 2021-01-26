@@ -42,6 +42,8 @@ module.exports = function () {
 
               if (result.pos == "-") {
                 result.pos = result.toPar;
+              } else if (result.pos == "CUT") {
+                result.pos = "MC";
               }
               // Tour Championship if else statement
               if (/tour championship/i.test(name)) {
