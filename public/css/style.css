@@ -642,8 +642,17 @@ table#onTheRange-container td:nth-child(n + 3) {
   padding: 0 30px 10px;
 }
 
+/* #footnotes .buttons {
+  color: red;
+} */
+
 #footnotes {
   margin-bottom: 20px;
+}
+
+.subIcon1,
+.subIcon2 {
+  cursor: help;
 }
 
 #subIconLang {
@@ -666,6 +675,7 @@ table#onTheRange-container td:nth-child(n + 3) {
 #playerRatingsHref {
   font-size: 0.85em !important;
   font-weight: 800;
+  padding: 0.5em;
 }
 
 #subLB .subLBTitle,

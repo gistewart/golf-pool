@@ -925,7 +925,7 @@ $(document).ready(function () {
     $(".onTheRange-container").hide();
     $(".main-container").show();
     $(".leaderboard-container").show();
-    $("#footnotes").show(4000);
+    $("#footnotes").show(2000);
     // $("#playerRatingsLang").show();
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
@@ -1378,11 +1378,11 @@ $(document).ready(function () {
           (sorted[i].playerCount > 0 &&
           apiCall == "Season" &&
           sorted[i].poolster !== "The Trader"
-            ? "<i class='subIcon2 material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
+            ? "<i title='Sub already used for this period' class='subIcon2 material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
             : sorted[i].playerCount == 0 &&
               apiCall == "Season" &&
               sorted[i].poolster !== "The Trader"
-            ? "<i class='subIcon1 material-icons md-15'>swap_horizontal_circle</i>"
+            ? "<i title='Sub available for this period' class='subIcon1 material-icons md-15'>swap_horizontal_circle</i>"
             : "") +
           "</span>" +
           "<p class='poolsterName'>" +
