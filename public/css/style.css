@@ -684,6 +684,19 @@ table#onTheRange-container td:nth-child(n + 3) {
   background-color: white;
 }
 
+/* pending state */
+.is-info.is-outlined {
+  color: grey !important;
+  border-color: grey !important;
+}
+
+/* pending state */
+.is-info:not(.is-outlined) {
+  color: white !important;
+  border-color: grey !important;
+  background-color: grey !important;
+}
+
 #subH1Pool {
   cursor: not-allowed;
 }
