@@ -715,6 +715,10 @@ table#onTheRange-container td:nth-child(n + 3) {
 
 #playerRatingsCollapse {
   font-size: 0.85em;
+  border: 1px rgb(5, 107, 5) solid;
+  background-color: white;
+  padding: 0 5px;
+  margin: 0 15px;
 }
 
 .footer {

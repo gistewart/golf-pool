@@ -1,38 +1,16 @@
 // *** Dependencies
 // =============================================================
-// const scout = require("@scout_apm/scout-apm");
-// var env = process.env.NODE_ENV || "development";
+
 require("dotenv").config();
 const express = require("express");
 // const ejs = require("ejs");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 
-// async function start() {
-//   // Trigger the download and installation of the core-agent
-//   try {
-//     await scout.install(
-//       {
-//         allowShutdown: true, // allow shutting down spawned scout-agent processes from this program
-//         monitor: true, // enable monitoring
-//         // logLevel: "debug",
-//       },
-//       // Additional scout options
-//       {
-//         // logFn: scout.consoleLogFn,
-//       }
-//     );
-//   } catch (err) {
-//     console.log(err);
-//   }
-
 // Sets up the Express App
 // =============================================================
 const app = express();
 const PORT = process.env.PORT || 8080;
-
-// Enable the app-wide scout middleware
-// app.use(scout.expressMiddleware());
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
@@ -63,9 +41,3 @@ db.sequelize.sync().then(function () {
     console.log("App listening on PORT " + PORT);
   });
 });
-// }
-
-// If this script is executed directly, run the start function
-// if (require.main === module) {
-//   start();
-// }

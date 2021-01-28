@@ -1632,7 +1632,7 @@ $(document).ready(function () {
           $(".level2").removeClass("pointer");
         }
 
-        //to include this layer only if apiCall === "Season"
+        //to include this layer only if apiCall === "Season" or "Sub"
         if (apiCall === "Season" || apiCall === "Sub") {
           for (let k = 0; k < sorted[i].Players[j].tournaments.length; k++) {
             $(".leaderboard-container").append(

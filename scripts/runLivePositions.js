@@ -63,6 +63,8 @@ module.exports = function () {
                   .text();
                 if (result.pos == "-") {
                   result.pos = result.toPar;
+                } else if (result.pos == "CUT") {
+                  result.pos = "MC";
                 }
                 // toParAdj for TC only (not sure about last replace method below, intended for any WD or DQ?)
                 if (name == "Tour Championship") {
