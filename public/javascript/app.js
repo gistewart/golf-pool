@@ -1458,78 +1458,71 @@ $(document).ready(function () {
             sorted[i].Players[j].player +
             // to add Live data to this layer
             (liveTC ? "<p class = 'poolVersion'>" + "Pool: " : "") +
-            (apiCall === "Live" &&
-            /^Round 1 - [^Play Complete]/i.test(roundStatus) &&
-            /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
-              ? " | To Par " +
-                sorted[i].Players[j].Tournaments[0].toPar +
-                " | " +
-                sorted[i].Players[j].Tournaments[0].thru
-              : "") +
-            // (apiCall === "Live" &&
-            // /Round [1-4] - Play Complete/i.test(roundStatus)
-            //   ? " | " +
-            //     "<span class='posHighlite'>" +
-            //     "Pos " +
-            //     sorted[i].Players[j].Tournaments[0].position +
-            //     "</span>" +
-            //     " | To Par " +
-            //     sorted[i].Players[j].Tournaments[0].toPar +
-            //     "<span class='todaysScore'>" +
-            //     " (" +
-            //     sorted[i].Players[j].Tournaments[0].thru +
-            //     ")" +
-            //     "</span"
-            //   : "") +
-            (apiCall === "Live" &&
-            !(
-              round == 1 &&
-              /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
-            ) &&
-            /^Round [1-4] - /i.test(roundStatus)
-              ? " | " +
-                "<span class='posHighlite'>" +
-                "Pos " +
-                sorted[i].Players[j].Tournaments[0].position +
-                "</span>" +
-                (/am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
-                  ? " | To Par " +
-                    sorted[i].Players[j].Tournaments[0].toPar +
-                    "<span class='todaysScore'>" +
-                    " (" +
-                    sorted[i].Players[j].Tournaments[0].thru +
-                    ")" +
-                    "</span>"
-                  : /^\d+$/.test(sorted[i].Players[j].Tournaments[0].thru)
-                  ? " | To Par " +
-                    sorted[i].Players[j].Tournaments[0].toPar +
-                    "<span class='todaysScore'>" +
-                    " (today: " +
-                    sorted[i].Players[j].Tournaments[0].today +
-                    " thru " +
-                    sorted[i].Players[j].Tournaments[0].thru +
-                    ")" +
-                    "</span>"
-                  : /^F$/i.test(sorted[i].Players[j].Tournaments[0].thru)
-                  ? " | To Par " +
-                    sorted[i].Players[j].Tournaments[0].toPar +
-                    "<span class='todaysScore'>" +
-                    " (today: " +
-                    sorted[i].Players[j].Tournaments[0].today +
-                    " thru 18)" +
-                    "</span>"
-                  : "") +
-                (noCut === false &&
-                round == 2 &&
-                !/Play Complete/i.test(liveStatus[0].status)
-                  ? sorted[i].Players[j].Tournaments[0].posAdj > mcPos
-                    ? " " +
-                      "<i class='fas fa-exclamation-circle fa-s' style='color:red'></i>"
-                    : sorted[i].Players[j].Tournaments[0].posAdj == mcPos
-                    ? " " +
-                      "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"
-                    : ""
-                  : "")
+            (apiCall === "Live"
+              ? /^Round 1 - [^Play Complete]/i.test(roundStatus) &&
+                /am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
+                ? " | To Par " +
+                  sorted[i].Players[j].Tournaments[0].toPar +
+                  " | " +
+                  sorted[i].Players[j].Tournaments[0].thru
+                : // (apiCall === "Live" &&
+                  // /Round [1-4] - Play Complete/i.test(roundStatus)
+                  //   ? " | " +
+                  //     "<span class='posHighlite'>" +
+                  //     "Pos " +
+                  //     sorted[i].Players[j].Tournaments[0].position +
+                  //     "</span>" +
+                  //     " | To Par " +
+                  //     sorted[i].Players[j].Tournaments[0].toPar +
+                  //     "<span class='todaysScore'>" +
+                  //     " (" +
+                  //     sorted[i].Players[j].Tournaments[0].thru +
+                  //     ")" +
+                  //     "</span"
+                  //   : "") +
+                  " | " +
+                  "<span class='posHighlite'>" +
+                  "Pos " +
+                  sorted[i].Players[j].Tournaments[0].position +
+                  "</span>" +
+                  (/am|pm/i.test(sorted[i].Players[j].Tournaments[0].thru)
+                    ? " | To Par " +
+                      sorted[i].Players[j].Tournaments[0].toPar +
+                      "<span class='todaysScore'>" +
+                      " (" +
+                      sorted[i].Players[j].Tournaments[0].thru +
+                      ")" +
+                      "</span>"
+                    : /^\d+$/.test(sorted[i].Players[j].Tournaments[0].thru)
+                    ? " | To Par " +
+                      sorted[i].Players[j].Tournaments[0].toPar +
+                      "<span class='todaysScore'>" +
+                      " (today: " +
+                      sorted[i].Players[j].Tournaments[0].today +
+                      " thru " +
+                      sorted[i].Players[j].Tournaments[0].thru +
+                      ")" +
+                      "</span>"
+                    : /^F$/i.test(sorted[i].Players[j].Tournaments[0].thru)
+                    ? " | To Par " +
+                      sorted[i].Players[j].Tournaments[0].toPar +
+                      "<span class='todaysScore'>" +
+                      " (today: " +
+                      sorted[i].Players[j].Tournaments[0].today +
+                      " thru 18)" +
+                      "</span>"
+                    : "") +
+                  (noCut === false &&
+                  round == 2 &&
+                  !/Play Complete/i.test(liveStatus[0].status)
+                    ? sorted[i].Players[j].Tournaments[0].posAdj > mcPos
+                      ? " " +
+                        "<i class='fas fa-exclamation-circle fa-s' style='color:red'></i>"
+                      : sorted[i].Players[j].Tournaments[0].posAdj == mcPos
+                      ? " " +
+                        "<i class='fas fa-exclamation-triangle fa-s' style='color:orange'></i>"
+                      : ""
+                    : "")
               : "") +
             (liveTC
               ? "</p>" +
