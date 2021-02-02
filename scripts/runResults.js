@@ -40,11 +40,12 @@ module.exports = function () {
                 .text();
               result.toPar = $(this).children("td:nth-child(3)").text();
 
-              if (result.pos == "-") {
+              if (result.pos === "-" && result.toPar !== "CUT") {
                 result.pos = result.toPar;
-              } else if (result.pos == "CUT") {
+              } else if (result.pos === "-") {
                 result.pos = "MC";
               }
+
               // Tour Championship if else statement
               if (/tour championship/i.test(name)) {
                 result.tot = Number(
@@ -224,7 +225,7 @@ module.exports = function () {
               if (/tour championship/i.test(name)) {
                 const first = await purseCalc();
               } else {
-                console.log("resultsArray for db.ResultAll: ", resultsArray);
+                // console.log("resultsArray for db.ResultAll: ", resultsArray);
                 db.ResultAll.bulkCreate(resultsArray);
               }
 

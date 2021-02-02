@@ -61,11 +61,19 @@ module.exports = function () {
                 result.toPar = $(this)
                   .children("td:nth-child(" + (4 + statusAdj) + ")")
                   .text();
-                if (result.pos == "-") {
+
+                if (result.pos === "-" && result.toPar !== "CUT") {
                   result.pos = result.toPar;
-                } else if (result.pos == "CUT") {
+                } else if (result.pos === "-") {
                   result.pos = "MC";
                 }
+
+                // if (result.pos == "-") {
+                //   result.pos = result.toPar;
+                // } else if (result.pos == "CUT") {
+                //   result.pos = "MC";
+                // }
+
                 // toParAdj for TC only (not sure about last replace method below, intended for any WD or DQ?)
                 if (name == "Tour Championship") {
                   result.toParAdj = $(this)
