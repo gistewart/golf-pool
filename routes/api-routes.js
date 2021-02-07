@@ -530,16 +530,16 @@ module.exports = function (app) {
   app.get("/api/webSchedule", async function (req, res) {
     // NEW TEMPORARY CODE (SWAP)
     // Testing Start
-    await db.ScheduleStage.findAll({})
-      // Testing End
-      // Production Start
-      // await db.ScheduleStage.sync({ force: true })
-      //   .then(async function () {
-      //     const temp = await seedScheduleStage();
-      //   })
-      //   .then(function () {
-      //     return db.ScheduleStage.findAll({});
-      //   })
+    // await db.ScheduleStage.findAll({})
+    // Testing End
+    // Production Start
+    await db.ScheduleStage.sync({ force: true })
+      .then(async function () {
+        const temp = await seedScheduleStage();
+      })
+      .then(function () {
+        return db.ScheduleStage.findAll({});
+      })
       //Production End
       .then((result) => {
         res.json(result);
@@ -1060,12 +1060,6 @@ module.exports = function (app) {
 
   // populates and returns Field data (player, tee-time) for upcoming tournament
   app.get("/api/liveField", async function (req, res) {
-    // delete this block?
-    // await db.liveFieldSchedule.sync({ force: true }).then(async function () {
-    //   const temp = await seedLiveEventSchedule();
-    //   return;
-    // });
-
     // Prod start
     await db.liveField.sync({ force: true }).then(async function () {
       const temp = await runField();
