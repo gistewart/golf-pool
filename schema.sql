@@ -438,7 +438,7 @@ INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`,
 
 UPDATE `PoolsterPlayers` SET `endDate` = '2021-02-10', `effDate` = '2021-02-10', `type` = 'regular' WHERE (`id` = '202');
 
-INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `effDate`, `type`) VALUES ('11', '22', '2021-02-10', '2021-12-31', '2021-02-10', 'regular');
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('11', '22', '2021-02-10', '2021-12-31', '2021-12-31', '2021-02-10', 'regular');
 
 
 

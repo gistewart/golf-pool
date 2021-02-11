@@ -1582,24 +1582,24 @@ $(document).ready(function () {
                   ? " " +
                     "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
                     "  " +
-                    moment(sorted[i].Players[j].startDate).format("MMM DD")
+                    moment(sorted[i].Players[j].startDate).format("MMM D")
                   : sorted[i].Players[j].endDate < Dec31
                   ? "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
                     " " +
-                    moment(sorted[i].Players[j].endDate).format("MMM DD")
+                    moment(sorted[i].Players[j].endDate).format("MMM D")
                   : "") +
                 (sorted[i].Players[j].startDate > Jan01 &&
                 sorted[i].Players[j].endDate < Dec31
                   ? " | " +
                     "<i class='fas fa-user-minus fa-s' style='color:grey'></i>" +
                     "  " +
-                    moment(sorted[i].Players[j].endDate).format("MMM DD")
+                    moment(sorted[i].Players[j].endDate).format("MMM D")
                   : "") +
                 (sorted[i].Players[j].reStartDate > Jan01
                   ? " | " +
                     "<i class='fas fa-user-plus fa-s' style='color:green'></i>" +
                     "  " +
-                    moment(sorted[i].Players[j].reStartDate).format("MMM DD")
+                    moment(sorted[i].Players[j].reStartDate).format("MMM D")
                   : "")
               : "") +
             (apiCall === "Event" && lastEventCount > 1
