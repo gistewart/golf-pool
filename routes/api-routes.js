@@ -1522,6 +1522,13 @@ module.exports = function (app) {
       });
   });
 
+  // playerImage testing route
+  app.get("/api/playerImage", async function (req, res) {
+    db.PlayerImage.findAll({}).then((data) => {
+      res.json(data);
+    });
+  });
+
   app.get("/api/posts", function (req, res) {
     db.Post.findAll({}).then(function (dbPost) {
       res.json(dbPost);

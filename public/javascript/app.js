@@ -918,6 +918,7 @@ $(document).ready(function () {
   let mainData = [],
     partData = [];
 
+  // $("#seasonData").on("click",seasonData);
   $(document).on("click", "#seasonData", seasonData);
 
   function seasonData() {
@@ -1027,7 +1028,7 @@ $(document).ready(function () {
     });
   }
 
-  // $(document).on("click", "#subH1Pool", subData);
+  $(document).on("click", "#subH1Pool", subData);
 
   function subData() {
     $("#footnotes").hide();

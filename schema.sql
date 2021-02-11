@@ -422,7 +422,6 @@ ON UPDATE Cascade
 SET foreign_key_checks = 1;
 
 
-
 ALTER TABLE PlayerTiers
 DROP FOREIGN KEY PlayerTiers_ibfk_1
 
@@ -430,9 +429,16 @@ ALTER TABLE PlayerTiers
 ADD FOREIGN KEY PlayerTiers_ibfk_1(playerName) REFERENCES Players(playerName)
 ON UPDATE Cascade
 
+-- 02/10 Subs
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2021-02-10', `effDate` = '2021-02-10', `type` = 'regular' WHERE (`id` = '238');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `effDate`, `type`) VALUES ('17', '22', '2021-02-10', '2021-12-31', '2021-02-10', 'regular');
 
 
+UPDATE `PoolsterPlayers` SET `endDate` = '2021-02-10', `effDate` = '2021-02-10', `type` = 'regular' WHERE (`id` = '202');
 
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `effDate`, `type`) VALUES ('11', '22', '2021-02-10', '2021-12-31', '2021-02-10', 'regular');
 
 
 

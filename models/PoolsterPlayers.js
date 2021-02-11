@@ -37,7 +37,7 @@ module.exports = function (sequelize, DataTypes) {
       },
       reEndDate: {
         type: DataTypes.DATEONLY,
-        defaultValue: "2020-12-31",
+        defaultValue: "2021-12-31",
       },
       effDate: {
         type: DataTypes.DATEONLY,
