@@ -370,7 +370,7 @@ p.liveZeroPlayersText {
 }
 
 .liveZeroPlayersBreak {
-  border-top: 2px solid black;
+  border-top: 1px solid black;
 }
 
 .inactiveRow {
