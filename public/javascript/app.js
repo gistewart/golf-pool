@@ -19,7 +19,8 @@ $(document).ready(function () {
     fieldName = "",
     fieldDate = "",
     lastEventName = "",
-    roundStatus = "";
+    roundStatus = "",
+    liveZeroPlayersLine = 0;
 
   const today = moment().format();
   console.log("today: ", today);
@@ -840,6 +841,7 @@ $(document).ready(function () {
       livePlayers[i].liveZeroPlayersText = "";
       if (livePlayers[i].Players.length === 0) {
         livePlayers[i]["liveZeroPlayersText"] = "(0 players)";
+        liveZeroPlayersLine = i;
       }
     }
 
@@ -1395,7 +1397,7 @@ $(document).ready(function () {
               "<i class='fas fa-trophy fa-sm'></i>" +
               "</span>"
             : "") +
-          (apiCall == "Live"
+          (apiCall == "Live" && sorted[i].liveZeroPlayersText
             ? "<p class='liveZeroPlayersText'><small>" +
               sorted[i].liveZeroPlayersText +
               "</small></p>"
@@ -1432,8 +1434,14 @@ $(document).ready(function () {
             : "") +
           "</td></tr>"
       );
-      if (apiCall === "Season" && !week0) {
+      if (apiCall === "Season" && !week0 && i === 6) {
         $("table > tbody > tr[data-target='#demo5']").addClass("podiumBreak");
+      }
+      if (apiCall === "Live" && i === liveZeroPlayersLine) {
+        console.log(liveZeroPlayersLine);
+        $("table > tbody > tr[data-target='#demo" + i + "']").addClass(
+          "liveZeroPlayersBreak"
+        );
       }
 
       for (let j = 0; j < sorted[i].Players.length; j++) {
@@ -1678,7 +1686,6 @@ $(document).ready(function () {
           if (a.handle < b.handle) return -1;
           else return 1;
         });
-        // inactiveTeams.length = 5;
 
         let row = "";
         // $(".leaderboard-container > tbody > tr:last").html("");
@@ -1708,6 +1715,7 @@ $(document).ready(function () {
         }
       });
     }
+
     // to resize poolsterHandle
     $(function () {
       $(".poolsterHandle").each(function () {
