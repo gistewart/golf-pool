@@ -9,7 +9,7 @@ module.exports = function (sequelize, DataTypes) {
         defaultValue: "reg",
       },
       pos: DataTypes.STRING,
-      percent: DataTypes.DECIMAL(5, 3),
+      percent: DataTypes.DECIMAL(5, 6),
     },
     {
       timestamps: false,
