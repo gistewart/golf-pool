@@ -137,6 +137,11 @@ module.exports = async function () {
       /^Tournament/gi.test(hold.status) ||
       (hold.status === "Final" && /[45]/.test(round))
     ) {
+      console.log(
+        /^Tournament/gi.test(hold.status),
+        hold.status === "Final",
+        /[45]/.test(round)
+      );
       scheduleStage.splice(i, 1);
       i--;
       console.log("line 141 deleting");

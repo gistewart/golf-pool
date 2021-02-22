@@ -127,8 +127,13 @@ module.exports = async function () {
           continue;
         }
         // to delete tourney if any pros who made cut have earnings of 0
+        console.log(
+          "line 130",
+          Number.isInteger(resultsArray[j].pos),
+          resultsArray[j].earnings
+        );
         if (
-          Number.isInteger(resultsArray[j].pos) &&
+          Number.isInteger(Number(resultsArray[j].pos)) &&
           resultsArray[j].earnings == 0
         ) {
           console.log("breaking now because all earnings have not been posted");
