@@ -70,7 +70,7 @@ module.exports = async function () {
   // get status of tournament
   for (let i = 0; i < scheduleStage.length; i++) {
     const id = scheduleStage[i].tournamentId;
-    console.log(id);
+    console.log("line 73", id);
     var hold = {};
     var dataAvailable = {};
     await axios
@@ -113,60 +113,63 @@ module.exports = async function () {
       return;
     } else if (hold.status.includes("Tournament Field")) {
       console.log("condition passed");
+      // to delete 2nd tournament from array to avoid sequelize unique constraint error
+      scheduleStage.pop();
       const temp = await db.liveFieldSchedule.bulkCreate(scheduleStage);
       console.log("seeding liveFieldSchedule db tbl");
       module.exports.liveSeedType = "field";
-      return;
     }
 
-    console.log("liveSeedType: ", liveSeedType);
-    const today = new Date();
-    let a = moment(today, "M/D/YYYY");
-    // const uset = moment.tz(today, "America/New_York");
-    // day = uset.day();
-    let startDate = scheduleStage[i].tStartDate;
-    let b = moment(startDate, "M/D/YYYY");
-    let round = a.diff(b, "days") + 1;
-    console.log("today: ", a, "startDate: ", b, "round: ", round);
+    if (module.exports.liveSeedType != "field") {
+      console.log("liveSeedType: ", liveSeedType);
+      const today = new Date();
+      let a = moment(today, "M/D/YYYY");
+      // const uset = moment.tz(today, "America/New_York");
+      // day = uset.day();
+      let startDate = scheduleStage[i].tStartDate;
+      let b = moment(startDate, "M/D/YYYY");
+      let round = a.diff(b, "days") + 1;
+      console.log("today: ", a, "startDate: ", b, "round: ", round);
 
-    // examples only of status: /Tournament Field|Final|Round 1 - Suspended | Round 1 - Play Complete|^Round [2-4]/
+      // examples only of status: /Tournament Field|Final|Round 1 - Suspended | Round 1 - Play Complete|^Round [2-4]/
 
-    // event not considered Live if status starts with 'Tournament' or status === "Final" AND it's round 4 (really day 4 or 5)
-    // add/remove ! for test/production version
-    if (
-      /^Tournament/gi.test(hold.status) ||
-      (hold.status === "Final" && /[45]/.test(round))
-    ) {
-      console.log(
-        /^Tournament/gi.test(hold.status),
-        hold.status === "Final",
-        /[45]/.test(round)
+      // event not considered Live if status starts with 'Tournament' or status === "Final" AND it's round 4 (really day 4 or 5)
+      // add/remove ! for test/production version
+      if (
+        /^Tournament/gi.test(hold.status) ||
+        (hold.status === "Final" && /[45]/.test(round))
+      ) {
+        console.log(
+          /^Tournament/gi.test(hold.status),
+          hold.status === "Final",
+          /[45]/.test(round)
+        );
+        scheduleStage.splice(i, 1);
+        i--;
+        console.log("line 147 deleting");
+        return;
+      }
+
+      // false Freeze test - if status === "Final" but it's round 1/2/3 (really day 1/2/3), change status to correct day and add asterisk at end
+      // add/remove ! for test/production version
+      if (hold.status === "Final" && /[1-3]/.test(round)) {
+        console.log("hold status change");
+        scheduleStage[0].status = `Round ${day} - Play Complete*`;
+      }
+
+      console.log("current tournament included:", scheduleStage);
+      finishedEventsArr = scheduleStage.filter(
+        (el) => el.tournamentId >= "401155413"
       );
-      scheduleStage.splice(i, 1);
-      i--;
-      console.log("line 147 deleting");
+      console.log("finishedEventsArr", finishedEventsArr);
+
+      console.log("seeding liveEventSchedule db tbl");
+      module.exports.liveSeedType = "event";
+      // uncomment for Prod
+      const temp = await db.liveEventSchedule.bulkCreate(finishedEventsArr);
+
+      console.log("-----finished seeding liveEventSchedule table-----");
       return;
     }
-
-    // false Freeze test - if status === "Final" but it's round 1/2/3 (really day 1/2/3), change status to correct day and add asterisk at end
-    // add/remove ! for test/production version
-    if (hold.status === "Final" && /[1-3]/.test(round)) {
-      console.log("hold status change");
-      scheduleStage[0].status = `Round ${day} - Play Complete*`;
-    }
-
-    console.log("current tournament included:", scheduleStage);
-    finishedEventsArr = scheduleStage.filter(
-      (el) => el.tournamentId >= "401155413"
-    );
-    console.log("finishedEventsArr", finishedEventsArr);
-
-    console.log("seeding liveEventSchedule db tbl");
-    module.exports.liveSeedType = "event";
-    // uncomment for Prod
-    const temp = await db.liveEventSchedule.bulkCreate(finishedEventsArr);
-
-    console.log("-----finished seeding liveEventSchedule table-----");
-    return;
   }
 };
