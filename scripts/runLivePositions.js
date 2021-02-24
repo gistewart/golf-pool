@@ -21,7 +21,7 @@ module.exports = function () {
       .then(async function (tournamentIds) {
         console.log("new check: ", tournamentIds);
         // to get positions of just the first tournament (i.e. not the opposite field event)
-        for (let i = 0; i < tournamentIds.length - 1; i++) {
+        for (let i = 0; i < tournamentIds.length, i < 1; i++) {
           const id = tournamentIds[i].tournamentId;
           const name = tournamentIds[i].name;
           console.log(name);

@@ -1120,7 +1120,7 @@ module.exports = function (app) {
                 },
                 {
                   model: db.liveField,
-                  attributes: ["teeTime"],
+                  attributes: ["teeTime", "tournamentId"],
                 },
                 { model: db.PlayerImage, attributes: ["playerImage"] },
                 {
@@ -1172,6 +1172,9 @@ module.exports = function (app) {
 
               result[i].Players[j - jAdj].teeTime = a[j].Player.liveField
                 ? a[j].Player.liveField.teeTime
+                : 0;
+              result[i].Players[j - jAdj].tournamentId = a[j].Player.liveField
+                ? a[j].Player.liveField.tournamentId
                 : 0;
 
               b = a[j].Player.ResultAlls;

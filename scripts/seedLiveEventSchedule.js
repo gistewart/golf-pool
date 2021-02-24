@@ -113,14 +113,20 @@ module.exports = async function () {
       return;
     } else if (hold.status.includes("Tournament Field")) {
       console.log("condition passed");
-      // to delete 2nd tournament from array to avoid sequelize unique constraint error
-      scheduleStage.pop();
-      const temp = await db.liveFieldSchedule.bulkCreate(scheduleStage);
-      console.log("seeding liveFieldSchedule db tbl");
+
+      console.log("scheduleStage[i]", scheduleStage[i]);
+      // code to seed only scheduleStage[i] on each loop run
+      const scheduleStageSingle = scheduleStage.slice(i, i + 1);
+      try {
+        const temp = await db.liveFieldSchedule.bulkCreate(scheduleStageSingle);
+        console.log("seeding liveFieldSchedule db tbl");
+      } catch (err) {
+        console.log(err);
+      }
       module.exports.liveSeedType = "field";
     }
 
-    if (module.exports.liveSeedType != "field") {
+    if (module.exports.liveSeedType !== "field") {
       console.log("liveSeedType: ", liveSeedType);
       const today = new Date();
       let a = moment(today, "M/D/YYYY");
@@ -158,15 +164,15 @@ module.exports = async function () {
       }
 
       console.log("current tournament included:", scheduleStage);
-      finishedEventsArr = scheduleStage.filter(
+      liveEventsArr = scheduleStage.filter(
         (el) => el.tournamentId >= "401155413"
       );
-      console.log("finishedEventsArr", finishedEventsArr);
+      console.log("liveEventsArr", liveEventsArr);
 
       console.log("seeding liveEventSchedule db tbl");
       module.exports.liveSeedType = "event";
       // uncomment for Prod
-      const temp = await db.liveEventSchedule.bulkCreate(finishedEventsArr);
+      const temp = await db.liveEventSchedule.bulkCreate(liveEventsArr);
 
       console.log("-----finished seeding liveEventSchedule table-----");
       return;

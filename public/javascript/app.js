@@ -65,9 +65,13 @@ $(document).ready(function () {
     console.log("running displayLiveTab");
     await $.get("api/liveTourneyStatus", function (result) {
       console.log(result);
-      if (result.length === 1) {
-        fieldName = result[0].name;
+      if (result.length >= 1) {
         fieldDate = result[0].tDate;
+        if (result.length === 2) {
+          fieldName = result[0].name + "; " + result[1].name;
+        } else {
+          fieldName = result[0].name;
+        }
         console.log(fieldName, fieldDate);
         if (result[0].status === "Tournament Field") {
           console.log("field check");
@@ -277,6 +281,16 @@ $(document).ready(function () {
           .pop();
 
         let a = fieldData[i].Players[j];
+
+        if (
+          fieldData[i].Players[j].tournamentId !==
+          fieldData[i].Players[0].tournamentId
+        ) {
+          a.tourney = "secondary";
+        } else {
+          a.tourney = "primary";
+        }
+
         a.form = "";
         for (let k = 0; k < fieldData[i].Players[j].Results.length; k++) {
           // a.form += a.Results[k].pos + "," + "<span class='hide'>&shy;</span>";
@@ -325,7 +339,11 @@ $(document).ready(function () {
 
           // .replace(/MC|WD/gm, (el) => el.fontcolor("red"));
           var tr1b = $(
-            "<td class='imageDiv'><img class='playerImage playing' src=" +
+            "<td class='imageDiv'>" +
+              (player.tourney === "primary"
+                ? "<img class ='playerImage playing primary'"
+                : "<img class = 'playerImage playing secondary'") +
+              " src=" +
               player.image +
               ">" +
               "<p class='playerName'>" +

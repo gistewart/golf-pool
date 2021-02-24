@@ -441,8 +441,12 @@ table#onTheRange-container td:nth-child(n + 3) {
   margin: 0 auto;
 }
 
-.playerImage.playing {
+.playerImage.playing.primary {
   border: 4px solid green;
+}
+
+.playerImage.playing.secondary {
+  border: 4px solid rgb(46, 62, 202);
 }
 
 .playerImage.imageNP {
