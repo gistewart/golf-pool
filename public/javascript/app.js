@@ -874,7 +874,9 @@ $(document).ready(function () {
             " | " +
             result[i].name +
             " | " +
-            result[i].status +
+            `${
+              result[i].status || "NOTE: projected earnings not included below"
+            }` +
             "</p>"
         );
       }
