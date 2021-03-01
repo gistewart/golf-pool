@@ -475,3 +475,6 @@ UPDATE `PoolsterPlayers` SET `endDate` = '2021-02-23', `effDate` = '2021-02-23',
 
 INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('5', '49', '2021-02-23', '2021-12-31', '2021-12-31', '2021-02-23', 'regular');
 
+-- 3/1 WGC Workday adjustments
+UPDATE `Results` SET `earnings` = '100833' WHERE (`tournamentId` = '401243002' AND `playerName` = 'Will Zalatoris');
+
