@@ -21,7 +21,7 @@ $(document).ready(function () {
     lastEventName = "",
     roundStatus = "",
     liveZeroPlayersLine = 0,
-    mainTournamentId = "";
+    primaryTournamentId = "";
 
   const today = moment().format();
   console.log("today: ", today);
@@ -67,6 +67,7 @@ $(document).ready(function () {
     await $.get("api/liveTourneyStatus", function (result) {
       console.log(result);
       if (result.length >= 1) {
+        primaryTournamentId = result[0].tournamentId;
         fieldDate = result[0].tDate;
         if (result.length === 2) {
           fieldName = result[0].name + "; " + result[1].name;
@@ -240,8 +241,6 @@ $(document).ready(function () {
     await $.get("api/liveField", function (result) {
       field = result;
       console.log(field);
-      mainTournamentId = field[0].tournamentId;
-      console.log(mainTournamentId);
     });
     await $.get("api/fieldData", function (result) {
       fieldData = result;
@@ -285,7 +284,7 @@ $(document).ready(function () {
 
         let a = fieldData[i].Players[j];
 
-        if (fieldData[i].Players[j].tournamentId !== mainTournamentId) {
+        if (fieldData[i].Players[j].tournamentId !== primaryTournamentId) {
           a.tourney = "secondary";
         } else {
           a.tourney = "primary";
