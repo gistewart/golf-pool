@@ -476,5 +476,51 @@ UPDATE `PoolsterPlayers` SET `endDate` = '2021-02-23', `effDate` = '2021-02-23',
 INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('5', '49', '2021-02-23', '2021-12-31', '2021-12-31', '2021-02-23', 'regular');
 
 -- 3/1 WGC Workday adjustments
-UPDATE `Results` SET `earnings` = '100833' WHERE (`tournamentId` = '401243002' AND `playerName` = 'Will Zalatoris');
+UPDATE `ResultAlls` SET `earnings` = '100833' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Will Zalatoris');
+
+UPDATE `ResultAlls` SET `earnings` = '125500' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Aaron Rai');
+
+UPDATE `ResultAlls` SET `earnings` = '82500' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Thomas Detry');
+
+UPDATE `ResultAlls` SET `earnings` = '82500' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Min Woo Lee');
+
+UPDATE `ResultAlls` SET `earnings` = '72000' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Christiaan Bezuidenhout');
+
+UPDATE `ResultAlls` SET `earnings` = '64500' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Chan Kim');
+
+UPDATE `ResultAlls` SET `earnings` = '59000' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Trevor Simsby');
+
+UPDATE `ResultAlls` SET `earnings` = '52500' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Jason Scrivener');
+
+UPDATE `ResultAlls` SET `earnings` = '48500' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Brandon Stone');
+
+UPDATE `ResultAlls` SET `earnings` = '44500' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'David Lipsky');
+
+UPDATE `ResultAlls` SET `earnings` = '44500' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Yuki Inamori');
+
+UPDATE `ResultAlls` SET `earnings` = '41500' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Wade Ormsby');
+
+UPDATE `ResultAlls` SET `earnings` = '41500' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Victor Perez');
+
+UPDATE `ResultAlls` SET `earnings` = '36250' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Bernd Wiesberger');
+
+UPDATE `ResultAlls` SET `earnings` = '35000' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Robert MacIntyre');
+
+UPDATE `ResultAlls` SET `earnings` = '35000' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Brad Kennedy');
+
+UPDATE `ResultAlls` SET `earnings` = '33875' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Laurie Canter');
+
+UPDATE `ResultAlls` SET `earnings` = '33875' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Sami Valimaki');
+
+UPDATE `ResultAlls` SET `earnings` = '33250' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Rasmus Hojgaard');
+
+UPDATE `ResultAlls` SET `earnings` = '32875' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Andy Sullivan');
+
+UPDATE `ResultAlls` SET `earnings` = '32875' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'J.C. Ritchie');
+
+UPDATE `ResultAlls` SET `earnings` = '32500' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Lucas Herbert');
+
+UPDATE `ResultAlls` SET `earnings` = '32250' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Daniel van Tonder');
+
+
 

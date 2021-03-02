@@ -1061,10 +1061,10 @@ module.exports = function (app) {
   // populates and returns Field data (player, tee-time) for upcoming tournament
   app.get("/api/liveField", async function (req, res) {
     // Prod start
-    await db.liveField.sync({ force: true }).then(async function () {
-      const temp = await runField();
-      return;
-    });
+    // await db.liveField.sync({ force: true }).then(async function () {
+    //   const temp = await runField();
+    //   return;
+    // });
     // Prod end
 
     await db.liveField.findAll({}).then(function (result) {
