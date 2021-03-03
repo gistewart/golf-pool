@@ -288,6 +288,10 @@ div.container.lb-container {
   background: rgba(128, 128, 128, 0.125);
 }
 
+tr {
+  position: relative;
+}
+
 .poolsterImage,
 .poolsterHandle,
 .poolsterName {
@@ -367,6 +371,10 @@ p.liveZeroPlayersText {
 
 .podiumBreak {
   border-top: 2px solid green;
+}
+
+#leaderboard-container td.imageDiv.transparentBorder {
+  border-top: 1px solid transparent;
 }
 
 .liveZeroPlayersBreak {

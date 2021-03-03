@@ -1455,6 +1455,9 @@ $(document).ready(function () {
       );
       if (apiCall === "Season" && !week0 && i === 6) {
         $("table > tbody > tr[data-target='#demo5']").addClass("podiumBreak");
+        $("table > tbody > tr[data-target='#demo5'] > td:nth-child(3").addClass(
+          "transparentBorder"
+        );
       }
       if (apiCall === "Live" && i === liveZeroPlayersLine) {
         console.log(liveZeroPlayersLine);
