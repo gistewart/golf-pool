@@ -47,7 +47,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(async function () {
       seasonData();
       // liveEvent();
@@ -71,6 +71,8 @@ $(document).ready(function () {
         fieldDate = result[0].tDate;
         if (result.length === 2) {
           fieldName = result[0].name + "; " + result[1].name;
+        } else if (/the players championship/i.test(result[0].name)) {
+          fieldName = "The Alan D. Schneider Collars-Up Player's Championship";
         } else {
           fieldName = result[0].name;
         }
