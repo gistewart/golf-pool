@@ -72,7 +72,7 @@ $(document).ready(function () {
         if (result.length === 2) {
           fieldName = result[0].name + "; " + result[1].name;
         } else if (/the players championship/i.test(result[0].name)) {
-          fieldName = "The Alan D. Schneider Collars-Up Player's Championship";
+          fieldName = "The Alan D. Schneider Collars-Up Players Championship";
         } else {
           fieldName = result[0].name;
         }
@@ -867,6 +867,10 @@ $(document).ready(function () {
     console.log(livePlayers);
 
     $.get("api/liveSchedule", function (result) {
+      if (/the players championship/i.test(result[0].name)) {
+        result[0].name =
+          "The Alan D. Schneider Collars-Up Players Championship";
+      }
       $("#lastEventDetails").html("");
       for (let i = 0; i < result.length; i++) {
         $("#lastEventDetails").append(
@@ -919,6 +923,10 @@ $(document).ready(function () {
     console.log("entering lastEventDetails function");
     $.get("api/lastEventDetails", function (result) {
       lastEventCount = result.length;
+      if (/the players championship/i.test(result[0].name)) {
+        result[0].name =
+          "The Alan D. Schneider Collars-Up Players Championship";
+      }
       $("#lastEventDetails").html("");
       for (let i = 0; i < result.length; i++) {
         $("#lastEventDetails").append(
