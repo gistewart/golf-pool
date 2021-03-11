@@ -868,6 +868,7 @@ $(document).ready(function () {
 
     $.get("api/liveSchedule", function (result) {
       if (/the players championship/i.test(result[0].name)) {
+        console.log("name change here");
         result[0].name =
           "The Alan D. Schneider Collars-Up Players Championship";
       }
