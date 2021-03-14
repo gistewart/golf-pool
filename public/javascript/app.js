@@ -169,7 +169,7 @@ $(document).ready(function () {
     console.log("diffResultsArr: ", diffResultsArr);
     if (diffResultsArr.length) {
       // Production start
-      // getMissingResults(diffResultsArr);
+      getMissingResults(diffResultsArr);
       // Production end
     } else {
       console.log("skipping getMissingResults function");
@@ -868,7 +868,7 @@ $(document).ready(function () {
 
     $.get("api/liveSchedule", function (result) {
       if (/the players championship/i.test(result[0].name)) {
-        console.log("name change here");
+        console.log("Players name change here for Live Scoring");
         result[0].name =
           "The Alan D. Schneider Collars-Up Players Championship";
       }
