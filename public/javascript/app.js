@@ -20,7 +20,7 @@ $(document).ready(function () {
     fieldDate = "",
     lastEventName = "",
     roundStatus = "",
-    liveZeroPlayersLine = 0,
+    idx = 0,
     primaryTournamentId = "";
 
   const today = moment().format();
@@ -860,7 +860,6 @@ $(document).ready(function () {
       livePlayers[i].liveZeroPlayersText = "";
       if (livePlayers[i].Players.length === 0) {
         livePlayers[i]["liveZeroPlayersText"] = "(0 players)";
-        liveZeroPlayersLine = i;
       }
     }
 
@@ -1270,7 +1269,7 @@ $(document).ready(function () {
       // for Live only
       // first, sort by Players.length, DESC
       sorted = result.sort((a, b) => b.Players.length - a.Players.length);
-      let idx = sorted.length;
+      idx = sorted.length;
 
       // then, find index of first player with Players.length === 0
       for (let i = 0; i < sorted.length; i++) {
@@ -1470,8 +1469,7 @@ $(document).ready(function () {
           "transparentBorder"
         );
       }
-      if (apiCall === "Live" && i === liveZeroPlayersLine) {
-        console.log(liveZeroPlayersLine);
+      if (apiCall === "Live" && i === idx) {
         $("table > tbody > tr[data-target='#demo" + i + "']").addClass(
           "liveZeroPlayersBreak"
         );
