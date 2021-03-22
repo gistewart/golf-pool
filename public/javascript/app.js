@@ -962,6 +962,7 @@ $(document).ready(function () {
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
     $("#lastEventTitle").show();
+    $(".announcement").show();
     if (week0) {
       $("#eventData").hide();
       $("#lastEventTitle").html("");
@@ -1045,6 +1046,7 @@ $(document).ready(function () {
     $("#footnotes").hide();
     $("#lastEventTitle").show();
     $("#lastEventTitle").text("Tournament details:");
+    $(".announcement").hide();
     lastEventDetails();
     $(".refreshContainer").hide();
     apiCall = "Event";

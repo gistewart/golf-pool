@@ -232,6 +232,15 @@ header .tabs li a .icon:first-child {
   }
 }
 
+.announcement {
+  color: red;
+  border: 1px solid grey;
+  background-color: white;
+  margin-bottom: 1.25em;
+  font-size: 0.75em;
+  padding: 0.25em;
+}
+
 div.main-container,
 div.rules-container,
 div.playerCategory-container {
