@@ -1066,6 +1066,7 @@ $(document).ready(function () {
   function subData() {
     $("#footnotes").hide();
     $("#lastEventTitle").show();
+    $(".announcement").hide();
     $("#lastEventTitle").text(
       "First Half Substitution Mini-Pool - results through:"
     );
