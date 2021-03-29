@@ -46,8 +46,11 @@ module.exports = async function () {
         result.name = $(this).find("p").text();
         result.winner = $(this).children("td:nth-child(3)").find("a").text();
 
-        // to exclude the Barracuda while it is taking place
-        if (result.tournamentId !== "401243406") {
+        // to exclude the Barracuda / WGC-Dell while it is taking place
+        if (
+          result.tournamentId !== "401243406" &&
+          result.tournamentId !== "401243007"
+        ) {
           scheduleStage.push(result);
         }
       });
