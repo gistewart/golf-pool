@@ -623,6 +623,144 @@ INSERT INTO `Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earn
 
 INSERT INTO `Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('3231', '401243007', 'T61', 'Corey Conners', 'n/a', '35750', '2021-03-28 16:00:00', '2021-03-28 16:00:00');
 
+-- ****************************
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', '1','Billy Horschel', 'n/a', '1820000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', '2','Scottie Scheffler', 'n/a', '1150000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', '3','Matt Kuchar', 'n/a', '740000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', '4','Victor Perez', 'n/a', '600000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T5','Tommy Fleetwood', 'n/a', '337000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T5','Sergio Garcia', 'n/a', '337000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T5','Jon Rahm', 'n/a', '337000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T5','Brian Harman', 'n/a', '337000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T9','Dylan Frittelli', 'n/a', '189000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T9','Kevin Streelman', 'n/a', '189000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T9','Mackenzie Hughes', 'n/a', '189000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T9','Robert MacIntyre', 'n/a', '189000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T9','Ian Poulter', 'n/a', '189000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T9','Erik van Rooyen', 'n/a', '189000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T9','Bubba Watson', 'n/a', '189000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T9','Jordan Spieth', 'n/a', '189000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', '17','Ryan Palmer', 'n/a', '144000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T18','Kevin Kisner', 'n/a', '113700');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T18','Max Homa', 'n/a', '113700');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T18','Antoine Rozner', 'n/a', '113700');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T18','Xander Schauffele', 'n/a', '113700');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T18','Joaquin Niemann', 'n/a', '113700');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T18','Lee Westwood', 'n/a', '113700');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T18','Patrick Cantlay', 'n/a', '113700');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T18','Abraham Ancer', 'n/a', '113700');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T18','Daniel Berger', 'n/a', '113700');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T18','Matthew Fitzpatrick', 'n/a', '113700');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','Dustin Johnson', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','Adam Long', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','J.T. Poston', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','Patrick Reed', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','Matt Wallace', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','Webb Simpson', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','Paul Casey', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','Rory McIlroy', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','Cameron Smith', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','Tony Finau', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','Will Zalatoris', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','Matthew Wolff', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','Marc Leishman', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T28','Russell Henley', 'n/a', '75000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Kevin Na', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Justin Thomas', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Shane Lowry', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Bryson DeChambeau', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Jason Day', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Andy Sullivan', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Carlos Ortiz', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Hideki Matsuyama', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Jason Kokrak', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Bernd Wiesberger', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Viktor Hovland', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Harris English', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Brendon Todd', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T42','Sungjae Im', 'n/a', '47572');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T56','Collin Morikawa', 'n/a', '38000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T56','Si Woo Kim', 'n/a', '38000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T56','Christiaan Bezuidenhout', 'n/a', '38000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T56','Tyrrell Hatton', 'n/a', '38000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T56','Talor Gooch', 'n/a', '38000');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T61','Louis Oosthuizen', 'n/a', '35750');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T61','Sebastian Munoz', 'n/a', '35750');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T61','Lanto Griffin', 'n/a', '35750');
+
+INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T61','Corey Conners', 'n/a', '35750');
+
+
+
+
+
+
+
+
+
 
 
 
