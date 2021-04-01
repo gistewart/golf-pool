@@ -988,7 +988,7 @@ module.exports = function (app) {
     });
   });
 
-  // to populate db with data for next year's player categories (local host run)
+  // to populate db with data for next year's player categories (local host run only)
   app.get("/api/playerCategories", async function (req, res) {
     db.ResultAll.findAll({
       attributes: [
