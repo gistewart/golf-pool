@@ -753,7 +753,9 @@ INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNam
 
 INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T61','Corey Conners', 'n/a', '35750');
 
+-- *************************************
 
+UPDATE `Results` SET `earnings` = '0' WHERE (`tournamentId` = '401243010' AND `pos` = 'MC' AND `earnings` = '10000');
 
 
 
