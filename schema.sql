@@ -755,7 +755,7 @@ INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNam
 
 -- *************************************
 
-UPDATE `Results` SET `earnings` = '0' WHERE (`tournamentId` = '401243010' AND `pos` = 'MC' AND `earnings` = '10000');
+UPDATE `ResultAlls` SET `earnings` = '0' WHERE (`tournamentId` = '401243010' AND `pos` = 'MC' AND `earnings` = '10000');
 
 
 
