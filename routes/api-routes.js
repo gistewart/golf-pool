@@ -815,6 +815,34 @@ module.exports = function (app) {
       });
   });
 
+  // all active players
+  app.get("/api/allActivePlayers", async function (req, res) {
+    await db.PoolsterPlayers.findAll({
+      where: {
+        StartDate: {
+          [Op.lte]: today,
+        },
+        EndDate: {
+          [Op.or]: {
+            [Op.eq]: null,
+            [Op.gte]: today,
+          },
+        },
+      },
+      attributes: ["playerId", "startDate", "endDate"],
+      group: ["playerId", "startDate", "endDate"],
+      include: [
+        {
+          model: db.Player,
+          as: "Player",
+          attributes: ["playerName"],
+        },
+      ],
+    }).then((result) => {
+      res.json(result);
+    });
+  });
+
   // provides poolsters total earnings for the year and base ranking (used for both Field and Live views)
   app.get("/api/liveAllEvents", async function (req, res) {
     await db.Poolster.findAll({

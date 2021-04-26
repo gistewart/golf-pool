@@ -13,7 +13,7 @@ module.exports = async function () {
   // uncomment db load
   await axios
     .get(
-      `https://www.pgatour.com/content/pgatour/stats/stat.109.y2020.eon.t472.html`
+      `https://www.pgatour.com/content/pgatour/stats/stat.194.y2021.eon.t536.html`
     )
     .then(async function (response) {
       var $ = cheerio.load(response.data);
