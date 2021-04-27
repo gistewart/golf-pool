@@ -13,7 +13,7 @@ module.exports = async function () {
   // uncomment db load
   await axios
     .get(
-      `https://www.pgatour.com/content/pgatour/stats/stat.194.y2021.eon.t536.html`
+      "https://www.pgatour.com/content/pgatour/stats/stat.109.y2021.eon.t018.html"
     )
     .then(async function (response) {
       var $ = cheerio.load(response.data);
@@ -22,9 +22,9 @@ module.exports = async function () {
       $("tbody tr").each(function (i, element) {
         var result = {};
 
-        result.tournamentId = "401155468";
-        result.name = "Barracuda Championship";
-        result.startDate = "2020-07-30 00:00:00";
+        result.tournamentId = "401243012";
+        result.name = "Zurich Classic of New Orleans";
+        result.startDate = "2021-04-22 00:00:00";
         result.pos = $(this)
           .children("td:first-child")
           .text()
@@ -51,6 +51,6 @@ module.exports = async function () {
       console.log("filtered: ", filtered);
       console.log(`-----------finished runResults for tournament------------`);
       // Uncomment for Production
-      // return db.ResultAll.bulkCreate(filtered);
+      return db.ResultAll.bulkCreate(filtered);
     });
 };
