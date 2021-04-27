@@ -234,10 +234,10 @@ $(document).ready(function () {
 
     // For any tournaments which ESPN don't record results, but PGA does
     // Start of block 2
-    await $.get("api/seedResultsPGA", function (result) {
-      results = result;
-      console.log(results);
-    });
+    // await $.get("api/seedResultsPGA", function (result) {
+    //   results = result;
+    //   console.log(results);
+    // });
     // End of block 2
 
     await $.get("api/liveField", function (result) {
