@@ -51,6 +51,6 @@ module.exports = async function () {
       console.log("filtered: ", filtered);
       console.log(`-----------finished runResults for tournament------------`);
       // Uncomment for Production
-      return db.ResultAll.bulkCreate(filtered);
+      // return db.ResultAll.bulkCreate(filtered);
     });
 };
