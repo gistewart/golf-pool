@@ -722,9 +722,9 @@ table#onTheRange-container td:nth-child(n + 3) {
   background-color: grey;
 }
 
-/* #subH1Pool { */
-/* cursor: not-allowed; */
-/* } */
+/* #subH1Pool {
+  cursor: not-allowed;
+} */
 
 .far.fa-clock {
   padding-left: 0.3em;
