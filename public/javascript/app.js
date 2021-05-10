@@ -21,7 +21,8 @@ $(document).ready(function () {
     lastEventName = "",
     roundStatus = "",
     idx = 0,
-    primaryTournamentId = "";
+    primaryTournamentId = "",
+    subDay = "";
 
   const today = moment().format();
   console.log("today: ", today);
@@ -1062,6 +1063,8 @@ $(document).ready(function () {
   }
 
   $(document).on("click", "#subH1Pool", subData);
+  // make subDay the day of the first round of the midway event
+  subDay = moment([Year, 3, 29]).format();
 
   function subData() {
     $("#footnotes").hide();
@@ -1070,6 +1073,7 @@ $(document).ready(function () {
     $("#lastEventTitle").text(
       "First Half Substitution Mini-Pool - results through:"
     );
+
     apiCall = "Sub";
     liveTC = false;
     $.get("/api/allEvents", function (data) {
@@ -1081,17 +1085,17 @@ $(document).ready(function () {
       ).addClass("noPointer");
       $(".leaderboard-container tbody tr.level2").removeClass("collapse");
     });
+    $("#lastEventTitle").text((i, t) => t.replace(/First/, "Second"));
+  }
+
+  if (today > subDay) {
+    $(".subHalfLang").text((i, t) => t.replace(/First/, "Second"));
+    $("#subH1Pool").text((i, t) => t.replace(/First/, "Second"));
   }
 
   const Jan01 = moment([Year, 0, 2]).format();
   const Dec31 = moment([Year, 11, 30]).format();
   // console.log(Jan01, Dec31);
-  // make subDay the day of the first round of the midway event
-  const subDay = moment([Year, 6, 5]).format();
-  // const subDay = moment([Year, 3, 29]).format();
-  if (today > subDay) {
-    $(".subHalfLang").text((i, t) => t.replace(/First/, "Second"));
-  }
 
   function sumData(data, sortedPartResult, playerRatings) {
     console.log(data);
@@ -1125,19 +1129,27 @@ $(document).ready(function () {
           let playerSum = 0;
 
           if (apiCall === "Sub") {
-            // console.log(subPeriod, a[j].startDate, Jan01, subDay);
+            // console.log(
+            //   subPeriod,
+            //   a[j].startDate,
+            //   Jan01,
+            //   subDay
+            // );
+
             if (
               !(
                 (subPeriod === "H1" &&
                   a[j].startDate > Jan01 &&
                   a[j].startDate < subDay) ||
-                (subPeriod === "H2" && a[j].startDate > subDay)
+                (subPeriod === "H2" &&
+                  (a[j].startDate > subDay || a[j].reStartDate > subDay))
               )
             ) {
               jAdj++;
               continue;
             }
           }
+
           // console.log("Subs: ", result[i - iAdj].poolster, a[j].name);
           result[i - iAdj].Players.push({
             player: a[j].name,
@@ -1179,7 +1191,8 @@ $(document).ready(function () {
               if (
                 !(
                   (subPeriod === "H1" && b[k].start < subDay) ||
-                  (subPeriod === "H2" && b[k].start > subDay)
+                  (subPeriod === "H2" &&
+                    (b[k].start > subDay || b[k].reStartDate > subDay))
                 )
               ) {
                 continue;
