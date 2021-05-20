@@ -506,6 +506,36 @@ UPDATE `PoolsterPlayers` SET `endDate` = '2021-05-04', `effDate` = '2021-05-04',
 -- Re-start date for JT / DJ move
 UPDATE `PoolsterPlayers` SET `reStartDate` = '2021-05-04' WHERE (`id` = '156');
 
+-- 5/18 Subs
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2021-05-18', `effDate` = '2021-05-18', `type` = 'regular' WHERE (`id` = '192');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('19', '1', '2021-05-18', '2021-12-31', '2021-12-31', '2021-05-18', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2021-05-18', `effDate` = '2021-05-18', `type` = 'regular' WHERE (`id` = '205');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('12', '53', '2021-05-18', '2021-12-31', '2021-12-31', '2021-05-18', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2021-05-18', `effDate` = '2021-05-18', `type` = 'regular' WHERE (`id` = '210');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('13', '1', '2021-05-18', '2021-12-31', '2021-12-31', '2021-05-18', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2021-05-18', `effDate` = '2021-05-18', `type` = 'regular' WHERE (`id` = '199');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('11', '53', '2021-05-18', '2021-12-31', '2021-12-31', '2021-05-18', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2021-05-18', `effDate` = '2021-05-18', `type` = 'regular' WHERE (`id` = '216');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('14', '1', '2021-05-18', '2021-12-31', '2021-12-31', '2021-05-18', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2021-05-18', `effDate` = '2021-05-18', `type` = 'regular' WHERE (`id` = '166');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('6', '22', '2021-05-18', '2021-12-31', '2021-12-31', '2021-05-18', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2021-05-18', `effDate` = '2021-05-18', `type` = 'regular' WHERE (`id` = '174');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('8', '1', '2021-05-18', '2021-12-31', '2021-12-31', '2021-05-18', 'regular');
+
 
 -- 3/1 WGC Workday adjustments
 UPDATE `ResultAlls` SET `earnings` = '100833' WHERE (`tournamentId` = '401243002' AND `playerNameX` = 'Will Zalatoris');
