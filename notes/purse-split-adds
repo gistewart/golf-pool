@@ -17,3 +17,6 @@ a. delete ResultAlls tbl in prod
 b. push dummy change to heroku
 c. import data file
 
+As of 5/20/2021
+create separate tab on Purse split master file
+use import wizard to bring in to mysql

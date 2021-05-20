@@ -885,6 +885,16 @@ $(document).ready(function () {
             }` +
             "</p>"
         );
+        if (
+          result[i].name === "PGA Championship" ||
+          result[i].name === "U.S. Open"
+        ) {
+          $("#lastEventDetails").append(
+            "<p style='color: red; font-size: 0.8em'>" +
+              "(this week, some of the earnings are estimates which may impact the overall standings)" +
+              "</p>"
+          );
+        }
       }
     });
 
