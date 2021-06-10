@@ -61,7 +61,7 @@ module.exports = async function () {
 
         // for event without purse, enter placeholder of $7m
         if (!result.purse) {
-          result.purse = 7300000;
+          result.purse = 7000000;
         }
 
         scheduleStage.push(result);
