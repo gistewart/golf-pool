@@ -55,8 +55,13 @@ module.exports = async function () {
         }
 
         // for Tour Championship
-        if (result.purse === 0) {
+        if (/Tour Championship/i.test(result.name)) {
           result.purse = 9500000;
+        }
+
+        // for event without purse, enter placeholder of $7m
+        if (!result.purse) {
+          result.purse = 7300000;
         }
 
         scheduleStage.push(result);
