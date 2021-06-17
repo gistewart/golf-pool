@@ -131,6 +131,7 @@ module.exports = async function () {
       module.exports.liveSeedType = "field";
     }
 
+    console.log("liveSeedType: ", liveSeedType);
     if (module.exports.liveSeedType !== "field") {
       console.log("liveSeedType: ", liveSeedType);
       const today = new Date();

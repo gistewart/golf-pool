@@ -542,7 +542,25 @@ UPDATE `PoolsterPlayers` SET `endDate` = '2021-06-01', `effDate` = '2021-06-01',
 
 INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('17', '24', '2021-06-01', '2021-12-31', '2021-12-31', '2021-06-01', 'regular');
 
+-- 6/15 Subs
 
+-- beginning of Garrick Higgo
+INSERT INTO `PlayerTiers` (`id`, `playerName`, `playerId`, `year`, `tier`) VALUES ('586', 'Garrick Higgo', '537', '2021', '6');
+
+INSERT INTO `Players` (`playerId`, `playerName`, `createdAt`, `updatedAt`) VALUES ('537', 'Garrick Higgo', '2021-06-13 20:00:00', '2021-06-13 20:00:00');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2021-06-15', `effDate` = '2021-06-15', `type` = 'regular' WHERE (`id` = '173');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('7', '537', '2021-06-15', '2021-12-31', '2021-12-31', '2021-06-15', 'regular');
+-- end of Garrick Higgo
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2021-06-15', `effDate` = '2021-06-15', `type` = 'regular' WHERE (`id` = '149');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('3', '158', '2021-06-15', '2021-12-31', '2021-12-31', '2021-06-15', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2021-06-15', `effDate` = '2021-06-15', `type` = 'regular' WHERE (`id` = '142');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('2', '22', '2021-06-15', '2021-12-31', '2021-12-31', '2021-06-15', 'regular');
 
 
 
