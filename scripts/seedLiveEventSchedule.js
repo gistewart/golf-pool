@@ -69,13 +69,24 @@ module.exports = async function () {
       return;
     });
 
-  console.log("line 67", scheduleStage);
+  console.log("line 72", scheduleStage);
   let day = 0;
 
   // get status of tournament
   for (let i = 0; i < scheduleStage.length; i++) {
+    // if event is a single day event, then delete it from scheduleStage array
+    if (/-/.test(scheduleStage[i].tDate)) {
+      console.log(scheduleStage[i].name, "multi-day");
+    } else {
+      console.log(scheduleStage[i].name, "single-day");
+      scheduleStage.splice(i, 1);
+      i--;
+      console.log("line 84 deleting");
+      continue;
+    }
+
     const id = scheduleStage[i].tournamentId;
-    console.log("line 73", id);
+    console.log("line 89", id);
     var hold = {};
     var dataAvailable = {};
     await axios
@@ -99,7 +110,7 @@ module.exports = async function () {
               return index[$0] != undefined ? index[$0] : $0;
             }
           );
-          console.log("line 97 hold: ", hold);
+          console.log("line 113 hold: ", hold);
         });
         $("div.leaderboard_no_data").each(function (i, element) {
           dataAvailable.status = $(this).children("div:first-child").text();
@@ -108,13 +119,13 @@ module.exports = async function () {
       });
 
     scheduleStage[i].status = hold.status;
-    console.log("line 106", scheduleStage);
+    console.log("line 122", scheduleStage);
 
     // if dataAvailable field not empty (i.e. there is no data yet), then delete)
     if (Object.keys(dataAvailable).length) {
       scheduleStage.splice(i, 1);
       i--;
-      console.log("line 112 deleting");
+      console.log("line 128 deleting");
       return;
     } else if (hold.status.includes("Tournament Field")) {
       console.log("condition passed");
@@ -158,7 +169,7 @@ module.exports = async function () {
         );
         scheduleStage.splice(i, 1);
         i--;
-        console.log("line 155 deleting");
+        console.log("line 172 deleting");
         return;
       }
 
