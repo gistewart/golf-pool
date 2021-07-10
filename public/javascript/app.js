@@ -629,8 +629,7 @@ $(document).ready(function () {
 
     //calculates purse values for each position in purseArr
     let amTotal = 0,
-      totPursePercent = 0,
-      totPurseDollars = 0;
+      totPursePercent = 0;
     for (let i = 0; i < purseArr.length; i++) {
       if (purseArr[i].pos > 0) {
         if (purseArr[i].data[0].count === 1) {
