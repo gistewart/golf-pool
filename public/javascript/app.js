@@ -43,8 +43,6 @@ $(document).ready(function () {
   thisYearsEvents();
   pageLoad();
 
-  //test comment;
-
   async function pageLoad() {
     await poolsterProfileImage();
     await eventCheck();
@@ -630,7 +628,9 @@ $(document).ready(function () {
     // End of US Open only
 
     //calculates purse values for each position in purseArr
-    let amTotal = 0;
+    let amTotal = 0,
+      totPursePercent = 0,
+      totPurseDollars = 0;
     for (let i = 0; i < purseArr.length; i++) {
       if (purseArr[i].pos > 0) {
         if (purseArr[i].data[0].count === 1) {
@@ -693,7 +693,9 @@ $(document).ready(function () {
         purseArr[i].data[0].avgPercent = 0;
         purseArr[i].data[0].dollars = 0;
       }
+      totPursePercent += purseArr[i].data[0].totPercent;
     }
+    console.log(totPursePercent);
     console.log("amTotal: ", amTotal);
     console.log(purseArr);
 
