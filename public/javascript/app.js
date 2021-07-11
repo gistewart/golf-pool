@@ -170,7 +170,7 @@ $(document).ready(function () {
     console.log("diffResultsArr: ", diffResultsArr);
     if (diffResultsArr.length) {
       // Production start
-      // getMissingResults(diffResultsArr);
+      getMissingResults(diffResultsArr);
       // Production end
     } else {
       console.log("skipping getMissingResults function");
@@ -629,7 +629,8 @@ $(document).ready(function () {
 
     //calculates purse values for each position in purseArr
     let amTotal = 0,
-      totPursePercent = 0;
+      totPursePercent = 0,
+      totDollars1 = 0;
     for (let i = 0; i < purseArr.length; i++) {
       if (purseArr[i].pos > 0) {
         if (purseArr[i].data[0].count === 1) {
@@ -692,11 +693,15 @@ $(document).ready(function () {
         purseArr[i].data[0].avgPercent = 0;
         purseArr[i].data[0].dollars = 0;
       }
-      totPursePercent += purseArr[i].data[0].totPercent;
+
+      totPursePercent +=
+        purseArr[i].data[0].totPercent || purseArr[i].data[0].avgPercent;
+      totDollars1 += purseArr[i].data[0].count * purseArr[i].data[0].dollars;
     }
     console.log(totPursePercent);
     console.log("amTotal: ", amTotal);
     console.log(purseArr);
+    console.log(totDollars1);
 
     // add purse info to livePositions array
     let totalDollars = 0;
@@ -706,10 +711,12 @@ $(document).ready(function () {
           livePositions[i].avgPercent = purseArr[j].data[0].avgPercent;
           livePositions[i].dollars = purseArr[j].data[0].dollars;
           if (/\(a\)$/im.test(livePositions[i].playerName)) {
+            console.log("setting amateur to zero in livePositions");
+            console.log(livePositions[i].playerName);
             livePositions[i].avgPercent = 0;
             livePositions[i].dollars = 0;
           }
-          if (livePositions[i].posAdj < mcTop) {
+          if (livePositions[i].posAdj < 100) {
             totalDollars += livePositions[i].dollars;
           }
           break;

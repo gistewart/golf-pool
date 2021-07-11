@@ -52,15 +52,11 @@ module.exports = async function () {
         // for purse correction
         if (/2020 Masters Tournament/i.test(result.name)) {
           result.purse = 11500000;
-        }
-
-        // for Tour Championship
-        if (/Tour Championship/i.test(result.name)) {
+        } else if (/Tour Championship/i.test(result.name)) {
           result.purse = 9500000;
-        }
-
-        // for event without purse, enter placeholder of $7m
-        if (!result.purse) {
+        } else if (/The Open Championship/i.test(result.name)) {
+          result.purse = 11500000;
+        } else if (!result.purse) {
           result.purse = 7000000;
         }
 
