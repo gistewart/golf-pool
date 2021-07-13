@@ -66,6 +66,7 @@ $(document).ready(function () {
   async function displayLiveTab() {
     console.log("running displayLiveTab");
     await $.get("api/liveTourneyStatus", function (result) {
+      result = result.sort((a, b) => b.purse - a.purse);
       console.log(result);
       if (result.length >= 1) {
         primaryTournamentId = result[0].tournamentId;
@@ -891,7 +892,8 @@ $(document).ready(function () {
             result[i].name +
             " | " +
             `${
-              result[i].status || "NOTE: projected earnings not included below"
+              result[i].status ||
+              "NOTE: if any of our guys are playing, their earnings are not included below"
             }` +
             "</p>"
         );

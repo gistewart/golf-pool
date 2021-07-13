@@ -10,6 +10,7 @@ module.exports = function () {
   return db.liveFieldSchedule
     .findAll({
       attributes: ["tournamentId", "name"],
+      order: [["purse", "desc"]],
       raw: true,
     })
 
