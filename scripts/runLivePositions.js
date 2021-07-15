@@ -12,6 +12,7 @@ module.exports = function () {
     db.liveEventSchedule
       .findAll({
         attributes: ["tournamentId", "status", "name"],
+        order: [["purse", "desc"]],
         raw: true,
       })
       // .then((tournamentIds) =>

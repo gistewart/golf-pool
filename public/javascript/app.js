@@ -48,7 +48,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(async function () {
       seasonData();
       // liveEvent();
@@ -884,19 +884,23 @@ $(document).ready(function () {
           "The Alan D. Schneider Collars-Up Players Championship";
       }
       $("#lastEventDetails").html("");
-      for (let i = 0; i < result.length; i++) {
+      for (let i = 0; i < result.length, i < 1; i++) {
         $("#lastEventDetails").append(
           "<p>" +
             result[i].tDate +
             " | " +
             result[i].name +
             " | " +
-            `${
-              result[i].status ||
-              "NOTE: if any of our guys are playing, their earnings are not included below"
-            }` +
+            result[i].status +
             "</p>"
         );
+        if (result.length > 1) {
+          $("#lastEventDetails").append(
+            "<p style='color: red; font-size: 0.8em'>" +
+              "(any earnings from opposite field event are not included below)" +
+              "</p>"
+          );
+        }
         if (
           result[i].name === "PGA Championship" ||
           result[i].name === "U.S. Open"
