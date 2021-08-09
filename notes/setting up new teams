@@ -3,13 +3,17 @@ Steps for annual set of new teams:
 1. Check Players table to see if Player is new
 If Yes,
 1A. look up playerID on Player Tiers
+
+* 8/3/21 update
+Instead of steps 2 & 3, just make the edits on the Players table in the db
 2. Go to Player file on google drive, enter values for all fields
 3. Import csv version of this file to Players table
 
+* complete the following steps for setting up of new teams
 4. Go to poolsterplayer file in google drive
 5. Enter values for: id, poolserID, playerId, startDate, endDate, reEndDate
-6. update defaultValues on PoolsterPlayers model
+6. update defaultValues on PoolsterPlayers model (impact?)
 7. download csv version of file
 8. import into TextEdit program
 9. Do Find on ,, and replace with ,null,
-10. Use import wizard to import file into PoolsterPlayers table
+10. Use import wizard to import file into PoolsterPlayers table (local and prod)

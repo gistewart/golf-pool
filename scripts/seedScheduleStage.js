@@ -140,9 +140,9 @@ module.exports = async function () {
           resultsArray[j].earnings == 0
         ) {
           console.log("breaking now because all earnings have not been posted");
-          scheduleStage.splice(i, 1);
-          i--;
-          break;
+          // scheduleStage.splice(i, 1);
+          // i--;
+          // break;
         }
       }
     }

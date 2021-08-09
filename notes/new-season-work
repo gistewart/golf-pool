@@ -4,3 +4,4 @@ edit line 178 to pull in just this year's events
 TC simulated purse
 search for 9500000 across files and make appropriate changes
 
+Search for 'Barracuda' and update tournament ids for this event, WGC-Dell Matchplay, Zurich and any others where ESPN currently doesn't report leaderboard or earnings in the correct format
