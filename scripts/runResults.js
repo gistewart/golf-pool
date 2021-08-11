@@ -55,6 +55,14 @@ module.exports = function () {
                     .replace(/[\$,]/g, "")
                     .replace(/--/, 0)
                 );
+              } else if (/barracuda/i.test(name)) {
+                result.earnings = Number(
+                  $(this)
+                    .children("td:nth-child(8)")
+                    .text()
+                    .replace(/[\$,]/g, "")
+                    .replace(/--/, 0)
+                );
               } else {
                 result.earnings = Number(
                   $(this)
