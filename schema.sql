@@ -861,6 +861,33 @@ INSERT INTO `Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earn
 INSERT INTO `Results` (`id`, `tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('3347', '401243012', 'MC', 'Matthew Wolff', 'CUT', '0', '2021-04-24 16:00:00', '2021-04-24 16:00:00');
 
 
+-- 8/10 WGC FedEx St. Jude adjustments
+UPDATE `ResultAlls` SET `earnings` = '272500' WHERE (`tournamentId` = '401243407' AND `playerNameX` = 'Will Zalatoris');
+
+UPDATE `ResultAlls` SET `earnings` = '155500' WHERE (`tournamentId` = '401243407' AND `playerNameX` = 'Robert MacIntyre');
+
+UPDATE `ResultAlls` SET `earnings` = '89000' WHERE (`tournamentId` = '401243407' AND `playerNameX` = 'Aaron Rai');
+
+UPDATE `ResultAlls` SET `earnings` = '59000' WHERE (`tournamentId` = '401243407' AND `playerNameX` = 'Lucas Herbert');
+
+UPDATE `ResultAlls` SET `earnings` = '53000' WHERE (`tournamentId` = '401243407' AND `playerNameX` = 'Ryosuke Kinoshita');
+
+UPDATE `ResultAlls` SET `earnings` = '53000' WHERE (`tournamentId` = '401243407' AND `playerNameX` = 'Brad Kennedy');
+
+UPDATE `ResultAlls` SET `earnings` = '45000' WHERE (`tournamentId` = '401243407' AND `playerNameX` = 'Wade Ormsby');
+
+UPDATE `ResultAlls` SET `earnings` = '37500' WHERE (`tournamentId` = '401243407' AND `playerNameX` = 'Victor Perez');
+
+UPDATE `ResultAlls` SET `earnings` = '37000' WHERE (`tournamentId` = '401243407' AND `playerNameX` = 'Min Woo Lee');
+
+UPDATE `ResultAlls` SET `earnings` = '36000' WHERE (`tournamentId` = '401243407' AND `playerNameX` = 'Wilco Nienaber');
+
+
+
+
+
+
+
 
 
 
