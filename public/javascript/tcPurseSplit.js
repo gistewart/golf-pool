@@ -5,7 +5,7 @@ $(document).ready(function () {
       console.log(result);
       for (let i = 0; i < result.length; i++) {
         result[i].pos = result[i].pos + ".";
-        result[i].percent = result[i].percent.slice(0, -1) + "%";
+        result[i].percent = result[i].percent.slice(0, -5) + "%";
       }
       display(result);
     });
