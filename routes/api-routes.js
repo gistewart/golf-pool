@@ -1572,7 +1572,7 @@ module.exports = function (app) {
     });
   });
 
-  // to grab db with data for next year's player categories
+  // to grab db with TC purse split info
   app.get("/html/api/grabTCPurseSplit", async function (req, res) {
     db.livePurseSplit
       .findAll({

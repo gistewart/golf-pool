@@ -54,6 +54,7 @@ module.exports = async function () {
           result.purse = 11500000;
         } else if (/Tour Championship/i.test(result.name)) {
           result.purse = 9500000;
+          result.name = "Tour Championship";
         } else if (/The Open Championship/i.test(result.name)) {
           result.purse = 11500000;
         } else if (!result.purse) {

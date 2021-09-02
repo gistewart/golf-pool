@@ -1,5 +1,15 @@
 IMPORTANT
-run liveTCHandicapSeed (via localhost...in browser) on day 1 of the TC when toPar and Today values are good to seed TCHandicaps db table
+run liveTCHandicapSeed (via localhost...in browser) on day 1 of the TC when toPar and Today values are good to seed liveTCHandicaps db table
+
+This seeds the local db. For Prod db, delete prior year records in that table, and use Export wizard from local db, and Import wizard in Prod db.
+
+Other changes:
+seedLiveEventSchedule.js, line 56, purse amount
+runTCHandicap.js, line 10, tournament id
+
+index.html:
+around line 57 uncomment, then comment out, message about Live Scoring
+
 
 EDIT #1:
 On seedScheduleStage.js
@@ -12,7 +22,14 @@ OR manually record tournament on Schedules table in db and comment out schedule 
 
 EDIT #2:
 On runResults.js
-check purseSize amount (around line 131)
+check purseSize amount (around line 149)
+
+For next year's player categories:
+/api/playerCategories
+editing tournamentId range (start date? line 1670)
+...then
+/api/grabPlayerCategories
+
 
 
 
