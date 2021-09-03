@@ -48,7 +48,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(async function () {
       seasonData();
       // liveEvent();
@@ -462,10 +462,49 @@ $(document).ready(function () {
           }
         }
       }
+
       // sort TC live based on gross scores
       hCapTbl = hCapTbl.sort((a, b) => a.gross - b.gross);
+
       // now rank TC live
-      addRanking(hCapTbl);
+      // addRanking(hCapTbl);
+      hCapTbl[0].ranking = 1;
+      let ties = 0;
+      if (hCapTbl.length > 1) {
+        for (let i = 1; i < hCapTbl.length; i++) {
+          if (hCapTbl[i].gross !== hCapTbl[i - 1].gross) {
+            hCapTbl[i].ranking = i + 1;
+            ties = 0;
+          } else {
+            ties++;
+            hCapTbl[i].ranking = i + 1 - ties;
+          }
+        }
+        // now add "T" for ties to ranking
+
+        for (let i = 0; i < hCapTbl.length; i++) {
+          if (i === 0 && hCapTbl[0].ranking === hCapTbl[1].ranking) {
+            hCapTbl[0].rankingDisplay = "T" + hCapTbl[i].ranking;
+          } else if (
+            i > 0 &&
+            i < hCapTbl.length - 1 &&
+            (hCapTbl[i].ranking === hCapTbl[i - 1].ranking ||
+              hCapTbl[i].ranking === hCapTbl[i + 1].ranking)
+          ) {
+            hCapTbl[i].rankingDisplay = "T" + hCapTbl[i].ranking;
+          } else if (
+            i === hCapTbl.length - 1 &&
+            hCapTbl[i].ranking === hCapTbl[i - 1].ranking
+          ) {
+            hCapTbl[i].rankingDisplay = "T" + hCapTbl[i].ranking;
+          } else {
+            hCapTbl[i].rankingDisplay = hCapTbl[i].ranking;
+          }
+        }
+      } else {
+        hCapTbl[0].rankingDisplay = "1";
+      }
+      // debugger;
 
       // edits livePositions with live TC position data
       for (let i = 0; i < livePositions.length; i++) {

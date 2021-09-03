@@ -82,8 +82,8 @@ module.exports = function () {
                     .children("td:nth-child(" + (4 + statusAdj) + ")")
                     .text()
                     .replace("E", 0)
-                    .replace("+", "")
-                    .replace(/\w+/g, 99);
+                    .replace("+", "");
+                  // .replace(/\w+/g, 99);
                 }
 
                 result.today = $(this)
