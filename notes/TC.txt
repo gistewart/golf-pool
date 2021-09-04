@@ -1,5 +1,5 @@
 IMPORTANT
-run liveTCHandicapSeed (via localhost...in browser) on day 1 of the TC when toPar and Today values are good to seed liveTCHandicaps db table
+run liveTCHandicapSeed (via localhost...in browser) on day 1 of the TC when toPar and Today values are good to seed liveTCHandicaps db table. So, after all the players are on the course, but before the round does Final. Empty out the table in the db first as well.
 
 This seeds the local db. For Prod db, delete prior year records in that table, and use Export wizard from local db, and Import wizard in Prod db.
 

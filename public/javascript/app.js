@@ -384,6 +384,7 @@ $(document).ready(function () {
       $("#liveScoring .spinner").addClass("lds-hourglass");
     }
     $(".main-container").show();
+    $(".announcement").show();
     $(".refreshContainer").show();
     $(".onTheRange-container").hide();
     $("#footnotes").hide();
@@ -1028,7 +1029,7 @@ $(document).ready(function () {
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
     $("#lastEventTitle").show();
-    $(".announcement").show();
+    $(".announcement").hide();
     if (week0) {
       $("#eventData").hide();
       $("#lastEventTitle").html("");

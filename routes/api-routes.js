@@ -1024,12 +1024,14 @@ module.exports = function (app) {
         "name",
         "tournamentId",
         "earnings",
-        // [sequelize.fn("sum", sequelize.col("earnings")), "totalEarnings"],
+        "startDate",
       ],
       where: {
-        tournamentID: {
-          [Op.notBetween]: [401219793, 401219800],
-          [Op.ne]: 401219480,
+        [Op.not]: [{ tournamentID: [401219333, 401219478] }],
+
+        startDate: {
+          [Op.gte]: "2020-09-08",
+          [Op.lte]: "2021-09-07",
         },
       },
     })
@@ -1061,8 +1063,8 @@ module.exports = function (app) {
         for (let i = 0; i < result.length; i++) {
           result[i].rank = i + 1;
         }
-        // await db.playerCategory.sync({ force: true });
-        // await db.playerCategory.bulkCreate(result);
+        await db.playerCategory.sync({ force: true });
+        await db.playerCategory.bulkCreate(result);
         return result;
       })
 
