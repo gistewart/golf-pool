@@ -48,7 +48,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    // await displayLiveTab();
+    await displayLiveTab();
     setTimeout(async function () {
       seasonData();
       // liveEvent();
@@ -1029,7 +1029,7 @@ $(document).ready(function () {
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
     $("#lastEventTitle").show();
-    $(".announcement").show();
+    $(".announcement").hide();
     if (week0) {
       $("#eventData").hide();
       $("#lastEventTitle").html("");

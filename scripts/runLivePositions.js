@@ -82,8 +82,8 @@ module.exports = function () {
                     .children("td:nth-child(" + (4 + statusAdj) + ")")
                     .text()
                     .replace("E", 0)
-                    .replace("+", "");
-                  // .replace(/\w+/g, 99);
+                    .replace("+", "")
+                    .replace(/WD/gi, 99);
                 }
 
                 result.today = $(this)
@@ -97,6 +97,7 @@ module.exports = function () {
               });
             });
         }
+
         // console.log(resultsArray);
         console.log(
           `-----------finished runLivePositions for tournament -----------`
