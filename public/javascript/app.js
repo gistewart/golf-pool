@@ -171,7 +171,7 @@ $(document).ready(function () {
     console.log("diffResultsArr: ", diffResultsArr);
     if (diffResultsArr.length) {
       // Production start
-      getMissingResults(diffResultsArr);
+      // getMissingResults(diffResultsArr);
       // Production end
     } else {
       console.log("skipping getMissingResults function");
