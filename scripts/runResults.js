@@ -55,6 +55,9 @@ module.exports = function () {
                     .replace(/[\$,]/g, "")
                     .replace(/--/, 0)
                 );
+                if (/wd|mc|dns/i.test(result.pos)) {
+                  result.tot = 999;
+                }
               } else if (/barracuda/i.test(name)) {
                 result.earnings = Number(
                   $(this)
@@ -216,6 +219,11 @@ module.exports = function () {
                 resultsArray[i].handicap =
                   resultsArray[i].toParAdj - resultsArray[i].toParTC;
                 resultsArray[i].playerName = resultsArray[i].playerNameX;
+                if (resultsArray[i].pos == "WD") {
+                  resultsArray[i].handicap = 0;
+                  resultsArray[i].earnings = 0;
+                  resultsArray[i].toParAdj = 0;
+                }
               }
               console.log("for db.ResultTC: ", resultsArray);
 
@@ -233,7 +241,7 @@ module.exports = function () {
               if (/tour championship/i.test(name)) {
                 const first = await purseCalc();
               } else {
-                // console.log("resultsArray for db.ResultAll: ", resultsArray);
+                console.log("resultsArray for db.ResultAll: ", resultsArray);
                 db.ResultAll.bulkCreate(resultsArray);
               }
 

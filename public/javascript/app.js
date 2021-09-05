@@ -171,7 +171,7 @@ $(document).ready(function () {
     console.log("diffResultsArr: ", diffResultsArr);
     if (diffResultsArr.length) {
       // Production start
-      // getMissingResults(diffResultsArr);
+      getMissingResults(diffResultsArr);
       // Production end
     } else {
       console.log("skipping getMissingResults function");
@@ -1410,7 +1410,9 @@ $(document).ready(function () {
     // round = 2;
     // to display sorted results
     // to add prior ranking data to main arr
-    if (apiCall === "Event" && lastEventName === "Tour Championship") {
+
+    if (apiCall === "Event" && lastEventName == "TOUR Championship") {
+      debugger;
       $("#tcCalcTableLink").show();
     } else {
       $("#tcCalcTableLink").hide();
