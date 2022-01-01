@@ -15,23 +15,11 @@ function NavBar() {
         {
           className: "navbar-toggler collapsed border-0 mr-md-auto",
           "data-toggle": "collapse",
-          "data-target": "#collapsingNavbar"
+          "data-target": "#collapsingNavbar",
         },
-        React.createElement(
-          "span",
-          null,
-          " "
-        ),
-        React.createElement(
-          "span",
-          null,
-          " "
-        ),
-        React.createElement(
-          "span",
-          null,
-          " "
-        )
+        React.createElement("span", null, " "),
+        React.createElement("span", null, " "),
+        React.createElement("span", null, " ")
       ),
       React.createElement(
         "div",
@@ -45,8 +33,9 @@ function NavBar() {
       React.createElement(
         "div",
         {
-          className: "d-md-flex d-block flex-row ml-md-auto mx-0 justify-content-center",
-          id: "edition"
+          className:
+            "d-md-flex d-block flex-row ml-md-auto mx-0 justify-content-center",
+          id: "edition",
         },
         "#",
         year - 2004
@@ -74,7 +63,7 @@ function NavBar() {
               "a",
               { className: "nav-link", href: "../html/rules.html" },
               React.createElement("i", { className: "fas fa-file-alt fa-fw" }),
-              "Rules"
+              "Rules (to be updated)"
             )
           ),
           React.createElement(
@@ -83,8 +72,10 @@ function NavBar() {
             React.createElement(
               "a",
               { className: "nav-link", href: "../players.html" },
-              React.createElement("i", { className: "fas fa-user-friends fa-fw" }),
-              "Player Categories"
+              React.createElement("i", {
+                className: "fas fa-user-friends fa-fw",
+              }),
+              "Player Categories (to be updated)"
             )
           ),
           React.createElement(
@@ -93,7 +84,9 @@ function NavBar() {
             React.createElement(
               "a",
               { className: "nav-link", href: "../comments.html" },
-              React.createElement("i", { className: "fas fa-comment-dots fa-fw" }),
+              React.createElement("i", {
+                className: "fas fa-comment-dots fa-fw",
+              }),
               "Comments"
             )
           ),
@@ -103,7 +96,11 @@ function NavBar() {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "//espn.com/golf", target: "_blank" },
+              {
+                className: "nav-link",
+                href: "//espn.com/golf",
+                target: "_blank",
+              },
               "espn.com/golf"
             )
           ),
@@ -112,7 +109,11 @@ function NavBar() {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "//pgatour.com", target: "_blank" },
+              {
+                className: "nav-link",
+                href: "//pgatour.com",
+                target: "_blank",
+              },
               "pgatour.com"
             )
           )
@@ -140,7 +141,7 @@ function Footer() {
           {
             className: "text-light",
             target: "_blank",
-            href: "https://gistewart.github.io/Portfolio"
+            href: "https://gistewart.github.io/Portfolio",
           },
           "\xA9 ",
           year,
@@ -166,11 +167,7 @@ function PageTitle(props) {
     React.createElement(
       "div",
       { className: "card-body" },
-      React.createElement(
-        "h5",
-        null,
-        param
-      )
+      React.createElement("h5", null, param)
     )
   );
 }

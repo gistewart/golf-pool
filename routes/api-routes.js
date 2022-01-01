@@ -1283,6 +1283,7 @@ module.exports = function (app) {
           },
           { id: "5", image: "/images/chief.jpeg" },
           { id: "6", image: "/images/Braveheart.jpeg" },
+          { id: "9", image: "/images/canary.jpeg" },
           { id: "12", image: "/images/banger.jpeg" },
           { id: "17", image: "/images/jayhawk.jpeg" },
         ];
