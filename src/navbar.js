@@ -19,7 +19,7 @@ function NavBar() {
 
         <div className="d-flex d-inline-block flex-row mx-auto">
           <a href="/" className="chief">
-            The Chief's Golf Pool
+            The Chief's Golf Pool xxx
           </a>
         </div>
         <div

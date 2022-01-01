@@ -27,8 +27,8 @@ $(document).ready(function () {
   const today = moment().format();
   console.log("today: ", today);
   const Year = moment(today).year();
-  // const today = moment("2020-02-28");
-  // const Year = 2020;
+  // const today = moment("2022-01-02");
+  // const Year = 2022;
 
   $("#liveScoring").hide();
   $("#onTheRange").hide();
@@ -1035,7 +1035,7 @@ $(document).ready(function () {
       $("#lastEventTitle").html("");
       $("#lastEventDetails").html("");
       $("#lastEventTitle").text(
-        `Welcome to the first event of the ${Year} Season!`
+        `Welcome to the first tournament of the ${Year} Season!`
       );
     } else {
       $("#lastEventTitle").text("Results reflect all tournaments through:");
@@ -1491,15 +1491,15 @@ $(document).ready(function () {
               " "
             : sorted[i].poolster) +
           " " +
-          (sorted[i].playerCount > 0 &&
-          apiCall == "Season" &&
-          sorted[i].poolster !== "The Trader"
-            ? "<i title='Sub already used for this period' class='subIcon2 material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
-            : sorted[i].playerCount == 0 &&
-              apiCall == "Season" &&
-              sorted[i].poolster !== "The Trader"
-            ? "<i title='Sub available for this period' class='subIcon1 material-icons md-15'>swap_horizontal_circle</i>"
-            : "") +
+          // (sorted[i].playerCount > 0 &&
+          // apiCall == "Season" &&
+          // sorted[i].poolster !== "The Trader"
+          //   ? "<i title='Sub already used for this period' class='subIcon2 material-icons md-dark md-inactive md-15'>swap_horizontal_circle</i>"
+          //   : sorted[i].playerCount == 0 &&
+          //     apiCall == "Season" &&
+          //     sorted[i].poolster !== "The Trader"
+          //   ? "<i title='Sub available for this period' class='subIcon1 material-icons md-15'>swap_horizontal_circle</i>"
+          //   : "") +
           "</span>" +
           "<p class='poolsterName'>" +
           sorted[i].name +

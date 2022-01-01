@@ -18,8 +18,8 @@ var moment = require("moment");
 module.exports = function (app) {
   const today = moment().format();
   const Year = moment(today).year();
-  // const today = moment("2020-02-28");
-  // const Year = 2020;
+  // const today = moment("2022-01-02");
+  // const Year = 2022;
 
   app.get("/api/poolsters", function (req, res) {
     db.Poolster.findAll({
