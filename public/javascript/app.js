@@ -1503,10 +1503,10 @@ $(document).ready(function () {
           "</span>" +
           "<p class='poolsterName'>" +
           sorted[i].name +
-          (sorted[i].poolster === "The Snake" && apiCall == "Season"
+          (sorted[i].poolster === "The BIC" && apiCall == "Season"
             ? " " +
               "<span id='winnerTrophy'>" +
-              "2020 " +
+              "2021 " +
               "<i class='fas fa-trophy fa-sm'></i>" +
               "</span>"
             : "") +

@@ -355,9 +355,9 @@ table tbody .level1 .rankingChange {
 
 #winnerTrophy {
   padding: 0 0.15em;
-  background-color: gold;
+  background-color: beige;
   color: black;
-  font-size: 0.9em;
+  font-size: 0.95em;
   position: relative;
   bottom: 0.1em;
   border: 1px solid grey;
