@@ -95,20 +95,20 @@ module.exports = async function () {
 
               result.tournamentId = `${id}`;
               result.pos = $(this)
-                .children("td:first-child")
+                .children("td:nth-child(2)")
                 .text()
                 .replace(/^T/, "");
               result.playerName = $(this)
-                .children("td:nth-child(2)")
+                .children("td:nth-child(3)")
                 .children("a")
                 .text();
-              result.toPar = $(this).children("td:nth-child(3)").text();
+              result.toPar = $(this).children("td:nth-child(4)").text();
               if (result.pos == "-") {
                 result.pos = result.toPar;
               }
               result.earnings = Number(
                 $(this)
-                  .children("td:nth-child(9)")
+                  .children("td:nth-child(10)")
                   .text()
                   .replace(/[\$,]/g, "")
                   .replace(/--/, 0)
@@ -189,7 +189,11 @@ module.exports = async function () {
 
       //filter for this year's events then for presence of a winner
       finishedEventsArr = scheduleStage
-        .filter((el) => el.tournamentId >= "401242996")
+        .filter(
+          (el) =>
+            el.tournamentId >= "401353203" && el.tournamentId !== "401366873"
+        )
+        // problem with below line as current year applied to date
         .filter((el) => moment(el.tStartDate).year() == y)
         .filter((el) => el.winner);
       return;

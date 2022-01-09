@@ -34,12 +34,12 @@ module.exports = function () {
               result.tournamentId = `${id}`;
               result.name = `${name}`;
               result.startDate = `${startDate}`;
-              result.pos = $(this).children("td:first-child").text();
+              result.pos = $(this).children("td:nth-child(2)").text();
               result.playerNameX = $(this)
-                .children("td:nth-child(2)")
+                .children("td:nth-child(3)")
                 .children("a")
                 .text();
-              result.toPar = $(this).children("td:nth-child(3)").text();
+              result.toPar = $(this).children("td:nth-child(4)").text();
               if (result.pos == "-") {
                 result.pos = result.toPar;
               }
@@ -50,7 +50,7 @@ module.exports = function () {
               if (/tour championship/i.test(name)) {
                 result.tot = Number(
                   $(this)
-                    .children("td:nth-child(8)")
+                    .children("td:nth-child(9)")
                     .text()
                     .replace(/[\$,]/g, "")
                     .replace(/--/, 0)
@@ -58,7 +58,7 @@ module.exports = function () {
               } else {
                 result.earnings = Number(
                   $(this)
-                    .children("td:nth-child(9)")
+                    .children("td:nth-child(10)")
                     .text()
                     .replace(/[\$,]/g, "")
                     .replace(/--/, 0)

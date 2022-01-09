@@ -6,6 +6,7 @@ const { Op } = require("sequelize");
 
 module.exports = function () {
   let resultsArray = [];
+  console.log("------------line 9------------");
   // let tournamentId = 401242996;
 
   return (
@@ -45,23 +46,23 @@ module.exports = function () {
                 var result = {};
 
                 result.tournamentId = `${id}`;
-                result.pos = $(this).children("td:first-child").text();
+                result.pos = $(this).children("td:nth-child(2)").text();
                 result.posAdj = $(this)
-                  .children("td:first-child")
+                  .children("td:nth-child(2)")
                   .text()
                   .match(/\d+/g)
                   ? (result.posAdj = $(this)
-                      .children("td:first-child")
+                      .children("td:nth-child(2)")
                       .text()
                       .match(/\d+/g)[0])
                   : 0;
                 // for any Round 1 status, subtracting 1 from nth-child for remaining properties
                 result.playerName = $(this)
-                  .children("td:nth-child(" + (3 + statusAdj) + ")")
+                  .children("td:nth-child(" + (4 + statusAdj) + ")")
                   .children("a")
                   .text();
                 result.toPar = $(this)
-                  .children("td:nth-child(" + (4 + statusAdj) + ")")
+                  .children("td:nth-child(" + (5 + statusAdj) + ")")
                   .text();
 
                 if (result.pos === "-" && result.toPar !== "CUT") {
@@ -79,7 +80,7 @@ module.exports = function () {
                 // toParAdj for TC only (not sure about last replace method below, intended for any WD or DQ?)
                 if (name == "Tour Championship") {
                   result.toParAdj = $(this)
-                    .children("td:nth-child(" + (4 + statusAdj) + ")")
+                    .children("td:nth-child(" + (5 + statusAdj) + ")")
                     .text()
                     .replace("E", 0)
                     .replace("+", "")
@@ -87,18 +88,18 @@ module.exports = function () {
                 }
 
                 result.today = $(this)
-                  .children("td:nth-child(" + (5 + statusAdj) + ")")
+                  .children("td:nth-child(" + (6 + statusAdj) + ")")
                   .text();
                 result.thru = $(this)
-                  .children("td:nth-child(" + (6 + statusAdj) + ")")
+                  .children("td:nth-child(" + (7 + statusAdj) + ")")
                   .text();
 
                 resultsArray.push(result);
               });
             });
         }
-
-        // console.log(resultsArray);
+        console.log("----------------line 100---------------");
+        console.log(resultsArray);
         console.log(
           `-----------finished runLivePositions for tournament -----------`
         );
