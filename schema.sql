@@ -568,7 +568,10 @@ UPDATE `PoolsterPlayers` SET `endDate` = '2021-08-24', `effDate` = '2021-08-24',
 INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('4', '96', '2021-08-24', '2021-12-31', '2021-12-31', '2021-08-24', 'regular');
 
 
+ -- 1/12 Subs
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-01-12', `effDate` = '2022-01-12', `type` = 'regular' WHERE (`id` = '285');
 
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('4', '15', '2022-01-12', '2022-12-31', '2022-12-31', '2022-01-12', 'regular');
 
 
 

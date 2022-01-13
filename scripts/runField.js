@@ -29,8 +29,8 @@ module.exports = function () {
               var result = {};
 
               result.tournamentId = `${id}`;
-              result.playerName = $(this).children("td:first-child").text();
-              result.teeTime = $(this).children("td:nth-child(2)").text();
+              result.playerName = $(this).children("td:nth-child(2)").text();
+              result.teeTime = $(this).children("td:nth-child(3)").text();
               resultsArray.push(result);
             });
             // console.log(resultsArray);

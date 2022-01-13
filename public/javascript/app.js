@@ -374,7 +374,7 @@ $(document).ready(function () {
         $(tr2).append(tr2b);
         $(tr3).append(tr3b);
       }
-      $(".onTheRange-container > tbody").append(tr1).append(tr2).append(tr3);
+      $(".onTheRange-container > tbody").append(tr1).append(tr2);
     }
     $("#onTheRange .spinner").removeClass("lds-hourglass");
   }
