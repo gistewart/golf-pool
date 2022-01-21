@@ -99,7 +99,7 @@ module.exports = function () {
             });
         }
         console.log("----------------line 100---------------");
-        console.log(resultsArray);
+        // console.log(resultsArray);
         console.log(
           `-----------finished runLivePositions for tournament -----------`
         );

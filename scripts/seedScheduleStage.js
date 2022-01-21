@@ -21,7 +21,7 @@ module.exports = async function () {
 
       $(".mb5:nth-of-type(4) tbody tr").each(function (i, element) {
         var result = {};
-        console.log("current tournament(s) scrape here");
+        console.log("line 24: current tournament(s) scrape here");
         result.tournamentId = $(this).children("td:nth-child(2)").find("a")
           .length
           ? (result.tournamentId = $(this)
@@ -54,7 +54,10 @@ module.exports = async function () {
           scheduleStage.push(result);
         }
       });
-      console.log("end of Section 1 array: ", scheduleStage);
+      console.log(
+        "-------------end of Section 1 array----------------: ",
+        scheduleStage
+      );
       return;
     });
   // END OF SECTION 1
@@ -81,7 +84,7 @@ module.exports = async function () {
       i--;
       console.log("array after deletion:", scheduleStage);
     }
-    // have earnings been posted for all players who made the cut
+    // have earnings been posted for all players who made the cut x
     else {
       await axios
         .get(`https://www.espn.com/golf/leaderboard?tournamentId=${id}`)
