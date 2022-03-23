@@ -573,6 +573,49 @@ UPDATE `PoolsterPlayers` SET `endDate` = '2022-01-12', `effDate` = '2022-01-12',
 
 INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('4', '15', '2022-01-12', '2022-12-31', '2022-12-31', '2022-01-12', 'regular');
 
+-- 1/25 Subs
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-01-24', `effDate` = '2022-01-24', `type` = 'regular' WHERE (`id` = '325');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('10', '26', '2022-01-24', '2022-12-31', '2022-12-31', '2022-01-24', 'regular');
+
+UPDATE `PoolsterPlayers` SET `effDate` = '' WHERE (`id` = '200');
+
+-- 2/1 Sub
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-02-01', `effDate` = '2022-02-01', `type` = 'regular' WHERE (`id` = '340');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('13', '158', '2022-02-01', '2022-12-31', '2022-12-31', '2022-02-01', 'regular');
+
+-- 2/15 Sub
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-02-15', `effDate` = '2022-02-15', `type` = 'regular' WHERE (`id` = '298');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('6', '158', '2022-02-15', '2022-12-31', '2022-12-31', '2022-02-15', 'regular');
+
+-- 2/22 Sub
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-02-22', `effDate` = '2022-02-22', `type` = 'regular' WHERE (`id` = '280');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('3', '54', '2022-02-22', '2022-12-31', '2022-12-31', '2022-02-22', 'regular');
+
+-- 3/1 Subs
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-03-01', `effDate` = '2022-03-01', `type` = 'regular' WHERE (`id` = '333');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('12', '8', '2022-03-01', '2022-12-31', '2022-12-31', '2022-03-01', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-03-01', `effDate` = '2022-03-01', `type` = 'regular' WHERE (`id` = '299');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('6', '65', '2022-03-01', '2022-12-31', '2022-12-31', '2022-03-01', 'regular');
+
+-- 3/8 Sub
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-03-08', `effDate` = '2022-03-08', `type` = 'regular' WHERE (`id` = '294');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('5', '64', '2022-03-08', '2022-12-31', '2022-12-31', '2022-03-08', 'regular');
+
+
+
+
+
+
+
+
 
 
 
