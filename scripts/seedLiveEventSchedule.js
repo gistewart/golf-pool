@@ -82,8 +82,18 @@ module.exports = async function () {
       continue;
     }
 
+    // added on 3/23/2022
+    for (let i = 0; i < scheduleStage.length; i++) {
+      if (/WGC-Dell Technologies Match Play/.test(scheduleStage[i].name)) {
+        scheduleStage.splice(i, 1);
+        i--;
+        console.log("deleting WGC on line 87");
+        continue;
+      }
+    }
+
     const id = scheduleStage[i].tournamentId;
-    console.log("line 89", id);
+    console.log("line 96", id);
     var hold = {};
     var dataAvailable = {};
     await axios
@@ -107,7 +117,7 @@ module.exports = async function () {
               return index[$0] != undefined ? index[$0] : $0;
             }
           );
-          console.log("line 113 hold: ", hold);
+          console.log("line 120 hold: ", hold);
         });
         $("div.leaderboard_no_data").each(function (i, element) {
           dataAvailable.status = $(this).children("div:first-child").text();
@@ -116,13 +126,13 @@ module.exports = async function () {
       });
 
     scheduleStage[i].status = hold.status;
-    console.log("line 122", scheduleStage);
+    console.log("line 129", scheduleStage);
 
     // if dataAvailable field not empty (i.e. there is no data yet), then delete)
     if (Object.keys(dataAvailable).length) {
       scheduleStage.splice(i, 1);
       i--;
-      console.log("line 128 deleting");
+      console.log("line 135 deleting");
       return;
     } else if (hold.status.includes("Tournament Field")) {
       console.log("condition passed");

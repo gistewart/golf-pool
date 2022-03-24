@@ -52,6 +52,7 @@ module.exports = async function () {
           // result.tournamentId !== "401243007"
           result.tournamentId !== "401353293"
         ) {
+          console.log("----------deleting WGC here-----------");
           scheduleStage.push(result);
         }
       });
