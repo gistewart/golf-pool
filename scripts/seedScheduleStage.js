@@ -49,7 +49,8 @@ module.exports = async function () {
         // to exclude the Barracuda / WGC-Dell while it is taking place
         if (
           // result.tournamentId !== "401243406" &&
-          result.tournamentId !== "401243007"
+          // result.tournamentId !== "401243007"
+          result.tournamentId !== "401353293"
         ) {
           scheduleStage.push(result);
         }
