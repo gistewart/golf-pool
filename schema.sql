@@ -609,7 +609,60 @@ UPDATE `PoolsterPlayers` SET `endDate` = '2022-03-08', `effDate` = '2022-03-08',
 
 INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('5', '64', '2022-03-08', '2022-12-31', '2022-12-31', '2022-03-08', 'regular');
 
+-- 3/22 Sub
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-03-22', `effDate` = '2022-03-08', `type` = 'regular' WHERE (`id` = '321');
 
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('10', '49', '2022-03-22', '2022-12-31', '2022-12-31', '2022-03-22', 'regular');
+
+
+-- 4/5 Subs
+
+INSERT INTO `Players` (`playerId`, `playerName`, `createdAt`, `updatedAt`) VALUES ('127', 'Luke List', '2022-04-04 20:00:00', '2022-04-04 20:00:00');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-04-05', `effDate` = '2022-04-05', `type` = 'regular' WHERE (`id` = '283');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('3', '127', '2022-04-05', '2022-12-31', '2022-12-31', '2022-04-05', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-04-05', `effDate` = '2022-04-05', `type` = 'regular' WHERE (`id` = '364');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('17', '5', '2022-04-05', '2022-12-31', '2022-12-31', '2022-04-05', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-04-05', `effDate` = '2022-04-05', `type` = 'regular' WHERE (`id` = '365');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('17', '65', '2022-04-05', '2022-12-31', '2022-12-31', '2022-04-05', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-04-05', `effDate` = '2022-04-05', `type` = 'regular' WHERE (`id` = '327');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('11', '15', '2022-04-05', '2022-12-31', '2022-12-31', '2022-04-05', 'regular');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-04-05', `effDate` = '2022-04-05', `type` = 'regular' WHERE (`id` = '291');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('5', '11', '2022-04-05', '2022-12-31', '2022-12-31', '2022-04-05', 'regular');
+
+-- 4/12 subs
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-04-12', `effDate` = '2022-04-12', `type` = 'regular' WHERE (`id` = '290');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('5', '17', '2022-04-12', '2022-12-31', '2022-12-31', '2022-04-12', 'regular');
+
+select `Players`.`playerId`, `playerName`
+from `PoolsterPlayers`
+left join `Players` on `PoolsterPlayers`.`playerId` = `Players`.`playerId`
+where `startDate` >= '2022-01-01' and `endDate` > '2022-04-20'
+group by `playerName`
+
+-- 4/19 subs
+
+INSERT INTO `Players` (`playerId`, `playerName`, `createdAt`, `updatedAt`) VALUES ('166', 'Seamus Power', '2022-04-18 20:00:00', '2022-04-18 20:00:00');
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-04-19', `effDate` = '2022-04-19', `type` = 'regular' WHERE (`id` = '324');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('10', '166', '2022-04-19', '2022-12-31', '2022-12-31', '2022-04-19', 'regular');
+
+
+UPDATE `PoolsterPlayers` SET `endDate` = '2022-04-19', `effDate` = '2022-04-19', `type` = 'regular' WHERE (`id` = '296');
+
+INSERT INTO `PoolsterPlayers` (`poolsterId`, `playerId`, `startDate`, `endDate`, `reEndDate`, `effDate`, `type`) VALUES ('6', '7', '2022-04-19', '2022-12-31', '2022-12-31', '2022-04-19', 'regular');
 
 
 
@@ -881,6 +934,145 @@ INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNam
 INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T61','Lanto Griffin', 'n/a', '35750');
 
 INSERT INTO `ResultAlls` (`tournamentId`, `name`, `startDate`, `pos`, `playerNameX`, `toPar`, `earnings`) VALUES ('401243007', 'WGC-Dell Technologies Match Play','2021-03-25 00:00:00', 'T61','Corey Conners', 'n/a', '35750');
+
+-- *************************************
+
+-- Munoz corrections
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353234', 'T39', 'Sebastián Muñoz', '-6', '33180', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353233', 'MC', 'Sebastián Muñoz', 'CUT', '0', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353236', 'T23', 'Sebastián Muñoz', '-9', '79130', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353237', 'T21', 'Sebastián Muñoz', '-7', '125880', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353239', 'T26', 'Sebastián Muñoz', '+4', '87600', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353254', 'T33', 'Sebastián Muñoz', '-3', '100111', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+
+
+-- *************************************
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T5', 'Brooks Koepka', 'n/a', '386000', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', '4', 'Dustin Johnson', 'n/a', '685000', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', '3', 'Corey Conners', 'n/a', '852000', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T5', 'Will Zalatoris', 'n/a', '386000', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T9', 'Tyrrell Hatton', 'n/a', '220000', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T9', 'Jon Rahm', 'n/a', '220000', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T9', 'Adam Scott', 'n/a', '220000', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T9', 'Collin Morikawa', 'n/a', '220000', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', '17', 'Maverick McNealy', 'n/a', '164000', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T18', 'Viktor Hovland', 'n/a', '133875', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T18', 'Matt Fitzpatrick', 'n/a', '133875', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T18', 'Mackenzie Hughes', 'n/a', '133875', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T18', 'Talor Gooch', 'n/a', '133875', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T26', 'Sebastián Muñoz', 'n/a', '97112', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T26', 'Patrick Cantlay', 'n/a', '97112', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T26', 'Keith Mitchell', 'n/a', '97112', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T26', 'Justin Rose', 'n/a', '97112', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T35', 'Sungjae Im', 'n/a', '58240', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T35', 'Tommy Fleetwood', 'n/a', '58240', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T35', 'Justin Thomas', 'n/a', '58240', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T35', 'Marc Leishman', 'n/a', '58240', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T35', 'Xander Schauffele', 'n/a', '58240', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T35', 'Tony Finau', 'n/a', '58240', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T35', 'Max Homa', 'n/a', '58240', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T35', 'Joaquin Niemann', 'n/a', '58240', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T58', 'Bryson DeChambeau', 'n/a', '42750', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T60', 'Matthew Wolff', 'n/a', '41000', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353293', 'T60', 'Erik van Rooyen', 'n/a', '41000', '2022-03-27 16:00:00', '2022-03-27 16:00:00');
+
+-- *************************************
+
+-- 2022 Zurich Classic
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T1', 'Patrick Cantlay', '-29', '1199350', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T1', 'Xander Schauffele', '-29', '1199350', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T7', 'Branden Grace', '-23', '191938', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T7', 'Aaron Rai', '-23', '191938', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T7', 'Will Zalatoris', '-23', '191938', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T19', 'Jason Day', '-22', '98286', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T26', 'Sungjae Im', '-20', '55247', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T26', 'Justin Rose', '-20', '55247', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T33', 'Scottie Scheffler', '-18', '40048', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T38', 'Talor Gooch', '-17', '24112', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T38', 'Tyrrell Hatton', '-17', '24112', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T38', 'Max Homa', '-17', '24112', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T38', 'Marc Leishman', '-17', '24112', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T38', 'Cameron Smith', '-17', '24112', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T54', 'Cameron Smith', '-16', '18343', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T54', 'Viktor Hovland', '-16', '18343', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T54', 'Stephan Jaeger', '-16', '18343', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'T54', 'Collin Morikawa', '-16', '18343', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'MC', 'J.T. Poston', 'CUT', '0', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'MC', 'Chad Ramey', 'CUT', '0', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'MC', 'Brandon Hagy', 'CUT', '0', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'MC', 'Seamus Power', 'CUT', '0', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'MC', 'Keith Mitchell', 'CUT', '0', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'MC', 'Tommy Fleetwood', 'CUT', '0', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'MC', 'Sahith Theegala', 'CUT', '0', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'MC', 'Maverick McNealy', 'CUT', '0', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'MC', 'Joseph Bramlett', 'CUT', '0', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'MC', 'Mito Pereira', 'CUT', '0', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
+INSERT INTO `Results` (`tournamentId`, `pos`, `playerName`, `toPar`, `earnings`, `createdAt`, `updatedAt`) VALUES ('401353230', 'MC', 'Joaquin Niemann', 'CUT', '0', '2022-04-24 20:00:00', '2022-04-24 20:00:00');
+
 
 -- *************************************
 
