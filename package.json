@@ -48,5 +48,8 @@
   "devDependencies": {
     "bulma": "^0.8.2",
     "node-sass": "^4.14.1"
+  },
+  "engines": {
+    "node": "12.13.0"
   }
 }
