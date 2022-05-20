@@ -947,7 +947,7 @@ $(document).ready(function () {
         ) {
           $("#lastEventDetails").append(
             "<p style='color: red; font-size: 0.8em'>" +
-              "(the total purse and purse split this week are not published in advance, so some of the below earnings are estimates which may impact the standings)" +
+              "(the total purse and purse split this week are not published in advance, so the numbers below are estimates which may impact the standings)" +
               "</p>"
           );
         }
