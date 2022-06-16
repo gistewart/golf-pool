@@ -53,17 +53,17 @@ module.exports = async function () {
         if (/2020 Masters Tournament/i.test(result.name)) {
           result.purse = 11500000;
         } else if (/Tour Championship/i.test(result.name)) {
-          result.purse = 9500000;
+          result.purse = 11500000;
           result.name = "Tour Championship";
         } else if (
           /The Open Championship/i.test(result.name) &&
           !result.purse
         ) {
-          result.purse = 11500000;
+          result.purse = 12500000;
         } else if (/PGA Championship/i.test(result.name) && !result.purse) {
-          result.purse = 12000000;
+          result.purse = 15000000;
         } else if (!result.purse) {
-          result.purse = 7000000;
+          result.purse = 8000000;
         }
 
         scheduleStage.push(result);
