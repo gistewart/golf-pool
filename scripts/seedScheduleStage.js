@@ -50,9 +50,10 @@ module.exports = async function () {
         if (
           // result.tournamentId !== "401243406" &&
           // result.tournamentId !== "401243007"
-          result.tournamentId !== "401353293"
+          result.tournamentId !== "401353293" &&
+          result.tournamentId !== "401353216"
         ) {
-          console.log("----------deleting WGC here-----------");
+          console.log("----------deleting WGC/Barra here-----------");
           scheduleStage.push(result);
         }
       });
