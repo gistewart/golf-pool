@@ -943,11 +943,13 @@ $(document).ready(function () {
         }
         if (
           result[i].name === "PGA Championship" ||
-          result[i].name === "U.S. Open"
+          result[i].name === "U.S. Open" ||
+          result[i].name === "The Open"
         ) {
           $("#lastEventDetails").append(
             "<p style='color: red; font-size: 0.8em'>" +
-              "(the purse split this week is not published in advance, so the earnings for the lower finishers are estimates.)" +
+              // "(the purse split this week is not published in advance, so the earnings for the lower finishers are estimates.)"
+              "(earnings for The Open are estimates but should be pretty accurate; earnings for the Barracuda are not included here.)" +
               "</p>"
           );
         }
