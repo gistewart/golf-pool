@@ -934,17 +934,17 @@ $(document).ready(function () {
             result[i].status +
             "</p>"
         );
+        // bo change here
         if (result.length > 1) {
           $("#lastEventDetails").append(
             "<p style='color: red; font-size: 0.8em'>" +
-              "(any earnings from opposite field event are not included below)" +
+              "(earnings for The Open are estimates but should be pretty accurate; earnings for the Barracuda are not included here.)" +
               "</p>"
           );
         }
         if (
           result[i].name === "PGA Championship" ||
-          result[i].name === "U.S. Open" ||
-          result[i].name === "The Open"
+          result[i].name === "U.S. Open"
         ) {
           $("#lastEventDetails").append(
             "<p style='color: red; font-size: 0.8em'>" +
