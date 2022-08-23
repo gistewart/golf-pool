@@ -149,7 +149,7 @@ module.exports = function () {
               }
 
               //calculates purse values for each position in purseArr
-              let purseSize = 9500000;
+              let purseSize = 15000000;
               let purseSumComp = "";
 
               for (let i in purseArr) {

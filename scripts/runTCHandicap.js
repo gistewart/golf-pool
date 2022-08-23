@@ -7,7 +7,7 @@ const { Op } = require("sequelize");
 module.exports = async function () {
   let resultsArray = [];
 
-  const id = 401243402;
+  const id = 401353276;
   await axios
     .get(`https://www.espn.com/golf/leaderboard?tournamentId=${id}`)
     .then(async function (response) {
@@ -42,6 +42,6 @@ module.exports = async function () {
       });
 
       // Uncomment for Production
-      return db.liveTCHandicap.bulkCreate(resultsArray);
+      // return db.liveTCHandicap.bulkCreate(resultsArray);
     });
 };

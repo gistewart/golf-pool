@@ -1031,7 +1031,7 @@ $(document).ready(function () {
     console.log("entering seasonData function");
     $("#seasonData").addClass("is-loading");
     $("#lastEventTitle").show();
-    $(".announcement").hide();
+    $(".announcement").show();
     if (week0) {
       $("#eventData").hide();
       $("#lastEventTitle").html("");
