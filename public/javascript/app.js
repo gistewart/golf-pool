@@ -48,7 +48,7 @@ $(document).ready(function () {
     await eventCheck();
     await missingResults();
     lastEventDetails();
-    await displayLiveTab();
+    // await displayLiveTab();
     setTimeout(async function () {
       seasonData();
       // liveEvent();
@@ -384,7 +384,7 @@ $(document).ready(function () {
       $("#liveScoring .spinner").addClass("lds-hourglass");
     }
     $(".main-container").show();
-    $(".announcement").show();
+    $(".announcement").hide();
     $(".refreshContainer").show();
     $(".onTheRange-container").hide();
     $("#footnotes").hide();
