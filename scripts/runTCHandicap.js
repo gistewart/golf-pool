@@ -18,13 +18,13 @@ module.exports = async function () {
         var result = {};
 
         result.tournamentId = `${id}`;
-        result.pos = $(this).children("td:first-child").text();
+        result.pos = $(this).children("td:nth-child(2)").text();
         result.playerName = $(this)
-          .children("td:nth-child(2)")
+          .children("td:nth-child(3)")
           .children("a")
           .text();
         result.toPar = $(this)
-          .children("td:nth-child(3)")
+          .children("td:nth-child(4)")
           .text()
           .replace("E", 0)
           .replace("+", "");
@@ -32,7 +32,7 @@ module.exports = async function () {
           result.pos = result.toPar;
         }
         result.today = $(this)
-          .children("td:nth-child(4)")
+          .children("td:nth-child(5)")
           .text()
           .replace("E", 0)
           .replace("+", "");
@@ -42,6 +42,6 @@ module.exports = async function () {
       });
 
       // Uncomment for Production
-      // return db.liveTCHandicap.bulkCreate(resultsArray);
+      return db.liveTCHandicap.bulkCreate(resultsArray);
     });
 };

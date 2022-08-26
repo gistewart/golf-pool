@@ -53,7 +53,7 @@ module.exports = async function () {
         if (/2020 Masters Tournament/i.test(result.name)) {
           result.purse = 11500000;
         } else if (/Tour Championship/i.test(result.name)) {
-          result.purse = 11500000;
+          result.purse = 15000000;
           result.name = "Tour Championship";
         } else if (
           /The Open Championship/i.test(result.name) &&
