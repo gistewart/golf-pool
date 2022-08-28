@@ -17,7 +17,7 @@ After the TC goes final, on the espn schedule page, the TC tournament does not a
 ".mb5:nth-of-type(4) tbody tr"
 
 But the TC does appear in the Completed Tournaments section.
-Therefore, the Sections 1 and 2 of code need to be commented out for the TC to be loaded properly.
+Therefore, Sections 1 and 2 of code need to be commented out for the TC to be loaded properly.
 OR manually record tournament on Schedules table in db and comment out schedule update code
 
 EDIT #2:

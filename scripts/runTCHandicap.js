@@ -42,6 +42,6 @@ module.exports = async function () {
       });
 
       // Uncomment for Production
-      return db.liveTCHandicap.bulkCreate(resultsArray);
+      // return db.liveTCHandicap.bulkCreate(resultsArray);
     });
 };
