@@ -1413,8 +1413,7 @@ $(document).ready(function () {
     // to display sorted results
     // to add prior ranking data to main arr
 
-    if (apiCall === "Event" && lastEventName == "TOUR Championship") {
-      debugger;
+    if (apiCall === "Event" && lastEventName == "Tour Championship") {
       $("#tcCalcTableLink").show();
     } else {
       $("#tcCalcTableLink").hide();

@@ -14,6 +14,9 @@ require("dotenv").config();
 const { QueryTypes } = require("sequelize");
 const runField = require("../scripts/runField");
 var moment = require("moment");
+const {
+  ConnectionPoolDisabled,
+} = require("@scout_apm/scout-apm/dist/lib/errors");
 
 module.exports = function (app) {
   const today = moment().format();
@@ -563,6 +566,7 @@ module.exports = function (app) {
   });
 
   app.post("/api/missingResults", async function (req, res) {
+    console.log("------------ missing results ------------");
     console.log("------req.body-------:", req.body);
     await db.missingTournament.sync({ force: true });
     await db.missingTournament
