@@ -35,7 +35,7 @@ module.exports = function () {
             );
           }
           await axios
-            .get(`https://www.espn.com/golf/leaderboard?tournamentId=${id}`)
+            .get(`https://www.espn.com/golf/leaderboard/_/tournamentId/${id}`)
             .then(function (response) {
               var $ = cheerio.load(response.data);
               resultsArray = [];

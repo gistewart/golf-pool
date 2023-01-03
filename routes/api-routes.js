@@ -21,8 +21,8 @@ const {
 module.exports = function (app) {
   const today = moment().format();
   const Year = moment(today).year();
-  // const today = moment("2022-01-02");
-  // const Year = 2022;
+  // const today = moment("2023-01-02");
+  // const Year = 2023;
 
   app.get("/api/poolsters", function (req, res) {
     db.Poolster.findAll({
@@ -1287,7 +1287,7 @@ module.exports = function (app) {
           },
           { id: "5", image: "/images/chief.jpeg" },
           { id: "6", image: "/images/Braveheart.jpeg" },
-          { id: "9", image: "/images/canary.jpeg" },
+          // { id: "9", image: "/images/canary.jpeg" },
           { id: "10", image: "/images/zed.png" },
           { id: "12", image: "/images/banger.jpeg" },
           { id: "17", image: "/images/jayhawk.jpeg" },

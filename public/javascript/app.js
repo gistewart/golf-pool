@@ -27,8 +27,8 @@ $(document).ready(function () {
   const today = moment().format();
   console.log("today: ", today);
   const Year = moment(today).year();
-  // const today = moment("2022-01-02");
-  // const Year = 2022;
+  // const today = moment("2023-01-02");
+  // const Year = 2023;
 
   $("#liveScoring").hide();
   $("#onTheRange").hide();
@@ -1504,10 +1504,10 @@ $(document).ready(function () {
           "</span>" +
           "<p class='poolsterName'>" +
           sorted[i].name +
-          (sorted[i].poolster === "The BIC" && apiCall == "Season"
+          (sorted[i].poolster === "The Brit" && apiCall == "Season"
             ? " " +
               "<span id='winnerTrophy'>" +
-              "2021 " +
+              "2022 " +
               "<i class='fas fa-trophy fa-sm'></i>" +
               "</span>"
             : "") +

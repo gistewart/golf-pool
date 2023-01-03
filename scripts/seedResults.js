@@ -27,7 +27,7 @@ module.exports = function () {
       for (let i = 0; i < tournamentIds.length; i++) {
         const id = tournamentIds[i];
         await axios
-          .get(`https://www.espn.com/golf/leaderboard?tournamentId=${id}`)
+          .get(`https://www.espn.com/golf/leaderboard/_/tournamentId/${id}`)
           .then(function (response) {
             var $ = cheerio.load(response.data);
             resultsArray = [];

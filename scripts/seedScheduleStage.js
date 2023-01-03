@@ -9,7 +9,7 @@ module.exports = async function () {
   let maxDate = [];
   let maxDateArr = [];
   const today = moment().format();
-  // const today = moment("2021-01-01").format();
+  // const today = moment("2023-01-01").format();
   const y = moment(today).year();
 
   // BEGINNING OF SECTION 1
@@ -18,7 +18,7 @@ module.exports = async function () {
     .get("https://www.espn.com/golf/schedule")
     .then(function (response) {
       var $ = cheerio.load(response.data);
-
+      // 2022 change was typeof(4); originally (5)
       $(".mb5:nth-of-type(4) tbody tr").each(function (i, element) {
         var result = {};
         console.log("line 24: current tournament(s) scrape here");
@@ -50,20 +50,22 @@ module.exports = async function () {
         if (
           // result.tournamentId !== "401243406" &&
           // result.tournamentId !== "401243007"
-          result.tournamentId !== "401353293" &&
+          result.tournamentId !== "401353293" ||
           result.tournamentId !== "401353216"
         ) {
-          console.log("----------deleting WGC/Barra here-----------");
+          // console.log("----------deleting WGC/Barra here-----------");
           scheduleStage.push(result);
         }
       });
-      console.log(
-        "-------------end of Section 1 array----------------: ",
-        scheduleStage
-      );
+
+      // console.log(
+      //   "-------------end of Section 1 array----------------: ",
+      //   scheduleStage
+      // );
       return;
     });
   // END OF SECTION 1
+  console.log("line 61", scheduleStage);
 
   // BEGINNING OF SECTION 2
   // is current tournament finished?
@@ -72,7 +74,7 @@ module.exports = async function () {
     console.log("section 2 id: ", id);
     var hold = {};
     await axios
-      .get(`https://www.espn.com/golf/leaderboard?tournamentId=${id}`)
+      .get(`https://www.espn.com/golf/leaderboard/_/tournamentId/${id}`)
       .then(function (response) {
         var $ = cheerio.load(response.data);
 
@@ -85,12 +87,12 @@ module.exports = async function () {
       console.log("tourney not final, so about to delete");
       scheduleStage.splice(i, 1);
       i--;
-      console.log("array after deletion:", scheduleStage);
+      // console.log("array after deletion:", scheduleStage);
     }
     // have earnings been posted for all players who made the cut x
     else {
       await axios
-        .get(`https://www.espn.com/golf/leaderboard?tournamentId=${id}`)
+        .get(`https://www.espn.com/golf/leaderboard/_/tournamentId/${id}`)
         .then(function (response) {
           var $ = cheerio.load(response.data);
           resultsArray = [];
@@ -125,22 +127,22 @@ module.exports = async function () {
         });
       // console.log("earnings posted check: ", resultsArray);
       for (let j = 0; j < resultsArray.length; j++) {
-        console.log(
-          resultsArray[j].pos,
-          resultsArray[j].playerName,
-          resultsArray[j].earnings
-        );
+        // console.log(
+        //   resultsArray[j].pos,
+        //   resultsArray[j].playerName,
+        //   resultsArray[j].earnings
+        // );
         // this is where the magic happens!
         // to exclude amateurs from the earnings check
         if (/.*\(a\)$/i.test(resultsArray[j].playerName)) {
           continue;
         }
         // to delete tourney if any pros who made cut have earnings of 0
-        console.log(
-          "line 130",
-          Number.isInteger(resultsArray[j].pos),
-          resultsArray[j].earnings
-        );
+        // console.log(
+        //   "line 130",
+        //   Number.isInteger(resultsArray[j].pos),
+        //   resultsArray[j].earnings
+        // );
         if (
           Number.isInteger(Number(resultsArray[j].pos)) &&
           resultsArray[j].earnings == 0
@@ -196,18 +198,19 @@ module.exports = async function () {
       //filter for this year's events then for presence of a winner
       finishedEventsArr = scheduleStage
         .filter(
-          (el) =>
-            el.tournamentId >= "401353203" && el.tournamentId !== "401366873"
+          (el) => el.tournamentId >= "401465512"
+          // && el.tournamentId !== "401366873"
         )
         // problem with below line as current year applied to date
         .filter((el) => moment(el.tStartDate).year() == y)
         .filter((el) => el.winner);
+
       return;
     })
     // END OF SECTION 3
 
     .then(async function () {
-      console.log("version of array to be sent to db: ", finishedEventsArr);
+      // console.log("version of array to be sent to db: ", finishedEventsArr);
       console.log("-----ready to seed ScheduleStage table------");
       const temp = await db.ScheduleStage.bulkCreate(finishedEventsArr);
 
